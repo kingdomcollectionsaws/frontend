@@ -184,12 +184,13 @@ const navigate = useNavigate()
   <div style={{display:'flex',justifyContent:'center',justifyContent:'center'}}> <h1 className={style.text} style={{fontSize:'24px',color:'#222222',marginBottom:'1rem'}}>Tranding Items</h1>
 
   </div>
-  <div style={{display:'flex',justifyContent:'center',justifyContent:'center',flexDirection:'row',}} className={style.cateHeading}>
+  <div style={{display:'flex',flexDirection:'row',alignItems:'center' }} className={style.cateHeading}>
   <div  className={style.categoryHead}>All</div>
-  <div className={style.categoryHead}>GAUNTLETS</div>
-  <div className={style.categoryHead}>HELMETS</div>
-  <div className={style.categoryHead}>ON SALE</div>
+  
+  <div className={style.categoryHead}>SALE</div>
   <div className={style.categoryHead}>FRESH</div>
+  <div className={style.categoryHead}>GAUNTLETS</div>
+ 
   </div>
 {
   isMobile? <Carousel2 data={allproduct.slice(4,8)}/>:<div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',flexWrap:'wrap',gap:'15px'}}>
@@ -215,7 +216,7 @@ const navigate = useNavigate()
    <div style={{display:'flex',justifyContent:'center',justifyContent:'center'}}> <h1 className={style.text} style={{fontSize:'24px',color:'#222222',marginBottom:'1rem'}}> Our Bestsellers </h1>
 
   </div>
-   {isMobile  ? <div>
+   {isMobile  ? <div >
           <Carousel data={allproduct.slice(1,5)} />
         </div>:
    <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',flexWrap:'wrap',gap:'20px'}}>

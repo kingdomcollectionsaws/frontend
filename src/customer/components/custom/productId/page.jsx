@@ -216,6 +216,9 @@ export default function ProductDetailPage({params}) {
                     <button className={style.cartBtn} onClick={() => carts(productDetails?._id)}>
                       Add to cart
                     </button>
+                    <button className={style.cartBtn} style={{marginTop:'1rem',marginBottom:'1rem'}} onClick={() => carts(productDetails?._id)}>
+                    Buy Now
+                  </button>
                   </div>
                   <div className={style.starReview} style={{marginTop:'1rem'}} >
                     <img src={starimg} width={60} height={35} alt="Description" />
@@ -507,6 +510,9 @@ export default function ProductDetailPage({params}) {
                 <div>
                   <button className={style.cartBtn} onClick={() => carts(productDetails?._id)}>
                     Add to cart
+                  </button>
+                  <button className={style.cartBtn} style={{marginTop:'1rem',marginBottom:'1rem'}} onClick={() => carts(productDetails?._id)}>
+                   Buy Now
                   </button>
                 </div>
                 <div className={style.starReview} style={{marginTop:'1rem',marginBottom:'1rem'}}>

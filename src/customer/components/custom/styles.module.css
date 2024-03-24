@@ -454,15 +454,14 @@
   @media screen and (max-width: 800px) {
     .categoryHead{
   
-      color: #b1afaf;
+    width: 2rem;
+      display: flex;
+      
       
     }
   .cateHeading{
     gap: 1;
-    display: flex;
-    align-self: flex-end;
-   justify-content: flex-start;
-      width: 50%;
+      width: 150%;
       font-size: 1px;
       font-weight: 100;
     }
