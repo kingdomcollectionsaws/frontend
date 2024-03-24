@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllProducts } from './state/product/productSlice'
 import axios from 'axios'
 import { API_BASE_URL } from '../config/apiConfig'
-import Footer from './Footer'
+import Footer, { Mobilefooter } from './Footer'
 import Carousel, { Carousel2 } from './components/homecarousel/Carousel'
 export default function MainPage() {
   const blogs = [
@@ -184,7 +184,7 @@ const navigate = useNavigate()
   <div style={{display:'flex',justifyContent:'center',justifyContent:'center'}}> <h1 className={style.text} style={{fontSize:'24px',color:'#222222',marginBottom:'1rem'}}>Tranding Items</h1>
 
   </div>
-  <div style={{display:'flex',justifyContent:'center',justifyContent:'center',flexDirection:'row',}}>
+  <div style={{display:'flex',justifyContent:'center',justifyContent:'center',flexDirection:'row',}} className={style.cateHeading}>
   <div  className={style.categoryHead}>All</div>
   <div className={style.categoryHead}>GAUNTLETS</div>
   <div className={style.categoryHead}>HELMETS</div>
@@ -265,7 +265,9 @@ const navigate = useNavigate()
     </div>
   
    </div>
-   <Footer/>
+   {
+    isMobile ? <Mobilefooter/> :<Footer/>
+   }
   
    </div> :<Loader/>
   )

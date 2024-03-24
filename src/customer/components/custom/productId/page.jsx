@@ -168,7 +168,7 @@ export default function ProductDetailPage({params}) {
 
             <div className={style.main}  style={{ boxSizing: 'border-box', padding: '0', margin: '0' }}>
               <div className={style.carousel} style={{ width: '100%', height: '20rem' }}>
-                <ProductSlider imagesdata={productDetails.imageUrl}  />
+                <ProductSlider imagesdata={productDetails?.imageUrl}  />
                 <div className={style.info} style={{ width: '100%', marginLeft: '2px' }}>
                   <div className={style.limited}>Limited Stock! Order Now.</div>
                   <div className={style.price}>£{productDetails?.price}</div>
@@ -322,7 +322,7 @@ export default function ProductDetailPage({params}) {
                           {item.review.substring(3, item.review.length - 5)}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
-                          <div><src src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
+                          <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
                           <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer',marginBottom:'.5rem' ,display:'flex',marginLeft:'-1rem'}} className={style.text}>{item.reviewer}</div>
                           <div className={style.text}> {item.date_created.substring(0, 10)}</div>
                         </div>
@@ -444,7 +444,7 @@ export default function ProductDetailPage({params}) {
                           {item.review.substring(3, item.review.length - 5)}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
-                          <div><src src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
+                          <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
                           <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer',marginBottom:'.5rem' ,display:'flex',marginLeft:'-1rem'}} className={style.text}>{item.reviewer}</div>
                           <div className={style.text}> {item.date_created.substring(0, 10)}</div>
                         </div>
@@ -560,7 +560,7 @@ export default function ProductDetailPage({params}) {
                   {
                     open3 ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                       <div>
-                        <src src={brand} width={90} height={80} alt="Description" />
+                        <img src={brand} width={90} height={80} alt="Description" />
                       </div>
                       <div style={{ fontFamily: '"Guardian-EgypTT", "Charter", "Charter Bitstream", "Cambria", "Noto Serif Light", "Droid Serif", "Georgia", "serif"' }}>
                       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>

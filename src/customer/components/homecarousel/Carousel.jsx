@@ -11,7 +11,7 @@ const navigate = useNavigate()
         1024: { items: 1 },
     };
     
-const items = data.map((i)=> <div  style={{padding:'0',border:'.1px solid gray', borderRadius:'0',border:'none'}} onClick={()=>navigate(`/product/${i._id}`)} >
+const items = data.map((i)=> <div  style={{padding:'0',border:'.1px solid gray', borderRadius:'0',border:'none',}} onClick={()=>navigate(`/product/${i._id}`)} >
    <img src={i?.imageUrl[0]}   alt='img' style={{width:'23rem',height:'25rem'}}/>
  
    <h1 className={style.text} style={{fontWeight:'700',width:'90%',fontSize:'1rem',display:'flex',alignSelf: "flex-start" ,}}>{i?.title.substring(0, 20)}...</h1>
@@ -43,7 +43,7 @@ export  function Carousel2({data}) {
       1024: { items: 1 },
   };
   
-const items = data.map((i)=> <div  style={{padding:'0',border:'.1px solid gray', borderRadius:'0',border:'none'}} onClick={()=>navigate(`/product/${i._id}`)} >
+const items = data.map((i)=> <div  style={{padding:'0',border:'.1px solid gray', borderRadius:'0',border:'none',marginLeft:'.7rem'}} onClick={()=>navigate(`/product/${i._id}`)} >
  <img src={i?.imageUrl[0]}   alt='img' style={{width:'23rem',height:'25rem'}}/>
 
  <h1 className={style.text} style={{fontWeight:'700',width:'90%',fontSize:'1rem',display:'flex',alignSelf: "flex-start" ,}}>{i?.title.substring(0, 20)}...</h1>
