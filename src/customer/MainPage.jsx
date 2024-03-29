@@ -4,6 +4,12 @@ import style from '../customer/components/custom/styles.module.css'
 import b1 from "../../public/b1.jpg"
 import b2 from "../../public/b4.jpg"
 import b3 from "../../public/b3.jpg"
+import c1 from "../../public/c1.png"
+import c2 from "../../public/c2.png"
+import c3 from "../../public/c3.png"
+import c4 from "../../public/c4.png"
+import c5 from "../../public/c5.png"
+import c6 from "../../public/c6.png"
 import { GoArrowRight } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from './Loader'
@@ -67,32 +73,32 @@ export default function MainPage() {
   const CategoryList = [{
     slug:"gladiator-costume",
     name:"Gladiator Costume",
-    image:""
+    image:c1
   },
   {
     slug:"mf-doom-mask",
     name:"Mf doom mask",
-    image:""
+    image:c2
   },
   {
     slug:"nazgul-costume",
     name:"Nazgul costume",
-    image:""
+    image:c3
   },
   {
     slug:"roman-costume",
     name:"Roman costume",
-    image:""
+    image:c4
   },
   {
     slug:"spartan-costume",
     name:"Spartan costume",
-    image:""
+    image:c5
   },
   {
     slug:"templar-costume",
     name:"Templar costume",
-    image:""
+    image:c6
   }
 ]
   useEffect(() => {
@@ -136,10 +142,11 @@ export default function MainPage() {
 
 
             {
-              category?.slice(0, 6).map((i) => (
+              CategoryList ?.slice(0, 6).map((i) => (
+                
                 
                   <div className={style.categoryProduct} onClick={()=>navigate(`/products/${i.slug}`)} >
-                    <img src={i.image?.src} style={{ borderRadius: '50%', width: "8rem", height: '8rem' }} alt='img' />
+                    <img src={i.image} style={{ borderRadius: '50%', width: "8rem", height: '8rem' }} alt='img' />
                     <p style={{ fontWeight: '600' }}>{i.name}</p>
                   </div>
                
