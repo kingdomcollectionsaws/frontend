@@ -64,6 +64,37 @@ export default function MainPage() {
       setAllproduct(products);
     }
   }, [products]);
+  const CategoryList = [{
+    slug:"gladiator-costume",
+    name:"Gladiator Costume",
+    image:""
+  },
+  {
+    slug:"mf-doom-mask",
+    name:"Mf doom mask",
+    image:""
+  },
+  {
+    slug:"nazgul-costume",
+    name:"Nazgul costume",
+    image:""
+  },
+  {
+    slug:"roman-costume",
+    name:"Roman costume",
+    image:""
+  },
+  {
+    slug:"spartan-costume",
+    name:"Spartan costume",
+    image:""
+  },
+  {
+    slug:"templar-costume",
+    name:"Templar costume",
+    image:""
+  }
+]
   useEffect(() => {
     const apiKey = 'ck_503e81308c5e908b9050b367e98d837395f578c4';
     const apiSecret = 'cs_1ed4558d5120ba67905426b5f46f8a38efb47035';

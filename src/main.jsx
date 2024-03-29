@@ -12,10 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
     <Provider store={store}>
-      <Layout>
       <App/>
-      </Layout>
-    
      </Provider> 
     </BrowserRouter>
   
