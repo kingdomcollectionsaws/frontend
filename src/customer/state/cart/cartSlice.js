@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice,} from "@reduxjs/toolkit";
 import axios from "axios";
 import { API_BASE_URL } from "../../../config/apiConfig";
 const initialState = {
@@ -15,8 +15,10 @@ const initialState = {
             authorization:token
         }
     })
-        const cart = await response.data;
+        const cart =  response.data;
+        
         return cart
+        
         
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -25,27 +27,28 @@ const initialState = {
  export const addItemInCart = createAsyncThunk('addItemInCart', async (data, thunkAPI) => {
     const token = localStorage.getItem('jwt');
     try {
-        const response = await axios.put(`${API_BASE_URL}/api/cart/add`, data, {
+        const response = await axios.put(`${API_BASE_URL}/api/cart/add/`,data, {
             headers: {
                 authorization: token
             }
         });
-        const cart = response.data;
+        const cart = await response.data;
         return cart;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data);
     }
 });
 
-export const updateItemInCart = createAsyncThunk('updateItemInCart', async (id, thunkAPI) => {
+export const updateItemInCart = createAsyncThunk('updateItemInCart', async (data, thunkAPI) => {
+    const {id,quantity,sizes} = data
     const token = localStorage.getItem('jwt');
     try {
-        const response = await axios.put(`${API_BASE_URL}/api/cart_items/${id}`, { quantity: 200 }, {
+        const response = await axios.put(`${API_BASE_URL}/api/cart_items/${id}` ,{quantity:quantity,sizes:sizes},{
             headers: {
                 authorization: token
             }
         });
-        const item = response.data;
+        const item = await response.data;
         return item;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data);
@@ -92,6 +95,7 @@ export const cartReducer = createSlice({
             state.loading = false
         },
         [addItemInCart.rejected]:(state,action)=>{
+            console.log("kk");
             state.loading= false
             state.error = action.payload
         },
@@ -104,6 +108,7 @@ export const cartReducer = createSlice({
             state.loading= false
             console.log(action.payload);
             //   state.cartItems = action.payload
+            localStorage.removeItem('value');
         },
         [updateItemInCart.rejected]:(state,action)=>{
             state.loading= false

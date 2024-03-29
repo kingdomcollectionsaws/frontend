@@ -3,32 +3,12 @@ import axios from "axios";
 import { API_BASE_URL } from "../../../config/apiConfig";
 
 const initialState = {
-    products: null,
+    products: [],
     product: null,
     loading: false,
     error: null
 };
 
-export const getAllProducts = createAsyncThunk('getAllProducts', async (Filterdata, thunkAPI) => {
-    const {
-        color,
-        sizes,
-        brand,
-        category,
-        minPrice,
-        maxPrice,
-        sort,
-        pageNumber,
-        pageSize
-    } = Filterdata;
-
-    try {
-        const response = await axios.get(`${API_BASE_URL}/api/products/?${category}&color=${color}&sizes=${sizes}&brand=${brand}&sort=${sort}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
-        return response.data.content;
-    } catch (error) {
-        return thunkAPI.rejectWithValue(response.data);
-    }
-});
 
 export const findProductById = createAsyncThunk("findProductById", async (id, { rejectWithValue }) => {
     try {
@@ -36,6 +16,25 @@ export const findProductById = createAsyncThunk("findProductById", async (id, { 
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data);
+    }
+});
+// export const getAllProducts = createAsyncThunk('getAllProducts', async ( thunkAPI) => {
+//     try {
+//         const {      color, sizes, brand,category, minPrice, maxPrice, sort, pageNumber, pageSize } = Filterdata;
+//         //?category=${category}&color=${color}&sizes=${sizes}&brand=${brand}&sort=${sort}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&pageSize=${pageSize}
+//         const response = await axios.get("https://backend-c37y.onrender.com/api/products/");
+//             return  response.data;
+//     } catch (error) {
+
+//         return thunkAPI.rejectWithValue(error.response.data);
+//     }
+// });
+export const getAllProducts = createAsyncThunk('getAllProducts', async ( thunkAPI) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/api/products/`);
+                return  response.data.content;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
     }
 });
 
@@ -47,7 +46,7 @@ export const productReducer = createSlice({
             state.loading = true;
         },
         [getAllProducts.fulfilled]: (state, action) => {
-console.log(action.payload);
+          console.log(action.payload);
             state.loading = false;
             state.products = action.payload;
         },

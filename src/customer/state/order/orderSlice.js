@@ -8,15 +8,19 @@ const initialState={
     loading:false
 }
 
- export const createOrder = createAsyncThunk('createOrder',async(data,thunkAPI)=>{
+ export const createOrder = createAsyncThunk('createOrder',async(orderData,thunkAPI)=>{
     const token = localStorage.getItem('jwt');
+    const {address,navigate} = orderData
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/orders/`, data,{
+        const response = await axios.post(`${API_BASE_URL}/api/orders/`,address,{
             headers: {
                 authorization: token
             }
         });
-        const order = response.data;
+        const order =  response.data;
+         if (order._id){
+            navigate({search:`step=3&order_id=${order._id}`})
+        }
         return order;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data);
@@ -46,11 +50,13 @@ extraReducers:{
 [createOrder.pending]:(state)=>{
     state.loading= true
 },
-[createOrder.pending]:(state ,action)=>{
+[createOrder.fulfilled]:(state ,action)=>{
+    console.log("ddd");
     state.order = action.payload
     state.loading= false
 },
-[createOrder.pending]:(state ,action)=>{
+[createOrder.rejected]:(state ,action)=>{
+    console.log("uu");
     state.error = action.payload
     state.loading= false
 },

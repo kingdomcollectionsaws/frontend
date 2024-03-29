@@ -1,38 +1,55 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Addresscard from '../addresscard/Addresscard'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { createOrder } from '../../state/order/orderSlice';
+import { getUserDetail } from '../../state/Auth/registerSlice';
 
 export default function DeliveryAddress() {
+  const dispatch = useDispatch();
+  useEffect(()=>{
+dispatch(getUserDetail())
+  },[])
+const navigate = useNavigate()
   const handlesubmit =(e)=>{
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-     const addressData = {
-      firstname:data.get("firstname"),
-       lasttname:data.get("lasttname"),
-       address:data.get("address"),
+     const address = {
+      firstName:data.get("firstname"),
+       lastName:data.get("lastname"),
+       streetAddress:data.get("address"),
        city:data.get("city"),
-       pincode:data.get("pincode"),
+       zipCode:data.get("pincode"),
      state:data.get("state"),
-       number:data.get("number")
    }
-    console.log("submit", addressData);
+   // console.log("submit", address);
+    const orderData = {address,navigate};
+    dispatch(createOrder(orderData));
+   window.location.reload()
   };
+  const {user} = useSelector(store => store.user);
+const deliver=()=>{
+  const address =  user?.addresses[user?.addresses?.length-1];
+  const orderData = {address,navigate};
+  dispatch(createOrder(orderData));
+}
 
   return (
    <>
   <Grid container spacing={4}>
     <Grid   xs={12} lg={5} className='border rounded-md shadow-md h-[30.4rem] overflow-y-scroll'>
    <div className='p-6'>
-   <Addresscard/>
-      <Button  type='submit' sx={{mt:"2rem",bgcolor:"RGB(145 85 253)",color:"black",}}   className='shadow-lg' >
+   <Addresscard />
+      <Button  type='submit' sx={{mt:"2rem",bgcolor:"RGB(145 85 253)",color:"black",}}   className='shadow-lg' onClick={deliver} >
 Deliver Here
-      </Button>
+      </Button  >
    </div>
 
     </Grid>
 <Grid item xs={12} lg={7} className='border shadow-md p-3 cursor-pointer'>
   <Box>
-<form onSubmit={handlesubmit} enctype="multipart/form-data">
+<form onSubmit={handlesubmit} encType="multipart/form-data">
 <Grid container spacing={3}>
   <Grid item xs={12} lg={6}>
     <TextField
@@ -100,7 +117,7 @@ Deliver Here
     />
 
   </Grid>
-  <Grid item xs={12} lg={6}>
+  {/* <Grid item xs={12} lg={6}>
     <TextField
     required
     id='number'
@@ -110,10 +127,10 @@ Deliver Here
     autoComplete='given-number'
     />
 
-  </Grid>
+  </Grid> */}
 </Grid>
 <Button sx={{mt:"2rem",bgcolor:"RGB(145 85 253)",color:"black",}}   className='shadow-lg' type='submit' >
-Deliver Here
+save Address
       </Button>
 </form>
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { API_BASE_URL } from "../../../config/apiConfig"
 
 const initialState = {
-    user:{},
+    user:null,
     loading:false,
     error:null,
     jwt:null
@@ -80,43 +80,53 @@ export const auth = createSlice({
     },
     extraReducers:{
         [createUser.pending] : (state)=>{
-            state.loading = true
+            state.loading = true;
+            state.user=null;
+            state.error=null;
+           
         },
         [createUser.fulfilled] : (state,action)=>{
             state.loading = false;
             state.user = action.payload;
-            state.jwt = localStorage.getItem('jwt')
+            state.jwt = localStorage.getItem('jwt');
+          
+            state.error=null;
         },
         [createUser.rejected] : (state,action)=>{
             state.loading = false
-            state.error = "something is wrong"
+            state.error = "something is wrong";
+            state.user=null;
         },
         [loginUser.pending] : (state)=>{
-            state.loading = true
+            state.loading = true;
+            state.user=null;
         },
         [loginUser.fulfilled] : (state,action)=>{
-            
+            state.error =null;
             state.loading = false;
             state.user = action.payload;
-            state.jwt = localStorage.getItem('jwt')
+            state.jwt = localStorage.getItem('jwt');
         },
         [loginUser.rejected] : (state,action)=>{
             
-            state.loading = false
-            state.error = "invalid email or paasword"
+            state.loading = false;
+            state.error = "invalid email or paasword";
         },
         [getUserDetail.pending]:(state)=>{
-            state.loading = true
+            state.loading = true;
 
         },
         [getUserDetail.fulfilled]:(state,action)=>{
             state.loading = false;
-            state.user = action.payload
+            state.user = action.payload;
+            state.error = true;
+           
 
         },
         [getUserDetail.rejected]:(state,action)=>{
             state.loading = false
-             state.error ="no user found"
+             state.error ="no user found";
+             state.user=null;
 
     }}
 });

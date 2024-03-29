@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../state/Auth/registerSlice';
 export default function LoginForm() {
-  const  user = useSelector(store => store.user)
+  const { user,error} = useSelector(store => store.user)
   const dispatch = useDispatch();
   const handleSubmit = (event)=>{
     event.preventDefault();
@@ -14,9 +14,17 @@ const userData = {
   password:data.get("password"),
 }
       dispatch(loginUser(userData));
-console.log(user.error);
+
 
   }
+
+  useEffect(()=>{
+  
+   if(error){
+    console.log(error);
+   }
+  
+},[error,user])
   const navigate = useNavigate()
   return (
     <>

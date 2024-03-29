@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useDebugValue, useEffect, useState } from 'react'
 import logo from '../../public/kc-logo.png'
 import india from '../../public/indiaFlag.png'
 import style from '../../src/customer/components/custom/styles.module.css'
@@ -8,13 +8,25 @@ import { FaRegHeart } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import AuthModel from './auth/AuthModel';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserDetail } from './state/Auth/registerSlice';
 
 export default function Header() {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
     const {user} = useSelector(store=>store.user);
-    
+    const {cart} = useSelector(store=>store.cart);
+    const jwt = localStorage.getItem('jwt')
+    useEffect(()=>{
+       dispatch(getUserDetail()) 
+   if(jwt){
+    setHandleOpeneAuth(false);
+   }
+       
+        console.log(user);
+    },[dispatch,jwt])
+  
     const handleClose = ()=>{
         setHandleOpeneAuth(false)
         navigate("/")
@@ -24,9 +36,6 @@ export default function Header() {
       }
     const gocart = () => {
         navigate('/cart')
-      }
-    const goprofile = () => {
-        window.location.replace("https://kingdomcollection.uk/my-account/");
       }
     return (
         <>
@@ -39,9 +48,9 @@ export default function Header() {
                     <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} /></div>
                 </div>
                 <div className={style.navberList}>
-                     {user?<div className={style.signIn} title='my account' onClick={handleOpen}>
+                     {user?<div className={style.signIn} title='my account' onClick={()=>navigate('/profile')}>
                         <IoPerson/>
-                        </div>:<div className={style.signIn} title='sign in'>Sign in</div>
+                        </div>:<div className={style.signIn} title='sign in' style={{fontSize:'1rem',width:'5rem'}} onClick={handleOpen} >Sign in</div>
                         } 
                     {/* <div className={style.signIn} title='sign in'>Sign in</div> */}
                     <div className={style.indiaFlagDiv}>
@@ -51,7 +60,7 @@ export default function Header() {
                     <div className={style.cart} onClick={gocart}>
                        
                         <FiShoppingCart />
-                        <span className={style.cartValue}>0</span>
+                        <span className={style.cartValue}>{cart?.cartItems.length}</span>
                         </div>
                 </div>
             </div>

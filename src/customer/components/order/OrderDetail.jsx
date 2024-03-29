@@ -1,8 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Addresscard from '../addresscard/Addresscard';
 import Stepperorder from './Stepperorder'
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { API_BASE_URL } from '../../../config/apiConfig';
+import { useParams } from 'react-router-dom';
 export default function OderDetail() {
+  const {order_id,payment_id} = useParams();
+  console.log(order_id,payment_id);
+  useEffect(()=>{
+    getpaymentDetails()
+  },[])
+  const getpaymentDetails = async()=>{
+    const token = localStorage.getItem('jwt')
+    const headers = { 
+      'authorization': token,
+      'Content-Type': 'application/json'
+
+}
+    const response = await fetch(`${API_BASE_URL}/api/payments/?order_id=${order_id}&payment_id=${payment_id}`,{
+      method:'GET',
+      headers:headers,
+    })
+    const result = await response.json();
+    console.log(result);
+  }
   return (
     <>
  <div>
