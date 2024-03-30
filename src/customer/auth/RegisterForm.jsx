@@ -3,9 +3,17 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 import { createUser } from '../state/Auth/registerSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function RegisterForm() {
-  const  {user} = useSelector(store => store.user)
+  const  {user,error} = useSelector(store => store.user)
  const dispatch = useDispatch(); 
+ const notify = (msg) => toast(msg, {
+  position: "bottom-center",
+  autoClose: 2000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: false,});
   const handleSubmit = (event)=>{
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -16,15 +24,17 @@ const userData = {
   password:data.get("password"),
   mobile:data.get("mobile"),
 }
-dispatch(createUser(userData))
-if(user.error){
-console.log(user.error);
-}
 
+dispatch(createUser(userData))
+
+if (!user && error) {
+  notify("Something is wrong or email is already used");
+}
   }
   const navigate = useNavigate()
   return (
     <>
+    <ToastContainer/>
     <div>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
@@ -86,7 +96,7 @@ console.log(user.error);
                 className=' w-full px-0 py-3'
                 type='submit'
                 variant='contained'
-                sx={{background:"#9155FD"}}
+                sx={{background:"black"}}
                 >
                   Register
                 </Button>

@@ -82,7 +82,7 @@ console.log(result);
  </div>
  </div>
  <Button
-         variant="container" className="w-full font-bold" sx={{bgcolor:"#9155fd",color:"#fff"}}
+         variant="container" className="w-full font-bold" sx={{bgcolor:"black",color:"#fff"}}
          onClick={()=>makePayment(order._id)}
        >
         Pay

@@ -3,32 +3,48 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../state/Auth/registerSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function LoginForm() {
   const { user,error} = useSelector(store => store.user)
   const dispatch = useDispatch();
+  const notify = (msg,type) => toast(msg, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,});
+  
   const handleSubmit = (event)=>{
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+  
+ 
 const userData = {
   email:data.get("email"),
   password:data.get("password"),
 }
       dispatch(loginUser(userData));
 
+      if(!user){
+        notify("invalid email or password");
+    }
 
+   
+  
   }
-
+ 
   useEffect(()=>{
-  
-   if(error){
-    console.log(error);
-   }
-  
+   
+ 
+
 },[error,user])
   const navigate = useNavigate()
   return (
     <>
+   
     <div>
+    <ToastContainer/>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
  
@@ -59,7 +75,7 @@ const userData = {
                 className=' w-full px-0 py-3'
                 type='submit'
                 variant='contained'
-                sx={{background:"#9155FD"}}
+                sx={{background:"black"}}
                 >
               Login
                 </Button>

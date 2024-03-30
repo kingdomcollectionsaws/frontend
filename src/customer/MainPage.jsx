@@ -41,7 +41,6 @@ export default function MainPage() {
       des: "Shop the sweetest surprises for all little ones in your family–these gifts for kids will definitely earn you some brownie points."
     },
   ]
-  const [category, setCategory] = useState([])
   const [allproduct, setAllproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -101,37 +100,6 @@ export default function MainPage() {
     image:c6
   }
 ]
-  useEffect(() => {
-    const apiKey = 'ck_503e81308c5e908b9050b367e98d837395f578c4';
-    const apiSecret = 'cs_1ed4558d5120ba67905426b5f46f8a38efb47035';
-
-    const credentials = `${apiKey}:${apiSecret}`;
-    // Base64 encode the credentials
-    const base64Credentials = btoa(credentials);
-    const headers = new Headers({
-      'Authorization': `Basic ${base64Credentials}`,
-      'Content-Type': 'application/json'
-    });
-    const requestOptions = {
-      method: 'GET',
-      headers: headers,
-    };
-
-    fetch(`https://kingdomcollection.uk/wp-json/wc/v3/products/categories`, requestOptions)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(products => {
-        console.log('Products page:', products);
-        setCategory(products)
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch request:', error);
-      });
-  }, [dispatch])
   const navigate = useNavigate()
   return (
     !loading ?

@@ -41,7 +41,7 @@ const deliver=()=>{
     <Grid   xs={12} lg={5} className='border rounded-md shadow-md h-[30.4rem] overflow-y-scroll'>
    <div className='p-6'>
    <Addresscard />
-      <Button  type='submit' sx={{mt:"2rem",bgcolor:"RGB(145 85 253)",color:"black",}}   className='shadow-lg' onClick={deliver} >
+      <Button  type='submit' sx={{mt:"2rem",bgcolor:"black",color:"#fff",}}   className='shadow-lg' onClick={deliver} >
 Deliver Here
       </Button  >
    </div>
@@ -129,7 +129,7 @@ Deliver Here
 
   </Grid> */}
 </Grid>
-<Button sx={{mt:"2rem",bgcolor:"RGB(145 85 253)",color:"black",}}   className='shadow-lg' type='submit' >
+<Button sx={{mt:"2rem",bgcolor:"black",color:"#fff",}}   className='shadow-lg' type='submit' >
 save Address
       </Button>
 </form>

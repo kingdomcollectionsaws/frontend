@@ -70,23 +70,26 @@ export default function ProductDetailPage({ params }) {
   //   dispatch(findProductById(id))
   //  }
   const carts = (id) => {
-if(productDetails?.sizes.length > 0){
-  if(selectedValue){
+const token = localStorage.getItem('jwt');
+if(token){
+  if(productDetails?.sizes.length > 0){
+    if(selectedValue){
+      const data = { productId: id }
+      //ispatch(updateItemInCart({id:id,quantity:2,sizes:["red"]}))
+      dispatch(addItemInCart(data));
+      navigate('/cart')
+    }else{
+      alert("plaase select variation")
+    }
+  }else{
     const data = { productId: id }
     //ispatch(updateItemInCart({id:id,quantity:2,sizes:["red"]}))
     dispatch(addItemInCart(data));
     navigate('/cart')
-  }else{
-    alert("plaase select variation")
   }
-}else{
-  const data = { productId: id }
-  //ispatch(updateItemInCart({id:id,quantity:2,sizes:["red"]}))
-  dispatch(addItemInCart(data));
-  navigate('/cart')
 }
   
-      //navigate('/cart')
+      alert('Please login before add item to cart')
   
   
     }

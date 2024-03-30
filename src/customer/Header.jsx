@@ -10,21 +10,27 @@ import { useNavigate } from 'react-router-dom';
 import AuthModel from './auth/AuthModel';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetail } from './state/Auth/registerSlice';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Header() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
-    const {user} = useSelector(store=>store.user);
+    const {user,error} = useSelector(store=>store.user);
     const {cart} = useSelector(store=>store.cart);
-    const jwt = localStorage.getItem('jwt')
+    const jwt = localStorage.getItem('jwt');
+    const notify = (msg) => toast(msg, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,});
     useEffect(()=>{
        dispatch(getUserDetail()) 
    if(jwt){
     setHandleOpeneAuth(false);
+    notify("login successfully");
    }
-       
-        console.log(user);
     },[dispatch,jwt])
   
     const handleClose = ()=>{
@@ -39,6 +45,7 @@ export default function Header() {
       }
     return (
         <>
+          <ToastContainer/>
             <div className={style.navber}>
                 <div className="logo" onClick={()=>navigate('/')} style={{cursor:'pointer'}}> 
                     <img src={logo} width={240} height={70} alt="Description"/>

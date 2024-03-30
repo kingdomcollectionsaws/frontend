@@ -61,7 +61,7 @@ export default function Cart() {
         </div>
         <Button 
         onClick={handlecheckout}
-                variant="container" className="w-full font-bold" sx={{bgcolor:"#9155fd",color:"#fff"}}
+                variant="container" className="w-full font-bold" sx={{bgcolor:"black",color:"#fff"}}
               >
                Chectout
               </Button>
