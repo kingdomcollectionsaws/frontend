@@ -548,7 +548,7 @@ const Getreviews = (id)=>{
                 <div>
                   <p style={{ display: 'flex', alignItems: 'center', margin: '1rem' }}>Style<sup style={{ color: '#A61A2E', fontSize: '10px' }}> <IoMdStar /></sup></p>
                 </div>
-                <div >
+                <div style={{width:'95%',marginLeft:'1rem'}} >
              
                 <InputLabel id="demo-simple-select-label">{selectedValue?selectedValue:"choose an option"}</InputLabel>
                   <Select
@@ -576,7 +576,7 @@ const Getreviews = (id)=>{
 
 
 
-                <div>
+                <div style={{marginLeft:'1rem'}}>
                   <button className={style.cartBtn} onClick={() => carts(productDetails?._id)}>
                     Add to cart
                   </button>
