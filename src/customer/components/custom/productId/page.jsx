@@ -33,8 +33,6 @@ import Loader from "../../../Loader";
 import { addItemInCart, getCart, updateItemInCart } from "../../../state/cart/cartSlice";
 import Footer, { Mobilefooter } from "../../../Footer";
 import { InputLabel, MenuItem, Select, Stack } from "@mui/material";
-import { Pagination } from "flowbite-react";
-import { FormControl } from "react-bootstrap";
 import { API_BASE_URL } from "../../../../config/apiConfig";
 //require("bootstrap/less/bootstrap.less");
 export default function ProductDetailPage({ params }) {
@@ -42,6 +40,7 @@ export default function ProductDetailPage({ params }) {
   const [countend, setCountend] = useState(5)
   const [open, setOpen] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
+  const [allproductreviews,setAllproductreviews] = useState()
   const [open2, setOpen2] = useState(true)
   const [open3, setOpen3] = useState(true)
   const [isMobile, setIsMobile] = useState(false);
@@ -57,11 +56,21 @@ export default function ProductDetailPage({ params }) {
   const { id } = useParams();
   // Make the fetch request
   
+  let newPage=0;
+  let  newCountStart =0;
+  let newCountEnd =5;
+  const paginationHandel = (page) => {
+    console.log(page);
+    
+     newPage =page + 1;
+   newCountStart = newPage * 5;
+   newCountEnd = newCountStart + 5;
 
-  const paginationHandel = () => {
-    setCount(count + 1);
-    setCountend(countend + 5)
-    setCurrentPage(countend + 1)
+  setCount(newCountStart);
+  setCountend(newCountEnd);
+  setCurrentPage(newPage);
+
+  console.log(newCountStart, newCountEnd, newPage);
   }
   const allreviews = () => {
     setCount(6)
@@ -97,54 +106,21 @@ if(token){
     Getreviews(id)
     dispatch(findProductById(id));
     setProductDetails(null);
-
-    const apiKey = 'ck_503e81308c5e908b9050b367e98d837395f578c4'; // Use environment variable or default value
-    const apiSecret = 'cs_1ed4558d5120ba67905426b5f46f8a38efb47035'; // Replace 'YOUR_API_SECRET' with your actual API secret
-    const apiUrl = `https://kingdomcollection.uk/wp-json/wc/v3/products`; // Adjust the URL as needed
-    const reviewUrl = `https://kingdomcollection.uk/wp-json/wc/v3/products/reviews/?520`;
-    // Concatenate API key and secret with a colo
-    const credentials = `${apiKey}:${apiSecret}`;
-    // Base64 encode the credentials
-    const base64Credentials = btoa(credentials);
-
-    // Set up the request headers
-    const headers = new Headers({
-      'Authorization': `Basic ${base64Credentials}`,
-      'Content-Type': 'application/json'
-    });
-    const requestOptions = {
-      method: 'GET',
-      headers: headers,
-    };
-
-    fetch(`https://kingdomcollection.uk/wp-json/wc/v3/products/categories`, requestOptions)
+     fetch(`${API_BASE_URL}/api/reviews/allreviews`, {
+      method:'GET'
+     })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(products => {
-        console.log('Products page:', products);
-        setCategories(products)
+         throw new Error('Network response was not ok');
+       }
+       return response.json();
+       })
+       .then(Review => {
+        setAllproductreviews(Review); 
       })
       .catch(error => {
-        console.error('There was a problem with the fetch request:', error);
-      });
-    // fetch(`https://kingdomcollection.uk/wp-json/wc/v3/products/reviews/?${570}`, requestOptions)
-    //   .then(response => {
-    //     if (!response.ok) {
-    //       throw new Error('Network response was not ok');
-    //     }
-    //     return response.json();
-    //   })
-    //   .then(Review => {
-    //     //console.log('reviews:', Review);
-    //     setReview(Review);
-    //   })
-    //   .catch(error => {
-    //     console.error('There was a problem with the fetch request:', error);
-    //   });
+       console.error('There was a problem with the fetch request:', error);
+       });
 
   }, [dispatch, id])
 
@@ -181,7 +157,7 @@ if(token){
   }
 
   const [selectedValue, setSelectedValue] = useState('');
-
+const [showall,setShowall] = useState(false)
   const handleChange = (event) => {
     setSelectedValue(event.target.value)
     localStorage.setItem('value', event.target.value);
@@ -340,21 +316,21 @@ const Getreviews = (id)=>{
 
                   </div>
                   <div style={{ display: 'flex', gap: '5px', marginTop: '2rem', marginLeft: '-1rem' }}>
-                    {count == 5 ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => { setCount(1); setCountend(5) }}>
+                    {!showall ?<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(false) }>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
                       <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
 
-                    </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => { setCount(1); setCountend(5) }}>
+                    </div> :<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(false) }>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
                       <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
 
-                    </div>}
+                    </div>  }
                     {
-                      count > 5 ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => { setCount(5); setCountend(10) }}>
-                        <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
+                      showall? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(true) }>
+                        <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews </p>
                         <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
 
-                      </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => { setCount(5); setCountend(10) }}>
+                      </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(true) }>
                         <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
                         <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
 
@@ -362,7 +338,7 @@ const Getreviews = (id)=>{
                     }
                   </div>
                   {
-                    review ? review.slice(0, 5).map((item, index) => (
+                    !showall ? review?.slice(count,countend).map((item, index) => (
                       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
@@ -388,10 +364,39 @@ const Getreviews = (id)=>{
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <img src={img1} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                          <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                         </div>
                       </div>
-                    )) : <h1></h1>
+                    )) :  allproductreviews?.slice(count,countend).map((item, index) => (
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index}>
+                        <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            activeColor="black"
+                            value={item.ratings}
+                            color='#fff'
+                          />
+                          <div className={style.text}>
+                            {item.review}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
+                            <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
+                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
+                            <div className={style.text}> {item.createdAt.slice(0,10)}</div>
+                          </div>
+                          {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                          <AiFillLike />
+                          <p> Helpful</p>
+                        </div> */}
+
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                        </div>
+                      </div>
+                    ))
                   }
                 </div>
                 <div className="flex overflow-x-auto  m-[1rem]">
@@ -399,7 +404,7 @@ const Getreviews = (id)=>{
 
                     current={currentPage}
                     total={50}
-                    onPageChange={paginationHandel}
+                    onPageChange={()=>paginationHandel(currentPage)}
                     
 
                   />
@@ -465,60 +470,88 @@ const Getreviews = (id)=>{
                 </div>
 
                 <div style={{ display: 'flex', gap: '5px', marginBottom: '1rem' }}>
-                  {count == 5 ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setCount(5)}>
-                    <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                    <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
+                {!showall ?<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(false) }>
+                      <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
+                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
 
-                  </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setCount(5)}>
-                    <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                    <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
+                    </div> :<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(false) }>
+                      <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
+                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
 
-                  </div>}
+                    </div>  }
+                    {
+                      showall? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(true) }>
+                        <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews </p>
+                        <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
+
+                      </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(true) }>
+                        <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
+                        <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
+
+                      </div>
+                    }
+                  </div>
                   {
-                    count > 5 ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={allreviews}>
-                      <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
-                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
-
-                    </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={allreviews}>
-                      <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
-                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
-
-                    </div>
-                  }
-                </div>
-
-
-                {
-                  review ? review.slice(0, 5).map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index}>
-                      <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
-                        <ReactStars
-                          count={5}
-                          size={24}
-                          activeColor="black"
-                          value={item?.ratings}
-                          color='#fff'
-                        />
-                        <div className={style.text}>
-                          {item.review}
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
-                          <div><img src={item.image} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
-                          <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
-                          <div className={style.text}> {item.createdAt.substring(0, 10)}</div>
-                        </div>
-                        {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                    !showall ? review?.slice(count,countend).map((item, index) => (
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index}>
+                        <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            activeColor="black"
+                            value={item.ratings}
+                            color='#fff'
+                          />
+                          <div className={style.text}>
+                            {item.review}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
+                            <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
+                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
+                            <div className={style.text}> {item.createdAt.slice(0,10)}</div>
+                          </div>
+                          {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                           <AiFillLike />
                           <p> Helpful</p>
                         </div> */}
 
-                      </div>
+                        </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src={item?.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                        </div>
                       </div>
-                    </div>
-                  )) : <h1></h1>
+                    )) :  allproductreviews?.slice(count,countend).map((item, index) => (
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index}>
+                        <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            activeColor="black"
+                            value={item.ratings}
+                            color='#fff'
+                          />
+                          <div className={style.text}>
+                            {item.review}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
+                            <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
+                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
+                            <div className={style.text}> {item.createdAt.slice(0,10)}</div>
+                          </div>
+                          {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                          <AiFillLike />
+                          <p> Helpful</p>
+                        </div> */}
+
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                        </div>
+                      </div>
+                    ))
+                  
                 }
               </div>
               <div className={style.info}>

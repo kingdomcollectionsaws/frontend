@@ -18,6 +18,7 @@ export default function Header() {
     const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
     const {user,error} = useSelector(store=>store.user);
     const {cart} = useSelector(store=>store.cart);
+    const [SearchValue,setSearchValue] = useState()
     const jwt = localStorage.getItem('jwt');
     const notify = (msg) => toast(msg, {
         position: "bottom-center",
@@ -43,6 +44,9 @@ export default function Header() {
     const gocart = () => {
         navigate('/cart')
       }
+      const searchvalue = (e)=>{
+        setSearchValue(e.target.value);
+      }
     return (
         <>
           <ToastContainer/>
@@ -51,8 +55,8 @@ export default function Header() {
                     <img src={logo} width={240} height={70} alt="Description"/>
                 </div>
                 <div className={style.search}>
-                    <input placeholder='Search for anything' className={style.input} />
-                    <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} /></div>
+                    <input placeholder='Search for anything' className={style.input} onChange={searchvalue} />
+                    <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} onClick={()=>navigate(`/searchproducts/${SearchValue}`)} /></div>
                 </div>
                 <div className={style.navberList}>
                      {user?<div className={style.signIn} title='my account' onClick={()=>navigate('/profile')}>
