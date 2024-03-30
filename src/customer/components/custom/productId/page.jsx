@@ -211,7 +211,6 @@ const Getreviews = (id)=>{
       {
         isMobile ?
           <>
-
             <div className={style.main} style={{ boxSizing: 'border-box', padding: '0', margin: '0', height: '100vh' }}>
               <div className={style.carousel} style={{ width: '100%', height: '20rem' }}>
                 <ProductSlider imagesdata={productDetails?.imageUrl} />
@@ -249,7 +248,7 @@ const Getreviews = (id)=>{
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     onChange={handleChange}
-                    style={{width:'100%' ,marginBottom:'1rem'}}
+                    style={{width:'95%' ,marginBottom:'1rem'}}
                     label="Age"
                     value={"kk"}
                   >
@@ -265,10 +264,10 @@ const Getreviews = (id)=>{
                   </Select>
                   </div>
                   <div>
-                    <button className={style.cartBtn} onClick={() => carts(productDetails?._id)} style={{ marginLeft: '1rem', width: '95%' }}>
+                    <button className={style.cartBtn} onClick={() => carts(productDetails?._id)} style={{ marginLeft: '1rem', width: '90%' }}>
                       Add to cart
                     </button>
-                    <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', width: '95%' }} onClick={() => carts(productDetails?._id)}>
+                    <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', width: '90%' }} onClick={() => carts(productDetails?._id)}>
                       Buy Now
                     </button>
                   </div>
