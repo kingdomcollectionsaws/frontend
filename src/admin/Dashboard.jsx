@@ -14,6 +14,7 @@ export default function Dashboard() {
     const [variations, setVaritions] = useState();
     const [showCategory,setShowCategory] = useState()
     const {products,loading,product} = useSelector(store=>store.allproducts);
+    const {user} = useSelector(store=>store.user);
   const productCategory = ["gladiator-costume","mf-doom-mask","nazgul-costume","roman-costume","spartan-costume","templar-costume"]
 
     const [productData, setProductData] = useState({
@@ -139,7 +140,8 @@ export default function Dashboard() {
 
     }
     return (
-       !loading?<div style={{display:'flex',justifyContent:'space-between',}}>
+       !loading && user.role === "ADMIN"?
+       <div style={{display:'flex',justifyContent:'space-between',}}>
           
     <div style={{width:'20%',position:'sticky', paddingTop:'5rem',marginTop:'1rem',borderRadius:'1rem',}} >
     

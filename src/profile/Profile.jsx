@@ -36,7 +36,7 @@ function ProfilePage() {
       <button className="profile-button" onClick={()=>navigate('/account/order')}><AiOutlineShopping /> My Orders</button>
       <button className="profile-button" onClick={()=>navigate('/checkout?step=2')}><AiOutlineEdit  /> Address Update</button>
       <button className="profile-button" onClick={()=>navigate('/profile/update')}><AiOutlineUser /> Update Profile</button>
-      <button className="profile-button" onClick={()=>navigate('/AdmIn')}><AiOutlineDashboard /> Admin Dashboard</button>
+     {user.role === "ADMIN"? <button className="profile-button" onClick={()=>navigate('/AdmIn')}><AiOutlineDashboard /> Admin Dashboard</button>:''}
       <button className="profile-button" onClick={logouthandle}><AiOutlineUser /> Logout</button>
     </div>
   </div>:<Loader/>
