@@ -96,9 +96,11 @@ if(token){
     dispatch(addItemInCart(data));
     navigate('/cart')
   }
+}else{
+  alert('Please login before add item to cart')
 }
   
-      alert('Please login before add item to cart')
+      
   
   
     }
