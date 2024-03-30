@@ -503,7 +503,7 @@ const Getreviews = (id)=>{
                           {item.review}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
-                          <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
+                          <div><img src={item.image} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
                           <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
                           <div className={style.text}> {item.createdAt.substring(0, 10)}</div>
                         </div>
