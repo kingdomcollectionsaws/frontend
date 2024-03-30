@@ -38,7 +38,7 @@ import { FormControl } from "react-bootstrap";
 import { API_BASE_URL } from "../../../../config/apiConfig";
 //require("bootstrap/less/bootstrap.less");
 export default function ProductDetailPage({ params }) {
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
   const [open, setOpen] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
