@@ -243,7 +243,7 @@ const Getreviews = (id)=>{
                   <div>
                     <p style={{ display: 'flex', alignItems: 'center', paddingLeft: '1rem' }}>Style<sup style={{ color: '#A61A2E', fontSize: '10px', }}> <IoMdStar /></sup></p>
                   </div>
-                  <div>
+                  <div style={{marginLeft:'1rem',width:'95%'}}>
                   <InputLabel id="demo-simple-select-label">{selectedValue?selectedValue:"choose an option"}</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
