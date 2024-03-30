@@ -6,7 +6,7 @@ import { loginUser } from '../state/Auth/registerSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function LoginForm() {
-  const { user,error} = useSelector(store => store.user)
+  const { user,error,loading} = useSelector(store => store.user)
   const dispatch = useDispatch();
   const notify = (msg,type) => toast(msg, {
     position: "bottom-center",
@@ -25,20 +25,14 @@ const userData = {
   password:data.get("password"),
 }
       dispatch(loginUser(userData));
-
-      if(!user){
-        notify("invalid email or password");
+      const token  = localStorage.getItem('jwt');
+    if (error!=null&&  loading==false&&!token ) {
+      notify("inavlid email or password");
     }
-
-   
+    
   
   }
- 
-  useEffect(()=>{
-   
- 
 
-},[error,user])
   const navigate = useNavigate()
   return (
     <>

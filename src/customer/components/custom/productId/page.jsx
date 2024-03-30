@@ -39,7 +39,7 @@ export default function ProductDetailPage({ params }) {
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
   const [open, setOpen] = useState(true)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(0)
   const [allproductreviews,setAllproductreviews] = useState()
   const [open2, setOpen2] = useState(true)
   const [open3, setOpen3] = useState(true)

@@ -20,18 +20,11 @@ export default function Header() {
     const {cart} = useSelector(store=>store.cart);
     const [SearchValue,setSearchValue] = useState()
     const jwt = localStorage.getItem('jwt');
-    const notify = (msg) => toast(msg, {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,});
     useEffect(()=>{
-       dispatch(getUserDetail()) 
-   if(jwt){
-    setHandleOpeneAuth(false);
-    notify("login successfully");
-   }
+       dispatch(getUserDetail()) ;
+       if(user){
+        setHandleOpeneAuth(false)
+       }
     },[dispatch,jwt])
   
     const handleClose = ()=>{
@@ -49,7 +42,6 @@ export default function Header() {
       }
     return (
         <>
-          <ToastContainer/>
             <div className={style.navber}>
                 <div className="logo" onClick={()=>navigate('/')} style={{cursor:'pointer'}}> 
                     <img src={logo} width={240} height={70} alt="Description"/>

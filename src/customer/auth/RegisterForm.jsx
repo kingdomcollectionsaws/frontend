@@ -27,8 +27,8 @@ const userData = {
 
 dispatch(createUser(userData))
 
-if (!user && error) {
-  notify("Something is wrong or email is already used");
+if (error!=null) {
+  notify("smothing is wrong or email already used");
 }
   }
   const navigate = useNavigate()
