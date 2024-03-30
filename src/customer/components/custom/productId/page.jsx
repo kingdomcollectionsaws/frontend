@@ -397,8 +397,7 @@ const Getreviews = (id)=>{
                 </div>
                 <div className="flex overflow-x-auto  m-[1rem]">
                   <ResponsivePagination
-                  pagination-color="#fff"
-                  pagination-bg="black"
+
                     current={currentPage}
                     total={50}
                     onPageChange={paginationHandel}

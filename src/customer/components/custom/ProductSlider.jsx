@@ -41,8 +41,8 @@ const ProductSlider = ({ imagesdata }) => {
           <img
             width={1000} height={1000}
             key={index}
-            src={item}
-            alt={`Thumbnail ${index}`}
+            src={item.endsWith('.mp4')?img:item}
+            alt={"img"}
             style={{ height: '60px', width: '60px', borderRadius: '10px' }}
             className={index === currentImageIndex ? 'active-thumbnail' : 'thumbnail'}
             onClick={() => handleThumbnailClick(index)}
