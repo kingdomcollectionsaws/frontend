@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './ImageSlider.css';
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+import img from '../../../../public/videoimg.png'
 const ProductSlider = ({ imagesdata }) => {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -27,7 +28,8 @@ const ProductSlider = ({ imagesdata }) => {
       <div className="image-slider">
        {imagesdata[currentImageIndex].endsWith('.mp4')? 
          <video controls autoPlay style={{height:'30rem',width:'30rem'}}>
-         <source src={imagesdata[currentImageIndex]} type="video/mp4"  />
+          <img src={img} alt="kk" />
+         <source src={`${imagesdata[currentImageIndex]}#t=1`} type="video/mp4"   />
          Your browser does not support the video tag.
        </video>: <img src={imagesdata[currentImageIndex]} alt={"img"} width={1000} height={1000} />}
         <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>

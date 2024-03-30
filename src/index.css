@@ -2,3 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+    --pagination-color: #000000;
+    --pagination-hover-color: #000000;
+    
+  }

@@ -397,6 +397,8 @@ const Getreviews = (id)=>{
                 </div>
                 <div className="flex overflow-x-auto  m-[1rem]">
                   <ResponsivePagination
+                  pagination-color="#fff"
+                  pagination-bg="black"
                     current={currentPage}
                     total={50}
                     onPageChange={paginationHandel}
@@ -489,7 +491,7 @@ const Getreviews = (id)=>{
 
 
                 {
-                  review ? review.slice(0, count).map((item, index) => (
+                  review ? review.slice(0, 5).map((item, index) => (
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index}>
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                         <ReactStars
