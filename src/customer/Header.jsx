@@ -40,6 +40,10 @@ export default function Header() {
       const searchvalue = (e)=>{
         setSearchValue(e.target.value);
       }
+      const en = (event)=>{
+        if(event.keyCode == 13){
+            navigate(`/searchproducts/${SearchValue}`)}
+      }
     return (
         <>
             <div className={style.navber}>
@@ -47,13 +51,13 @@ export default function Header() {
                     <img src={logo} width={240} height={70} alt="Description"/>
                 </div>
                 <div className={style.search}>
-                    <input placeholder='Search for anything' className={style.input} onChange={searchvalue} />
-                    <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} onClick={()=>navigate(`/searchproducts/${SearchValue}`)} /></div>
+                    <input placeholder='Search for anything' className={style.input} onChange={searchvalue}  onKeyDown={en} />
+                    <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} onClick={()=>navigate(`/searchproducts/${SearchValue}`)}  /></div>
                 </div>
                 <div className={style.navberList}>
                      {user?<div className={style.signIn} title='my account' onClick={()=>navigate('/profile')}>
                         <IoPerson/>
-                        </div>:<div className={style.signIn} title='sign in' style={{fontSize:'1rem',width:'5rem'}} onClick={handleOpen} >Sign in</div>
+                        </div>:<div className={style.signIn} title='sign in' style={{fontSize:'1rem',width:'5rem'}} onClick={handleOpen}  >Sign in</div>
                         } 
                     {/* <div className={style.signIn} title='sign in'>Sign in</div> */}
                     <div className={style.indiaFlagDiv}>
