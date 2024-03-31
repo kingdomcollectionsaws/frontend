@@ -210,6 +210,12 @@
         /* Align items at the start and end of the flex container */
         align-items: center;
         flex-direction: column;
+        position: sticky; /* Changed from sticky to fixed */
+        top: 0; /* Stick to the top of the viewport */ 
+        width: 100vw;
+        height: 10rem;
+        background-color: white; /* Optional: to distinguish the navber */
+        z-index: 1000;     
     }
 
 }
