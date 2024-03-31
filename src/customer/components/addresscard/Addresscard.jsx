@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux'
 export default function Addresscard() {
   
   const {user,loading} = useSelector(store => store.user);
-const address =  user?.addresses[user?.addresses?.length-1]
+const address =  user?.addresses[user?.addresses?.length-1];
+console.log(address,user);
   return (
     !loading? 
         <div>

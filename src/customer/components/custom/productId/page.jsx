@@ -84,6 +84,7 @@ if(token){
   if(productDetails?.sizes.length > 0){
     if(selectedValue){
       const data = { productId: id }
+      
       //ispatch(updateItemInCart({id:id,quantity:2,sizes:["red"]}))
       dispatch(addItemInCart(data));
       navigate('/cart')
@@ -133,6 +134,7 @@ if(token){
     }
   }, [product])
   useEffect(() => {
+    dates()
     const handleResize = () => {
       setIsMobile(window.innerWidth < 800);
     };
@@ -159,11 +161,46 @@ if(token){
   }
 
   const [selectedValue, setSelectedValue] = useState('');
-const [showall,setShowall] = useState(false)
+const [showall,setShowall] = useState(false);
+const [orderDate,setOrderDate] = useState();
+const dates = ()=>{
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const today = new Date();
+  const startDate = today.getDate();
+  const month = months[today.getMonth()];
+
+
+const formattedDateRange = `${ startDate+3}-${startDate+6} ${month}`;
+setOrderDate(formattedDateRange)
+
+}
   const handleChange = (event) => {
-    setSelectedValue(event.target.value)
+    setSelectedValue(event.target.value);
     localStorage.setItem('value', event.target.value);
     // Update the selected value state
+    fetch(`${API_BASE_URL}/api/products/?category=${product.category}&brand=${event.target.value}`, {
+      method:'GET'
+     })
+      .then(response => {
+        if (!response.ok) {
+         throw new Error('Network response was not ok');
+       }
+       return response.json();
+       })
+       .then(selectedProducts => {
+        console.log("hello",selectedProducts);
+      
+        for (let i = selectedProducts.length - 1; i >= 0; i--) {
+          if (selectedProducts[i].brand == event.target.value) {
+           let lastMatchingProduct = selectedProducts[i];
+            setProductDetails(lastMatchingProduct);
+            break; // Exit loop once the last matching product is found
+          }}
+        
+      })
+      .catch(error => {
+       console.error('There was a problem with the fetch request:', error);
+       });
   };
 const Getreviews = (id)=>{
   const requestOptions = {
@@ -195,7 +232,7 @@ const Getreviews = (id)=>{
                 <div className={style.info} style={{ width: '100%', marginLeft: '2px' }}>
                   <div className={style.limited}> Limited Stock! Order Now.</div>
                   <div className={style.price}>£{productDetails?.price}</div>
-                  <div className={style.choose}>
+                  <div className={style.choose} >
                     Choose from multiple variations
                   </div>
                   <div className={style.des}>{productDetails?.title}</div>
@@ -221,14 +258,13 @@ const Getreviews = (id)=>{
                     <p style={{ display: 'flex', alignItems: 'center', paddingLeft: '1rem' }}>Style<sup style={{ color: '#A61A2E', fontSize: '10px', }}> <IoMdStar /></sup></p>
                   </div>
                   <div style={{marginLeft:'1rem',width:'95%'}}>
-                  <InputLabel id="demo-simple-select-label">{selectedValue?selectedValue:"choose an option"}</InputLabel>
+              
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     onChange={handleChange}
                     style={{width:'95%' ,marginBottom:'1rem'}}
-                    label="Age"
-                    value={"kk"}
+                
                   >
                     {productDetails?.sizes.map((item, index) => (
 
@@ -264,7 +300,7 @@ const Getreviews = (id)=>{
                         </div>
                         <div style={{ display: 'flex', fontSize: '1rem', color: '#222222', flexDirection: 'row', alignItems: 'center', marginBottom: '1rem', gap: '10px' }}>
                           <IoLocationSharp style={{ fontSize: '1.2rem' }} />
-                          <p>Delivery from India</p>
+                          <p>Delivery from UK</p>
                         </div>
                         <div >
                           Great King Leonidas Sparta 300 Movie Helmet Battle Damage Edition Best For Valentine s Gift For Him
@@ -283,7 +319,7 @@ const Getreviews = (id)=>{
                       !open2 ? <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
                         <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px' }}>
                           <MdDateRange />
-                          <p>Order today to get in 3days</p>
+                          <p>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                         </div>
                         <div style={{ display: 'flex', marginTop: '1rem', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px' }}>
                           <BsBox2 />
@@ -584,19 +620,15 @@ const Getreviews = (id)=>{
                   <p style={{ display: 'flex', alignItems: 'center', margin: '1rem' }}>Style<sup style={{ color: '#A61A2E', fontSize: '10px' }}> <IoMdStar /></sup></p>
                 </div>
                 <div style={{width:'95%',marginLeft:'1rem'}} >
-             
-                <InputLabel id="demo-simple-select-label">{selectedValue?selectedValue:"choose an option"}</InputLabel>
                   <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="select-label"
+                    id="simple-select"
                     onChange={handleChange}
                     style={{width:'100%' ,marginBottom:'1rem'}}
-                    label="Age"
-                    value={"kk"}
                   >
                     {productDetails?.sizes.map((item, index) => (
 
-                      <MenuItem value={item} key={index}>
+                      <MenuItem value={item} key={index} >
                         {item}
                       </MenuItem>
 
@@ -632,6 +664,10 @@ const Getreviews = (id)=>{
                         <FaHand />
                         <p>Handmade</p>
                       </div>
+                      <div style={{ display: 'flex', fontSize: '1rem', color: '#222222', flexDirection: 'row', alignItems: 'center', marginBottom: '1rem', gap: '10px' }}>
+                          <IoLocationSharp style={{ fontSize: '1.2rem' }} />
+                          <p>Delivery from UK</p>
+                        </div>
                       <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
                         <PiGiftFill style={{ fontSize: '1.2rem' }} />
                         <div>
@@ -652,7 +688,7 @@ const Getreviews = (id)=>{
                     open2 ? <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
                       <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
                         <MdDateRange />
-                        <p>Order today Get in 3days <span style={{ fontSize: '1rem', borderBottom: '1px dashed gary', cursor: 'pointer' }}></span></p>
+                        <p>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
                         <BsBox2 />
