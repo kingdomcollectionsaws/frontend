@@ -64,7 +64,7 @@ export default function Header() {
                     <div className={style.cart} onClick={gocart}>
                        
                         <FiShoppingCart />
-                        <span className={style.cartValue}>{cart?.cartItems.length}</span>
+                        <span className={style.cartValue}>{cart?.cartItems.length?cart?.cartItems.length:0}</span>
                         </div>
                 </div>
             </div>
