@@ -60,9 +60,6 @@ export default function Header() {
                         </div>:<div className={style.signIn} title='sign in' style={{fontSize:'1rem',width:'5rem'}} onClick={handleOpen}  >Sign in</div>
                         } 
                     {/* <div className={style.signIn} title='sign in'>Sign in</div> */}
-                    <div className={style.indiaFlagDiv}>
-                        <img src={india} style={{width:'25px',height:'25px'}} className={style.indiaFlag} alt="Description"/>
-                    </div>
                     <div className={style.like}><FaRegHeart /></div>
                     <div className={style.cart} onClick={gocart}>
                        

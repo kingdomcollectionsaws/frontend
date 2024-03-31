@@ -199,9 +199,35 @@
  
 }
 @media only screen and (max-width: 700px) {
+  .input {
+
+    width: 12rem;
+    max-width: 50rem;
+    height: 2.5rem;
+    border-radius: 30px;
+    padding-left: .1rem;
+    font-size: .9rem;
+    letter-spacing: .1rem;
+    border: 2px solid black;
+}
+.search{
+  margin-right: -2rem;
+}
   .cate{
     margin: .1px;
   }
+  .logo img{
+    width: 30rem;
+  }
+  .navberList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 90%;
+    max-width: 10rem;
+
+}
     .navber {
         display: flex;
         padding: .2rem;
@@ -209,15 +235,17 @@
         justify-content: center;
         /* Align items at the start and end of the flex container */
         align-items: center;
-        flex-direction: column;
-        position: sticky; /* Changed from sticky to fixed */
+        flex-direction: row;
+        position: fixed; 
         top: 0; /* Stick to the top of the viewport */ 
         width: 100vw;
-        height: 10rem;
         background-color: white; /* Optional: to distinguish the navber */
         z-index: 1000;     
     }
+    .signIn{
+      margin-left: 2.2rem;
 
+    }
 }
 
 .main {
