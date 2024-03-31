@@ -85,7 +85,7 @@ if(token){
     if(selectedValue){
       const data = { productId: id }
       
-      //ispatch(updateItemInCart({id:id,quantity:2,sizes:["red"]}))
+      ///ispatch(updateItemInCart({id:id,quantity:2,sizes:["red"]}))
       dispatch(addItemInCart(data));
       navigate('/cart')
     }else{
@@ -169,8 +169,6 @@ const dates = ()=>{
   const startDate = today.getDate();
   const futureDate = new Date(today);
 futureDate.setDate(futureDate.getDate() + 3);
-
-  const month = months[today.getMonth()];
 const formattedDateRange = `${futureDate.getDate()}-${months[futureDate.getMonth()]}`;
 setOrderDate(formattedDateRange)
 
