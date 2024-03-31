@@ -51,7 +51,7 @@ export default function Header() {
                     <img src={logo} width={240} height={70} alt="Description"/>
                 </div>
                 <div className={style.search}>
-                    <input placeholder='Search for anything' className={style.input} onChange={searchvalue}  onKeyDown={en} />
+                    <input placeholder='Search..' className={style.input} onChange={searchvalue}  onKeyDown={en} />
                     <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} onClick={()=>navigate(`/searchproducts/${SearchValue}`)}  /></div>
                 </div>
                 <div className={style.navberList}>
