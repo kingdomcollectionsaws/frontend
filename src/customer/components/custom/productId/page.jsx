@@ -377,7 +377,21 @@ export default function ProductDetailPage({ params }) {
                     }
 
                   </div>
+                <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'1rem'}}>
+                <p style={{ fontSize: '1.6rem' }} className={style.text}> {allproductreviews?.length} reviews</p>
+                  <div className={style.stars} style={{ paddingLeft: '1rem' }}>
+                    <ReactStars
+                      count={5}
+                      size={30}
+                      activeColor="#222222"
+                      value={5}
+                      color='#222222'
+                    />
+                  </div>
+                </div>
                   <div style={{ display: 'flex', gap: '5px', marginTop: '2rem', marginLeft: '-1rem' }}>
+                 
+
                     {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(false)}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
                       <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
@@ -663,7 +677,7 @@ export default function ProductDetailPage({ params }) {
               <div className={style.carousel}>
                 <ProductSlider imagesdata={productDetails?.imageUrl} />
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: '2rem' }}>
-                  <p style={{ fontSize: '1.6rem' }} className={style.text}> 317 reviews</p>
+                  <p style={{ fontSize: '1.6rem' }} className={style.text}> {allproductreviews?.length} reviews</p>
                   <div className={style.stars} style={{ paddingLeft: '1rem' }}>
                     <ReactStars
                       count={5}
