@@ -404,11 +404,11 @@ export default function ProductDetailPage({ params }) {
                     {
                       showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(true)}>
                         <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews </p>
-                        <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
+                        <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}>{allproductreviews?.length}</p>
 
                       </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(true)}>
                         <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
-                        <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
+                        <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> {allproductreviews?.length}</p>
 
                       </div>
                     }
@@ -425,7 +425,7 @@ export default function ProductDetailPage({ params }) {
                             color='#fff'
                           />
                           <div className={style.text}>
-                            {item.review}
+                            {item?.review}
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                             <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
@@ -494,7 +494,7 @@ export default function ProductDetailPage({ params }) {
                                       <img src={img1} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
-                                      <p >{productDetails.title}</p>
+                                      <p >{productDetails?.title}</p>
                                      
                                     </div>
                                   </div>
@@ -595,7 +595,7 @@ export default function ProductDetailPage({ params }) {
                                       <img src={img1} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
-                                      <p >{productDetails.title}</p>
+                                      <p >{productDetails?.title}</p>
                                      
                                     </div>
                                   </div>
@@ -702,11 +702,11 @@ export default function ProductDetailPage({ params }) {
                   {
                     showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(true)}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews </p>
-                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
+                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> {allproductreviews?.length}</p>
 
                     </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(true)}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
-                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> 4.5k</p>
+                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> {allproductreviews?.length}</p>
 
                     </div>
                   }
@@ -785,7 +785,7 @@ export default function ProductDetailPage({ params }) {
                                     {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                     <div >{review[showindex].review}</div>
+                                     <div >{review[showindex]?.review}</div>
                                   </div>
                                   <div>  <ReactStars
                                     count={5}
@@ -798,17 +798,17 @@ export default function ProductDetailPage({ params }) {
 
                                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                                   <p style={{ fontWeight: 'bold', }}>{review[showindex].name}</p>
-                                      <p>{review[showindex].createdAt.slice(0, 10)}</p>
+                                      <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
                                      
                                     </div>
                                   
                                   <p style={{paddingTop:'8rem'}}>Purchased item</p>
                                   <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem',}}>
                                     <div>
-                                      <img src={productDetails.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                      <img src={productDetails?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
-                                      <p >{productDetails.title}</p>
+                                      <p >{productDetails?.title}</p>
                                      
                                     </div>
                                   </div>
@@ -919,10 +919,10 @@ export default function ProductDetailPage({ params }) {
                                   <p style={{paddingTop:'8rem'}}>Purchased item</p>
                                   <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem',}}>
                                     <div>
-                                      <img src={productDetails.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                      <img src={productDetails?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
-                                      <p >{productDetails.title}</p>
+                                      <p >{productDetails?.title}</p>
                                      
                                     </div>
                                   </div>
