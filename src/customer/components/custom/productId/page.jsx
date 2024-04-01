@@ -385,7 +385,7 @@ export default function ProductDetailPage({ params }) {
                       size={30}
                       activeColor="#222222"
                       value={5}
-                      color='#222222'
+                      color="#222222"
                     />
                   </div>
                 </div>
