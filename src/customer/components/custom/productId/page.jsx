@@ -12,7 +12,9 @@ import starimg from '../../../../../public/star.png'
 import { FaRegHeart } from "react-icons/fa";
 import hand from '../../../../../public/hand.jpg'
 import brand from '../../../../../public/brand.png'
-import { useState, useEffect } from "react";
+import { useState, useEffect,Fragment, useRef, } from "react";
+import { Dialog, Transition } from '@headlessui/react'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { IoIosArrowUp } from "react-icons/io";
 import { AiFillLike } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
@@ -34,11 +36,14 @@ import { addItemInCart, getCart, updateItemInCart } from "../../../state/cart/ca
 import Footer, { Mobilefooter } from "../../../Footer";
 import { InputLabel, MenuItem, Select, Stack } from "@mui/material";
 import { API_BASE_URL } from "../../../../config/apiConfig";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import { Carousel } from 'react-responsive-carousel';
+import ReviewsSlider from "../ReviewsSlider";
 //require("bootstrap/less/bootstrap.less");
 export default function ProductDetailPage({ params }) {
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
-  const [open, setOpen] = useState(true)
+  const [open1, setOpen1] = useState(true)
   const [currentPage, setCurrentPage] = useState(0)
   const [allproductreviews,setAllproductreviews] = useState()
   const [open2, setOpen2] = useState(true)
@@ -54,6 +59,9 @@ export default function ProductDetailPage({ params }) {
   const { product, loading } = useSelector(store => store.allproducts);
   const { cart } = useSelector(store => store.cart);
   const { id } = useParams();
+  const [open, setOpen] = useState(false)
+
+  const cancelButtonRef = useRef(null)
   // Make the fetch request
   
   let newPage=0;
@@ -151,7 +159,7 @@ if(token){
     };
   }, [data]);
   const handleDiv = () => {
-    setOpen(!open)
+    setOpen1(!open1)
   }
   const handleDiv2 = () => {
     setOpen2(!open2)
@@ -290,9 +298,9 @@ const Getreviews = (id)=>{
                   </div>
 
                   <div>
-                    <h2 className={style.toggleBtn} onClick={handleDiv}>Item details <span style={{ marginLeft: '13rem' }}>{open ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
+                    <h2 className={style.toggleBtn} onClick={handleDiv}>Item details <span style={{ marginLeft: '13rem' }}>{open1 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                     {
-                      !open ? <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
+                      !open1 ? <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
                         <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', marginBottom: '1rem', gap: '10px', padding:'1rem' }}>
                           <FaHand />
                           <p>Handmade</p>
@@ -530,7 +538,7 @@ const Getreviews = (id)=>{
                   </div>
                   {
                     !showall ? review?.slice(count,countend).map((item, index) => (
-                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' ,cursor:'pointer' }} key={index} onClick={()=>setOpen(true)}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
                             count={5}
@@ -557,6 +565,67 @@ const Getreviews = (id)=>{
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                         </div>
+                        <Transition.Root show={open} as={Fragment}>
+      <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+      <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" style={{display:'flex',alignItems:'center',justifyContent:'center'}} />
+        </Transition.Child>
+        <div className="fixed inset-0 z-10 w-srceen overflow-y-auto " style={{display:'flex',alignItems:'center',justifyContent:'center',}}>
+      
+        <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row',borderRadius:'12px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between',alignItems: 'center' }}>
+          <div >
+            <img src={item.image} alt={"img"} style={{ width: '30rem', height: '25rem' ,borderRadius:'12px'}}/>
+          </div>
+        <div style={{height: '25rem',paddingLeft:'1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '10px',alignItems:'center' }}>
+            <div>
+              <img src={ricon} alt={"img"} style={{ width: '2rem', height: '2rem' }} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <p>{item.createdAt.slice(0,10)}</p>
+              <p style={{ fontWeight: 'bold', }}>{item.name}</p>
+            </div>
+          </div>
+          <div>  <ReactStars
+                            count={5}
+                            size={24}
+                            activeColor="black"
+                            value={item.ratings}
+                            color='#fff'
+                          /></div>
+          <div style={{height:'13rem'}}>{item.review}</div>
+          <p>Purchased item</p>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px',alignItems:'center',width:'20rem' }}>
+            <div>
+              <img src={img1} alt={"img"} style={{ width: '5rem', height: '3rem' }} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <p>{productDetails.title}</p>
+              <p style={{ fontWeight: 'bold', }}>{productDetails.price}</p>
+            </div>
+          </div>
+        </div>
+   <div style={{display:'flex',alignSelf:'flex-start',margin:'-1rem',cursor:'pointer'}} onClick={()=>setOpen(false)}> <div ref={cancelButtonRef}>cancle</div></div>        
+        </div>
+
+      
+
+</div>
+
+   
+          </div>
+          
+      </Dialog>
+    </Transition.Root>
                       </div>
                     )) :  allproductreviews?.slice(count,countend).map((item, index) => (
                       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index}>
@@ -656,9 +725,9 @@ const Getreviews = (id)=>{
                 </div>
 
                 <div>
-                  <h2 className={style.toggleBtn} onClick={handleDiv} style={{ fontWeight: '600' }}>Item details <span style={{ marginLeft: '18rem' }}>{open ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
+                  <h2 className={style.toggleBtn} onClick={handleDiv} style={{ fontWeight: '600' }}>Item details <span style={{ marginLeft: '18rem' }}>{open1 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                   {
-                    open ? <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
+                    open1 ? <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
                       <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', marginBottom: '1.2rem', gap: '10px' }}>
                         <FaHand />
                         <p>Handmade</p>
@@ -776,6 +845,7 @@ const Getreviews = (id)=>{
               </button>
             </div>
             <Footer />
+           
           </div>
       }
     </> : <Loader />
