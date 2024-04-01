@@ -23,7 +23,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import { GiCrumblingBall } from "react-icons/gi";
 import { TbRulerMeasure } from "react-icons/tb";
 import { PiGiftFill } from "react-icons/pi";
-import { MdDateRange } from "react-icons/md";
+import { MdDateRange, MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from "react-icons/md";
 import { BsBox2 } from "react-icons/bs";
 import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic.css';
@@ -228,6 +228,22 @@ export default function ProductDetailPage({ params }) {
       .catch(error => {
         console.error('There was a problem with the fetch request:', error);
       });
+  }
+  const [showindex,setShowindex] = useState(0)
+  const handlePrev = ()=>{
+    if(showindex>0){
+      setShowindex(showindex-1)
+    }
+  }
+  const handleNext = ()=>{
+    if(showindex < review.length-1){
+      setShowindex(showindex+1)
+    }
+  }
+  const handleallNext = ()=>{
+    if(showindex < allproductreviews.length-1){
+      setShowindex(showindex+1)
+    }
   }
   return (
     !loading ? <>
@@ -683,7 +699,7 @@ export default function ProductDetailPage({ params }) {
                 </div>
                 {
                   !showall ? review?.slice(count, countend).map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={()=>setOpen(true)} >
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={()=>{setOpen(true);setShowindex(index)}} >
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                         <ReactStars
                           count={5}
@@ -710,8 +726,10 @@ export default function ProductDetailPage({ params }) {
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
-                      <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                      {
+      review?.map((item)=>( <Transition.Root show={open} as={Fragment}>
+  
+        <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
         <div className="flex items-center justify-center min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -738,18 +756,22 @@ export default function ProductDetailPage({ params }) {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
+              
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
             <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
+              <div>
+              <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos/></div>
+              </div>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div >
-                                  <img src={item.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                  <img src={review[showindex].image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
                                 </div>
                                 <div style={{ height: '25rem', paddingLeft: '1rem',paddingTop:'1rem' }}>
                                   <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                     {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                     <div >{item.review}</div>
+                                     <div >{review[showindex].review}</div>
                                   </div>
                                   <div>  <ReactStars
                                     count={5}
@@ -761,21 +783,25 @@ export default function ProductDetailPage({ params }) {
                                   /></div>
 
                                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                  <p style={{ fontWeight: 'bold', }}>{item.name}</p>
-                                      <p>{item.createdAt.slice(0, 10)}</p>
+                                  <p style={{ fontWeight: 'bold', }}>{review[showindex].name}</p>
+                                      <p>{review[showindex].createdAt.slice(0, 10)}</p>
                                      
                                     </div>
                                   
                                   <p style={{paddingTop:'8rem'}}>Purchased item</p>
                                   <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem',}}>
                                     <div>
-                                      <img src={img1} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                      <img src={productDetails.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
                                       <p >{productDetails.title}</p>
                                      
                                     </div>
                                   </div>
+                                  <div>
+                                
+        <div className="next" onClick={handleNext}><MdOutlineArrowForwardIos/></div>
+              </div>
                                 </div>
                                 
                               </div>
@@ -786,10 +812,10 @@ export default function ProductDetailPage({ params }) {
           </Transition.Child>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition.Root>))}
                     </div>
                   )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={()=>setOpen(true)}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={()=>{setOpen(true);setShowindex(index)}}>
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }} >
                         <ReactStars
                           count={5}
@@ -814,8 +840,10 @@ export default function ProductDetailPage({ params }) {
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
-                      <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                      {
+      allproductreviews?.map((item)=>( <Transition.Root show={open} as={Fragment}>
+  
+        <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
         <div className="flex items-center justify-center min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -842,18 +870,22 @@ export default function ProductDetailPage({ params }) {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
+              
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
             <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
+              <div>
+              <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos/></div>
+              </div>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div >
-                                  <img src={item.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                  <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
                                 </div>
                                 <div style={{ height: '25rem', paddingLeft: '1rem',paddingTop:'1rem' }}>
                                   <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                     {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                     <div >{item.review}</div>
+                                     <div >{allproductreviews[showindex].review}</div>
                                   </div>
                                   <div>  <ReactStars
                                     count={5}
@@ -865,21 +897,25 @@ export default function ProductDetailPage({ params }) {
                                   /></div>
 
                                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                  <p style={{ fontWeight: 'bold', }}>{item.name}</p>
-                                      <p>{item.createdAt.slice(0, 10)}</p>
+                                  <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex].name}</p>
+                                      <p>{allproductreviews[showindex].createdAt.slice(0, 10)}</p>
                                      
                                     </div>
                                   
                                   <p style={{paddingTop:'8rem'}}>Purchased item</p>
                                   <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem',}}>
                                     <div>
-                                      <img src={img1} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                      <img src={productDetails.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
                                       <p >{productDetails.title}</p>
                                      
                                     </div>
                                   </div>
+                                  <div>
+                                
+        <div className="next" onClick={handleallNext}><MdOutlineArrowForwardIos/></div>
+              </div>
                                 </div>
                                 
                               </div>
@@ -890,7 +926,7 @@ export default function ProductDetailPage({ params }) {
           </Transition.Child>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition.Root>))}
                     </div>
                   ))
 
@@ -1081,7 +1117,7 @@ export default function ProductDetailPage({ params }) {
               </button>
             </div>
             <Footer />
-
+           
           </div>
       }
     </> : <Loader />
