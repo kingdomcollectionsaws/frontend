@@ -764,7 +764,7 @@ export default function ProductDetailPage({ params }) {
               </div>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div >
-                                  <img src={review[showindex].image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                  <img src={review[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
                                 </div>
                                 <div style={{ height: '25rem', paddingLeft: '1rem',paddingTop:'1rem' }}>
                                   <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
