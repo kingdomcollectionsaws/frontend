@@ -47,9 +47,9 @@ setOrderDate(formattedDateRange)
 }
   return (
     !loading ?<div className='border mb-3 p-2 ' >
-     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+     <div style={{ display: 'flex', justifyContent: 'space-between'}}>
       <div style={{ width: '90%' }}>
-        <div className='flex align-center mx-3 mt-10  space-x-5 '>
+        <div className='flex align-center mx-3 mt-10 flex-col lg:flex-row  space-x-5 '>
           <img className='max-w[10rem] max-h-[10rem] flex align-center mx-4' src={data?.product.imageUrl[0]} alt="img" />
           <div className='flex align-center justify-center flex-col gap-3' >
             <p>{data?.product.title}</p>
