@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from './customer/state/product/productSlice';
 import { Carousel2 } from './customer/components/homecarousel/Carousel';
 import style from '../src/customer/components/custom/styles.module.css'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 export default function SearchProducts() {
+  const navigate = useNavigate()
     const { search } = useParams();
     const [allproduct, setAllproduct] = useState([])
     const { products, loading } = useSelector(store => store.allproducts);

@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../Loader';
 import { getCart, updateItemInCart } from '../../state/cart/cartSlice';
+import visa from '../../../../public/visa.png'
+import american from '../../../../public/amarican.png'
+import master from '../../../../public/master.png'
+import diners from '../../../../public/diners.jpg'
 import { data } from 'autoprefixer';
-
 export default function Cart() {
   const {cart,loading} = useSelector(store => store.cart);
   const navigate = useNavigate();
@@ -41,29 +44,36 @@ export default function Cart() {
        </div>
        <Grid className='sticky top-5 space-y-3 mt-7 '>
         <div className='border '>
-          <h1 className=' flex justify-center align-center font-bold'>Price Details</h1>
-        {/* <div className=' flex justify-around w-full  font-semibold pt-3'>
-          <span>price</span>
-          <span>$1000</span>
-        </div> */}
-          {/* <div className=' flex justify-around w-full  font-mono pt-3'>
+          
+          <h1 className=' flex justify-center align-center font-bold'>How you'll pay</h1>
+          <div style={{display:'flex',alignItems:'center',flexWrap:'wrap',justifyContent:'center',gap:'10px'}}>
+      <img src={visa} alt="card" style={{width:'3rem',height:'2rem'}} />
+      <img src={master} alt="card" style={{width:'3rem',height:'2rem'}} />
+      <img src={american} alt="card" style={{width:'3rem',height:'2rem'}} />
+      <img src={diners} alt="card" style={{width:'3rem',height:'2rem'}} />
+          </div>
+         <div className=' flex justify-around w-full  font-bold pt-3'>
+          <span>Item(s) total</span>
+          <span>£{cart?.totalPrice}</span>
+        </div> 
+          <div className=' flex justify-around w-full   pt-3'>
           <span>discount</span>
-          <span className='text-green-500'>-$1000</span>
-        </div> */}
-          <div className=' flex justify-around w-full  font-mono pt-3'>
+          <span className='text-green-500'>-£{cart?.discounte}</span>
+        </div> 
+          <div className=' flex justify-around w-full   pt-3'>
           <span>delivery charges</span>
-          <span className='text-green-500'>free</span>
+          <span >Free</span>
         </div>
-          <div className=' flex justify-around w-full  font-mono pt-3'>
+          <div className=' flex justify-around w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
           <span>total amount</span>
-          <span className='text-green-500'>{cart?.totalPrice}</span>
+          <span >£{cart?.totalDiscountedPrice}</span>
         </div>
         </div>
         <Button 
         onClick={handlecheckout}
-                variant="container" className="w-full font-bold" sx={{bgcolor:"black",color:"#fff"}}
+                variant="container" className="w-full font-bold " sx={{bgcolor:"black",color:"#fff",borderRadius:'20px'}}
               >
-               Chectout
+            Proceed to   Chectout
               </Button>
        </Grid>
        

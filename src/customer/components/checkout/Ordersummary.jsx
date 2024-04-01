@@ -53,8 +53,8 @@ console.log(result);
         <img className='max-w[10rem] max-h-[10rem] flex align-center mx-4'  src={i.product.imageUrl[0]} alt="img" />
        <div className='flex align-center justify-center flex-col' >
 <p>{i?.product.title}</p>
-<p>{i?.product.price}</p>
-<p>quantity:{i?.quantity}</p>
+<p>£{i?.product.discountedPrice}</p>
+  <p>quantity:{i?.quantity}</p>
 <p className=' font-semibold tracking-tight   text-green-600'>{i?.product.sizes[0]}</p>
 <div className="flex align-center justify-start m-y-1 space-x-2">
           </div>
@@ -68,17 +68,17 @@ console.log(result);
 <Grid className='sticky space-y-3 mt-7'>
  <div className='border '>
    <h1 className=' flex justify-center align-center font-bold'>Price Details</h1>
- <div className=' flex justify-around w-full  font-semibold pt-3'>
+ {/* <div className=' flex justify-around w-full  font-semibold pt-3'>
    <span>price</span>
-   <span>${order?.totalPrice}</span>
- </div>
+   <span>£{order?.totalPrice}</span>
+ </div> */}
    <div className=' flex justify-around w-full  font-mono pt-3'>
    <span>delivery charges</span>
-   <span className='text-green-500'>free</span>
+   <span className='text-green-500'>£100</span>
  </div>
    <div className=' flex justify-around w-full  font-mono pt-3'>
    <span>total amount</span>
-   <span className='text-green-500'>${order?.totalPrice}</span>
+   <span className='text-green-500'>${order?.totalDiscountedPrice}</span>
  </div>
  </div>
  <Button

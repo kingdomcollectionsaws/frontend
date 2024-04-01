@@ -16,6 +16,7 @@ export default function Stepperorder({activeStep}) {
   return (
     <Box sx={{ width: '100%'}}>
       <Stepper activeStep={activeStep} alternativeLabel>
+       
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
