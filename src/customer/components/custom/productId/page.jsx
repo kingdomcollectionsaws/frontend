@@ -406,21 +406,21 @@ export default function ProductDetailPage({ params }) {
 
                     {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => {setShowall(false),setShowindex(0)}}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
+                      <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}>  {review?.length}</p>
 
                     </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => {setShowall(false);setShowindex(0)}}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
+                      <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}>  {review?.length}</p>
 
                     </div>}
                     {
                       showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(true)}>
                         <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews </p>
-                        <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}>{allproductreviews?.length}</p>
+                        <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}> {allproductreviews?.length}</p>
 
                       </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(true)}>
                         <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
-                        <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> {allproductreviews?.length}</p>
+                        <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}>  {allproductreviews?.length}</p>
 
                       </div>
                     }
@@ -699,21 +699,21 @@ export default function ProductDetailPage({ params }) {
                 <div style={{ display: 'flex', gap: '5px', marginBottom: '1rem' }}>
                   {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => {setShowall(false);setShowindex(0)}}>
                     <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                    <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
+                    <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}>  {review?.length}</p>
 
                   </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }}  onClick={() => {setShowall(false);setShowindex(0)}}>
                     <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                    <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
+                    <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}> {review?.length}</p>
 
                   </div>}
                   {
                     showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(true)}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews </p>
-                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> {allproductreviews?.length}</p>
+                      <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}> {allproductreviews?.length}</p>
 
                     </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(true)}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
-                      <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '60%', background: '#EAEAEA', padding: '5px', width: '2.7rem' }}> {allproductreviews?.length}</p>
+                      <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}> {allproductreviews?.length}</p>
 
                     </div>
                   }
@@ -750,7 +750,7 @@ export default function ProductDetailPage({ params }) {
                       {
                         review?.map((item) => (<Transition.Root show={open} as={Fragment}>
 
-                          <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                          <Dialog as="div" className="fixed inset-0 backdrop-blur-sm overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
                             <div className="flex items-center justify-center min-h-screen px-4 text-center">
                               <Transition.Child
                                 as={Fragment}
@@ -862,14 +862,14 @@ export default function ProductDetailPage({ params }) {
                         allproductreviews?.map((item) => (
                           <Transition.Root show={open} as={Fragment}>
 
-                            <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                            <Dialog as="div" className="fixed inset-0  backdrop-blur-sm overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
                                  
                                  
                                 >
-                                  <Dialog.Overlay className="fixed inset-0  transition-opacity" />
+                                  <Dialog.Overlay className="fixed inset-0 bg-opacity-50 transition-opacity" />
                                 </Transition.Child>
 
                                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -881,7 +881,7 @@ export default function ProductDetailPage({ params }) {
 
                                 >
 
-                                  <div className="inline-block align-bottom bg-[#F9F6EE] shadow-sm rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
+                                  <div className="inline-block align-bottom rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
                                     <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
                                       <div>
                                         <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
