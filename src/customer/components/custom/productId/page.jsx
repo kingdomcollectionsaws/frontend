@@ -449,14 +449,9 @@ export default function ProductDetailPage({ params }) {
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
-                                  enter="ease-out duration-300"
-                                  enterFrom="opacity-0"
-                                  enterTo="opacity-100"
-                                  leave="ease-in duration-200"
-                                  leaveFrom="opacity-100"
-                                  leaveTo="opacity-0"
+                        
                                 >
-                                  <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+                                  <Dialog.Overlay className="fixed inset-0  bg-black  bg-opacity-20 transition-opacity" />
                                 </Transition.Child>
 
                                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -465,25 +460,20 @@ export default function ProductDetailPage({ params }) {
 
                                 <Transition.Child
                                   as={Fragment}
-                                  enter="ease-out duration-300"
-                                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                  enterTo="opacity-100 translate-y-0 sm:scale-100"
-                                  leave="ease-in duration-200"
-                                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                
                                 >
-                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle my-20">
+                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20">
                                     <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px',padding:'1rem' }}>
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
                                         <div style={{marginLeft:'-1rem',display:'flex',alignItems:'center',justifyContent:'center',}}>
-                                          <img src={item.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
+                                          <img src={review[showindex]?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
                                         </div>
                                         <div style={{ height: '25rem', paddingTop: '1rem' }}>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{item.review}</div>
+                                            <div >{review[showindex]?.review}</div>
                                           </div>
                                           <div>  <ReactStars
                                             count={5}
@@ -495,8 +485,8 @@ export default function ProductDetailPage({ params }) {
                                           /></div>
 
                                           <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <p style={{ fontWeight: 'bold', }}>{item.name}</p>
-                                            <p>{item.createdAt.slice(0, 10)}</p>
+                                            <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
+                                            <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
 
                                           </div>
 
@@ -558,14 +548,9 @@ export default function ProductDetailPage({ params }) {
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
-                                  enter="ease-out duration-300"
-                                  enterFrom="opacity-0"
-                                  enterTo="opacity-100"
-                                  leave="ease-in duration-200"
-                                  leaveFrom="opacity-100"
-                                  leaveTo="opacity-0"
+                        
                                 >
-                                  <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+                                  <Dialog.Overlay className="fixed inset-0 bg-black  bg-opacity-20 transition-opacity-50" />
                                 </Transition.Child>
 
                                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -574,25 +559,20 @@ export default function ProductDetailPage({ params }) {
 
                                 <Transition.Child
                                   as={Fragment}
-                                  enter="ease-out duration-300"
-                                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                  enterTo="opacity-100 translate-y-0 sm:scale-100"
-                                  leave="ease-in duration-200"
-                                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                               
                                 >
-                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle my-20">
+                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20">
                                     <div style={{ width: '100vw', backgroundColor: '#fff', height: '43rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px',padding:'1rem' }}>
                                       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                                         <div style={{display:'flex',justifyContent:'center',width:'100%',alignItems:'center',marginLeft:'-1rem'}} >
-                                          <img src={item.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
+                                          <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
                                         </div>
                                         <div style={{ height: '20rem',  paddingTop: '1rem',width:'100%' }}>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{item.review}</div>
+                                            <div >{allproductreviews[showindex]?.review}</div>
                                           </div>
                                           <div>  <ReactStars
                                             count={5}
@@ -604,8 +584,8 @@ export default function ProductDetailPage({ params }) {
                                           /></div>
 
                                           <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <p style={{ fontWeight: 'bold', }}>{item.name}</p>
-                                            <p>{item.createdAt.slice(0, 10)}</p>
+                                            <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex]?.name}</p>
+                                            <p>{allproductreviews[showindex]?.createdAt.slice(0, 10)}</p>
 
                                           </div>
 
@@ -613,7 +593,7 @@ export default function ProductDetailPage({ params }) {
                                           {products.map((pro) => {
                                             if (pro._id == allproductreviews[showindex].product) {
                                               return (
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false);navigate(`/product/${allproductreviews[showindex].product}`) }}>
                                                   <div>
                                                     <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                   </div>
@@ -774,14 +754,9 @@ export default function ProductDetailPage({ params }) {
                             <div className="flex items-center justify-center min-h-screen px-4 text-center">
                               <Transition.Child
                                 as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0"
-                                enterTo="opacity-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
+                          
                               >
-                                <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+                                <Dialog.Overlay className="fixed inset-0  bg-opacity-50 transition-opacity" />
                               </Transition.Child>
 
                               <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -790,15 +765,10 @@ export default function ProductDetailPage({ params }) {
 
                               <Transition.Child
                                 as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                      
                               >
 
-                                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
+                                <div className="inline-block align-bottom bg-[#F9F6EE] shadow-sm rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
                                   <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
                                     <div>
                                       <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
@@ -896,14 +866,10 @@ export default function ProductDetailPage({ params }) {
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
-                                  enter="ease-out duration-300"
-                                  enterFrom="opacity-0"
-                                  enterTo="opacity-100"
-                                  leave="ease-in duration-200"
-                                  leaveFrom="opacity-100"
-                                  leaveTo="opacity-0"
+                                 
+                                 
                                 >
-                                  <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+                                  <Dialog.Overlay className="fixed inset-0  transition-opacity" />
                                 </Transition.Child>
 
                                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -912,15 +878,10 @@ export default function ProductDetailPage({ params }) {
 
                                 <Transition.Child
                                   as={Fragment}
-                                  enter="ease-out duration-300"
-                                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                  enterTo="opacity-100 translate-y-0 sm:scale-100"
-                                  leave="ease-in duration-200"
-                                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+
                                 >
 
-                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
+                                  <div className="inline-block align-bottom bg-[#F9F6EE] shadow-sm rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
                                     <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
                                       <div>
                                         <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
@@ -955,7 +916,7 @@ export default function ProductDetailPage({ params }) {
                                           {products.map((pro) => {
                                             if (pro._id == allproductreviews[showindex].product) {
                                               return (
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${allproductreviews[showindex].product}`) }}>
                                                   <div>
                                                     <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                   </div>
