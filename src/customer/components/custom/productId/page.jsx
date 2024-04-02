@@ -232,19 +232,28 @@ export default function ProductDetailPage({ params }) {
   const [showindex,setShowindex] = useState(0)
   const handlePrev = ()=>{
     if(showindex>0){
-      setShowindex(showindex-1)
+      setShowindex(showindex-1);
+      console.log(showindex);
+    }else{
+      showindex
     }
   }
   const handleNext = ()=>{
     if(showindex < review.length-1){
-      setShowindex(showindex+1)
+      setShowindex(showindex+1);
+      console.log(showindex);
     }
   }
   const handleallNext = ()=>{
     if(showindex < allproductreviews.length-1){
-      setShowindex(showindex+1)
+      setShowindex(showindex+1);
+      console.log(showindex);
     }
   }
+  useEffect(() => {
+setShowindex(showindex)
+   
+  }, [showindex]);
   return (
     !loading ? <>
       {
@@ -797,15 +806,15 @@ export default function ProductDetailPage({ params }) {
                                   /></div>
 
                                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                  <p style={{ fontWeight: 'bold', }}>{review[showindex].name}</p>
+                                  <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
                                       <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
                                      
                                     </div>
                                   
                                   <p style={{paddingTop:'8rem'}}>Purchased item</p>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem',}}>
-                                    <div>
-                                      <img src={productDetails?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor:'pointer'}}   >
+                                    <div >
+                                      <img src={productDetails?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }}  />
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
                                       <p >{productDetails?.title}</p>
@@ -855,7 +864,8 @@ export default function ProductDetailPage({ params }) {
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
                       {
-      allproductreviews?.map((item)=>( <Transition.Root show={open} as={Fragment}>
+      allproductreviews?.map((item)=>( 
+      <Transition.Root show={open} as={Fragment}>
   
         <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
         <div className="flex items-center justify-center min-h-screen px-4 text-center">
@@ -917,7 +927,7 @@ export default function ProductDetailPage({ params }) {
                                     </div>
                                   
                                   <p style={{paddingTop:'8rem'}}>Purchased item</p>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem',}}>
+                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor:'pointer'}}  onClick={() => navigate(`/product/${review[showindex].product}`)}>
                                     <div>
                                       <img src={productDetails?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                     </div>
