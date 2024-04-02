@@ -56,7 +56,7 @@ export default function ProductDetailPage({ params }) {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const { user } = useSelector(store => store.user);
-  const { product, loading } = useSelector(store => store.allproducts);
+  const { product, loading, products } = useSelector(store => store.allproducts);
   const { cart } = useSelector(store => store.cart);
   const { id } = useParams();
   const [open, setOpen] = useState(false)
@@ -114,9 +114,11 @@ export default function ProductDetailPage({ params }) {
 
   }
   useEffect(() => {
+
     Getreviews(id)
     dispatch(findProductById(id));
     setProductDetails(null);
+    console.log(products);
     fetch(`${API_BASE_URL}/api/reviews/allreviews`, {
       method: 'GET'
     })
@@ -132,7 +134,7 @@ export default function ProductDetailPage({ params }) {
       .catch(error => {
         console.error('There was a problem with the fetch request:', error);
       });
-
+    setOpen(false)
   }, [dispatch, id])
 
   useEffect(() => {
@@ -142,6 +144,7 @@ export default function ProductDetailPage({ params }) {
     }
   }, [product])
   useEffect(() => {
+
     dates()
     const handleResize = () => {
       setIsMobile(window.innerWidth < 800);
@@ -229,31 +232,31 @@ export default function ProductDetailPage({ params }) {
         console.error('There was a problem with the fetch request:', error);
       });
   }
-  const [showindex,setShowindex] = useState(0)
-  const handlePrev = ()=>{
-    if(showindex>0){
-      setShowindex(showindex-1);
+  const [showindex, setShowindex] = useState(0)
+  const handlePrev = () => {
+    if (showindex > 0) {
+      setShowindex(showindex => showindex - 1);
       console.log(showindex);
-    }else{
+    } else {
       showindex
     }
   }
-  const handleNext = ()=>{
-    if(showindex < review.length-1){
-      setShowindex(showindex+1);
+  const handleNext = () => {
+    if (showindex < review.length - 1) {
+      setShowindex(showindex => showindex + 1);
       console.log(showindex);
     }
   }
-  const handleallNext = ()=>{
-    if(showindex < allproductreviews.length-1){
-      setShowindex(showindex+1);
+  const handleallNext = () => {
+    if (showindex < allproductreviews.length - 1) {
+      setShowindex(showindex => showindex + 1);
       console.log(showindex);
     }
   }
   useEffect(() => {
-setShowindex(showindex)
-   
-  }, [showindex]);
+ 
+
+  }, [showindex,open]);
   return (
     !loading ? <>
       {
@@ -386,26 +389,26 @@ setShowindex(showindex)
                     }
 
                   </div>
-                <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'1rem'}}>
-                <p style={{ fontSize: '1.6rem' }} className={style.text}> {allproductreviews?.length} reviews</p>
-                  <div className={style.stars} style={{ paddingLeft: '1rem' }}>
-                    <ReactStars
-                      count={5}
-                      size={30}
-                      activeColor="#222222"
-                      value={5}
-                      color="#222222"
-                    />
+                  <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', marginLeft: '1rem' }}>
+                    <p style={{ fontSize: '1.6rem' }} className={style.text}> {allproductreviews?.length} reviews</p>
+                    <div className={style.stars} style={{ paddingLeft: '1rem' }}>
+                      <ReactStars
+                        count={5}
+                        size={30}
+                        activeColor="#222222"
+                        value={5}
+                        color="#222222"
+                      />
+                    </div>
                   </div>
-                </div>
                   <div style={{ display: 'flex', gap: '5px', marginTop: '2rem', marginLeft: '-1rem' }}>
-                 
 
-                    {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(false)}>
+
+                    {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => {setShowall(false),setShowindex(0)}}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
                       <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
 
-                    </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(false)}>
+                    </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => {setShowall(false);setShowindex(0)}}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
                       <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
 
@@ -424,7 +427,7 @@ setShowindex(showindex)
                   </div>
                   {
                     !showall ? review?.slice(count, countend).map((item, index) => (
-                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={()=>setOpen(true)}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => {setOpen(true);setShowindex(index)}}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
                             count={5}
@@ -442,82 +445,90 @@ setShowindex(showindex)
                             <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
                           </div>
                           <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-        <div className="flex items-center justify-center min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
-          </Transition.Child>
+                            <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                              <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                                <Transition.Child
+                                  as={Fragment}
+                                  enter="ease-out duration-300"
+                                  enterFrom="opacity-0"
+                                  enterTo="opacity-100"
+                                  leave="ease-in duration-200"
+                                  leaveFrom="opacity-100"
+                                  leaveTo="opacity-0"
+                                >
+                                  <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+                                </Transition.Child>
 
-          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-            &#8203;
-          </span>
+                                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                                  &#8203;
+                                </span>
 
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle my-20">
-            <div style={{ width: '30rem', backgroundColor: '#fff', height: '50rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection:'column', borderRadius: '12px', }}>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',flexDirection:'column' }}>
-                                <div >
-                                  <img src={item.image} alt={"img"} style={{ width: '30rem', height: '25rem', borderRadius: '12px' }} />
-                                </div>
-                                <div style={{ height: '25rem', paddingLeft: '1rem',paddingTop:'1rem' }}>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
-                                    {/* <div>
+                                <Transition.Child
+                                  as={Fragment}
+                                  enter="ease-out duration-300"
+                                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                  leave="ease-in duration-200"
+                                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                >
+                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle my-20">
+                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px',padding:'1rem' }}>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
+                                        <div style={{marginLeft:'-1rem',display:'flex',alignItems:'center',justifyContent:'center',}}>
+                                          <img src={item.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
+                                        </div>
+                                        <div style={{ height: '25rem', paddingTop: '1rem' }}>
+                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                                            {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                     <div >{item.review}</div>
-                                  </div>
-                                  <div>  <ReactStars
-                                    count={5}
-                                    size={24}
-                                    activeColor="black"
-                          
-                                    value={5}
-                                    color='#fff'
-                                  /></div>
+                                            <div >{item.review}</div>
+                                          </div>
+                                          <div>  <ReactStars
+                                            count={5}
+                                            size={24}
+                                            activeColor="black"
 
-                                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                  <p style={{ fontWeight: 'bold', }}>{item.name}</p>
-                                      <p>{item.createdAt.slice(0, 10)}</p>
-                                     
-                                    </div>
-                                  
-                                  <p style={{paddingTop:'8rem'}}>Purchased item</p>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem',}}>
-                                    <div>
-                                      <img src={img1} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
-                                      <p >{productDetails?.title}</p>
-                                     
+                                            value={5}
+                                            color='#fff'
+                                          /></div>
+
+                                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <p style={{ fontWeight: 'bold', }}>{item.name}</p>
+                                            <p>{item.createdAt.slice(0, 10)}</p>
+
+                                          </div>
+
+                                          <p style={{ paddingTop: '5rem' }}>Purchased item</p>
+
+                                          {products.map((pro) => {
+                                            if (pro._id == review[showindex]?.product) {
+                                              return (
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                                  <div>
+                                                    <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                  </div>
+                                                  <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                                    <p >{pro.title}</p>
+
+                                                  </div>
+                                                </div>
+                                              );
+                                            }
+                                            return null;
+                                          })}
+                                        </div>
+
+                                      </div>
+
+
                                     </div>
                                   </div>
-                                </div>
-                                
+                                </Transition.Child>
                               </div>
-
-
-                            </div>
-            </div>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition.Root>
+                            </Dialog>
+                          </Transition.Root>
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -525,7 +536,7 @@ setShowindex(showindex)
                         </div>
                       </div>
                     )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={()=>setOpen(true)}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => {setOpen(true);setShowindex(index)}}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
                             count={5}
@@ -543,82 +554,89 @@ setShowindex(showindex)
                             <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
                           </div>
                           <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-        <div className="flex items-center justify-center min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
-          </Transition.Child>
+                            <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                              <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                                <Transition.Child
+                                  as={Fragment}
+                                  enter="ease-out duration-300"
+                                  enterFrom="opacity-0"
+                                  enterTo="opacity-100"
+                                  leave="ease-in duration-200"
+                                  leaveFrom="opacity-100"
+                                  leaveTo="opacity-0"
+                                >
+                                  <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+                                </Transition.Child>
 
-          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-            &#8203;
-          </span>
+                                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                                  &#8203;
+                                </span>
 
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle my-20">
-            <div style={{ width: '30rem', backgroundColor: '#fff', height: '50rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection:'column', borderRadius: '12px', }}>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',flexDirection:'column' }}>
-                                <div >
-                                  <img src={item.image} alt={"img"} style={{ width: '30rem', height: '25rem', borderRadius: '12px' }} />
-                                </div>
-                                <div style={{ height: '25rem', paddingLeft: '1rem',paddingTop:'1rem' }}>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
-                                    {/* <div>
+                                <Transition.Child
+                                  as={Fragment}
+                                  enter="ease-out duration-300"
+                                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                  leave="ease-in duration-200"
+                                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                >
+                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle my-20">
+                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '43rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px',padding:'1rem' }}>
+                                      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+                                        <div style={{display:'flex',justifyContent:'center',width:'100%',alignItems:'center',marginLeft:'-1rem'}} >
+                                          <img src={item.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
+                                        </div>
+                                        <div style={{ height: '20rem',  paddingTop: '1rem',width:'100%' }}>
+                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                                            {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                     <div >{item.review}</div>
-                                  </div>
-                                  <div>  <ReactStars
-                                    count={5}
-                                    size={24}
-                                    activeColor="black"
-                          
-                                    value={5}
-                                    color='#fff'
-                                  /></div>
+                                            <div >{item.review}</div>
+                                          </div>
+                                          <div>  <ReactStars
+                                            count={5}
+                                            size={24}
+                                            activeColor="black"
 
-                                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                  <p style={{ fontWeight: 'bold', }}>{item.name}</p>
-                                      <p>{item.createdAt.slice(0, 10)}</p>
-                                     
-                                    </div>
-                                  
-                                  <p style={{paddingTop:'8rem'}}>Purchased item</p>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem',}}>
-                                    <div>
-                                      <img src={img1} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
-                                      <p >{productDetails?.title}</p>
-                                     
+                                            value={5}
+                                            color='#fff'
+                                          /></div>
+
+                                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <p style={{ fontWeight: 'bold', }}>{item.name}</p>
+                                            <p>{item.createdAt.slice(0, 10)}</p>
+
+                                          </div>
+
+                                          <p style={{ paddingTop: '5rem' }}>Purchased item</p>
+                                          {products.map((pro) => {
+                                            if (pro._id == allproductreviews[showindex].product) {
+                                              return (
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                                  <div>
+                                                    <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                  </div>
+                                                  <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                                    <p >{pro.title}</p>
+
+                                                  </div>
+                                                </div>
+                                              );
+                                            }
+                                            return null;
+                                          })}
+                                        </div>
+
+                                      </div>
+
+
                                     </div>
                                   </div>
-                                </div>
-                                
+                                </Transition.Child>
                               </div>
-
-
-                            </div>
-            </div>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition.Root>
+                            </Dialog>
+                          </Transition.Root>
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -699,11 +717,11 @@ setShowindex(showindex)
                 </div>
 
                 <div style={{ display: 'flex', gap: '5px', marginBottom: '1rem' }}>
-                  {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(false)}>
+                  {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => {setShowall(false);setShowindex(0)}}>
                     <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
                     <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
 
-                  </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(false)}>
+                  </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }}  onClick={() => {setShowall(false);setShowindex(0)}}>
                     <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
                     <p style={{ fontSize: '1rem', marginLeft: '.5rem', borderRadius: '50%', background: '#EAEAEA', padding: '5px', width: '2rem' }}> {review?.length}</p>
 
@@ -722,7 +740,7 @@ setShowindex(showindex)
                 </div>
                 {
                   !showall ? review?.slice(count, countend).map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={()=>{setOpen(true);setShowindex(index)}} >
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={() => setOpen(true)} >
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                         <ReactStars
                           count={5}
@@ -750,95 +768,102 @@ setShowindex(showindex)
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
                       {
-      review?.map((item)=>( <Transition.Root show={open} as={Fragment}>
-  
-        <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-        <div className="flex items-center justify-center min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
-          </Transition.Child>
+                        review?.map((item) => (<Transition.Root show={open} as={Fragment}>
 
-          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-            &#8203;
-          </span>
+                          <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                            <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                              <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                              >
+                                <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+                              </Transition.Child>
 
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
-              
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
-            <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
-              <div>
-              <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos/></div>
-              </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div >
-                                  <img src={review[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
-                                </div>
-                                <div style={{ height: '25rem', paddingLeft: '1rem',paddingTop:'1rem' }}>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
-                                    {/* <div>
+                              <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                                &#8203;
+                              </span>
+
+                              <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                              >
+
+                                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
+                                  <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
+                                    <div>
+                                      <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                      <div >
+                                        <img src={review[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                      </div>
+                                      <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                                          {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                     <div >{review[showindex]?.review}</div>
-                                  </div>
-                                  <div>  <ReactStars
-                                    count={5}
-                                    size={24}
-                                    activeColor="black"
-                          
-                                    value={5}
-                                    color='#fff'
-                                  /></div>
+                                          <div >{review[showindex]?.review}</div>
+                                        </div>
+                                        <div>  <ReactStars
+                                          count={5}
+                                          size={24}
+                                          activeColor="black"
 
-                                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                  <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
-                                      <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
-                                     
+                                          value={5}
+                                          color='#fff'
+                                        /></div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                          <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
+                                          <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
+
+                                        </div>
+
+                                        <p style={{ paddingTop: '10rem' }}>Purchased item</p>
+                                        {products.map(pro => {
+                                          if (pro._id === item.product) {
+                                            return (
+                                              <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                                <div>
+                                                  <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                </div>
+                                                <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                                  <p >{pro.title}</p>
+
+                                                </div>
+                                              </div>
+                                            );
+                                          }
+                                          return null;
+                                        })}
+                                        <div>
+
+                                          <div className="next" onClick={handleNext}><MdOutlineArrowForwardIos /></div>
+                                        </div>
+                                      </div>
+
                                     </div>
-                                  
-                                  <p style={{paddingTop:'8rem'}}>Purchased item</p>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor:'pointer'}}   >
-                                    <div >
-                                      <img src={productDetails?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }}  />
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
-                                      <p >{productDetails?.title}</p>
-                                     
-                                    </div>
+
+
                                   </div>
-                                  <div>
-                                
-        <div className="next" onClick={handleNext}><MdOutlineArrowForwardIos/></div>
-              </div>
                                 </div>
-                                
-                              </div>
-
-
+                              </Transition.Child>
                             </div>
-            </div>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition.Root>))}
+                          </Dialog>
+                        </Transition.Root>))}
                     </div>
                   )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={()=>{setOpen(true);setShowindex(index)}}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true) }}>
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }} >
                         <ReactStars
                           count={5}
@@ -856,7 +881,7 @@ setShowindex(showindex)
                           <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
                           <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
                         </div>
-                  
+
 
                       </div>
 
@@ -864,93 +889,100 @@ setShowindex(showindex)
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
                       {
-      allproductreviews?.map((item)=>( 
-      <Transition.Root show={open} as={Fragment}>
-  
-        <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-        <div className="flex items-center justify-center min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
-          </Transition.Child>
+                        allproductreviews?.map((item) => (
+                          <Transition.Root show={open} as={Fragment}>
 
-          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-            &#8203;
-          </span>
+                            <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                              <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                                <Transition.Child
+                                  as={Fragment}
+                                  enter="ease-out duration-300"
+                                  enterFrom="opacity-0"
+                                  enterTo="opacity-100"
+                                  leave="ease-in duration-200"
+                                  leaveFrom="opacity-100"
+                                  leaveTo="opacity-0"
+                                >
+                                  <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+                                </Transition.Child>
 
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
-              
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
-            <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
-              <div>
-              <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos/></div>
-              </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div >
-                                  <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
-                                </div>
-                                <div style={{ height: '25rem', paddingLeft: '1rem',paddingTop:'1rem' }}>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
-                                    {/* <div>
+                                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                                  &#8203;
+                                </span>
+
+                                <Transition.Child
+                                  as={Fragment}
+                                  enter="ease-out duration-300"
+                                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                  leave="ease-in duration-200"
+                                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                >
+
+                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
+                                    <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
+                                      <div>
+                                        <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
+                                      </div>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div >
+                                          <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                        </div>
+                                        <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
+                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                                            {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                     <div >{allproductreviews[showindex].review}</div>
-                                  </div>
-                                  <div>  <ReactStars
-                                    count={5}
-                                    size={24}
-                                    activeColor="black"
-                          
-                                    value={5}
-                                    color='#fff'
-                                  /></div>
+                                            <div >{allproductreviews[showindex].review}</div>
+                                          </div>
+                                          <div>  <ReactStars
+                                            count={5}
+                                            size={24}
+                                            activeColor="black"
 
-                                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                  <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex].name}</p>
-                                      <p>{allproductreviews[showindex].createdAt.slice(0, 10)}</p>
-                                     
-                                    </div>
-                                  
-                                  <p style={{paddingTop:'8rem'}}>Purchased item</p>
-                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor:'pointer'}}  onClick={() => navigate(`/product/${review[showindex].product}`)}>
-                                    <div>
-                                      <img src={productDetails?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column',width:'full'}} >
-                                      <p >{productDetails?.title}</p>
-                                     
+                                            value={5}
+                                            color='#fff'
+                                          /></div>
+
+                                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex].name}</p>
+                                            <p>{allproductreviews[showindex].createdAt.slice(0, 10)}</p>
+
+                                          </div>
+
+                                          <p style={{ paddingTop: '10rem' }}>Purchased item</p>
+                                          {products.map((pro) => {
+                                            if (pro._id == allproductreviews[showindex].product) {
+                                              return (
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                                  <div>
+                                                    <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                  </div>
+                                                  <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                                    <p >{pro.title}</p>
+
+                                                  </div>
+                                                </div>
+                                              );
+                                            }
+                                            return null;
+                                          })}
+                                          <div>
+
+                                            <div className="next" onClick={handleallNext}><MdOutlineArrowForwardIos /></div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+
                                     </div>
                                   </div>
-                                  <div>
-                                
-        <div className="next" onClick={handleallNext}><MdOutlineArrowForwardIos/></div>
-              </div>
-                                </div>
-                                
+                                </Transition.Child>
                               </div>
-
-
-                            </div>
-            </div>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition.Root>))}
+                            </Dialog>
+                          </Transition.Root>))}
                     </div>
                   ))
 
@@ -1141,7 +1173,7 @@ setShowindex(showindex)
               </button>
             </div>
             <Footer />
-           
+
           </div>
       }
     </> : <Loader />
