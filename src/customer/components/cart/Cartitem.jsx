@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../Loader'
 import { getCart, removeItemInCart, updateItemInCart } from '../../state/cart/cartSlice'
 
-export default function Cartitem({ data }) {
-  console.log(data);
+export default function Cartitem() {
+
   const dispatch = useDispatch()
   const { cart, loading } = useSelector(store => store.cart);
   const [quantity, setQuantity] = useState(1);
@@ -46,16 +46,16 @@ setOrderDate(formattedDateRange)
 
 }
   return (
-    !loading ?<div className='border mb-3 p-2   ' >
+    !loading ? cart?.cartItems.map((data)=>(<div className='border mb-3 p-2' >
      <div style={{ display: 'flex', justifyContent: 'space-between',}} className='flex-col lg:flex-row '>
       <div style={{ width: '90%' }}>
-        <div className='flex align-center mx-3 mt-10 flex-col lg:flex-row  space-x-5 '>
-          <img className='max-w[10rem] max-h-[10rem] flex align-center mx-4' src={data?.product.imageUrl[0]} alt="img" />
+        <div className='flex align-center mx-3 mt-5 flex-col lg:flex-row  space-x-5 '>
+          <img className='max-w[15rem] max-h-[15rem] flex align-center mx-4' src={data?.product.imageUrl[0]} alt="img" />
           <div className='flex align-center justify-center flex-col gap-3' >
             <p>{data?.product.title}</p>
             {/* <p style={{color:'#595959'}}>{data?.product.description}</p> */}
             {/* <p>quantity:{data?.quantity}</p> */}
-            <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.sizes[0]} </span> </p>
+            <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.product.brand} </span> </p>
             <div className="flex align-center justify-start m-y-1 space-x-2">
               <div>
                 <Select
@@ -97,7 +97,7 @@ setOrderDate(formattedDateRange)
 
         </div>
       </div>
-      <div style={{ width: '10%', display: 'flex', alignItems: 'center', marginTop: '3rem', flexDirection: 'column', }} className='mx-10 lg:mx-0 '>
+      <div style={{ width: '10%', display: 'flex', alignItems: 'center', marginTop: '1rem', flexDirection: 'column', }} className='mx-10 lg:mx-0 '>
         <p className=' font-bold tracking-tight   text-green-600' style={{fontSize:'1.5rem'}}>£{data?.product.discountedPrice}</p>
         <p className='font-semibold tracking-tight text-gray-600  line-through '>£{data?.product.price}</p>
       </div>
@@ -110,8 +110,7 @@ setOrderDate(formattedDateRange)
      Estimated delivery: <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span> from United States
      </p>
     </div>
-    
-</div>
+</div>))
       : <h1>no item yet</h1>
   )
 }

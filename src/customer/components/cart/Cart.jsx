@@ -9,7 +9,6 @@ import visa from '../../../../public/visa.png'
 import american from '../../../../public/amarican.png'
 import master from '../../../../public/master.png'
 import diners from '../../../../public/diners.jpg'
-import { data } from 'autoprefixer';
 export default function Cart() {
   const {cart,loading} = useSelector(store => store.cart);
   const navigate = useNavigate();
@@ -18,29 +17,18 @@ export default function Cart() {
     dispatch(getCart());
    
   }, []);
-  const sizesValue = localStorage.getItem('value');
-  useEffect(()=>{
-    if(cart?.cartItems.length > 0){
-      
-      let findId = cart?.cartItems.length -1;
-      const gotid =cart?.cartItems[findId]._id;
-      if(cart?.cartItems[findId].sizes.length < 1){
-      let sizes = []
-      sizes.push( sizesValue)
-      const data = {id:gotid,sizes:sizes,quantity:1}
-      dispatch(updateItemInCart(data))}else{
-      }
-    }
-  },[cart])
-  // console.log(cart);
+  console.log(cart);
   const handlecheckout =()=>{
     navigate("/checkout?step=2")
   }
   return (
-    !loading? <div className='lg:grid grid-cols-3 relative space-x-3  '>
-
+    !loading? <>
+    <div className='mt-20  sm:mt-0'>
+      </div>
+    <div className='lg:grid grid-cols-3 relative space-x-3  '>
+      
        <div className='col-span-2'>
-       {cart?.cartItems.map((i)=><Cartitem data={i}/>)}
+       {cart?.cartItems.length > 0 ? <Cartitem/> :<h1 className='m-4'>Your cart is Empty</h1>}
        </div>
        <Grid className='sticky top-5 space-y-3 mt-7 '>
         <div className='border '>
@@ -77,6 +65,6 @@ export default function Cart() {
               </Button>
        </Grid>
        
-    </div>:<Loader/>
+    </div></>:<Loader/>
   )
 }

@@ -40,6 +40,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import ReviewsSlider from "../ReviewsSlider";
 //require("bootstrap/less/bootstrap.less");
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function ProductDetailPage({ params }) {
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
@@ -83,35 +85,25 @@ export default function ProductDetailPage({ params }) {
   const allreviews = () => {
     setCount(6)
   }
-  // if(productDetails){
-  //   dispatch(findProductById(id))
-  //  }
+  const notify = (msg) => toast(msg, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,});
   const carts = (id) => {
     const token = localStorage.getItem('jwt');
     if (token) {
-      if (productDetails?.sizes.length > 0) {
-        if (selectedValue) {
-          const data = { productId: id }
-
-          ///ispatch(updateItemInCart({id:id,quantity:2,sizes:["red"]}))
-          dispatch(addItemInCart(data));
-          navigate('/cart')
-        } else {
-          alert("plaase select variation")
-        }
-      } else {
-        const data = { productId: id }
-        //ispatch(updateItemInCart({id:id,quantity:2,sizes:["red"]}))
-        dispatch(addItemInCart(data));
-        navigate('/cart')
-      }
-    } else {
-      alert('Please login before add item to cart')
+    if(selectedValue){
+      const data = { productId: id }
+      dispatch(addItemInCart(data));
+      notify("Item added to cart")
+    }else{
+      notify("please select a Variation")
     }
-
-
-
-
+        } else {
+          notify("please login before");
+        }
   }
   useEffect(() => {
 
@@ -262,6 +254,7 @@ export default function ProductDetailPage({ params }) {
       {
         isMobile ?
           <>
+            <ToastContainer/>
             <div className={style.main} style={{ boxSizing: 'border-box', padding: '0', margin: '0', height: '100vh' }}>
               <div className={style.carousel} style={{ width: '100%', height: '20rem' }}>
                 <ProductSlider imagesdata={productDetails?.imageUrl} />
@@ -680,6 +673,9 @@ export default function ProductDetailPage({ params }) {
           </>
           :
           <div>
+              <div className='mt-20  sm:mt-0'>
+      </div>
+              <ToastContainer/>
             <div className={style.main}>
               <div className={style.carousel}>
                 <ProductSlider imagesdata={productDetails?.imageUrl} />

@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function LoginForm() {
   const { user,error,loading} = useSelector(store => store.user)
   const dispatch = useDispatch();
-  const notify = (msg,type) => toast(msg, {
+  const notify = (msg) => toast(msg, {
     position: "bottom-center",
     autoClose: 2000,
     hideProgressBar: false,
@@ -21,6 +21,7 @@ export default function LoginForm() {
   
  
 const userData = {
+  
   email:data.get("email"),
   password:data.get("password"),
 }
