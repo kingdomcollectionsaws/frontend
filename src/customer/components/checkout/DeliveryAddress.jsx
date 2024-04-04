@@ -13,7 +13,7 @@ dispatch(getUserDetail())
 
   },[])
 const navigate = useNavigate()
-  const handlesubmit =(e)=>{
+  const handlesubmit = (e)=>{
     e.preventDefault();
     const data = new FormData(e.currentTarget);
      const address = {
@@ -23,12 +23,13 @@ const navigate = useNavigate()
        city:data.get("city"),
        zipCode:data.get("pincode"),
      state:data.get("state"),
-     mobile:data.get("number")
+    // mobile:data.get("number")
    }
    console.log("submit", address);
     const orderData = {address,navigate};
-    dispatch(createOrder(orderData));
-   window.location.reload();
+   dispatch(createOrder(orderData));
+   deliver()
+
   };
   const {user} = useSelector(store => store.user);
 const deliver=()=>{
@@ -155,7 +156,7 @@ Continue to payment
 
 
 </Grid>
- <Grid   xs={12} lg={7} className='border rounded-md shadow-md h-[30.4rem] overflow-y-scroll'>
+ {/* <Grid   xs={12} lg={7} className='border rounded-md shadow-md h-[30.4rem] overflow-y-scroll'>
    <div className='p-6'>
    <Addresscard />
       <Button  type='submit' sx={{mt:"2rem",bgcolor:"black",color:"#fff",}}   className='shadow-lg' onClick={deliver} >
@@ -163,7 +164,7 @@ Continue to payment
       </Button  >
    </div>
 
-    </Grid>
+    </Grid> */}
   </Grid>
    </>
   )
