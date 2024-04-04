@@ -91,20 +91,78 @@ export default function ProductDetailPage({ params }) {
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,});
-  const carts = (id) => {
+  const carts = (id,title,price,imageurl,Dprice) => {
     const token = localStorage.getItem('jwt');
+     if(selectedValue){
+    
     if (token) {
-    if(selectedValue){
+   
       const data = { productId: id }
       dispatch(addItemInCart(data));
       notify("Item added to cart")
-    }else{
-      notify("please select a Variation")
     }
-        } else {
-          notify("please login before");
+        else {
+          const localcart = JSON.parse(localStorage.getItem('cart'))||[];
+
+          let newItem = { id: id, title:title, price:price,image:imageurl,discountedPrice:Dprice };
+           const itemExists = localcart.some(item => item.id === newItem.id);
+
+if (!itemExists) {
+    addTolocal(newItem);
+    notify("Item added to cart");
+} else {
+    notify("Item already exists in cart");
+}
+         }
+        }else{
+         
+            notify("please select a Variation")
+        
         }
   }
+  const buynow = (id,title,price,imageurl,Dprice) => {
+    const token = localStorage.getItem('jwt');
+     if(selectedValue){
+    
+    if (token) {
+   
+      const data = { productId: id }
+      dispatch(addItemInCart(data));
+      notify("Item added to cart");
+      navigate('/cart')
+    }
+        else {
+          const localcart = JSON.parse(localStorage.getItem('cart'));
+
+          let newItem = { id: id, title:title, price:price,image:imageurl,discountedPrice:Dprice };
+           const itemExists = localcart.some(item => item.id === newItem.id);
+
+if (!itemExists) {
+    addTolocal(newItem);
+    notify("Item added to cart");
+    navigate('/cart')
+} else {
+  navigate('/cart')
+}
+         }
+        }else{
+         
+            notify("please select a Variation")
+        
+        }
+  }
+
+  function addTolocal(item) {
+    // Get existing cart items from local storage or initialize as empty array
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Add new item to cart
+    cartItems.push(item);
+
+    // Store updated cart items in local storage
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+}
+
   useEffect(() => {
 
     Getreviews(id)
@@ -307,10 +365,10 @@ export default function ProductDetailPage({ params }) {
                     </Select>
                   </div>
                   <div>
-                    <button className={style.cartBtn} onClick={() => carts(productDetails?._id)} style={{ marginLeft: '1rem', width: '90%' }}>
+                    <button className={style.cartBtn} onClick={() => carts(productDetails?._id,productDetails?.title,productDetails?.price,productDetails?.imageUrl[0],productDetails?.discountedPrice)} style={{ marginLeft: '1rem', width: '90%' }}>
                       Add to cart
                     </button>
-                    <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', width: '90%' }} onClick={() => carts(productDetails?._id)}>
+                    <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', width: '90%' }} onClick={() => buynow(productDetails?._id,productDetails?.title,productDetails?.price,productDetails?.imageUrl[0],productDetails?.discountedPrice)}>
                       Buy Now
                     </button>
                   </div>
@@ -997,10 +1055,10 @@ export default function ProductDetailPage({ params }) {
 
 
                 <div style={{ marginLeft: '1rem' }}>
-                  <button className={style.cartBtn} onClick={() => carts(productDetails?._id)}>
+                  <button className={style.cartBtn} onClick={() => carts(productDetails?._id,productDetails?.title,productDetails?.price,productDetails?.imageUrl[0],productDetails?.discountedPrice)}>
                     Add to cart
                   </button>
-                  <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem' }} onClick={() => carts(productDetails?._id)}>
+                  <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem' }} onClick={() => buynow(productDetails?._id,productDetails?.title,productDetails?.price,productDetails?.imageUrl[0],productDetails?.discountedPrice)}>
                     Buy Now
                   </button>
                 </div>

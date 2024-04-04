@@ -20,7 +20,10 @@ import Carousel, { Carousel2 } from './components/homecarousel/Carousel'
 import { getCart } from './state/cart/cartSlice'
 import { getUserDetail } from './state/Auth/registerSlice'
 import ProfilePage from '../profile/Profile'
+import ReactGA from 'react-ga';
 export default function MainPage() {
+  ReactGA.initialize('G-509RBXK1MX');
+ 
   const blogs = [
     {
       title: '9 Comfy Throws for Cosy Autumn Vibes',
@@ -44,6 +47,8 @@ export default function MainPage() {
   const [allproduct, setAllproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
+    
+    ReactGA.pageview(window.location.pathname);
     dispatch(getAllProducts());
     dispatch(getCart())
     const handleResize = () => {

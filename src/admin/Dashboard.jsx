@@ -25,7 +25,8 @@ export default function Dashboard() {
         quantity: '',
         category: '',
         imageUrl: [],
-        sizes: []
+        sizes: [],
+        brand:''
     });
 
     const updateProduct = async(id)=>{
@@ -56,6 +57,9 @@ export default function Dashboard() {
        }
        if(name == "video"){
         productData.imageUrl.push(value)
+       }
+       if(name == "productvariaton"){
+        productData.brand(value)
        }
       
 
@@ -140,7 +144,7 @@ export default function Dashboard() {
 
     }
     return (
-       !loading && user.role === "ADMIN"?
+       !loading && user?.role === "ADMIN"?
        <div style={{display:'flex',justifyContent:'space-between',}}>
           
     <div style={{width:'20%',position:'sticky', paddingTop:'5rem',marginTop:'1rem',borderRadius:'1rem',}} >
@@ -246,7 +250,7 @@ export default function Dashboard() {
                                 <TextField
                                     required
                                     name='variaton'
-                                    label='Variaton'
+                                    label='All variaton'
                                     value={variations}
                                     fullWidth
                                     onChange={(e)=>setVaritions(e.target.value)}
@@ -273,23 +277,27 @@ export default function Dashboard() {
                                     onChange={handleInputChange}
                                     style={{marginBottom:'1rem'}}
                                 />
-                                <Button
+                                 
+                            </Grid>
+                            <Grid item xs={12} sm={6} >
+                            <TextField
+                                    required
+                                    name='productvariaton'
+                                    label='Product variaton'
+                                    
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                />
+
+                            </Grid>
+                            <Grid item xs={12} sm={6} >
+                              <Button
                                     className=' w-full px-0 py-3'
                                     variant='contained'
                                     sx={{ background: "#9155FD" }}
                                     onClick={postProduct}
                                 >
                                     Post
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12} sm={6} >
-                                <Button
-                                onClick={()=>setOpen(false)}
-                                    className=' w-full px-0 py-3'
-                                    variant='contained'
-                                    sx={{ background: "tomato" }}
-                                >
-                                    cancle
                                 </Button>
                             </Grid>
                         </Grid>
