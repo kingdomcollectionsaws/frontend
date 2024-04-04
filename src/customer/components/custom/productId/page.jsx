@@ -42,6 +42,7 @@ import ReviewsSlider from "../ReviewsSlider";
 //require("bootstrap/less/bootstrap.less");
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { createUser, getUserDetail } from "../../../state/Auth/registerSlice";
 export default function ProductDetailPage({ params }) {
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
@@ -90,81 +91,91 @@ export default function ProductDetailPage({ params }) {
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: false,});
-  const carts = (id,title,price,imageurl,Dprice) => {
+    pauseOnHover: false,
+  });
+  const carts = async(id) => {
     const token = localStorage.getItem('jwt');
-     if(selectedValue){
-    
-    if (token) {
-   
+    if (selectedValue) {
       const data = { productId: id }
-      dispatch(addItemInCart(data));
-      notify("Item added to cart")
-    }
-        else {
-          const localcart = JSON.parse(localStorage.getItem('cart'))||[];
-
-          let newItem = { id: id, title:title, price:price,image:imageurl,discountedPrice:Dprice };
-           const itemExists = localcart.some(item => item.id === newItem.id);
-
-if (!itemExists) {
-    addTolocal(newItem);
-    notify("Item added to cart");
-} else {
-    notify("Item already exists in cart");
-}
-         }
-        }else{
-         
-            notify("please select a Variation")
+      if (token) {
+       
+        dispatch(addItemInCart(data));
+        notify("Item added to cart")
+      }
+      else {
         
+
+        if (!user) {
+          const uniqueIdentifier = Math.floor(Math.random() * 100000);
+          const uniqueIdentifierdate = Date.now();
+          const guestemail = `guest${uniqueIdentifier}${uniqueIdentifierdate}@gmail.com`;
+          const guestpassword = Math.random().toString(36).slice(-8);
+          const role = 'GUEST'
+          const userData = {
+            firstName: `guest${uniqueIdentifier}`,
+            lastName: `guest${uniqueIdentifierdate}`,
+            email: guestemail,
+            password: guestpassword,
+            role: 'GUEST',
+          }
+          await dispatch(createUser(userData));
+          await dispatch(addItemInCart(data));
+          notify("Item added to cart");   
+        } else {
+          dispatch(addItemInCart(data));
+          navigate('/cart')
         }
+      }
+    }
+    else {
+
+      notify("please select a Variation")
+
+    }
   }
-  const buynow = (id,title,price,imageurl,Dprice) => {
+  const buynow = async(id) => {
     const token = localStorage.getItem('jwt');
-     if(selectedValue){
-    
-    if (token) {
-   
+    if (selectedValue) {
       const data = { productId: id }
-      dispatch(addItemInCart(data));
-      notify("Item added to cart");
-      navigate('/cart')
-    }
-        else {
-          const localcart = JSON.parse(localStorage.getItem('cart'));
+      if (token) {
 
-          let newItem = { id: id, title:title, price:price,image:imageurl,discountedPrice:Dprice };
-           const itemExists = localcart.some(item => item.id === newItem.id);
-
-if (!itemExists) {
-    addTolocal(newItem);
-    notify("Item added to cart");
-    navigate('/cart')
-} else {
-  navigate('/cart')
-}
-         }
-        }else{
-         
-            notify("please select a Variation")
         
+        dispatch(addItemInCart(data));
+        notify("Item added to cart");
+        navigate('/cart')
+      }
+      else {
+       
+        if (!user) {
+          const uniqueIdentifier = Math.floor(Math.random() * 100000);
+          const uniqueIdentifierdate = Date.now();
+          const guestemail = `guest${uniqueIdentifier}${uniqueIdentifierdate}@gmail.com`;
+          const guestpassword = Math.random().toString(36).slice(-8);
+          const role = 'GUEST'
+          const userData = {
+            firstName: `guest${uniqueIdentifier}`,
+            lastName: `guest${uniqueIdentifierdate}`,
+            email: guestemail,
+            password: guestpassword,
+            role: 'GUEST',
+          }
+          await dispatch(createUser(userData));
+          await dispatch(addItemInCart(data));
+          notify("Item added to cart");
+          navigate('/cart')
+        } else {
+          navigate('/cart')
         }
+      }
+    } else {
+
+      notify("please select a Variation")
+
+    }
   }
-
-  function addTolocal(item) {
-    // Get existing cart items from local storage or initialize as empty array
-    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Add new item to cart
-    cartItems.push(item);
-
-    // Store updated cart items in local storage
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-}
 
   useEffect(() => {
-
+getUserDetail()
     Getreviews(id)
     dispatch(findProductById(id));
     setProductDetails(null);
@@ -192,7 +203,7 @@ if (!itemExists) {
     if (product) {
       setProductDetails(product);
     }
-  }, [product])
+  }, [product,user])
   useEffect(() => {
 
     dates()
@@ -304,15 +315,20 @@ if (!itemExists) {
     }
   }
   useEffect(() => {
- 
 
-  }, [showindex,open]);
+
+  }, [showindex, open]);
+
+
+
+
   return (
     !loading ? <>
+      
       {
         isMobile ?
           <>
-            <ToastContainer/>
+            <ToastContainer />
             <div className={style.main} style={{ boxSizing: 'border-box', padding: '0', margin: '0', height: '100vh' }}>
               <div className={style.carousel} style={{ width: '100%', height: '20rem' }}>
                 <ProductSlider imagesdata={productDetails?.imageUrl} />
@@ -365,10 +381,10 @@ if (!itemExists) {
                     </Select>
                   </div>
                   <div>
-                    <button className={style.cartBtn} onClick={() => carts(productDetails?._id,productDetails?.title,productDetails?.price,productDetails?.imageUrl[0],productDetails?.discountedPrice)} style={{ marginLeft: '1rem', width: '90%' }}>
+                    <button className={style.cartBtn} onClick={() => carts(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)} style={{ marginLeft: '1rem', width: '90%' }}>
                       Add to cart
                     </button>
-                    <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', width: '90%' }} onClick={() => buynow(productDetails?._id,productDetails?.title,productDetails?.price,productDetails?.imageUrl[0],productDetails?.discountedPrice)}>
+                    <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', width: '90%' }} onClick={() => buynow(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)}>
                       Buy Now
                     </button>
                   </div>
@@ -455,30 +471,30 @@ if (!itemExists) {
                   <div style={{ display: 'flex', gap: '5px', marginTop: '2rem', marginLeft: '-1rem' }}>
 
 
-                    {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => {setShowall(false),setShowindex(0)}}>
+                    {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => { setShowall(false), setShowindex(0) }}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                      <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}>  {review?.length}</p>
+                      <p style={{ fontSize: '1rem', borderRadius: '50%', background: '#EAEAEA', width: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '2rem', marginLeft: '.5rem' }}>  {review?.length}</p>
 
-                    </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => {setShowall(false);setShowindex(0)}}>
+                    </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => { setShowall(false); setShowindex(0) }}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                      <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}>  {review?.length}</p>
+                      <p style={{ fontSize: '1rem', borderRadius: '50%', background: '#EAEAEA', width: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '2rem', marginLeft: '.5rem' }}>  {review?.length}</p>
 
                     </div>}
                     {
                       showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(true)}>
                         <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews </p>
-                        <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}> {allproductreviews?.length}</p>
+                        <p style={{ fontSize: '1rem', borderRadius: '50%', background: '#EAEAEA', width: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '2rem', marginLeft: '.5rem' }}> {allproductreviews?.length}</p>
 
                       </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(true)}>
                         <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
-                        <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}>  {allproductreviews?.length}</p>
+                        <p style={{ fontSize: '1rem', borderRadius: '50%', background: '#EAEAEA', width: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '2rem', marginLeft: '.5rem' }}>  {allproductreviews?.length}</p>
 
                       </div>
                     }
                   </div>
                   {
                     !showall ? review?.slice(count, countend).map((item, index) => (
-                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => {setOpen(true);setShowindex(index)}}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowindex(index) }}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
                             count={5}
@@ -500,7 +516,7 @@ if (!itemExists) {
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
-                        
+
                                 >
                                   <Dialog.Overlay className="fixed inset-0  bg-black  bg-opacity-20 transition-opacity" />
                                 </Transition.Child>
@@ -511,12 +527,12 @@ if (!itemExists) {
 
                                 <Transition.Child
                                   as={Fragment}
-                                
+
                                 >
                                   <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20">
-                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px',padding:'1rem' }}>
+                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', padding: '1rem' }}>
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
-                                        <div style={{marginLeft:'-1rem',display:'flex',alignItems:'center',justifyContent:'center',}}>
+                                        <div style={{ marginLeft: '-1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
                                           <img src={review[showindex]?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
                                         </div>
                                         <div style={{ height: '25rem', paddingTop: '1rem' }}>
@@ -577,7 +593,7 @@ if (!itemExists) {
                         </div>
                       </div>
                     )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => {setOpen(true);setShowindex(index)}}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowindex(index) }}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
                             count={5}
@@ -599,7 +615,7 @@ if (!itemExists) {
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
-                        
+
                                 >
                                   <Dialog.Overlay className="fixed inset-0 bg-black  bg-opacity-20 transition-opacity-50" />
                                 </Transition.Child>
@@ -610,15 +626,15 @@ if (!itemExists) {
 
                                 <Transition.Child
                                   as={Fragment}
-                               
+
                                 >
                                   <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20">
-                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '43rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px',padding:'1rem' }}>
+                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '43rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', padding: '1rem' }}>
                                       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                                        <div style={{display:'flex',justifyContent:'center',width:'100%',alignItems:'center',marginLeft:'-1rem'}} >
+                                        <div style={{ display: 'flex', justifyContent: 'center', width: '100%', alignItems: 'center', marginLeft: '-1rem' }} >
                                           <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
                                         </div>
-                                        <div style={{ height: '20rem',  paddingTop: '1rem',width:'100%' }}>
+                                        <div style={{ height: '20rem', paddingTop: '1rem', width: '100%' }}>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
@@ -644,7 +660,7 @@ if (!itemExists) {
                                           {products.map((pro) => {
                                             if (pro._id == allproductreviews[showindex].product) {
                                               return (
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false);navigate(`/product/${allproductreviews[showindex].product}`) }}>
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${allproductreviews[showindex].product}`) }}>
                                                   <div>
                                                     <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                   </div>
@@ -731,9 +747,9 @@ if (!itemExists) {
           </>
           :
           <div>
-              <div className='mt-20  sm:mt-0'>
-      </div>
-              <ToastContainer/>
+            <div className='mt-20  sm:mt-0'>
+            </div>
+            <ToastContainer />
             <div className={style.main}>
               <div className={style.carousel}>
                 <ProductSlider imagesdata={productDetails?.imageUrl} />
@@ -751,23 +767,23 @@ if (!itemExists) {
                 </div>
 
                 <div style={{ display: 'flex', gap: '5px', marginBottom: '1rem' }}>
-                  {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => {setShowall(false);setShowindex(0)}}>
+                  {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => { setShowall(false); setShowindex(0) }}>
                     <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                    <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}>  {review?.length}</p>
+                    <p style={{ fontSize: '1rem', borderRadius: '50%', background: '#EAEAEA', width: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '2rem', marginLeft: '.5rem' }}>  {review?.length}</p>
 
-                  </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }}  onClick={() => {setShowall(false);setShowindex(0)}}>
+                  </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => { setShowall(false); setShowindex(0) }}>
                     <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
-                    <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}> {review?.length}</p>
+                    <p style={{ fontSize: '1rem', borderRadius: '50%', background: '#EAEAEA', width: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '2rem', marginLeft: '.5rem' }}> {review?.length}</p>
 
                   </div>}
                   {
                     showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => setShowall(true)}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews </p>
-                      <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}> {allproductreviews?.length}</p>
+                      <p style={{ fontSize: '1rem', borderRadius: '50%', background: '#EAEAEA', width: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '2rem', marginLeft: '.5rem' }}> {allproductreviews?.length}</p>
 
                     </div> : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer' }} onClick={() => setShowall(true)}>
                       <p style={{ fontSize: '1rem' }} className={style.text}> Overall Reviews  </p>
-                      <p style={{ fontSize: '1rem',  borderRadius: '50%', background: '#EAEAEA',width: '2rem',display: 'flex', alignItems: 'center', justifyContent:'center',height:'2rem',marginLeft:'.5rem'}}> {allproductreviews?.length}</p>
+                      <p style={{ fontSize: '1rem', borderRadius: '50%', background: '#EAEAEA', width: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '2rem', marginLeft: '.5rem' }}> {allproductreviews?.length}</p>
 
                     </div>
                   }
@@ -808,7 +824,7 @@ if (!itemExists) {
                             <div className="flex items-center justify-center min-h-screen px-4 text-center">
                               <Transition.Child
                                 as={Fragment}
-                          
+
                               >
                                 <Dialog.Overlay className="fixed inset-0  bg-opacity-50 transition-opacity" />
                               </Transition.Child>
@@ -819,7 +835,7 @@ if (!itemExists) {
 
                               <Transition.Child
                                 as={Fragment}
-                      
+
                               >
 
                                 <div className="inline-block align-bottom bg-[#F9F6EE] shadow-sm rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
@@ -920,8 +936,8 @@ if (!itemExists) {
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
-                                 
-                                 
+
+
                                 >
                                   <Dialog.Overlay className="fixed inset-0 bg-opacity-50 transition-opacity" />
                                 </Transition.Child>
@@ -1055,10 +1071,10 @@ if (!itemExists) {
 
 
                 <div style={{ marginLeft: '1rem' }}>
-                  <button className={style.cartBtn} onClick={() => carts(productDetails?._id,productDetails?.title,productDetails?.price,productDetails?.imageUrl[0],productDetails?.discountedPrice)}>
+                  <button className={style.cartBtn} onClick={() => carts(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)}>
                     Add to cart
                   </button>
-                  <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem' }} onClick={() => buynow(productDetails?._id,productDetails?.title,productDetails?.price,productDetails?.imageUrl[0],productDetails?.discountedPrice)}>
+                  <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem' }} onClick={() => buynow(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)}>
                     Buy Now
                   </button>
                 </div>

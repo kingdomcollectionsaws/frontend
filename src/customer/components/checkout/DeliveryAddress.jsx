@@ -10,6 +10,7 @@ export default function DeliveryAddress() {
   const dispatch = useDispatch();
   useEffect(()=>{
 dispatch(getUserDetail())
+
   },[])
 const navigate = useNavigate()
   const handlesubmit =(e)=>{
@@ -22,11 +23,12 @@ const navigate = useNavigate()
        city:data.get("city"),
        zipCode:data.get("pincode"),
      state:data.get("state"),
+     mobile:data.get("number")
    }
-   // console.log("submit", address);
+   console.log("submit", address);
     const orderData = {address,navigate};
     dispatch(createOrder(orderData));
-   window.location.reload()
+   window.location.reload();
   };
   const {user} = useSelector(store => store.user);
 const deliver=()=>{
@@ -37,20 +39,36 @@ const deliver=()=>{
 
   return (
    <>
-  <Grid container spacing={4}>
-    <Grid   xs={12} lg={5} className='border rounded-md shadow-md h-[30.4rem] overflow-y-scroll'>
-   <div className='p-6'>
-   <Addresscard />
-      <Button  type='submit' sx={{mt:"2rem",bgcolor:"black",color:"#fff",}}   className='shadow-lg' onClick={deliver} >
-Deliver Here
-      </Button  >
-   </div>
-
-    </Grid>
+  <Grid container spacing={4} style={{display:'flex',justifyContent:'center'}} >
+   
 <Grid item xs={12} lg={7} className='border shadow-md p-3 cursor-pointer'>
+  <h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.7rem',marginBottom:'10px'}}>Enter you delivery address</h1>
   <Box>
 <form onSubmit={handlesubmit} encType="multipart/form-data">
 <Grid container spacing={3}>
+<Grid item xs={12} lg={12}>
+    <TextField
+    required
+    id='email'
+    name='email'
+    label='Email'
+    fullWidth
+    autoComplete='given-email'
+    />
+
+  </Grid>
+  <Grid item xs={12} lg={12}>
+    <TextField
+    required
+   
+    id='cemail'
+    name='cemail'
+    label='Confirm Email'
+    fullWidth
+    autoComplete='given-email'
+    />
+
+  </Grid>
   <Grid item xs={12} lg={6}>
     <TextField
     required
@@ -80,8 +98,7 @@ Deliver Here
     name='address'
     label='Address'
     fullWidth
-    multiline
-    rows={4}
+  
     />
   </Grid>
   <Grid item xs={12} lg={6}>
@@ -117,7 +134,7 @@ Deliver Here
     />
 
   </Grid>
-  {/* <Grid item xs={12} lg={6}>
+  { <Grid item xs={12} lg={6}>
     <TextField
     required
     id='number'
@@ -127,10 +144,10 @@ Deliver Here
     autoComplete='given-number'
     />
 
-  </Grid> */}
+  </Grid> }
 </Grid>
-<Button sx={{mt:"2rem",bgcolor:"black",color:"#fff",}}   className='shadow-lg' type='submit' >
-save Address
+<Button sx={{mt:"2rem",bgcolor:"black",color:"#fff", width:'100%',borderRadius:'20px'}}   className='shadow-lg' type='submit' >
+Continue to payment
       </Button>
 </form>
 
@@ -138,7 +155,15 @@ save Address
 
 
 </Grid>
+ <Grid   xs={12} lg={7} className='border rounded-md shadow-md h-[30.4rem] overflow-y-scroll'>
+   <div className='p-6'>
+   <Addresscard />
+      <Button  type='submit' sx={{mt:"2rem",bgcolor:"black",color:"#fff",}}   className='shadow-lg' onClick={deliver} >
+     Deliver Here
+      </Button  >
+   </div>
 
+    </Grid>
   </Grid>
    </>
   )

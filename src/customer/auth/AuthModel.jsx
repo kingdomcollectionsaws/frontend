@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
+import GuestForm from './GuestForm.jsx';
 import { useLocation } from 'react-router-dom';
 const style = {
     position: 'absolute',
@@ -31,9 +32,10 @@ const location = useLocation()
         <Box sx={style} >
          
        
-{
-location.pathname === "/login"?<LoginForm/>: <RegisterForm/>
+        {
+    location.pathname === "/login" ? <LoginForm /> : location.pathname === "/register" ? <RegisterForm /> : <GuestForm />
 }
+
        
         
         </Box>

@@ -9,6 +9,7 @@ import visa from '../../../../public/visa.png'
 import american from '../../../../public/amarican.png'
 import master from '../../../../public/master.png'
 import diners from '../../../../public/diners.jpg'
+import AuthModel from '../../auth/AuthModel';
 export default function Cart() {
   const {cart,loading} = useSelector(store => store.cart);
   const {user} = useSelector(store => store.user);
@@ -32,9 +33,21 @@ export default function Cart() {
    setLocalcart(localcarts)
    console.log(localcart);
   }, []);
-  console.log(cart);
+  const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
+  
+  const handleClose = ()=>{
+    setHandleOpeneAuth(false)
+    navigate("/")
+  }
   const handlecheckout =()=>{
-    navigate("/checkout?step=2")
+    if(user.role == "GUEST"){
+      setHandleOpeneAuth(true)
+      navigate('/Guest')
+
+    }else{
+         navigate("/checkout?step=2")
+    }
+ 
   }
   return (
     !loading? 
@@ -42,6 +55,7 @@ export default function Cart() {
       user?
       
        <div>
+         <AuthModel  handleClose={handleClose} open={handleOpenAuth}/>
     <div className='mt-20  sm:mt-0'>
       </div>
     <div className='lg:grid grid-cols-3 relative space-x-3  '>

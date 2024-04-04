@@ -37,6 +37,7 @@ export default function AllRoutes() {
 <Route path='/account/order' element={<Order/>}/>
 <Route path='/account/order/:order_id/:payment_id' element={<OderDetail/>}/>
 <Route path='/AdmIn' element={<Dashboard/>}/>
+<Route path='/Guest' element={<Cart/>}/>
     </Routes>
     
     </>

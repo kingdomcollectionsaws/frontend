@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function RegisterForm() {
   const  {user,error} = useSelector(store => store.user)
  const dispatch = useDispatch(); 
+
  const notify = (msg) => toast(msg, {
   position: "bottom-center",
   autoClose: 2000,
@@ -108,7 +109,7 @@ if (error!=null) {
           <p>if you have already account? <span>  <Button
                 className='px-0 py-3'
                 sx={{background:"none"}}
-                onClick={()=>navigate("/login")}
+                onClick={()=>navigate(-1)}
                 >
                  Login
                 </Button></span></p>

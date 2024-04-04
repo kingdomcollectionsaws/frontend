@@ -8,6 +8,8 @@ const address =  user?.addresses[user?.addresses?.length-1];
 console.log(address,user);
   return (
     !loading? 
+    <>
+   { address?
         <div>
       <div >
         <p  className='font-bold mb-2'>{address?.firstName} {address?.lastName}</p>
@@ -19,6 +21,7 @@ console.log(address,user);
   <p  className='font-semibold mb-2'>{address?.zipCode}</p>
 </div>
 
-    </div> :<p  className='font-semibold mb-2'>No address saved</p>
+    </div>:<p  className='font-semibold mb-2'>No address saved</p>}
+    </>:<p  className='font-semibold mb-2'>No address saved</p>
   )
 }
