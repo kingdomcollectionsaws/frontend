@@ -69,6 +69,29 @@ return rejectWithValue(error)
             
         }
     })
+    //update user
+
+    export const updateUser = createAsyncThunk( 'updateUser', async(data,{rejectWithValue})=>{
+        const token = localStorage.getItem('jwt');
+        const response = await axios.put(`${API_BASE_URL}/api/users/profile/update`,data,{
+            headers: {
+                authorization: token
+            }
+        })
+        try {
+            const result = await response.data;
+          
+            if(result){
+                localStorage.setItem("jwt",result.jwt)
+            }
+        return result
+            
+            
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+    )
 export const auth = createSlice({
     name :"auth",
     initialState,

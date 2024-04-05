@@ -13,7 +13,7 @@ dispatch(getUserDetail())
 
   },[])
 const navigate = useNavigate()
-  const handlesubmit = (e)=>{
+  const handlesubmit = async(e)=>{
     e.preventDefault();
     const data = new FormData(e.currentTarget);
      const address = {
@@ -23,12 +23,12 @@ const navigate = useNavigate()
        city:data.get("city"),
        zipCode:data.get("pincode"),
      state:data.get("state"),
-    // mobile:data.get("number")
+     mobile:data.get("number")
    }
    console.log("submit", address);
     const orderData = {address,navigate};
-   dispatch(createOrder(orderData));
-   deliver()
+   await dispatch(createOrder(orderData));
+   await deliver()
 
   };
   const {user} = useSelector(store => store.user);

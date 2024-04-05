@@ -40,6 +40,15 @@ const userData = {
    
     <div>
     <ToastContainer/>
+    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',margin:'2rem',marginTop:'-1rem'}}>
+        <div style={{fontWeight:'bold'}}>
+          Sign in
+        </div>
+        <div style={{display:'flex',border:'2px solid black',borderRadius:'15px',padding:'.3rem',width:'5rem',justifyContent:'center'}}>
+          <button onClick={()=>navigate("/register")} >register</button>
+        </div>
+
+       </div>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
  
@@ -70,22 +79,21 @@ const userData = {
                 className=' w-full px-0 py-3'
                 type='submit'
                 variant='contained'
-                sx={{background:"black"}}
+                sx={{background:"black",borderRadius:'20px'}}
                 >
-              Login
+              Sign in
                 </Button>
                  </Grid>
 
         </Grid>
       </form>
       <div>
-        <div>
-          <p>if you don't have a account?<span>  <Button
-                className='px-0 py-3'
-                sx={{background:"none"}}
-                onClick={()=>navigate("/register")}
-                >Register
-                </Button></span></p>
+        <div style={{marginTop:'1rem'}}>
+            <Button
+                className='px-0 py-10'
+                sx={{background:"none",color:'black',fontSize:'.7rem'}}
+                >Forgot your password?
+                </Button>
         
         </div>
       </div>

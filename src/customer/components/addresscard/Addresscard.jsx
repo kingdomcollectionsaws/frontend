@@ -19,6 +19,7 @@ console.log(address,user);
 <p  className='font-bold mb-2'>{address?.city}</p>
   <p  className='font-bold mb-2'>{address?.state}</p>
   <p  className='font-semibold mb-2'>{address?.zipCode}</p>
+  <p  className='font-semibold mb-2'>{address?.mobile}</p>
 </div>
 
     </div>:<p  className='font-semibold mb-2'>No address saved</p>}
