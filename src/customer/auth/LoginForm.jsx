@@ -45,7 +45,7 @@ const userData = {
           Sign in
         </div>
         <div style={{display:'flex',border:'2px solid black',borderRadius:'15px',padding:'.3rem',width:'5rem',justifyContent:'center'}}>
-          <button onClick={()=>navigate("/register")} >register</button>
+          <button onClick={()=>navigate("/register")} >Register</button>
         </div>
 
        </div>

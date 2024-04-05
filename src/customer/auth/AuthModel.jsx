@@ -13,12 +13,10 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 350,
-  
     outline:"none",
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
-    
   }
 
 export default function AuthModel({ handleClose, open}) {
@@ -36,9 +34,9 @@ const location = useLocation()
         
       >
         
-        <Box sx={style}  >
+        <Box sx={style} className="sm:w-300"  >
      
-        <div style={{position:'absolute',right:'-12%',top:'0%',cursor:'pointer',fontSize:'2rem'}} onClick={handleClose}>
+        <div style={{position:'absolute',top:'-8%',cursor:'pointer',fontSize:'2rem',right:'-2%'}} onClick={handleClose} >
         <GoX style={{color:'#fff'}} />
       </div>
         {
