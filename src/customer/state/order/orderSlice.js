@@ -10,19 +10,30 @@ const initialState={
 
  export const createOrder = createAsyncThunk('createOrder',async(orderData,thunkAPI)=>{
     const token = localStorage.getItem('jwt');
-    const {address,navigate} = orderData
+     const {address,navigate} = orderData
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/orders/`,address,{
+        const response = await fetch(`${API_BASE_URL}/api/orders/`, {
+            method: 'POST',
             headers: {
-                authorization: token
-            }
-        });
-        const order =  response.data;
-         if (order._id){
-            navigate({search:`step=3&order_id=${order._id}`})
-        }
-        return order;
+              'Content-Type': 'application/json',
+              'Authorization': token
+            },
+            body: JSON.stringify(address)
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to create order');
+          }
+      
+          const order = await response.json();
+          
+          if (order._id) {
+            navigate({ search: `step=3&order_id=${order._id}` });      
+          }
+      
+          return order;
     } catch (error) {
+       
         return thunkAPI.rejectWithValue(error.response.data);
     }
 
@@ -30,12 +41,12 @@ const initialState={
  export const getOrderById = createAsyncThunk('getOrderById',async(id,thunkAPI)=>{
     const token = localStorage.getItem('jwt');
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/orders/${id}`, data,{
+        const response = await axios.get(`${API_BASE_URL}/api/orders/${id}`, data,{
             headers: {
                 authorization: token
             }
         });
-        const order = response.data;
+        const order = await response.data;
         return order;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data);

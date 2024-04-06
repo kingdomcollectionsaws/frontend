@@ -5,13 +5,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createOrder } from '../../state/order/orderSlice';
 import { getUserDetail } from '../../state/Auth/registerSlice';
+import Loader from '../../Loader';
+import { getCart } from '../../state/cart/cartSlice';
+import { getAllProducts } from '../../state/product/productSlice';
 
 export default function DeliveryAddress() {
   const dispatch = useDispatch();
+  const [loading,SetLoading] = useState(false)
+  const {user} = useSelector(store => store.user);
+  const {order} = useSelector(store=>store.order)
   useEffect(()=>{
-dispatch(getUserDetail())
-
-  },[])
+ dispatch(getUserDetail())
+ dispatch(getCart());
+ dispatch(getAllProducts());
+ deliver()
+  },[loading,dispatch])
 const navigate = useNavigate()
   const handlesubmit = async(e)=>{
     e.preventDefault();
@@ -26,21 +34,29 @@ const navigate = useNavigate()
      mobile:data.get("number")
    }
    console.log("submit", address);
-    const orderData = {address,navigate};
-   await dispatch(createOrder(orderData));
-   await deliver()
-
-  };
-  const {user} = useSelector(store => store.user);
-const deliver=()=>{
-  const address =  user?.addresses[user?.addresses?.length-1];
-  const orderData = {address,navigate};
-  dispatch(createOrder(orderData));
+   try {
+    const orderData = {address,navigate} 
+    await dispatch(createOrder(orderData));
+    window.location.reload();
+  } catch (error) {
+    console.error('Error creating order:', error);
+    // Handle error here (e.g., display error message to the user)
+  }
+ //navigate({ search: `step=3&order_id=${createdOrder.payload._id}` }); 
 }
+
+ const deliver= ()=>{
+console.log('kk');
+  const address =  user?.addresses[user?.addresses?.length-1];
+  const orderData = {address,navigate} 
+ dispatch(createOrder(orderData));
+
+  
+ }
 
   return (
    <>
-  <Grid container spacing={4} style={{display:'flex',justifyContent:'center'}} >
+ {!loading? <Grid container spacing={4} style={{display:'flex',justifyContent:'center'}} >
    
 <Grid item xs={12} lg={7} className='border shadow-md p-3 cursor-pointer'>
   <h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.7rem',marginBottom:'10px'}}>Enter you delivery address</h1>
@@ -151,12 +167,12 @@ const deliver=()=>{
 Continue to payment
       </Button>
 </form>
-
+  
   </Box>
 
 
 </Grid>
- {/* <Grid   xs={12} lg={7} className='border rounded-md shadow-md h-[30.4rem] overflow-y-scroll'>
+ { <Grid   xs={12} lg={7} className='border rounded-md shadow-md h-[30.4rem] overflow-y-scroll'>
    <div className='p-6'>
    <Addresscard />
       <Button  type='submit' sx={{mt:"2rem",bgcolor:"black",color:"#fff",}}   className='shadow-lg' onClick={deliver} >
@@ -164,8 +180,8 @@ Continue to payment
       </Button  >
    </div>
 
-    </Grid> */}
-  </Grid>
+    </Grid> }
+  </Grid>:<Loader/>}
    </>
   )
 }

@@ -56,18 +56,18 @@ export default function Checkout() {
         <React.Fragment>
       
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
+            {/* <Button
               color="inherit"
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
             >
               Back
-            </Button>
+            </Button> */}
             <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleNext}>
+            {/* <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+            </Button> */}
           </Box>
           <div className='mt-20'>
             {step==2?<DeliveryAddress/>:<Ordersummary/>}
