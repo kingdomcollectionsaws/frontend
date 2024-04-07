@@ -74,7 +74,7 @@ console.log(result);
  </div> */}
    <div className=' flex justify-around w-full  font-mono pt-3'>
    <span>delivery charges</span>
-   <span className='text-green-500'>£100</span>
+   <span className='text-green-500'>free</span>
  </div>
    <div className=' flex justify-around w-full  font-mono pt-3'>
    <span>total amount</span>
