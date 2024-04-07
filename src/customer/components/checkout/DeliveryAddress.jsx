@@ -28,7 +28,7 @@ const navigate = useNavigate()
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     let billing;
-if(!checked){
+if(checked){
   billing={
     firstName:data.get("firstname"),
      lastName:data.get("lastname"),
