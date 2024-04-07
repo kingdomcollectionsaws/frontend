@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux'
 
 export default function Addresscard() {
   
-  const {user,loading} = useSelector(store => store.user);
-const address =  user?.addresses[user?.addresses?.length-1];
+const {user,loading} = useSelector(store => store.user);
+const address =  user?.addresses;
+
 console.log(address,user);
   return (
     !loading? 
@@ -20,6 +21,8 @@ console.log(address,user);
   <p  className='font-bold mb-2'>{address?.state}</p>
   <p  className='font-semibold mb-2'>{address?.zipCode}</p>
   <p  className='font-semibold mb-2'>{address?.mobile}</p>
+  <p  className='font-semibold mb-2'>{address?.email}</p>
+  <p  className='font-semibold mb-2'>{address?.country}</p>
 </div>
 
     </div>:<p  className='font-semibold mb-2'>No address saved</p>}
