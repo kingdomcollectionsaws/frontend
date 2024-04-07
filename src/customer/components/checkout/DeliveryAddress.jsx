@@ -39,6 +39,7 @@ if(checked){
    mobile:data.get("number"),
    email:data.get("email"),
    country:data.get("country"),
+   
    }
 }else{
   billing = {
@@ -63,6 +64,7 @@ if(checked){
      mobile:data.get("number"),
      email:data.get("email"),
      country:data.get("country"),
+     note:data.get("note"),
      billing:billing
    }
    console.log("submit", address);
@@ -114,7 +116,7 @@ if(checked){
     required
     id='firstname'
     name='firstname'
-    label='firstname'
+    label='Firstname'
     fullWidth
     autoComplete='given-name'
     />
@@ -168,7 +170,7 @@ if(checked){
     required
     id='pincode'
     name='pincode'
-    label='zip code/ pin code'
+    label='Zip code/ pin code'
     fullWidth
     
     />
@@ -186,7 +188,7 @@ if(checked){
 
   </Grid>
   
-  { <Grid item xs={12} lg={6}>
+   <Grid item xs={12} lg={6}>
     <TextField
     required
     id='number'
@@ -196,11 +198,22 @@ if(checked){
     autoComplete='given-number'
     />
 
-  </Grid> }
+  </Grid> 
+   <Grid item xs={12} lg={6}>
+    <TextField
+    required
+    id='note'
+    name='note'
+    label='Note (optional)'
+    fullWidth
+    autoComplete='given-number'
+    />
+
+  </Grid> 
 </Grid>
 <h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.7rem',marginBottom:'10px'}}>Enter you billing address</h1>
 
-<h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.3rem',marginBottom:'10px'}}>Same as develiver address <span><input type="checkbox" width={15} onClick={()=>SetChecked(!checked)} /></span></h1>
+<h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.3rem',marginBottom:'10px'}}>Same as delivery address <span><input type="checkbox" width={15} onClick={()=>SetChecked(!checked)} /></span></h1>
 {!checked?<Grid container spacing={3}>
 
 <Grid item xs={12} lg={12}>
@@ -220,7 +233,7 @@ if(checked){
     required
     id='billing_firstname'
     name='firstname'
-    label='firstname'
+    label='Firstname'
     fullWidth
     autoComplete='given-name'
     />
@@ -274,7 +287,7 @@ if(checked){
     required
     id='billing_pincode'
     name='pincode'
-    label='zip code/ pin code'
+    label='Zip code/ Pin code'
     fullWidth
     
     />
@@ -305,7 +318,7 @@ if(checked){
   </Grid> }
 </Grid>:''}
 <Button sx={{mt:"2rem",bgcolor:"black",color:"#fff", width:'100%',borderRadius:'20px'}}   className='shadow-lg' type='submit' >
-Save Address
+Continue to payment
       </Button>
 </form>
   

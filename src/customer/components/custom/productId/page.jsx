@@ -43,6 +43,12 @@ import ReviewsSlider from "../ReviewsSlider";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createUser, getUserDetail } from "../../../state/Auth/registerSlice";
+import c1 from "../../../../../public/c1.png"
+import c2 from "/public/c2.png"
+import c3 from "/public/c3.png"
+import c4 from "/public/c4.png"
+import c5 from "/public/c5.png"
+import c6 from "/public/c6.png"
 export default function ProductDetailPage({ params }) {
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
@@ -54,7 +60,37 @@ export default function ProductDetailPage({ params }) {
   const [isMobile, setIsMobile] = useState(false);
   const [data, setData] = useState()
   const [review, setReview] = useState()
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState( [{
+    slug:"gladiator-costume",
+    name:"Gladiator Costume",
+    image:c1
+  },
+  {
+    slug:"mf-doom-mask",
+    name:"Mf doom mask",
+    image:c2
+  },
+  {
+    slug:"nazgul-costume",
+    name:"Nazgul costume",
+    image:c3
+  },
+  {
+    slug:"roman-costume",
+    name:"Roman costume",
+    image:c4
+  },
+  {
+    slug:"spartan-costume",
+    name:"Spartan costume",
+    image:c5
+  },
+  {
+    slug:"templar-costume",
+    name:"Templar costume",
+    image:c6
+  }
+])
   const [productDetails, setProductDetails] = useState();
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -66,7 +102,6 @@ export default function ProductDetailPage({ params }) {
 
   const cancelButtonRef = useRef(null)
   // Make the fetch request
-
   let newPage = 0;
   let newCountStart = 0;
   let newCountEnd = 5;
@@ -175,6 +210,7 @@ export default function ProductDetailPage({ params }) {
   }
 
   useEffect(() => {
+   // setCategories(CategoryList)
 getUserDetail()
     Getreviews(id)
     dispatch(findProductById(id));
@@ -709,7 +745,7 @@ getUserDetail()
                   {
                     categories.slice(0, 5)?.map((i) => (
                       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem' }} key={i.id}>
-                        <img src={i.image?.src} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
+                        <img src={i.image} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
                         <p style={{ fontWeight: '500' }}>{i.name}</p>
                       </div>
                     ))
@@ -1174,7 +1210,7 @@ getUserDetail()
               {
                 categories.slice(0, 5)?.map((i) => (
                   <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem' }} key={i.id}>
-                    <img src={i.image?.src} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
+                    <img src={i.image} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
                     <p style={{ fontWeight: '500' }}>{i.name}</p>
                   </div>
                 ))
