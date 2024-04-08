@@ -75,20 +75,20 @@ export default function Cart() {
       <img src={american} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={diners} alt="card" style={{width:'3rem',height:'2rem'}} />
           </div>
-         <div className=' flex  w-full justify-between p-4 font-bold pt-3'>
+         <div className=' flex  w-full justify-between p-4 pt-3'>
           <span>Item(s) total</span>
           <span>£{cart?.totalPrice}</span>
         </div> 
           <div className=' flex  w-full justify-between p-4  pt-3'>
           <span>Total discount</span>
-          <span className='text-green-500'>-£{cart?.discounte}</span>
+          <span >£{cart?.discounte}</span>
         </div> 
           <div className=' flex  w-full justify-between p-4   pt-3'>
-          <span>delivery charges</span>
-          <span >Free</span>
+          <span>Delivery charges</span>
+          <span className='text-green-500'>FREE</span>
         </div>
           <div className=' flex justify-between p-4 w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
-          <span>total amount</span>
+          <span>Total ({cart.cartItems.length} item)</span>
           <span >£{cart?.totalDiscountedPrice}</span>
         </div>
         </div>
@@ -120,21 +120,21 @@ export default function Cart() {
       <img src={american} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={diners} alt="card" style={{width:'3rem',height:'2rem'}} />
           </div>
-         <div className=' flex justify-between p-4 w-full  font-bold pt-3'>
+         <div className=' flex justify-between p-4 w-full   pt-3'>
           <span>Item(s) total</span>
           <span>£{totalPrice}</span>
         </div> 
           <div className=' flex justify-between p-4w-full   pt-3 '>
           <span>Total discount</span>
-          <span className='text-green-500'>£{totalPrice-totalDiscountedPrice}</span>
+          <span >£{totalPrice-totalDiscountedPrice}</span>
         </div> 
           <div className=' flex justify-between p-4 w-full   pt-3 justify-center align-center '>
-          <span>delivery charges</span>
-          <span >Free</span>
+          <span>Delivery charges</span>
+          <span className='text-green-500'>FREE</span>
         </div>
           <div className=' flex justify-between p-4w-full  font-bold pt-3  ' style={{borderTop:'1px solid gray'}}>
-          <span>total amount</span>
-          <span >£{totalDiscountedPrice}</span>
+          <span>Total ({cart.cartItems.length} item)</span>
+          <span >£{cart?.totalDiscountedPrice}</span>
         </div>
         </div>
         <Button 
