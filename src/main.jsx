@@ -8,7 +8,7 @@ import { store } from './customer/state/store.js';
 import Layout from './Layout';
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('G-QMJ2T5VLS3');
+ReactGA.initialize('G-509RBXK1MX');
 
 const MainApp = () => {
   useEffect(() => {

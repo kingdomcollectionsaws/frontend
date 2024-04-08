@@ -10,6 +10,7 @@ import american from '../../../../public/amarican.png'
 import master from '../../../../public/master.png'
 import diners from '../../../../public/diners.jpg'
 import AuthModel from '../../auth/AuthModel';
+import { ToastContainer, toast } from 'react-toastify';
 export default function Cart() {
   const {cart,loading} = useSelector(store => store.cart);
   const {user} = useSelector(store => store.user);
@@ -55,6 +56,7 @@ export default function Cart() {
       user?
       
        <div>
+         <ToastContainer/>
          <AuthModel  handleClose={handleClose} open={handleOpenAuth}/>
     <div className='mt-20  sm:mt-0'>
       </div>

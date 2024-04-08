@@ -170,7 +170,7 @@ if(checked){
     required
     id='pincode'
     name='pincode'
-    label='Zip code/ pin code'
+    label='Zip code/ Post Code'
     fullWidth
     
     />
@@ -201,10 +201,9 @@ if(checked){
   </Grid> 
    <Grid item xs={12} lg={6}>
     <TextField
-    required
     id='note'
     name='note'
-    label='Note (optional)'
+    label='Note for Seller (Optional)'
     fullWidth
     autoComplete='given-number'
     />
@@ -287,7 +286,7 @@ if(checked){
     required
     id='billing_pincode'
     name='pincode'
-    label='Zip code/ Pin code'
+    label='Zip code/ Post Code'
     fullWidth
     
     />

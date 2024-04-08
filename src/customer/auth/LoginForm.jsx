@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function LoginForm() {
   const { user,error,loading} = useSelector(store => store.user)
+  const { cart} = useSelector(store => store.cart)
   const dispatch = useDispatch();
   const notify = (msg) => toast(msg, {
     position: "bottom-center",
@@ -15,25 +16,33 @@ export default function LoginForm() {
     closeOnClick: true,
     pauseOnHover: false,});
   
-  const handleSubmit = (event)=>{
+  const handleSubmit = async(event)=>{
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-  
+ const userData = {
  
-const userData = {
-  
   email:data.get("email"),
   password:data.get("password"),
 }
-      dispatch(loginUser(userData));
-      const token  = localStorage.getItem('jwt');
-    if (error!=null&&  loading==false&&!token ) {
-      notify("inavlid email or password");
-    }
-    
-  
-  }
 
+try {
+  if( user){
+    if(user.role=='GUEST'){
+      await dispatch(loginUser(userData));
+      for (let index = 0; index < cart.cartItems.length; index++) {
+        let data = {productId:cart.cartItems[index].product._id}
+       await dispatch(addItemInCart(data))
+    }
+  }
+    
+    }else{
+      dispatch(loginUser(userData))
+    }
+} catch (err) {
+  console.log(err);
+}
+  }
+  
   const navigate = useNavigate()
   return (
     <>

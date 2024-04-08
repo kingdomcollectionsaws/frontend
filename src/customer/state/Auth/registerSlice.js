@@ -81,9 +81,6 @@ return rejectWithValue(error)
         try {
             const result = await response.data;
           
-            if(result){
-                localStorage.setItem("jwt",result.jwt)
-            }
         return result
             
             

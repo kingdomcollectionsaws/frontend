@@ -16,7 +16,7 @@ export default function RegisterForm() {
     closeOnClick: true,
     pauseOnHover: false,
   });
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     if (user && user.role == 'GUEST') {
       const data = new FormData(event.currentTarget);
@@ -28,8 +28,9 @@ export default function RegisterForm() {
         mobile: data.get("mobile"),
       }
       console.log(userData);
-      dispatch(updateUser(userData));
-window.location.reload()
+    await  dispatch(updateUser(userData));
+     navigate('/checkout?step=2')
+//window.location.reload()
 
     } else {
       const data = new FormData(event.currentTarget);
@@ -41,11 +42,12 @@ window.location.reload()
         mobile: data.get("mobile"),
       }
 
-      dispatch(createUser(userData))
-
-      if (error != null) {
+     await dispatch(createUser(userData))
+     
+      if (!user){
         notify("smothing is wrong or email already used");
       }
+      navigate('/')
     }
   }
   const navigate = useNavigate()
