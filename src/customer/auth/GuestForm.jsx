@@ -2,12 +2,12 @@ import { Button, Grid, TextField } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../state/Auth/registerSlice';
+import { getUserDetail, loginUser } from '../state/Auth/registerSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addItemInCart } from '../state/cart/cartSlice';
+import { addItemInCart, getCart } from '../state/cart/cartSlice';
 export default function GuestForm() {
-  const { user, error, loading } = useSelector(store => store.user)
+  const { user, jwt } = useSelector(store => store.user)
   const { cart } = useSelector(store => store.cart)
   const dispatch = useDispatch();
   const notify = (msg) => toast(msg, {
@@ -18,32 +18,37 @@ export default function GuestForm() {
     pauseOnHover: false,
   });
 
-  const handleSubmit = async (event) => {
+  const handleSubmit =  async(event) => {
     event.preventDefault();
-  
     const data = new FormData(event.currentTarget);
-  
     const userData = {
       email: data.get("email"),
       password: data.get("password"),
     };
-  
-    try {
-      const user = await dispatch(loginUser(userData));
-  
-      if (user && user.role === "GUEST") {
-        for (let index = 0; index < cart.cartItems.length; index++) {
-          let data = { productId: cart.cartItems[index].product._id };
-          await dispatch(addItemInCart(data));
-        }
-        navigate("/checkout?step=2");
-      } else {
-        notify("Invalid email or password");
-      }
-    } catch (error) {
-      notify("Invalid email or password");
+   if(user && user.role == 'GUEST'){
+      dispatch(loginUser(userData));
+    
+      for (let index = 0; index < cart.cartItems.length; index++) {
+      let data = { productId: cart.cartItems[index].product._id };
+    dispatch(addItemInCart(data));
     }
+    if(user){
+      notify("invalid email or password")
+    }
+   }else{
+   
+     dispatch(loginUser(userData));
+  
+     if(user){
+      
+     }else{
+      notify("invalid");
+    
+     }
+   }
   };
+
+ 
 
   const navigate = useNavigate()
   return (

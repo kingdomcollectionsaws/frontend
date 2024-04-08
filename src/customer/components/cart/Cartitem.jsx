@@ -31,7 +31,7 @@ export default function Cartitem() {
       });
   }
   // const [quantityarray,setQuantityarray] = useState([]);
-  let quantityarray = Array.from({ length: 200 }, (_, index) => index + 1);
+  let quantityarray = Array.from({ length: 5 }, (_, index) => index + 1);
   useEffect(()=>{
     dates()
     getCartItems();

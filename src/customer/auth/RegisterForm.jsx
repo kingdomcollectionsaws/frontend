@@ -2,7 +2,7 @@ import { Button, Grid, TextField, dialogActionsClasses } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUser, updateUser } from '../state/Auth/registerSlice';
+import { createUser, getUserDetail, updateUser } from '../state/Auth/registerSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function RegisterForm() {
@@ -46,10 +46,13 @@ export default function RegisterForm() {
      
       if (!user){
         notify("smothing is wrong or email already used");
+      }else{
+         navigate('/')
       }
-      navigate('/')
+     
     }
   }
+ 
   const navigate = useNavigate()
   return (
     <>

@@ -22,9 +22,10 @@ export default function Header() {
     const {cart} = useSelector(store=>store.cart);
     const [SearchValue,setSearchValue] = useState()
     const jwt = localStorage.getItem('jwt');
-    useEffect(()=>{
+    useEffect(()=>{ 
+       dispatch(getUserDetail())
       dispatch(getCart())
-       dispatch(getUserDetail()) ;
+      ;
        if(user){
         setHandleOpeneAuth(false)
        }
@@ -37,7 +38,7 @@ export default function Header() {
        if(location.pathname === "/Guest"){
         setHandleOpeneAuth(true)
        }
-    },[dispatch,jwt,location,])
+    },[dispatch,jwt,location])
   
     const handleClose = ()=>{
         setHandleOpeneAuth(false)

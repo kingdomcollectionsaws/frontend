@@ -95,7 +95,7 @@ if(checked){
  {!loading? <Grid container spacing={4} style={{display:'flex',justifyContent:'center'}} >
    
 <Grid item xs={12} lg={7} className='border shadow-md p-3 cursor-pointer'>
-  <h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.7rem',marginBottom:'10px'}}>Enter you delivery address</h1>
+  <h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.7rem',marginBottom:'10px'}}>Enter  delivery address</h1>
   <Box>
 <form onSubmit={handlesubmit} encType="multipart/form-data">
 <Grid container spacing={3}>
@@ -210,9 +210,9 @@ if(checked){
 
   </Grid> 
 </Grid>
-<h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.7rem',marginBottom:'10px'}}>Enter you billing address</h1>
+<h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.7rem',marginBottom:'10px'}}>Enter  billing address</h1>
 
-<h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.3rem',marginBottom:'10px'}}>Same as delivery address <span><input type="checkbox" width={15} onClick={()=>SetChecked(!checked)} /></span></h1>
+<h1 style={{fontFamily:'inherit',fontWeight:'400',fontSize:'1.3rem',marginBottom:'10px'}}>Same as delivery address <span><input type="checkbox" width={30} height={30} onClick={()=>SetChecked(!checked)} style={{padding:'.6rem'}} /></span></h1>
 {!checked?<Grid container spacing={3}>
 
 <Grid item xs={12} lg={12}>

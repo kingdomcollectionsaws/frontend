@@ -6,6 +6,7 @@ import LoginForm from './LoginForm';
 import GuestForm from './GuestForm.jsx';
 import { useLocation } from 'react-router-dom';
 import { GoX } from "react-icons/go";
+import { getUserDetail } from '../state/Auth/registerSlice.js';
 const style = {
   borderRadius:'20px',
     position: 'absolute',
@@ -18,12 +19,18 @@ const style = {
     boxShadow: 24,
     p: 4,
   }
-
+  import { useDispatch, useSelector } from 'react-redux';
 export default function AuthModel({ handleClose, open}) {
+  const dispatch = useDispatch();
+  const { user} = useSelector(store => store.user);
+  useEffect(()=>{
+    dispatch(getUserDetail())
+  },[])
 const location = useLocation()
   return (
     <>
-     <div>
+    {
+     !user ||  user?.role == 'GUEST' ? <div>
       
       <Modal
         open={open}
@@ -47,7 +54,8 @@ const location = useLocation()
         
         </Box>
       </Modal>
-    </div>
+    </div>:''
+    }
     </>
   )
 }

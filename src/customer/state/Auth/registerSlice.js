@@ -109,6 +109,7 @@ export const auth = createSlice({
             state.loading = false;
             state.user = action.payload;
             state.jwt = localStorage.getItem('jwt');
+            state.error=null;
           
             state.error=null;
         },
@@ -120,6 +121,7 @@ export const auth = createSlice({
         [loginUser.pending] : (state)=>{
             state.loading = true;
             state.user=null;
+
         },
         [loginUser.fulfilled] : (state,action)=>{
             state.error =null;

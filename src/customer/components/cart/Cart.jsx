@@ -65,29 +65,29 @@ export default function Cart() {
        <div className='col-span-2'>
        {cart?.cartItems.length > 0 || localcart ? <Cartitem/> :<h1 className='m-4'>Your cart is Empty</h1>}
        </div>
-       <Grid className='sticky top-5 space-y-3 mt-7 '>
+       <Grid className='sticky top-5 space-y-3 mt-1 '>
         <div className='border '>
           
-          <h1 className=' flex justify-center align-center font-bold'>How you'll pay</h1>
-          <div style={{display:'flex',alignItems:'center',flexWrap:'wrap',justifyContent:'center',gap:'10px'}}>
+          <h1 className=' flex  align-center font-bold p-4'>How you'll pay</h1>
+          <div style={{display:'flex',alignItems:'center',flexWrap:'wrap',gap:'10px',paddingLeft:'1rem'}}>
       <img src={visa} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={master} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={american} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={diners} alt="card" style={{width:'3rem',height:'2rem'}} />
           </div>
-         <div className=' flex justify-around w-full  font-bold pt-3'>
+         <div className=' flex  w-full justify-between p-4 font-bold pt-3'>
           <span>Item(s) total</span>
           <span>£{cart?.totalPrice}</span>
         </div> 
-          <div className=' flex justify-around w-full   pt-3'>
-          <span>discount</span>
+          <div className=' flex  w-full justify-between p-4  pt-3'>
+          <span>Total discount</span>
           <span className='text-green-500'>-£{cart?.discounte}</span>
         </div> 
-          <div className=' flex justify-around w-full   pt-3'>
+          <div className=' flex  w-full justify-between p-4   pt-3'>
           <span>delivery charges</span>
           <span >Free</span>
         </div>
-          <div className=' flex justify-around w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
+          <div className=' flex justify-between p-4 w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
           <span>total amount</span>
           <span >£{cart?.totalDiscountedPrice}</span>
         </div>
@@ -96,7 +96,7 @@ export default function Cart() {
         onClick={handlecheckout}
                 variant="container" className="w-full font-bold " sx={{bgcolor:"black",color:"#fff",borderRadius:'20px'}}
               >
-            Proceed to   Chectout
+            Proceed to   Checkout
               </Button>
        </Grid>
        
@@ -111,28 +111,28 @@ export default function Cart() {
        {cart?.cartItems.length > 0 || localcart ? <Cartitem/> :<h1 className='m-4'>Your cart is Empty</h1>}
        </div>
        <Grid className='sticky top-5 space-y-3 mt-7 '>
-        <div className='border '>
+        <div className='border flex justify-center align-center'>
           
-          <h1 className=' flex justify-center align-center font-bold'>How you'll pay</h1>
-          <div style={{display:'flex',alignItems:'center',flexWrap:'wrap',justifyContent:'center',gap:'10px'}}>
+          <h1 className=' flex p-4 align-center font-bold'>How you'll pay</h1>
+          <div style={{display:'flex',alignItems:'center',flexWrap:'wrap',gap:'10px',paddingLeft:'1rem'}}>
       <img src={visa} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={master} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={american} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={diners} alt="card" style={{width:'3rem',height:'2rem'}} />
           </div>
-         <div className=' flex justify-around w-full  font-bold pt-3'>
+         <div className=' flex justify-between p-4 w-full  font-bold pt-3'>
           <span>Item(s) total</span>
           <span>£{totalPrice}</span>
         </div> 
-          <div className=' flex justify-around w-full   pt-3'>
-          <span>discount</span>
+          <div className=' flex justify-between p-4w-full   pt-3 '>
+          <span>Total discount</span>
           <span className='text-green-500'>£{totalPrice-totalDiscountedPrice}</span>
         </div> 
-          <div className=' flex justify-around w-full   pt-3'>
+          <div className=' flex justify-between p-4 w-full   pt-3 justify-center align-center '>
           <span>delivery charges</span>
           <span >Free</span>
         </div>
-          <div className=' flex justify-around w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
+          <div className=' flex justify-between p-4w-full  font-bold pt-3  ' style={{borderTop:'1px solid gray'}}>
           <span>total amount</span>
           <span >£{totalDiscountedPrice}</span>
         </div>
@@ -141,7 +141,7 @@ export default function Cart() {
         onClick={handlecheckout}
                 variant="container" className="w-full font-bold " sx={{bgcolor:"black",color:"#fff",borderRadius:'20px'}}
               >
-            Proceed to   Chectout
+            Proceed to   Checkout
               </Button>
        </Grid>
        
