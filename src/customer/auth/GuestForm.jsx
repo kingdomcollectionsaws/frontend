@@ -7,115 +7,115 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addItemInCart } from '../state/cart/cartSlice';
 export default function GuestForm() {
-  const { user,error,loading} = useSelector(store => store.user)
-  const {cart} = useSelector(store => store.cart)
+  const { user, error, loading } = useSelector(store => store.user)
+  const { cart } = useSelector(store => store.cart)
   const dispatch = useDispatch();
   const notify = (msg) => toast(msg, {
-    position: "bottom-center",
+    position: "top-center",
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: false,});
-  
-  const handleSubmit = async(event)=>{
-    event.preventDefault();
+    pauseOnHover: false,
+  });
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  
     const data = new FormData(event.currentTarget);
   
- 
-const userData = {
+    const userData = {
+      email: data.get("email"),
+      password: data.get("password"),
+    };
   
-  email:data.get("email"),
-  password:data.get("password"),
-}
-try {
-  if( user && user.role == 'GUEST'){
-
-    await dispatch(loginUser(userData));
-    for (let index = 0; index < cart.cartItems.length; index++) {
-      let data = {productId:cart.cartItems[index].product._id}
-     await dispatch(addItemInCart(data))
-    }
-    }else{
-      dispatch(loginUser(userData));
-    }
-} catch (error) {
-  notify("invalide email or password")
-}
-    
+    try {
+      const user = await dispatch(loginUser(userData));
   
-  }
+      if (user && user.role === "GUEST") {
+        for (let index = 0; index < cart.cartItems.length; index++) {
+          let data = { productId: cart.cartItems[index].product._id };
+          await dispatch(addItemInCart(data));
+        }
+        navigate("/checkout?step=2");
+      } else {
+        notify("Invalid email or password");
+      }
+    } catch (error) {
+      notify("Invalid email or password");
+    }
+  };
 
   const navigate = useNavigate()
   return (
     <>
-   
-    <div>
-      
-    <ToastContainer/>
-   
-  <div style={{borderBottom:'1px solid #D4D4D4', padding:'1rem',width:'100%', marginTop:'-2rem'}}>
-    <p style={{paddingBottom:'1rem'}}>Go to checkout</p>
-  <button style={{display:'flex', width:'100%',height:'3rem',border:' 2px solid black', borderRadius:'20px' , alignItems:'center',justifyContent:'center', color:'black',marginBottom:'1rem'}} onClick={()=>navigate("/checkout?step=2")}>continue as a guest</button>
-  </div>
-    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',margin:'2rem'}}>
-        <div style={{fontWeight:'bold'}}>
-          Sign in
-        </div>
-        <div style={{display:'flex',border:'2px solid black',borderRadius:'15px',padding:'.3rem',width:'5rem',justifyContent:'center'}}>
-          <button onClick={()=>navigate("/register")} >Register</button>
-        </div>
 
-       </div>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
- 
-                <Grid item xs={12} >
-  <TextField
-            required
-            id='email'
-            name='email'
-            label='Email'
-            type='email'
-            fullWidth
-            autoComplete='email'
-            />
-                </Grid>
-                <Grid item xs={12} >
-  <TextField
-            required
-            id='password'
-            name='password'
-            label='Password'
-            type='password'
-            fullWidth
-            autoComplete='password'
-            />
-                </Grid>
-                <Grid item xs={12} > 
-                <Button
+      <div>
+
+      
+
+        <div style={{ borderBottom: '1px solid #D4D4D4', padding: '1rem', width: '100%', marginTop: '-2rem' }}>
+        <ToastContainer />
+          <p style={{ paddingBottom: '1rem' }}>Go to checkout</p>
+          <button style={{ display: 'flex', width: '100%', height: '3rem', border: ' 2px solid black', borderRadius: '20px', alignItems: 'center', justifyContent: 'center', color: 'black', marginBottom: '1rem' }} onClick={() => navigate("/checkout?step=2")}>continue as a guest</button>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '2rem' }}>
+          <div style={{ fontWeight: 'bold' }}>
+            Sign in
+          </div>
+          <div style={{ display: 'flex', border: '2px solid black', borderRadius: '15px', padding: '.3rem', width: '5rem', justifyContent: 'center' }}>
+            <button onClick={() => navigate("/register")} >Register</button>
+          </div>
+
+        </div>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={3}>
+
+            <Grid item xs={12} >
+              <TextField
+                required
+                id='email'
+                name='email'
+                label='Email'
+                type='email'
+                fullWidth
+                autoComplete='email'
+              />
+            </Grid>
+            <Grid item xs={12} >
+              <TextField
+                required
+                id='password'
+                name='password'
+                label='Password'
+                type='password'
+                fullWidth
+                autoComplete='password'
+              />
+            </Grid>
+            <Grid item xs={12} >
+              <Button
                 className=' w-full px-0 py-3'
                 type='submit'
                 variant='contained'
-                sx={{background:"black"}}
-                >
-              Login
-                </Button>
-                 </Grid>
+                sx={{ background: "black" }}
+              >
+                Login
+              </Button>
+            </Grid>
 
-        </Grid>
-      </form>
-      <div>
-      <div style={{marginTop:'1rem'}}>
+          </Grid>
+        </form>
+        <div>
+          <div style={{ marginTop: '1rem' }}>
             <Button
-                className='px-0 py-10'
-                sx={{background:"none",color:'black',fontSize:'.7rem'}}
-                >Forgot your password?
-                </Button>
-        
+              className='px-0 py-10'
+              sx={{ background: "none", color: 'black', fontSize: '.7rem' }}
+            >Forgot your password?
+            </Button>
+
+          </div>
         </div>
       </div>
-    </div>
     </>
   )
 }

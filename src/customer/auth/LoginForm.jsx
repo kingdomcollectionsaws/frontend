@@ -31,12 +31,12 @@ try {
       await dispatch(loginUser(userData));
       for (let index = 0; index < cart.cartItems.length; index++) {
         let data = {productId:cart.cartItems[index].product._id}
-       await dispatch(addItemInCart(data))
-    }
+       await dispatch(addItemInCart(data)); }
   }
-    
+  navigate('/checkout?step=2')
     }else{
-      dispatch(loginUser(userData))
+      await dispatch(loginUser(userData));
+      navigate('/')
     }
 } catch (err) {
   console.log(err);
