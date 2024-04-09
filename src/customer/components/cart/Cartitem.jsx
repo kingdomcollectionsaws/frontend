@@ -73,18 +73,18 @@ setOrderDate(formattedDateRange)
             <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.product.brand} </span> </p>
             <div className='flex align-center justify-center mx-3  space-x-5'>
     <IconButton onClick={()=>{quantity==1?setQuantity(1):setQuantity(quantity-1)}}>
-        <RemoveCircleOutlineOutlined sx={{color:"RGB(145 85 253)"}}/>
+        <RemoveCircleOutlineOutlined sx={{color:"black"}}/>
     </IconButton>
     <span className='py-[5px] px-3 border rounded-sm ]'>{quantity}</span>
 <IconButton onClick={()=>setQuantity(quantity+1)}>
-        <AddCircleOutlineOutlined sx={{color:"RGB(145 85 253)"}}/>
+        <AddCircleOutlineOutlined sx={{color:"black"}}/>
     </IconButton>
     <div>
      
       {
-         quantity >1? <Button sx={{color:"RGB(145 85 253)"}} onClick={()=>updatequan(data._id)} >update</Button>:''
+         quantity >1? <Button sx={{color:"black"}} onClick={()=>updatequan(data._id)} >update</Button>:''
       } 
-      <Button sx={{color:"RGB(145 85 253)"}} onClick={()=>reamoveitem(data._id)} >remove</Button>
+     
     </div>
       </div>
             <Button sx={{ color: "black" }} onClick={() => reamoveitem(data._id)} >remove</Button>
