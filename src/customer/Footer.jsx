@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { IoIosArrowUp } from "react-icons/io";
 import { AiFillLike } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
-import { FiInstagram,FiFacebook ,FiTwitter,} from "react-icons/fi";
-import { FaWhatsapp } from 'react-icons/fa';
+import { FiInstagram,FiFacebook ,FiTwitter,FiYoutube} from "react-icons/fi";
+import { FaWhatsapp,FaYoutube } from 'react-icons/fa';
 export default function Footer() {
   
     const navigate = useNavigate()
@@ -63,9 +63,9 @@ export default function Footer() {
       <div className={style.footerLeft}>
       <div style={{display:'flex',alignItems:'center',flexDirection:'row',justifyContent:'center',gap:'20px' ,marginTop:'2rem',marginBottom:'2rem'}}>
                       <div className={style.icons}><a href="#"><FiFacebook/></a></div>
-                      <div className={style.icons}><a href="#"><FiInstagram /></a></div>
+                      <div className={style.icons}><a href=" https://www.instagram.com/kingdomcollectionofficial/"><FiInstagram /></a></div>
                       <div className={style.icons}><a href="#"><FiTwitter/></a></div>
-                      <div className={style.icons}><a href="#"><FaWhatsapp/></a></div>
+                      <div className={style.icons}><a href="https://youtube.com/@kingdomcollectionofficial/"><FiYoutube/></a></div>
                     </div>
        
       </div>
@@ -147,9 +147,9 @@ export default function Footer() {
                   }
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row',justifyContent:'center',gap:'20px' ,marginTop:'2rem',marginBottom:'2rem'}}>
                     <div className={style.icons}><a href="#"><FiFacebook/></a></div>
-                      <div className={style.icons}><a href="#"><FiInstagram /></a></div>
+                      <div className={style.icons}><a href=" https://www.instagram.com/kingdomcollectionofficial/"><FiInstagram /></a></div>
                       <div className={style.icons}><a href="#"><FiTwitter/></a></div>
-                      <div className={style.icons}><a href="#"><FaWhatsapp/></a></div>
+                      <div className={style.icons}><a href="https://youtube.com/@kingdomcollectionofficial/"><FiYoutube/></a></div>
                     </div>
                     <footer className={style.footerEnd}>
       <div className={style.footerLeft}>

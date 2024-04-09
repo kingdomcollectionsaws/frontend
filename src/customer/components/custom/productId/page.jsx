@@ -335,13 +335,15 @@ getUserDetail()
       setShowindex(showindex => showindex - 1);
       console.log(showindex);
     } else {
-      showindex
+      setShowindex(review.length);
     }
   }
   const handleNext = () => {
     if (showindex < review.length - 1) {
       setShowindex(showindex => showindex + 1);
       console.log(showindex);
+    }else{
+      setShowindex(0);
     }
   }
   const handleallNext = () => {
@@ -598,7 +600,7 @@ getUserDetail()
                                           {products.map((pro) => {
                                             if (pro._id == review[showindex]?.product) {
                                               return (
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer', }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
                                                   <div>
                                                     <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                   </div>
@@ -856,7 +858,7 @@ getUserDetail()
                       {
                         review?.map((item) => (<Transition.Root show={open} as={Fragment}>
 
-                          <Dialog as="div" className="fixed inset-0 backdrop-blur-sm overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                          <Dialog as="div" className="fixed inset-0 backdrop-blur-lg overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
                             <div className="flex items-center justify-center min-h-screen px-4 text-center">
                               <Transition.Child
                                 as={Fragment}
@@ -894,7 +896,7 @@ getUserDetail()
                                           count={5}
                                           size={24}
                                           activeColor="black"
-
+                                          edit={false}
                                           value={5}
                                           color='#fff'
                                         /></div>
@@ -909,7 +911,7 @@ getUserDetail()
                                         {products.map(pro => {
                                           if (pro._id === item.product) {
                                             return (
-                                              <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                              <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor:'pointer' }} onClick={() => { setOpen(false);  }}>
                                                 <div>
                                                   <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                 </div>
@@ -941,14 +943,14 @@ getUserDetail()
                   )) : allproductreviews?.slice(count, countend).map((item, index) => (
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true) }}>
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }} >
-                        <ReactStars
-                          count={5}
-                          size={24}
-                          activeColor="black"
-                          value={5}
-                          color='black'
-                          edit={false}
-                        />
+                      <div>  <ReactStars
+                                          count={5}
+                                          size={24}
+                                          activeColor="black"
+                                          edit={false}
+                                          value={5}
+                                          color='#fff'
+                                        /></div>
                         <div className={style.text}>
                           {item.review}
                         </div>
@@ -1007,7 +1009,7 @@ getUserDetail()
                                             count={5}
                                             size={24}
                                             activeColor="black"
-
+                                            edit={false}
                                             value={5}
                                             color='#fff'
                                           /></div>

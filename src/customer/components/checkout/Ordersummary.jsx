@@ -73,7 +73,7 @@ console.log(result);
    <span>£{order?.totalPrice}</span>
  </div> */}
    <div className=' flex justify-around w-full  font-mono pt-3'>
-   <span>delivery charges</span>
+   <span>Shipping Charges</span>
    <span className='text-green-500'>free</span>
  </div>
    <div className=' flex justify-around w-full  font-mono pt-3'>
