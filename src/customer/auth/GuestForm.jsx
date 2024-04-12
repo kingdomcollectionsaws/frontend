@@ -26,30 +26,33 @@ export default function GuestForm() {
       password: data.get("password"),
     };
    if(user && user.role == 'GUEST'){
-      dispatch(loginUser(userData));
-    
+    dispatch(loginUser(userData));
+    if(user.role=='GUEST'){
+       alert("invalid email or passwords");
+       dispatch(getUserDetail());
+    }else{
       for (let index = 0; index < cart.cartItems.length; index++) {
-      let data = { productId: cart.cartItems[index].product._id };
-    dispatch(addItemInCart(data));
+        let data = { productId: cart.cartItems[index].product._id };
+      dispatch(addItemInCart(data)) }
     }
-    if(user){
-      notify("invalid email or password")
-    }
+     
    }else{
-   
      dispatch(loginUser(userData));
-  
-     if(user){
+     if(jwt){
       
      }else{
-      notify("invalid");
-    
+      setTimeout(()=>{
+        notify("invalid email or password")
+       },[1000])
      }
    }
   };
 
- 
+  useEffect(() => {
+    dispatch(getUserDetail());
 
+    
+  }, []);
   const navigate = useNavigate()
   return (
     <>
@@ -61,6 +64,7 @@ export default function GuestForm() {
         <div style={{ borderBottom: '1px solid #D4D4D4', padding: '1rem', width: '100%', marginTop: '-2rem' }}>
         <ToastContainer />
           <p style={{ paddingBottom: '1rem' }}>Go to checkout</p>
+         
           <button style={{ display: 'flex', width: '100%', height: '3rem', border: ' 2px solid black', borderRadius: '20px', alignItems: 'center', justifyContent: 'center', color: 'black', marginBottom: '1rem' }} onClick={() => navigate("/checkout?step=2")}>continue as a guest</button>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '2rem' }}>
@@ -72,6 +76,7 @@ export default function GuestForm() {
           </div>
 
         </div>
+        
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
 

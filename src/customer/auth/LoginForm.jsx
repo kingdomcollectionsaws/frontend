@@ -33,23 +33,25 @@ export default function LoginForm() {
    if(user && user.role == 'GUEST'){
     dispatch(loginUser(userData));
     if(user.role=='GUEST'){
-notify("in")
-    }
-      for (let index = 0; index < cart.cartItems.length; index++) {
-      let data = { productId: cart.cartItems[index].product._id };
-    dispatch(addItemInCart(data))
-    
-
-    }
-   }else{
-   
-     dispatch(loginUser(userData));
   
+      setTimeout(()=>{
+        notify("invalid email or passwords")
+       },[1000])
+      
+    }else{
+      for (let index = 0; index < cart.cartItems.length; index++) {
+        let data = { productId: cart.cartItems[index].product._id };
+      dispatch(addItemInCart(data)) }
+    }
+     
+   }else{
+     dispatch(loginUser(userData));
      if(jwt){
-      navigate('/');
+      notify("login successfully")
      }else{
-      notify("invalid");
-      setUserdetails(null)
+      setTimeout(()=>{
+        notify("invalid email or password")
+       },[1000])
      }
    }
   };

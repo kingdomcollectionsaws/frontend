@@ -26,9 +26,6 @@ export default function Header() {
        dispatch(getUserDetail())
       dispatch(getCart())
       ;
-       if(user){
-        setHandleOpeneAuth(false)
-       }
        if(location.pathname === "/login"){
         setHandleOpeneAuth(true)
        }

@@ -101,53 +101,7 @@ export default function Cart() {
        </Grid>
        
     </div></div>
-      :
-      <div> 
-        <div className='mt-20  sm:mt-0'>
-      </div>
-    <div className='lg:grid grid-cols-3 relative space-x-3  '>
-      
-       <div className='col-span-2'>
-       {cart?.cartItems.length > 0 || localcart ? <Cartitem/> :<h1 className='m-4'>Your cart is Empty</h1>}
-       </div>
-       <Grid className='sticky top-5 space-y-3 mt-7 '>
-        <div className='border flex justify-center align-center'>
-          
-          <h1 className=' flex p-4 align-center font-bold'>How you'll pay</h1>
-          <div style={{display:'flex',alignItems:'center',flexWrap:'wrap',gap:'10px',paddingLeft:'1rem'}}>
-      <img src={visa} alt="card" style={{width:'3rem',height:'2rem'}} />
-      <img src={master} alt="card" style={{width:'3rem',height:'2rem'}} />
-      <img src={american} alt="card" style={{width:'3rem',height:'2rem'}} />
-      <img src={diners} alt="card" style={{width:'3rem',height:'2rem'}} />
-          </div>
-         <div className=' flex justify-between p-4 w-full   pt-3'>
-          <span>Item(s) total</span>
-          <span>£{totalPrice}</span>
-        </div> 
-          <div className=' flex justify-between p-4w-full   pt-3 '>
-          <span>Total discount</span>
-          <span >£{totalPrice-totalDiscountedPrice}</span>
-        </div> 
-          <div className=' flex justify-between p-4 w-full   pt-3 justify-center align-center '>
-          <span>Shipping Charges</span>
-          <span className='text-green-500'>FREE</span>
-        </div>
-          <div className=' flex justify-between p-4w-full  font-bold pt-3  ' style={{borderTop:'1px solid gray'}}>
-          <span>Total ({cart.cartItems.length} item)</span>
-          <span >£{cart?.totalDiscountedPrice}</span>
-        </div>
-        </div>
-        <Button 
-        onClick={handlecheckout}
-                variant="container" className="w-full font-bold " sx={{bgcolor:"black",color:"#fff",borderRadius:'20px'}}
-              >
-            Proceed to   Checkout
-              </Button>
-       </Grid>
-       
-    </div>
-    </div>
-      
+      :<div className='flex align-center justify-center'>Your cart is Empty</div>
      :<Loader/>
   )
 }
