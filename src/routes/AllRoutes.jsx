@@ -31,6 +31,7 @@ export default function AllRoutes() {
 <Route path='/profile' element={<ProfilePage/>}/>
 <Route path='/profile/update' element={<UpadteProfile/>}/>
 <Route path='/checkout' element={<Checkout/>}/>
+<Route path='/product/:name/:id' element={<ProductDetailPage/>}/>
 <Route path='/product/:id' element={<ProductDetailPage/>}/>
 <Route path='/searchproducts/:search' element={<SearchProducts/>}/>
 <Route path='/products/:category' element={<CategoryProduct/>}/>

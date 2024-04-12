@@ -230,7 +230,7 @@ export default function Dashboard() {
                         <div style={{ display: 'flex', flexDirection: 'row', marginTop: '4rem', gap: '50px', alignItems: 'center', justifyContent: 'center' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> <h1>All orders</h1>
                                 <Orderpie /> </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> <h1>Today orders</h1><Todayorder /> </div>
+                            <div style={{ display: 'flex',flexDirection: 'column',alignItems: 'center' }}> <h1>Today orders</h1><Todayorder /> </div>
                         </div>
                     </> : ''}
                     {openSection == "ORDERS" ? <Orders /> : ''}

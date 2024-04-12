@@ -26,7 +26,7 @@ const ProductSlider = ({ imagesdata }) => {
   return (
     <div className="image-slider-container">
       <div className="image-slider">
-       {imagesdata[currentImageIndex].endsWith('.mp4')? 
+       {imagesdata[currentImageIndex]?.endsWith('.mp4')? 
          <video controls autoPlay style={{height:'30rem',width:'30rem'}}>
           <img src={img} alt="kk" />
          <source src={`${imagesdata[currentImageIndex]}#t=1`} type="video/mp4"   />
