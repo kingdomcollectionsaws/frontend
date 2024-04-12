@@ -10,9 +10,12 @@ import { MdDashboard } from "react-icons/md";
 import { FaBoxes } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
+import Orderpie from './Orderpie.jsx';
+import Todayorder from './Todayorder.jsx';
 export default function Dashboard() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
+    const [allorders, setAllorders] = useState([]);
     const [openSection, setOpenSection] = useState("DASHBOARD")
     const [variations, setVaritions] = useState();
     const [showCategory, setShowCategory] = useState()
@@ -72,9 +75,33 @@ export default function Dashboard() {
         productData.category = e.target.value;
         console.log(productData.category);
     }
+    const getorder = () => {
+        const token = localStorage.getItem('jwt');
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                authorization: token
+            }
+        }
+        fetch(`${API_BASE_URL}/api/admin/orders`, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(orders => {
+                console.log('order:', orders);
+                setAllorders(orders)
 
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch request:', error);
+            });
+    }
     useEffect(() => {
         dispatch(getAllProducts())
+        getorder()
     }, []);
 
     const handelfileupload = async (event) => {
@@ -150,57 +177,62 @@ export default function Dashboard() {
         !loading && user?.role === "ADMIN" ?
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                <div style={{ width: '20%', position: 'sticky', height: '30rem',  paddingTop: '1rem', bg: 'gray',paddingLeft:'1rem' ,borderTop:'2px solid gray'}} >
+                <div style={{ width: '20%', position: 'sticky', height: '30rem', paddingTop: '1rem', bg: 'gray', paddingLeft: '1rem', borderTop: '2px solid gray' }} >
 
                     <div style={{ display: 'flex', flexDirection: 'column', position: 'fixed', marginLeft: '1rem', gap: '30px', height: '30rem', columnGap: '10px' }}>
                         <p style={{ display: 'flex', alignItems: 'center', width: '15rem', cursor: 'pointer', }} onClick={() => setOpenSection("DASHBOARD")}><span style={{ color: '#0099ff', fontSize: '1.5rem', marginRight: '1rem' }} ><MdDashboard /></span>Dashboard</p>
                         <p style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setOpenSection("PRODUCTS")}> <span style={{ color: '#2EFE2E', fontSize: '1.5rem', marginRight: '1rem' }}>  <FaBoxes /></span>Products</p>
-                        <p style={{ display: 'flex', alignItems: 'center',cursor:'pointer' }} onClick={() => setOpenSection("ORDERS")}> <span
-                            style={{ color: '#FACC2E', fontSize: '1.5rem',marginRight:'1rem' }}><MdLocalShipping /></span>Orders</p>
-                        <p style={{ display: 'flex', alignItems: 'center',cursor:'pointer' }} onClick={() => setOpenSection("USERS")}> <span
-                            style={{ color: '#FFFF00', fontSize: '1.5rem',marginRight:'1rem' }}><FaUsers /></span> Users</p>
+                        <p style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setOpenSection("ORDERS")}> <span
+                            style={{ color: '#FACC2E', fontSize: '1.5rem', marginRight: '1rem' }}><MdLocalShipping /></span>Orders</p>
+                        <p style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setOpenSection("USERS")}> <span
+                            style={{ color: '#FFFF00', fontSize: '1.5rem', marginRight: '1rem' }}><FaUsers /></span> Users</p>
                         {/* <p style={{width:'15rem',height:'3rem',}} onClick={()=>setOpenSection("OVERVIEW")}>Overview</p> */}
 
                     </div>
                 </div>
 
                 <div style={{ width: '80%', background: '#E8E8E8' }}>
-                    {openSection == "DASHBOARD"?<>
-                    <div style={{display:'flex'}}>
-                        <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',width:'100%',gap:'50px',paddingTop:'10px'}}>
-                        <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'12rem',height:'8rem',background:'#66ff33',gap:'10px',color:'#fff',borderRadius:'12px'}}>
-                            <div>
-                                <p>126</p>
-                                <p>Products</p>
-                            </div>
-                            <div style={{fontSize:'1.5rem'}}>
-                            <FaBoxes />
-                            </div>
-                        </div>
+                    {openSection == "DASHBOARD" ? <>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', width: '100%', gap: '50px', paddingTop: '10px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '12rem', height: '8rem', background: '#66ff40', gap: '10px', color: '#fff', borderRadius: '12px', fontSize: '1.5rem', cursor: 'pointer' }}>
+                                    <div>
+                                        <p>{products.length}</p>
+                                        <p>Products</p>
+                                    </div>
+                                    <div style={{ fontSize: '1.5rem' }}>
+                                        <FaBoxes />
+                                    </div>
+                                </div>
 
-                        <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'12rem',height:'8rem',background:'#FACC2E',gap:'10px',color:'#fff',borderRadius:'12px'}}>
-                            <div>
-                                <p>126</p>
-                                <p>order</p>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '12rem', height: '8rem', background: '#FACC2E', gap: '10px', color: '#fff', borderRadius: '12px', fontSize: '1.5rem', cursor: 'pointer' }}>
+                                    <div>
+                                        <p>{allorders.length}</p>
+                                        <p>order</p>
+                                    </div>
+                                    <div style={{ fontSize: '1.5rem' }}>
+                                        <MdLocalShipping />
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '12rem', height: '8rem', background: ' #e6b800', gap: '10px', color: '#fff', borderRadius: '12px', fontSize: '1.5rem', cursor: 'pointer' }}>
+                                    <div>
+                                        <p>12</p>
+                                        <p>Users</p>
+                                    </div>
+                                    <div style={{ fontSize: '1.5rem' }}>
+                                        <FaUsers />
+                                    </div>
+                                </div>
+
                             </div>
-                            <div style={{fontSize:'1.5rem'}}>
-                            <MdLocalShipping />
-                            </div>
-                        </div>
-                        <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'12rem',height:'8rem',background:' #e6b800',gap:'10px',color:'#fff',borderRadius:'12px'}}>
-                            <div>
-                                <p>126</p>
-                                <p>Users</p>
-                            </div>
-                            <div style={{fontSize:'1.5rem'}}>
-                            <FaUsers />
-                            </div>
-                        </div>
 
                         </div>
-
-                    </div>
-                    </>:''}
+                        <div style={{ display: 'flex', flexDirection: 'row', marginTop: '4rem', gap: '50px', alignItems: 'center', justifyContent: 'center' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> <h1>All orders</h1>
+                                <Orderpie /> </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> <h1>Today orders</h1><Todayorder /> </div>
+                        </div>
+                    </> : ''}
                     {openSection == "ORDERS" ? <Orders /> : ''}
                     {openSection == "PRODUCTS" ? <div>
                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => setOpen(true)}>Add new product</Button>

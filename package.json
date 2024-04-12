@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@canvasjs/react-charts": "^1.0.2",
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.19.0",
     "@emotion/react": "^11.11.4",
@@ -19,6 +20,7 @@
     "@mui/icons-material": "^5.15.12",
     "@mui/material": "^5.15.12",
     "@mui/styled-engine-sc": "^6.0.0-alpha.17",
+    "@mui/x-charts": "^7.1.1",
     "@reduxjs/toolkit": "^1.9.7",
     "@stripe/stripe-js": "^3.1.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",

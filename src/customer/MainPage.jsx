@@ -21,6 +21,7 @@ import { getCart } from './state/cart/cartSlice'
 import { getUserDetail } from './state/Auth/registerSlice'
 import ProfilePage from '../profile/Profile'
 import ReactGA from 'react-ga';
+import Orderpie from '../admin/Orderpie'
 export default function MainPage() {
   ReactGA.initialize('G-509RBXK1MX');
  
@@ -200,7 +201,6 @@ export default function MainPage() {
               <div className={style.subBtn} >Subscribe</div>
             </div>
           </div>
-
         </div>
         {
           isMobile ? <Mobilefooter /> : <Footer />
