@@ -25,7 +25,7 @@ export default function DeliveryAddress() {
  dispatch(getAllProducts());
   },[loading,dispatch])
 const navigate = useNavigate()
-  const handlesubmit = (e)=>{
+  const handlesubmit = async(e)=>{
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     let billing;
@@ -71,9 +71,9 @@ if(checked){
    console.log("submit", address);
    try {
     const orderData = {address,navigate} 
-// dispatch(createOrder(orderData));
-  createorders(orderData)
-   // deliver()
+ await dispatch(createOrder(orderData));
+ // createorders(orderData)
+  //  deliver()
   // window.location.reload();
   } catch (error) {
     console.error('Error creating order:', error);
@@ -111,8 +111,11 @@ if(checked){
          console.log(`Failed to create order: ${errorText}`);
      }
 
-     const order = await response;
-     navigate({ search: `step=3&order_id=${order._id}` });
+     const order = await response.json();
+ console.log("kddddddddddddd",order);
+       navigate({ search: `step=3&order_id=${order._id}` });
+     
+    
      return order;
  } catch (error) {
      // Handle different types of errors appropriately

@@ -11,7 +11,7 @@ const initialState={
 export const createOrder = createAsyncThunk('createOrder', async (orderData, thunkAPI) => {
     const token = localStorage.getItem('jwt');
     const { address, navigate } = orderData;
-    const cleanAddress = removeCircularReferences(address);
+    const cleanAddress = JSON.parse(JSON.stringify(address));
     try {
         const response = await fetch(`${API_BASE_URL}/api/orders/`, {
             method: 'POST',
@@ -27,10 +27,9 @@ export const createOrder = createAsyncThunk('createOrder', async (orderData, thu
             throw new Error(`Failed to create order: ${errorText}`);
         }
 
-        const order = await response;
-       if(order._id){
+        const order = await response.json();
+       
         navigate({ search: `step=3&order_id=${order._id}` });
-       }
         return order;
     } catch (error) {
         // Handle different types of errors appropriately
