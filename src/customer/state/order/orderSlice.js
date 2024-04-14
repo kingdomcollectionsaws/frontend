@@ -8,40 +8,39 @@ const initialState={
     loading:false
 }
 
- export const createOrder = createAsyncThunk('createOrder',async(orderData,thunkAPI)=>{
+export const createOrder = createAsyncThunk('createOrder', async (orderData, thunkAPI) => {
     const token = localStorage.getItem('jwt');
-     const {address,navigate} = orderData
+    const { address, navigate } = orderData;
+    const cleanAddress = removeCircularReferences(address);
     try {
         const response = await fetch(`${API_BASE_URL}/api/orders/`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': token
+                'Content-Type': 'application/json',
+                'Authorization': token
             },
-            body: JSON.stringify(address)
-          });
-      
-          if (!response.ok) {
-            throw new Error('Failed to create order');
-          }
-      
-          const order = await response.json();
-          
-          if (order._id) {
-            navigate({ search: `step=3&order_id=${order._id}` });      
-          }
-      
-          return order;
-    } catch (error) {
-       
-        return thunkAPI.rejectWithValue(error.response.data);
-    }
+            body: JSON.stringify(cleanAddress)
+        });
 
-})
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to create order: ${errorText}`);
+        }
+
+        const order = await response;
+       if(order._id){
+        navigate({ search: `step=3&order_id=${order._id}` });
+       }
+        return order;
+    } catch (error) {
+        // Handle different types of errors appropriately
+        return thunkAPI.rejectWithValue(error.message);
+    }
+});
  export const getOrderById = createAsyncThunk('getOrderById',async(id,thunkAPI)=>{
     const token = localStorage.getItem('jwt');
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/orders/${id}`, data,{
+        const response = await axios.get(`${API_BASE_URL}/api/orders/${id}`,data,{
             headers: {
                 authorization: token
             }

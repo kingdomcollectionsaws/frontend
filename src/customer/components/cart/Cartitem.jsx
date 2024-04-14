@@ -75,7 +75,7 @@ setOrderDate(formattedDateRange)
     <IconButton onClick={()=>{{quantity+data.quantity < 2 ?setQuantity(0):setQuantity(quantity-1)}{setItemIndex(index)}}}>
         <RemoveCircleOutlineOutlined sx={{color:"black"}}/>
     </IconButton>
-    <span className='py-[5px] px-3 border rounded-sm ]'>{itemIndex == index ? quantity+data.quantity:'1'}</span>
+    <span className='py-[5px] px-3 border rounded-sm]'>{itemIndex == index ? quantity+data.quantity:'1'}</span>
 <IconButton onClick={()=>{{setQuantity(quantity+1)}{setItemIndex(index)}}}>
         <AddCircleOutlineOutlined sx={{color:"black"}}/>
     </IconButton>

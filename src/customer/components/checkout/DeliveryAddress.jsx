@@ -9,6 +9,7 @@ import Loader from '../../Loader';
 import { getCart } from '../../state/cart/cartSlice';
 import { getAllProducts } from '../../state/product/productSlice';
 import { CheckBox } from '@mui/icons-material';
+import { API_BASE_URL } from '../../../config/apiConfig';
 
 export default function DeliveryAddress() {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function DeliveryAddress() {
  dispatch(getAllProducts());
   },[loading,dispatch])
 const navigate = useNavigate()
-  const handlesubmit = async(e)=>{
+  const handlesubmit = (e)=>{
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     let billing;
@@ -70,8 +71,9 @@ if(checked){
    console.log("submit", address);
    try {
     const orderData = {address,navigate} 
-    await dispatch(createOrder(orderData));
-    //deliver()
+// dispatch(createOrder(orderData));
+  createorders(orderData)
+   // deliver()
   // window.location.reload();
   } catch (error) {
     console.error('Error creating order:', error);
@@ -90,6 +92,33 @@ if(checked){
   
  }
 
+ const createorders = async(orderData)=>{
+ const token = localStorage.getItem('jwt');
+ const { address, navigate } = orderData;
+ const cleanAddress = JSON.parse(JSON.stringify(address));
+ try {
+     const response = await fetch(`${API_BASE_URL}/api/orders/`, {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json',
+             'Authorization': token
+         },
+         body: JSON.stringify(cleanAddress)
+     });
+
+     if (!response.ok) {
+         const errorText = await response.text();
+         console.log(`Failed to create order: ${errorText}`);
+     }
+
+     const order = await response;
+     navigate({ search: `step=3&order_id=${order._id}` });
+     return order;
+ } catch (error) {
+     // Handle different types of errors appropriately
+     console.log(error.message);
+ }
+}
   return (
    <>
  {!loading? <Grid container spacing={4} style={{display:'flex',justifyContent:'center'}} >
