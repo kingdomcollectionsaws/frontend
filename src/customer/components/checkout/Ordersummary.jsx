@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import Addresscard from '../addresscard/Addresscard'
 import { Button, Grid,  } from '@mui/material'
-import Cartitem from '../cart/Cartitem'
 import { useDispatch, useSelector } from 'react-redux';
-import { json, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getOrderById } from '../../state/order/orderSlice';
 import {loadStripe} from '@stripe/stripe-js';
 import { API_BASE_URL } from '../../../config/apiConfig';
