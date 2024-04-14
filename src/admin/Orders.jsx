@@ -4,8 +4,10 @@ import { API_BASE_URL } from '../config/apiConfig';
 export default function Orders() {
   const [loading,setLoading] = useState(true);
   const [ordersData,setOrdersData] = useState([]);
+  const [addressData,setAddressData] = useState([]);
     useEffect(()=>{
         orders()
+        ordersadd()
     },[])
     const orders = ()=>{
         const token = localStorage.getItem('jwt');
@@ -31,12 +33,35 @@ export default function Orders() {
       console.error('There was a problem with the fetch request:', error);
       });
        }
+       const ordersadd = ()=>{
+        const token = localStorage.getItem('jwt');
+        const requestOptions = {
+          method: 'GET',
+          headers:{
+            authorization: token
+          }
+        }
+      fetch(`${API_BASE_URL}/api/admin/orders/alladdress`, requestOptions)
+      .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+      })
+      .then(address => {
+      console.log('address:', address);
+      setAddressData(address)
+      })
+      .catch(error => {
+      console.error('There was a problem with the fetch request:', error);
+      });
+       }
   return (
   !loading? <div >
    {
-  ordersData?.map((i)=>(
-      <div  className='flex align-center justify-around border shadow-lg mt-8 hover:scale-105 flex-warp flex-col m-10 p-5 '>
-      {i.orderItems.map((i)=><div >
+  ordersData?.map((item)=>(
+      <div  className='flex align-center justify-around border shadow-lg mt-8 hover:scale-105 flex-warp flex-col m-10 p-5' style={{border:'1px solid black'}}>
+      {item.orderItems.map((i)=><div >
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
     <div style={{width:'60%'}}>
     <div className=' rounded-sm sm:w-[5rem] sm:h-[5rem] h-[5rem] w-[5rem]  '>
@@ -54,21 +79,60 @@ export default function Orders() {
    
     </div>
     
-    <div style={{width:'40%'}}>
-    {<div className='flex flex-col '>
-      <p className='font-bold mb-2'></p>
-      <p>name:</p>
-      <p>address: </p>
-      <p>mobile:</p>
-      <p className=' mb-2'>city:</p>
-      <p></p>
-    </div>}
-    </div>
+   
      </div></div>
-    )}
-    <p></p>
-    <p className='font-semibold mb-2'>Status: {i.orderStatus}</p>
+    )} 
+    <h1 style={{fontWeight:'bold'}}> Order Address</h1>
+     <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
+    
+  <div>
+  {addressData.map((address,index)=>{
+      
+      if (address._id== item. shippingAddress) {
+        return (
+          <div className='flex flex-col' key={address.user}>
+            <p className='font-bold mb-2'></p>
+            <p>name: {address.firstName}</p>
+            <p>mobile: {address.mobile}</p>
+            <p>email: {address.email}</p>
+            <p>country: {address.country}</p>
+            <p>state: {address.state}</p>
+            <p>city: {address.city}</p>
+            <p>address: {address.user}</p>
+            <p>notee: {item.user}</p>
+          </div>
+        );
+      }
+      return null;
+}) }
+  </div>
+  <div>
+  <h1 style={{fontWeight:'bold'}}> Billing Address</h1>
+  {addressData.map((address,index)=>{
+      
+      if (address._id== item. shippingAddress) {
+        return (
+          <div className='flex flex-col' key={address.user}>
+            <p className='font-bold mb-2'></p>
+            <p>name: {address.firstName}</p>
+            <p>mobile: {address.mobile}</p>
+            <p>email: {address.email}</p>
+            <p>country: {address.country}</p>
+            <p>state: {address.state}</p>
+            <p>city: {address.city}</p>
+            <p>address: {address.user}</p>
+            <p>notee: {item.user}</p>
+          </div>
+        );
+      }
+      return null;
+}) }
+  </div>
+    </div>
+  
+    <p className='font-semibold mb-2'>Status: {item.orderStatus}</p>
    <button>Update status</button>
+
     <div>
       
     </div>

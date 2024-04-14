@@ -71,8 +71,8 @@ if(checked){
    try {
     const orderData = {address,navigate} 
     await dispatch(createOrder(orderData));
-    deliver()
-   // window.location.reload();
+    //deliver()
+  // window.location.reload();
   } catch (error) {
     console.error('Error creating order:', error);
     // Handle error here (e.g., display error message to the user)

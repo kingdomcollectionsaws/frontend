@@ -10,10 +10,11 @@ export default function Cartitem() {
   const dispatch = useDispatch()
   const { cart, loading } = useSelector(store => store.cart);
   const { user } = useSelector(store => store.user);
-  const [quantity, setQuantity] = useState(1);
-  const updatequan = (id) => {
-    const updatedata = { id: id, quantity: quantity };
-    dispatch(updateItemInCart(updatedata));
+  const [quantity, setQuantity] = useState(0);
+  const [itemIndex, setItemIndex] = useState(0)
+  const updatequan = async(id,quan) => {
+    const updatedata = { id: id, quantity: quan };
+   await dispatch(updateItemInCart(updatedata));
     window.location.reload()
   }
   const handleChange = (e) => {
@@ -61,28 +62,27 @@ setOrderDate(formattedDateRange)
   return (
     !loading ? 
    <>
-   {user? cart?.cartItems.map((data)=>(<div className='border mb-3 p-2' >
+   {user? cart?.cartItems.map((data,index)=>(<div className='border mb-3 p-2' >
      <div style={{ display: 'flex', justifyContent: 'space-between',}} className='flex-col lg:flex-row '>
       <div style={{ width: '90%' }}>
         <div className='flex align-center mx-3 mt-5 flex-col lg:flex-row  space-x-5 '>
           <img className='max-w[15rem] max-h-[15rem] flex align-center mx-4' src={data?.product.imageUrl[0]} alt="img" />
           <div className='flex align-center justify-center flex-col gap-3' >
             <p>{data?.product.title}</p>
-            {/* <p style={{color:'#595959'}}>{data?.product.description}</p> */}
-            {/* <p>quantity:{data?.quantity}</p> */}
+             <p>quantity:{data?.quantity} </p> 
             <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.product.brand} </span> </p>
             <div className='flex align-center justify-center mx-3  space-x-5'>
-    <IconButton onClick={()=>{quantity==1?setQuantity(1):setQuantity(quantity-1)}}>
+    <IconButton onClick={()=>{{quantity+data.quantity < 2 ?setQuantity(0):setQuantity(quantity-1)}{setItemIndex(index)}}}>
         <RemoveCircleOutlineOutlined sx={{color:"black"}}/>
     </IconButton>
-    <span className='py-[5px] px-3 border rounded-sm ]'>{quantity}</span>
-<IconButton onClick={()=>setQuantity(quantity+1)}>
+    <span className='py-[5px] px-3 border rounded-sm ]'>{itemIndex == index ? quantity+data.quantity:'1'}</span>
+<IconButton onClick={()=>{{setQuantity(quantity+1)}{setItemIndex(index)}}}>
         <AddCircleOutlineOutlined sx={{color:"black"}}/>
     </IconButton>
     <div>
      
       {
-         quantity >1? <Button sx={{color:"black"}} onClick={()=>updatequan(data._id)} >update</Button>:''
+         quantity !== data.quantity  >1? <Button sx={{color:"black"}} onClick={()=>updatequan(data._id,quantity+data.quantity)} >update</Button>:''
       } 
      
     </div>
@@ -113,71 +113,6 @@ setOrderDate(formattedDateRange)
      </p>
     </div>
 </div>)):<>
-{localcartItems?.map((data)=>(<div className='border mb-3 p-2' >
-     <div style={{ display: 'flex', justifyContent: 'space-between',}} className='flex-col lg:flex-row '>
-      <div style={{ width: '90%' }}>
-        <div className='flex align-center mx-3 mt-5 flex-col lg:flex-row  space-x-5 '>
-          <img className='max-w[15rem] max-h-[15rem] flex align-center mx-4' src={data?.image} alt="img" />
-          <div className='flex align-center justify-center flex-col gap-3' >
-            <p>{data?.title}</p>
-            {/* <p style={{color:'#595959'}}>{data?.product.description}</p> */}
-            {/* <p>quantity:{data?.quantity}</p> */}
-            <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> black </span> </p>
-            <div className="flex align-center justify-start m-y-1 space-x-2">
-              <div>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  onChange={handleChange}
-                  style={{ width: '4rem', marginBottom: '1rem' }}
-                  defaultValue={1}
-                >
-                  {
-
-                    quantityarray.map((item, index) => (
-
-                      <MenuItem value={item} key={index}>
-                        {item}
-                      </MenuItem>
-
-                    ))
-
-                  }
-
-                </Select>
-                {
-                  quantity > 1 ? <Button sx={{ color: "black" }} onClick={() => updatequan(data._id)} >update</Button> : ''
-                }
-
-              </div>    
-             
-            </div>
-            <Button sx={{ color: "black" }} onClick={() => reamoveitem(data._id)} >remove</Button>
-          
-          </div>
-         
-          <div>
-          </div>
-
-        </div>
-        <div className='flex   space-x-5'>
-
-        </div>
-      </div>
-      <div style={{ width: '10%', display: 'flex', alignItems: 'center', marginTop: '1rem', flexDirection: 'column', }} className='mx-10 lg:mx-0 '>
-        <p className=' font-bold tracking-tight   text-green-600' style={{fontSize:'1.5rem'}}>£{data?.price}</p>
-        <p className='font-semibold tracking-tight text-gray-600  line-through '>£{data?.discountedPrice}</p>
-      </div>
-    </div>
-    <div style={{display:'flex', borderTop:'1px solid gray',width:'100%',flexDirection:'column',}}> 
-     <p style={{fontWeight:'500'}}>
-     Delivery:Free
-     </p>
-     <p style={{color:'#595959'}}>
-     Estimated delivery: <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span> from United States
-     </p>
-    </div>
-</div>))}
 </>}
    </>
       : <h1>no item yet</h1>
