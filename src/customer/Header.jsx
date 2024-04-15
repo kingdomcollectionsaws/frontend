@@ -30,6 +30,9 @@ export default function Header() {
     if (location.pathname === "/register") {
       setHandleOpeneAuth(true)
     }
+    if (location.pathname === "/checkout?step=2") {
+      setHandleOpeneAuth(false)
+    }
     if (location.pathname === "/Guest") {
       setHandleOpeneAuth(true)
     }
@@ -37,7 +40,7 @@ export default function Header() {
 
   const handleClose = () => {
     setHandleOpeneAuth(false)
-    navigate("/")
+   
   }
   const handleOpen = () => {
     navigate("/login")

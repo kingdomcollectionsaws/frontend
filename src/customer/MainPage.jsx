@@ -21,7 +21,6 @@ import { getCart } from './state/cart/cartSlice'
 import { getUserDetail } from './state/Auth/registerSlice'
 import ProfilePage from '../profile/Profile'
 import ReactGA from 'react-ga';
-import Orderpie from '../admin/Orderpie'
 export default function MainPage() {
   ReactGA.initialize('G-509RBXK1MX');
  
@@ -48,8 +47,6 @@ export default function MainPage() {
   const [allproduct, setAllproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    
-    ReactGA.pageview(window.location.pathname);
     dispatch(getAllProducts());
     dispatch(getCart())
     const handleResize = () => {
