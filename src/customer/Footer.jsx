@@ -42,19 +42,19 @@ export default function Footer() {
           <h3>About</h3>
           <ul>
             <li>  <a href="#">  Inc. </a> </li> 
-            <li>  <a href="#"> Policies </a> </li> 
+            <li>  <a href="/PrivacyPolicy"> Policies </a> </li> 
             <li>  <a href="#"> Investors </a> </li> 
-            <li>  <a href="#"> Careers </a> </li> 
+            <li>  <a href="/About"> About Us </a> </li> 
             <li>  <a href="#"> Press </a> </li> 
             <li>  <a href="#"> Impact </a> </li> 
-            <li>  <a href="#"> Legal imprint </a> </li> 
+            <li>  <a href="/ShippingPolicy"> Shipping Policy </a> </li> 
           </ul>
         </div>
         <div className={style.column}>
           <h3>Help</h3>
           <ul>
             <li>  <a href="#"> Help Centre </a> </li> 
-            <li>  <a href="#"> Privacy settings </a> </li> 
+            <li>  <a href="/Contact"> Contact Us</a> </li> 
           </ul>
         </div>
       </div>
@@ -74,7 +74,7 @@ export default function Footer() {
           <ul style={{ display:'flex',  flexDirection:'row',gap:'20px',justifyContent:'center',alignItems:'center'}}>
           <li><a href="#" > &copy; 2024  Inc. </a></li>
            <li>  <a href="#">  Terms of Use</a> </li> 
-            <li>  <a href="#"> Privacy </a> </li> 
+            <li>  <a href="/PrivacyPolicy"> Privacy </a> </li> 
             <li>  <a href="#"> Interest-based ads </a> </li> 
             <li>  <a href="#"> Local Shops </a> </li> 
             <li>  <a href="#">  Regions </a> </li> 
@@ -126,12 +126,12 @@ export default function Footer() {
                     open3?<div className={style.column} style={{marginLeft:'1rem'}}>
                     <ul>
                     <li>  <a href="#">  Inc. </a> </li> 
-            <li>  <a href="#"> Policies </a> </li> 
+            <li>  <a href="/PrivacyPolicy"> Policies </a> </li> 
             <li>  <a href="#"> Investors </a> </li> 
-            <li>  <a href="#"> Careers </a> </li> 
+            <li>  <a href="/About"> About Us </a> </li> 
             <li>  <a href="#"> Press </a> </li> 
             <li>  <a href="#"> Impact </a> </li> 
-            <li>  <a href="#"> Legal imprint </a> </li> 
+            <li>  <a href="/ShippingPolicy"> Shipping Policy </a> </li> 
                     </ul>
                   </div> : <h1></h1>
                   }
@@ -140,7 +140,7 @@ export default function Footer() {
                     open4?<div className={style.column} style={{marginLeft:'1rem'}}>
                     <ul>
                     <li>  <a href="#"> Help Centre </a> </li> 
-            <li>  <a href="#"> Privacy settings </a> </li> 
+            <li>  <a href="/Contact"> Contact Us</a> </li> 
                     </ul>
                   </div> : <h1></h1>
                 
@@ -159,7 +159,7 @@ export default function Footer() {
       <div className={style.column} >
           <ul style={{ display:'flex',  flexDirection:'row',gap:'20px',justifyContent:'center',alignItems:'center'}}>
            <li>  <a href="#">  Terms of Use</a> </li> 
-            <li>  <a href="#"> Privacy </a> </li> 
+            <li>  <a href="/PrivacyPolicy"> Privacy </a> </li> 
             <li>  <a href="#"> Interest-based ads </a> </li> 
             <li>  <a href="#"> Local Shops </a> </li> 
             <li>  <a href="#">  Regions </a> </li> 

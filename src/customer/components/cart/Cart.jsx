@@ -4,7 +4,7 @@ import { Button, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../Loader';
-import { getCart, updateItemInCart } from '../../state/cart/cartSlice';
+import { addItemInCart, getCart, updateItemInCart } from '../../state/cart/cartSlice';
 import visa from '../../../../public/visa.png'
 import american from '../../../../public/amarican.png'
 import master from '../../../../public/master.png'
@@ -33,6 +33,15 @@ export default function Cart() {
 }
    setLocalcart(localcarts)
    console.log(localcart);
+   const items = localStorage.getItem('items');
+   if (items) {
+     const localcart = JSON.parse(items);
+     for (let index = 0; index < localcart.length; index++) {
+       let data = { productId: localcart[index] };
+       dispatch(addItemInCart(data));
+     }
+     localStorage.removeItem('items'); // Remove the 'items' key from local storage
+   }
   }, []);
   const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
   
@@ -88,7 +97,7 @@ export default function Cart() {
           <span className='text-green-500'>FREE</span>
         </div>
           <div className=' flex justify-between p-4 w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
-          <span>Total ({cart.cartItems.length} item)</span>
+          <span>Total ({cart?.cartItems.length} item)</span>
           <span >£{cart?.totalDiscountedPrice}</span>
         </div>
         </div>

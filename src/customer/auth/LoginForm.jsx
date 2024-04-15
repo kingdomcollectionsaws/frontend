@@ -23,38 +23,45 @@ export default function LoginForm() {
   });
 //const jwt = localStorage.getItem('jwt');
 
-  const handleSubmit =  async(event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const userData = {
-      email: data.get("email"),
-      password: data.get("password"),
-    };
-   if(user && user.role == 'GUEST'){
-    dispatch(loginUser(userData));
-    if(user.role=='GUEST'){
-  
-      setTimeout(()=>{
-        notify("invalid email or passwords")
-       },[1000])
-      
-    }else{
-      for (let index = 0; index < cart.cartItems.length; index++) {
-        let data = { productId: cart.cartItems[index].product._id };
-      dispatch(addItemInCart(data)) }
-    }
-     
-   }else{
-     dispatch(loginUser(userData));
-     if(jwt){
-      notify("login successfully")
-     }else{
-      setTimeout(()=>{
-        notify("invalid email or password")
-       },[1000])
-     }
-   }
+const handleSubmit =  async(event) => {
+  event.preventDefault();
+  const data = new FormData(event.currentTarget);
+  const userData = {
+    email: data.get("email"),
+    password: data.get("password"),
   };
+ if(user && user.role == 'GUEST'){
+  console.log(cart);
+  let itemIds = [];
+  for (let index = 0; index < cart.cartItems.length; index++) {
+    // Get the ID of the current cartItem
+    let itemId = cart.cartItems[index].product._id;
+    
+    // Push the ID into the array
+    itemIds.push(itemId);
+}
+
+// Store the array of IDs in localStorage
+localStorage.setItem('items', JSON.stringify(itemIds));
+ await dispatch(loginUser(userData));
+  if(user.role=='GUEST'){
+     alert("invalid email or passwords");
+     dispatch(getUserDetail());
+  }else{
+
+  }
+ 
+ }else{
+   dispatch(loginUser(userData));
+   if(jwt){
+    
+   }else{
+    setTimeout(()=>{
+      notify("invalid email or password")
+     },[1000])
+   }
+ }
+};
 
   useEffect(() => {
     dispatch(getUserDetail());

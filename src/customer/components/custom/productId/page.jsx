@@ -388,7 +388,7 @@ getUserDetail()
                   </div>
                   <div className={style.check}>
                     <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
-                    <p className={style.checkP}> Arrives soon Get it by </p>
+                     <p className={style.checkP}>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                     {/* <span style={{ borderBottom: '1px dashed black' }}>06-07 Mar</span> if you order today */}
                   </div>
                   <div className={style.check} style={{ marginTop: '.1rem' }}>
@@ -1075,7 +1075,7 @@ getUserDetail()
                 </div>
                 <div className={style.check}>
                   <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
-                  <p className={style.checkP}>Arrives soon Get it by  </p>
+                  <p className={style.checkP}>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                 </div>
                 <div className={style.check} style={{ marginTop: '1px' }}>
                   <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />

@@ -16,6 +16,10 @@ import UpadteProfile from '../profile/UpdateProfile'
 import CategoryProduct from '../customer/components/custom/CategoryProduct'
 import Dashboard from '../admin/Dashboard'
 import SearchProducts from '../SearchProducts'
+import PrivacyPolicy from '../customer/PrivacyPolicy'
+import AboutUs from '../customer/About'
+import ShippingPolicy from '../customer/ShippingPolicy'
+import ContactUs from '../customer/Contact'
 
 export default function AllRoutes() {
 
@@ -39,6 +43,10 @@ export default function AllRoutes() {
 <Route path='/account/order/:order_id/:payment_id' element={<OderDetail/>}/>
 <Route path='/AdmIn' element={<Dashboard/>}/>
 <Route path='/Guest' element={<Cart/>}/>
+<Route path='/PrivacyPolicy' element={<PrivacyPolicy/>}/>
+<Route path='/About' element={<AboutUs/>}/>
+<Route path='/ShippingPolicy' element={<ShippingPolicy/>}/>
+<Route path='/Contact' element={<ContactUs/>}/>
     </Routes>
     
     </>

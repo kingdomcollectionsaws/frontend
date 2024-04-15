@@ -16,6 +16,7 @@ export default function Dashboard() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
     const [allorders, setAllorders] = useState([]);
+    const [allusers, setAllusers] = useState([]);
     const [openSection, setOpenSection] = useState("DASHBOARD")
     const [variations, setVaritions] = useState();
     const [showCategory, setShowCategory] = useState()
@@ -99,9 +100,35 @@ export default function Dashboard() {
                 console.error('There was a problem with the fetch request:', error);
             });
     }
+    const getusers = () => {
+        const token = localStorage.getItem('jwt');
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                authorization: token
+            }
+        }
+        fetch(`${API_BASE_URL}/api/admin/orders/allusers`, requestOptions)
+            .then(response => {
+                console.log(response);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(users => {
+                console.log('orderssss:', users);
+                setAllusers(users)
+
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch request:', error);
+            });
+    }
     useEffect(() => {
         dispatch(getAllProducts())
-        getorder()
+        getorder();
+        getusers()
     }, []);
 
     const handelfileupload = async (event) => {
@@ -153,7 +180,7 @@ export default function Dashboard() {
     }
     const deleteProduct = async (id) => {
         const requestOptions = {
-            method: 'DELETE',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json' // Set the content type to JSON
             },
@@ -173,6 +200,7 @@ export default function Dashboard() {
             });
 
     }
+
     return (
         !loading && user?.role === "ADMIN" ?
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>

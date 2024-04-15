@@ -73,6 +73,7 @@ export default function Orders() {
       <p>Name: {i.product.title}</p>
       <p>Style: {i.sizes[0]}</p>
       <p className=' mb-2'>Quantity: {i.quantity}</p>
+      <p className=' mb-2'>Order date: {item.createdAt.slice(0,10)}</p>
       
       <p>{i.title}</p>
     </div>
@@ -98,8 +99,9 @@ export default function Orders() {
             <p>country: {address.country}</p>
             <p>state: {address.state}</p>
             <p>city: {address.city}</p>
-            <p>address: {address.user}</p>
-            <p>notee: {item.user}</p>
+            <p>Address: {address.streetAddress}</p>
+            <p>Zipcode: {address.zipCode}</p>
+            <p>Note: {item.note}</p>
           </div>
         );
       }
@@ -114,14 +116,14 @@ export default function Orders() {
         return (
           <div className='flex flex-col' key={address.user}>
             <p className='font-bold mb-2'></p>
-            <p>name: {address.firstName}</p>
-            <p>mobile: {address.mobile}</p>
-            <p>email: {address.email}</p>
-            <p>country: {address.country}</p>
-            <p>state: {address.state}</p>
-            <p>city: {address.city}</p>
-            <p>address: {address.user}</p>
-            <p>notee: {item.user}</p>
+            <p>name: {address.billing.firstName}</p>
+            <p>mobile: {address.billing.mobile}</p>
+            <p>email: {address.billing.email}</p>
+            <p>country: {address.billing.country}</p>
+            <p>state: {address.billing.state}</p>
+            <p>city: {address.billing.city}</p>
+            <p>address: {address.billing.streetAddress}</p>
+            <p>Zipcode: {address.billing.zipCode}</p>
           </div>
         );
       }
