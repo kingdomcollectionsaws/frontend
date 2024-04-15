@@ -36,7 +36,7 @@ export default function Header() {
     if (location.pathname === "/Guest") {
       setHandleOpeneAuth(true)
     }
-  }, [dispatch, jwt, location])
+  }, [dispatch, jwt, location,cart?.cartItems.length ])
 
   const handleClose = () => {
     setHandleOpeneAuth(false)
