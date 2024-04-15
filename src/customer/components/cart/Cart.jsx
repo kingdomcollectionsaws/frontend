@@ -16,23 +16,10 @@ export default function Cart() {
   const {user} = useSelector(store => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [localcart,setLocalcart] =useState()
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalDiscountedPrice, setTotalDiscountedPrice] = useState(0);
+  const [localcart,setLocalcart] =useState();
   useEffect(() => {
     dispatch(getCart());
-   const localcarts = JSON.parse(localStorage.getItem('cart'));
-   if (localcarts) {
-    // Calculate total price and discounted price
-    const totalPriceSum = localcarts.reduce((acc, item) => acc + item.price, 0);
-    const totalDiscountedPriceSum = localcarts.reduce((acc, item) => acc + item.discountedPrice, 0);
-
-    // Update state with the total values
-    setTotalPrice(totalPriceSum);
-    setTotalDiscountedPrice(totalDiscountedPriceSum);
-}
-   setLocalcart(localcarts)
-   console.log(localcart);
+    
    const items = localStorage.getItem('items');
    if (items) {
      const localcart = JSON.parse(items);
@@ -40,8 +27,10 @@ export default function Cart() {
        let data = { productId: localcart[index] };
        dispatch(addItemInCart(data));
      }
-     localStorage.removeItem('items'); // Remove the 'items' key from local storage
+     localStorage.removeItem('items');
+     window.location.reload() // Remove the 'items' key from local storage
    }
+   
   }, []);
   const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
   

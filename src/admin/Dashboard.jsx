@@ -92,42 +92,47 @@ export default function Dashboard() {
                 return response.json();
             })
             .then(orders => {
-                console.log('order:', orders);
-                setAllorders(orders)
+                const filteredOrders = orders.filter(order => order.user.role !== 'GUEST');
+    
+    console.log('filtered orders:', filteredOrders);
+    
+    // Set the filtered orders in allOrders
+    setAllOrders(filteredOrders);
 
             })
             .catch(error => {
                 console.error('There was a problem with the fetch request:', error);
             });
     }
-    const getusers = () => {
-        const token = localStorage.getItem('jwt');
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                authorization: token
-            }
+    const getusers = async () => {
+        try {
+            const token = localStorage.getItem('jwt');
+            const requestOptions = {
+                method: 'GET',
+              
+            };
+    
+            const response = await fetch(`https://kigndombackend.onrender.com/api/admin/orders/allusers`, requestOptions);
+    
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok');
+            // }
+    
+            const users = await response.json();
+            console.log('orderssss:', users);
+            setAllusers(users);
+        } catch (error) {
+            console.error('There was a problem with the fetch request:', error);
         }
-        fetch(`${API_BASE_URL}/api/admin/orders/allusers`, requestOptions)
-            .then(response => {
-                console.log(response);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(users => {
-                console.log('orderssss:', users);
-                setAllusers(users)
-
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch request:', error);
-            });
-    }
+    };
+    
     useEffect(() => {
         dispatch(getAllProducts())
         getorder();
+        getusers()
+    }, []);
+    useEffect(() => {
+      
         getusers()
     }, []);
 
@@ -435,7 +440,29 @@ export default function Dashboard() {
                         ))}
                     </div> : ''}
                     {openSection == "USERS" ? <div>
-                        <div>Users</div>
+                    <div  className='flex align-center justify-around border shadow-lg mt-8  flex-warp flex-col m-20 p-5' >
+      {allusers.map((i)=><div >
+     <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row',border:'1px solid black',margin:'4px'}}>
+    <div style={{width:'60%'}}>
+    <div className='flex flex-col '>
+      <p className='font-bold mb-2'></p>
+      <p>Firstname: {i?.firstName}</p>
+      <p>Lastname: {i?.lastName}</p>
+      <p>Email: {i?.email}</p>
+      <p>Mobile: {i?.mobile}</p>
+      <p>Join date:{i?.createdAt.slice(0,10)}</p>
+    </div>
+   
+    </div>
+    
+   
+     </div></div>
+    )} 
+  
+    <div>
+      
+    </div>
+    </div>
                     </div> : ''}
                     {openSection == "OVERVIEW" ? <div>
                         <div>Overview</div>
