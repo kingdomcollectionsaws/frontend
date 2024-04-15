@@ -66,7 +66,7 @@ export default function Dashboard() {
             productData.imageUrl.push(value)
         }
         if (name == "productvariaton") {
-            productData.brand(value)
+            productData.brand = value
         }
 
 
@@ -92,12 +92,10 @@ export default function Dashboard() {
                 return response.json();
             })
             .then(orders => {
-                const filteredOrders = orders.filter(order => order.user.role !== 'GUEST');
-    
-    console.log('filtered orders:', filteredOrders);
+                
     
     // Set the filtered orders in allOrders
-    setAllOrders(filteredOrders);
+    setAllorders(orders);
 
             })
             .catch(error => {
@@ -119,8 +117,10 @@ export default function Dashboard() {
             // }
     
             const users = await response.json();
+
             console.log('orderssss:', users);
-            setAllusers(users);
+            const filteredUser = users.filter(user => user.role !== 'GUEST');
+            setAllusers(filteredUser);
         } catch (error) {
             console.error('There was a problem with the fetch request:', error);
         }
@@ -249,7 +249,7 @@ export default function Dashboard() {
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '12rem', height: '8rem', background: ' #e6b800', gap: '10px', color: '#fff', borderRadius: '12px', fontSize: '1.5rem', cursor: 'pointer' }}>
                                     <div>
-                                        <p>12</p>
+                                        <p>{allusers.length}</p>
                                         <p>Users</p>
                                     </div>
                                     <div style={{ fontSize: '1.5rem' }}>
