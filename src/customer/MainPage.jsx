@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,lazy } from 'react'
 import style from '../customer/components/custom/styles.module.css'
 import b1 from "../../public/b1.jpg"
 import b2 from "../../public/b4.jpg"
@@ -21,6 +21,7 @@ import { getCart } from './state/cart/cartSlice'
 import { getUserDetail } from './state/Auth/registerSlice'
 import ProfilePage from '../profile/Profile'
 import ReactGA from 'react-ga';
+const carousel = lazy(() => import('./components/homecarousel/Carousel'));
 export default function MainPage() {
   ReactGA.initialize('G-509RBXK1MX');
  
