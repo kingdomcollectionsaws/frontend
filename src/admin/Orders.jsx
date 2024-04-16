@@ -56,8 +56,138 @@ export default function Orders() {
       console.error('There was a problem with the fetch request:', error);
       });
        }
+       const confirmedstatus = async (id) => {
+        try {
+            const token = localStorage.getItem('jwt');
+            const requestOptions = {
+                method: 'PUT',
+                headers: {
+                  authorization: token
+              }
+              
+            };
+    
+            const response = await fetch(`${API_BASE_URL}/api/admin/orders/${id}/confirmed`, requestOptions);
+    
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok');
+            // }
+    
+            const msg = await response.json();
+
+            // console.log('orderssss:', users);
+            // const filteredUser = users.filter(user => user.role !== 'GUEST');
+            // setAllusers(filteredUser);
+        } catch (error) {
+            console.error('There was a problem with the fetch request:', error);
+        }
+    };
+    const shipstatus = async (id) => {
+      try {
+          const token = localStorage.getItem('jwt');
+          const requestOptions = {
+              method: 'PUT',
+              headers: {
+                authorization: token
+            }
+            
+          };
+  
+          const response = await fetch(`${API_BASE_URL}/api/admin/orders/${id}/ship`, requestOptions);
+  
+          // if (!response.ok) {
+          //     throw new Error('Network response was not ok');
+          // }
+  
+          const msg = await response.json();
+
+          // console.log('orderssss:', users);
+          // const filteredUser = users.filter(user => user.role !== 'GUEST');
+          // setAllusers(filteredUser);
+      } catch (error) {
+          console.error('There was a problem with the fetch request:', error);
+      }
+  };
+  const deliverstatus = async (id) => {
+    try {
+        const token = localStorage.getItem('jwt');
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+              authorization: token
+          }
+          
+        };
+
+        const response = await fetch(`${API_BASE_URL}/api/admin/orders/${id}/deliver`, requestOptions);
+
+        // if (!response.ok) {
+        //     throw new Error('Network response was not ok');
+        // }
+
+        const msg = await response.json();
+
+        // console.log('orderssss:', users);
+        // const filteredUser = users.filter(user => user.role !== 'GUEST');
+        // setAllusers(filteredUser);
+    } catch (error) {
+        console.error('There was a problem with the fetch request:', error);
+    }
+};
+const deletestatus = async (id) => {
+  try {
+      const token = localStorage.getItem('jwt');
+      const requestOptions = {
+          method: 'DELETE',
+          headers: {
+            authorization: token
+        }
+        
+      };
+
+      const response = await fetch(`${API_BASE_URL}/api/admin/orders/${id}/delete`, requestOptions);
+
+      // if (!response.ok) {
+      //     throw new Error('Network response was not ok');
+      // }
+
+      const msg = await response.json();
+
+      // console.log('orderssss:', users);
+      // const filteredUser = users.filter(user => user.role !== 'GUEST');
+      // setAllusers(filteredUser);
+  } catch (error) {
+      console.error('There was a problem with the fetch request:', error);
+  }
+};
+const cancelstatus = async (id) => {
+  try {
+      const token = localStorage.getItem('jwt');
+      const requestOptions = {
+          method: 'PUT',
+          headers: {
+            authorization: token
+        }
+        
+      };
+
+      const response = await fetch(`${API_BASE_URL}/api/admin/orders/${id}/cancel`, requestOptions);
+
+      // if (!response.ok) {
+      //     throw new Error('Network response was not ok');
+      // }
+
+      const msg = await response.json();
+
+      // console.log('orderssss:', users);
+      // const filteredUser = users.filter(user => user.role !== 'GUEST');
+      // setAllusers(filteredUser);
+  } catch (error) {
+      console.error('There was a problem with the fetch request:', error);
+  }
+};
   return (
-  !loading? <div >
+  !loading? <div>
    {
   ordersData?.map((item)=>(
       <div  className='flex align-center justify-around border shadow-lg mt-8 hover:scale-105 flex-warp flex-col m-10 p-5' style={{border:'1px solid black'}}>
@@ -134,6 +264,13 @@ export default function Orders() {
   
     <p className='font-semibold mb-2'>Status: {item.orderStatus}</p>
    <button>Update status</button>
+   <div style={{display:'flex',flexDirection:'row', alignItems:'center',justifyContent:'center',gap:'20px',marginTop:'1rem'}}>
+   <button onClick={()=>confirmedstatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Confirmed</button>
+   <button onClick={()=>shipstatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Ship</button>
+   <button onClick={()=>deliverstatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Deliver</button>
+   <button onClick={()=>deletestatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Delete</button>
+   <button onClick={()=>cancelstatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Cancel</button>
+   </div>
 
     <div>
       
