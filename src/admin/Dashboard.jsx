@@ -105,7 +105,30 @@ export default function Dashboard() {
               
             };
     
-            const response = await fetch(`https://kigndombackend.onrender.com/api/admin/orders/allusers`, requestOptions);
+            const response = await fetch(`${API_BASE_URL}/api/admin/orders/allusers`, requestOptions);
+    
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok');
+            // }
+    
+            const users = await response.json();
+
+            console.log('orderssss:', users);
+            const filteredUser = users.filter(user => user.role !== 'GUEST');
+            setAllusers(filteredUser);
+        } catch (error) {
+            console.error('There was a problem with the fetch request:', error);
+        }
+    };
+    const gupdatestatus = async (id) => {
+        try {
+            const token = localStorage.getItem('jwt');
+            const requestOptions = {
+                method: 'GET',
+              
+            };
+    
+            const response = await fetch(`https://kigndombackend.onrender.com/api/admin/orders/${id}/confirmed`, requestOptions);
     
             // if (!response.ok) {
             //     throw new Error('Network response was not ok');
