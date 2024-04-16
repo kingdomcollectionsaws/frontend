@@ -12,9 +12,11 @@ import { MdLocalShipping } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import Orderpie from './Orderpie.jsx';
 import Todayorder from './Todayorder.jsx';
+import { useNavigate } from 'react-router-dom';
 export default function Dashboard() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
+    const [editmenu, setEditmenu] = useState(false);
     const [allorders, setAllorders] = useState([]);
     const [allusers, setAllusers] = useState([]);
     const [openSection, setOpenSection] = useState("DASHBOARD")
@@ -36,14 +38,7 @@ export default function Dashboard() {
         brand: ''
     });
 
-    const updateProduct = async (id) => {
-        dispatch(findProductById(id));
-        await product
-        if (product) {
-            console.log(product);
-        }
-
-    }
+   
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         //    if(name=="images"){
@@ -126,11 +121,7 @@ export default function Dashboard() {
         }
     };
     
-    useEffect(() => {
-        dispatch(getAllProducts())
-        getorder();
-        getusers()
-    }, []);
+  
     useEffect(() => {
       
         getusers()
@@ -177,6 +168,7 @@ export default function Dashboard() {
             })
             .then(products => {
                 console.log('Products page:', products);
+                setOpen(false)
             })
             .catch(error => {
                 console.error('There was a problem with the fetch request:', error);
@@ -185,7 +177,7 @@ export default function Dashboard() {
     }
     const deleteProduct = async (id) => {
         const requestOptions = {
-            method: 'GET',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json' // Set the content type to JSON
             },
@@ -199,13 +191,69 @@ export default function Dashboard() {
             })
             .then(products => {
                 console.log('Products delete successfully');
+                setOpen(false)
             })
             .catch(error => {
                 console.error('There was a problem with the fetch request:', error);
             });
 
     }
+    const [product_Id,setProduct_Id] = useState()
+    const updateproductdetails = ()=>{
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json' // Set the content type to JSON
+            },
+            body: JSON.stringify(productData)
+        }
+        fetch(`${API_BASE_URL}/api/admin/products/${product_Id}`, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(products => {
+                console.log('Products delete successfully');
+                setOpen(false)
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch request:', error);
+            });
 
+    
+    }
+   
+    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand) => {
+        setProduct_Id(id)
+        setEditmenu(true)
+        setOpen(true)
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth" // Optional: smooth scrolling behavior
+          });
+        setProductData({
+            title : title ,
+     brand : brand,
+     price : price,
+     description : description,
+     quantity : quantity,
+     category : category,
+    imageUrl : imageUrl,
+    sizes : sizes
+        })
+     
+       
+      
+    }
+    
+    
+    useEffect(() => {
+        dispatch(getAllProducts())
+        getorder();
+        getusers()
+    }, [open]);
     return (
         !loading && user?.role === "ADMIN" ?
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -268,9 +316,14 @@ export default function Dashboard() {
                     </> : ''}
                     {openSection == "ORDERS" ? <Orders /> : ''}
                     {openSection == "PRODUCTS" ? <div>
-                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => setOpen(true)}>Add new product</Button>
+                    {editmenu?<div>
+                        <p style={{color:'red'}}>*If you don't want to change any field, keep that input empty</p>
+                            <p>Product : {productData.title}</p>
+                                </div>:''}
+                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => {setOpen(true) ;setEditmenu(false)}}>Add new product</Button>
                         {
                             open ? <div>
+                                
                                 <form >
                                     <Grid container spacing={3}>
                                         <Grid item xs={12} sm={6}>
@@ -278,6 +331,7 @@ export default function Dashboard() {
                                                 required
                                                 name='title'
                                                 label='Title'
+                                                
                                                 onChange={handleInputChange}
                                                 fullWidth
                                             />
@@ -397,7 +451,16 @@ export default function Dashboard() {
                                             />
 
                                         </Grid>
-                                        <Grid item xs={12} sm={6} >
+                                        {editmenu?<Grid item xs={12} sm={6} >
+                                            <Button
+                                                className=' w-full px-0 py-3'
+                                                variant='contained'
+                                                sx={{ background: "#9155FD" }}
+                                                onClick={updateproductdetails}
+                                            >
+                                                Update
+                                            </Button>
+                                        </Grid>:<Grid item xs={12} sm={6} >
                                             <Button
                                                 className=' w-full px-0 py-3'
                                                 variant='contained'
@@ -406,7 +469,7 @@ export default function Dashboard() {
                                             >
                                                 Post
                                             </Button>
-                                        </Grid>
+                                        </Grid>}
                                     </Grid>
                                 </form>
                             </div> : ''
@@ -430,7 +493,7 @@ export default function Dashboard() {
                                 </div>
                                 <div className='flex align-center justify-center mx-3  space-x-5'>
                                     <div>
-                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id)} >EDIT</Button>
+                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl, i.sizes, i.brand)} >EDIT</Button>
 
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete</Button>
                                     </div>
