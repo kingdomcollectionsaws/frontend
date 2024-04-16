@@ -37,7 +37,7 @@ export default function Cartitem() {
     dates()
     getCartItems();
     let a = localStorage.getItem('cart');
-    console.log("k",a);
+   // console.log("k",a);
   },[])
 
   const [localcartItems,setLocalcartItems] = useState()
@@ -46,7 +46,7 @@ export default function Cartitem() {
  const localcart = JSON.parse(localStorage.getItem('cart'));
  setLocalcartItems(localcart)
 }
-console.log(localcartItems);
+//console.log(localcartItems);
 
   const [orderDate,setOrderDate] = useState();
 const dates = ()=>{

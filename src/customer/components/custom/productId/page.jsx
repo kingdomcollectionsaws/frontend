@@ -106,7 +106,7 @@ export default function ProductDetailPage({ params }) {
   let newCountStart = 0;
   let newCountEnd = 5;
   const paginationHandel = (page) => {
-    console.log(page);
+    //console.log(page);
 
     newPage = page + 1;
     newCountStart = newPage * 5;
@@ -116,7 +116,7 @@ export default function ProductDetailPage({ params }) {
     setCountend(newCountEnd);
     setCurrentPage(newPage);
 
-    console.log(newCountStart, newCountEnd, newPage);
+    //console.log(newCountStart, newCountEnd, newPage);
   }
   const allreviews = () => {
     setCount(6)
@@ -215,7 +215,7 @@ getUserDetail()
     Getreviews(id)
     dispatch(findProductById(id));
     setProductDetails(null);
-    console.log(products);
+    //console.log(products);
     fetch(`${API_BASE_URL}/api/reviews/allreviews`, {
       method: 'GET'
     })
@@ -295,7 +295,7 @@ getUserDetail()
         return response.json();
       })
       .then(selectedProducts => {
-        console.log("hello", selectedProducts);
+      //  console.log("hello", selectedProducts);
 
         for (let i = selectedProducts.length - 1; i >= 0; i--) {
           if (selectedProducts[i].brand == event.target.value) {
@@ -322,7 +322,7 @@ getUserDetail()
         return response.json();
       })
       .then(reviews => {
-        console.log('reviews:', reviews);
+     //   console.log('reviews:', reviews);
         setReview(reviews)
       })
       .catch(error => {
@@ -333,7 +333,7 @@ getUserDetail()
   const handlePrev = () => {
     if (showindex > 0) {
       setShowindex(showindex => showindex - 1);
-      console.log(showindex);
+     // console.log(showindex);
     } else {
       setShowindex(review.length);
     }
@@ -341,7 +341,7 @@ getUserDetail()
   const handleNext = () => {
     if (showindex < review.length - 1) {
       setShowindex(showindex => showindex + 1);
-      console.log(showindex);
+    //  console.log(showindex);
     }else{
       setShowindex(0);
     }
@@ -349,7 +349,7 @@ getUserDetail()
   const handleallNext = () => {
     if (showindex < allproductreviews.length - 1) {
       setShowindex(showindex => showindex + 1);
-      console.log(showindex);
+     // console.log(showindex);
     }
   }
   useEffect(() => {

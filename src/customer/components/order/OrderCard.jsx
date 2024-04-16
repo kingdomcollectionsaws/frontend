@@ -2,7 +2,7 @@ import React from 'react'
 import AlbumIcon from '@mui/icons-material/Album';
 import {  useNavigate } from 'react-router-dom';
 export default function OrderCard({data}) {
-  console.log(data);
+ // console.log(data);
   const navigate = useNavigate()
   return (
     <>

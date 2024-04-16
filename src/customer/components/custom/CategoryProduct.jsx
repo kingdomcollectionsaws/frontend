@@ -29,7 +29,7 @@ export default function CategoryProduct() {
         return response.json();
       })
       .then(products => {
-        console.log('Products pageee:', products);
+     //  console.log('Products pageee:', products);
         setProducts(products);
         setLoading(false)
       })

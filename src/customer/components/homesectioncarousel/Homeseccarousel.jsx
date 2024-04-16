@@ -15,7 +15,7 @@ export default function Homeseccarousel({ data, sectionname }) {
   const slideprev = () => setActiveindex(activeindex - 1);
   const slidenext = () => setActiveindex(activeindex + 1);
   const syncactiveindex = ({ item })=>{ 
-    console.log("items are ", item)
+   // console.log("items are ", item)
     setActiveindex(item)};
   const items = data.map((i) => <Cardsection product={i} />);
   return (

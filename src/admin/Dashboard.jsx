@@ -69,7 +69,7 @@ export default function Dashboard() {
     const handleChange = (e) => {
         setShowCategory(e.target.value)
         productData.category = e.target.value;
-        console.log(productData.category);
+      //  console.log(productData.category);
     }
     const getorder = () => {
         const token = localStorage.getItem('jwt');
@@ -113,7 +113,7 @@ export default function Dashboard() {
     
             const users = await response.json();
 
-            console.log('orderssss:', users);
+           // console.log('orderssss:', users);
             const filteredUser = users.filter(user => user.role !== 'GUEST');
             setAllusers(filteredUser);
         } catch (error) {
@@ -136,7 +136,7 @@ export default function Dashboard() {
     
             const users = await response.json();
 
-            console.log('orderssss:', users);
+          //  console.log('orderssss:', users);
             const filteredUser = users.filter(user => user.role !== 'GUEST');
             setAllusers(filteredUser);
         } catch (error) {
@@ -190,7 +190,7 @@ export default function Dashboard() {
                 return response.json();
             })
             .then(products => {
-                console.log('Products page:', products);
+               // console.log('Products page:', products);
                 setOpen(false)
             })
             .catch(error => {

@@ -9,7 +9,7 @@ import { getOrderById } from '../../state/order/orderSlice';
 import { useDispatch, useSelector } from 'react-redux';
 export default function OderDetail() {
   const {order_id,payment_id} = useParams();
-  console.log(order_id,payment_id);
+ // console.log(order_id,payment_id);
   const dispatch = useDispatch();
  const [orderItem,setOrderItem] = useState()
   useEffect(()=>{
@@ -30,7 +30,7 @@ export default function OderDetail() {
     })
     const result = await response.json();
     setOrderItem(result.order.order.orderItems);
-    console.log("ll",orderItem);
+   // console.log("ll",orderItem);
   }
   const notify = (msg) => toast(msg, {
     position: "top-center",

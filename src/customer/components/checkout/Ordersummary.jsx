@@ -13,7 +13,7 @@ export default function Ordersummary() {
   const {order,loading} = useSelector(store=>store.order);
   useEffect (()=>{
 dispatch(getOrderById(id));
-console.log(order);
+//console.log(order);
   },[])
 
 
@@ -33,7 +33,7 @@ const token = localStorage.getItem('jwt')
     const result = stripe.redirectToCheckout({
       sessionId: session.id
     });
-console.log(result);
+//console.log(result);
     if(result.error){
       console.log(error);
     }

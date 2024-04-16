@@ -25,7 +25,7 @@ export default function Orders() {
       return response.json();
       })
       .then(orders => {
-      console.log('order:', orders);
+     // console.log('order:', orders);
       setOrdersData(orders)
       setLoading(false)
       })
@@ -49,7 +49,7 @@ export default function Orders() {
       return response.json();
       })
       .then(address => {
-      console.log('address:', address);
+    //  console.log('address:', address);
       setAddressData(address)
       })
       .catch(error => {

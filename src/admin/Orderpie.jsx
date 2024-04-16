@@ -29,7 +29,7 @@ export default function Orderpie() {
       return response.json();
       })
       .then(orders => {
-      console.log('order:', orders);
+     // console.log('order:', orders);
       setOrdersData(orders)
       setLoading(false)
       let pendingCount = 0;
@@ -45,7 +45,7 @@ export default function Orderpie() {
           deliveredCount++;
         }
       });
-console.log(pendingCount);
+//console.log(pendingCount);
       // Update state variables
       setOrderpending(pendingCount);
       setOrderplaced(placedCount);

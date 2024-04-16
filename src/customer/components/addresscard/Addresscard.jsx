@@ -6,7 +6,7 @@ export default function Addresscard() {
 const {user,loading} = useSelector(store => store.user);
 const address =  user?.addresses;
 
-console.log(address,user);
+//console.log(address,user);
   return (
     !loading? 
     <>

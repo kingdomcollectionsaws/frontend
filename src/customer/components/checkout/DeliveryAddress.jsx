@@ -68,7 +68,7 @@ if(checked){
      note:data.get("note"),
      billing:billing
    }
-   console.log("submit", address);
+   //console.log("submit", address);
    try {
     const orderData = {address,navigate} 
  await dispatch(createOrder(orderData));
@@ -85,7 +85,7 @@ if(checked){
  const deliver= ()=>{
 
   const address =  user;
-  console.log('add',address);
+  //console.log('add',address);
   const orderData = {address,navigate} 
  dispatch(createOrder(orderData));
 
@@ -112,7 +112,7 @@ if(checked){
      }
 
      const order = await response.json();
- console.log("kddddddddddddd",order);
+ //console.log("kddddddddddddd",order);
        navigate({ search: `step=3&order_id=${order._id}` });
      
     
