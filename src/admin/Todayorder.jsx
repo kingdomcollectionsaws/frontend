@@ -29,7 +29,7 @@ export default function Todayorder() {
       return response.json();
       })
       .then(orders => {
-    //  console.log('order:', orders);
+      console.log('order:', orders);
       setOrdersData(orders)
       setLoading(false)
       let pendingCount = 0;

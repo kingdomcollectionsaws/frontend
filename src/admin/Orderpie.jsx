@@ -10,6 +10,7 @@ export default function Orderpie() {
   const [orderpending,setOrderpending] = useState(0);
   const [orderplaced,setOrderplaced] = useState([]);
   const [orderdelivered,setOrderdelivered] = useState([]);
+  const [ordercanceled,setOrdercanceled] = useState([]);
     useEffect(()=>{
         orders()
     },[])
@@ -35,6 +36,7 @@ export default function Orderpie() {
       let pendingCount = 0;
       let placedCount = 0;
       let deliveredCount = 0;
+      let canceledCount = 0;
 
       orders.forEach(order => {
         if (order.orderStatus=== 'PENDING') {
@@ -44,12 +46,16 @@ export default function Orderpie() {
         } else if (order.orderStatus  === 'DELIVERED') {
           deliveredCount++;
         }
+        else if(order.orderStatus  === 'CANCELED'){
+          canceledCount++
+        }
       });
 //console.log(pendingCount);
       // Update state variables
       setOrderpending(pendingCount);
       setOrderplaced(placedCount);
       setOrderdelivered(deliveredCount);
+      setOrdercanceled(canceledCount)
       })
       .catch(error => {
       console.error('There was a problem with the fetch request:', error);
