@@ -14,6 +14,7 @@ import Orderpie from './Orderpie.jsx';
 import Todayorder from './Todayorder.jsx';
 import { useNavigate } from 'react-router-dom';
 import Addnewproduct from './Addnewproduct.jsx';
+import { Vibration } from '@mui/icons-material';
 export default function Dashboard() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function Dashboard() {
     const [allorders, setAllorders] = useState([]);
     const [allusers, setAllusers] = useState([]);
     const [openSection, setOpenSection] = useState("DASHBOARD")
-    const [variations, setVaritions] = useState();
+    
     const [showCategory, setShowCategory] = useState()
     const { products, loading, product } = useSelector(store => store.allproducts);
     const { user } = useSelector(store => store.user);
@@ -36,19 +37,23 @@ export default function Dashboard() {
         category: '',
         imageUrl: [],
         sizes: [],
-        brand: ''
+        brand: '',
+        discountedPrice:''
     });
 
-   
+    const [variations, setVariations] = useState('');
     const handleInputChange = (e) => {
+        
         const { name, value } = e.target;
         //    if(name=="images"){
         //     productData.images =imageUrls
         //    }
         if (name == "price") {
             productData.price = value
-            productData.productData = price
         }
+        // if (name == "variaton") {
+        //     productData.sizes = []
+        // }
         if (name == "description") {
             productData.description = value
         }
@@ -61,8 +66,12 @@ export default function Dashboard() {
         if (name == "video") {
             productData.imageUrl.push(value)
         }
+         
         if (name == "productvariaton") {
             productData.brand = value
+        }
+        if (name == " discountedPrice") {
+            productData.discountedPrice = value
         }
 
 
@@ -121,29 +130,7 @@ export default function Dashboard() {
             console.error('There was a problem with the fetch request:', error);
         }
     };
-    const gupdatestatus = async (id) => {
-        try {
-            const token = localStorage.getItem('jwt');
-            const requestOptions = {
-                method: 'GET',
-              
-            };
-    
-            const response = await fetch(`https://kigndombackend.onrender.com/api/admin/orders/${id}/confirmed`, requestOptions);
-    
-            // if (!response.ok) {
-            //     throw new Error('Network response was not ok');
-            // }
-    
-            const users = await response.json();
-
-          //  console.log('orderssss:', users);
-            const filteredUser = users.filter(user => user.role !== 'GUEST');
-            setAllusers(filteredUser);
-        } catch (error) {
-            console.error('There was a problem with the fetch request:', error);
-        }
-    };
+  
     
   
     useEffect(() => {
@@ -222,8 +209,13 @@ export default function Dashboard() {
             });
 
     }
+
+     
+   
+    
     const [product_Id,setProduct_Id] = useState()
     const updateproductdetails = ()=>{
+      
         const requestOptions = {
             method: 'PUT',
             headers: {
@@ -248,8 +240,8 @@ export default function Dashboard() {
 
     
     }
-   
-    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand) => {
+  
+    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand, discountedPrice) => {
         setProduct_Id(id)
         setEditmenu(true)
         setOpen(true)
@@ -257,27 +249,34 @@ export default function Dashboard() {
             top: 0,
             behavior: "smooth" // Optional: smooth scrolling behavior
           });
-        setProductData({
-            title : title ,
-     brand : brand,
-     price : price,
-     description : description,
-     quantity : quantity,
-     category : category,
-    imageUrl : imageUrl,
-    sizes : sizes
-        })
+        
+            // Set sizes to the original value if variations is empty
+         
+            
+                // Set sizes to an empty array if variations has a value
+                
+            setProductData({
+                title: title,
+                brand: brand,
+                price: price,
+                description: description,
+                quantity: quantity,
+                category: category,
+                imageUrl: imageUrl,
+                
+                discountedPrice: discountedPrice
+            });
+        
      
        
       
     }
-    
-    
     useEffect(() => {
         dispatch(getAllProducts())
         getorder();
         getusers()
     }, [open]);
+    const navigate = useNavigate()
     return (
         !loading && user?.role === "ADMIN" ?
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -343,33 +342,35 @@ export default function Dashboard() {
                     {openSection == "ADDNEWPRODUCT" ? <Addnewproduct /> : ''}
                     {openSection == "PRODUCTS" ? 
                    <div>
-                    <div style={{display:'flex',flexDirection:'row',gap:'100px',paddingLeft:'4rem',borderBottom:'1px solid gray',}}>
+                  {  !editmenu?<div style={{display:'flex',flexDirection:'row',gap:'100px',paddingLeft:'4rem',borderBottom:'1px solid gray',}}>
                         <p>Images</p>
                         <div style={{width:'10rem'}}>Name</div>
-                        <p>Stock</p>
+                        <p >Stock</p>
                         <p>Price</p>
                         <p>Category</p>
                         <p style={{marginLeft:'8rem'}}>Date</p>
-                    </div>
+                    </div>:''}
                {!editmenu? <div>
                 { products.map((i) => (
                             <>  
                             <div className='border mb-3 m-10'>
                                 <div className='flex align-center mx-3 mt-10  space-x-5 m-10' key={i} >
                                     <img src={i.imageUrl[0]} alt='img' style={{ width: '5rem', height: '5rem' }} />
-                                    <div className='flex align-center justify-center flex-row ' style={{gap:'90px'}} >
-                                        <div style={{width:'12rem'}}>
+                                    <div className='flex align-center justify-center flex-row ' style={{gap:'110px'}} >
+                                        <div style={{width:'11rem'}}>
                                         <p>{i.title} </p>
-                                        <div>
-                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl, i.sizes, i.brand)} >EDIT</Button>
-
-                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete</Button>
+                                        <div style={{display:'flex',width:'14rem'}}>
+                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl, i.sizes, i.brand,i.discountedPrice)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
+                                        
+                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
+                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => navigate(`/product/${i.title}/${i._id}`)} >View</Button>
                                     </div>
                                         </div>
-                                        <p>in stock ({i.quantity})</p>
+                                        <p style={{marginLeft:'2rem',}}><spna style={{color:'green'}}>in stock</spna> ({i.quantity})</p>
                                         <p >  {i.price}</p>
                                         
                                         <p> {i.category}</p>
+                                        <p style={{width:'10rem'}}> {i.createdAt.slice(0,10)}</p>
                                         <div className="flex align-center justify-start m-y-1 space-x-2" >
                                         </div>
                                     </div>
@@ -382,151 +383,176 @@ export default function Dashboard() {
 
                                 </div> </div>
                             </>
-                        ))}</div>: <div>
+                        ))}</div>: <div style={{padding:'1rem'}}>
                              <div>
                             <p style={{color:'red'}}>*If you don't want to change any field, keep that input empty</p>
                                 <p>Product : {productData.title}</p>
                             <div>
                                     
-                                    <form >
-                                        <Grid container spacing={3}>
-                                            <Grid item xs={12} sm={6}>
-                                                <TextField
-                                                    required
-                                                    name='title'
-                                                    label='Title'
-                                                    
-                                                    onChange={handleInputChange}
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6}>
-                
-                                                <TextField
-                                                    required
-                                                    name='price'
-                                                    label='Price'
-                                                    fullWidth
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} >
-                                                <TextField
-                                                    required
-                                                    name='description'
-                                                    label='Description'
-                                                    fullWidth
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} >
-                                                <TextField
-                                                    required
-                                                    name='quantity'
-                                                    label='Quantiy'
-                                                    type='number'
-                                                    fullWidth
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} >
-                                                <div>
-                                                    <InputLabel id="demo-simple-select-label">{productData.category ? showCategory : "choose an option"}</InputLabel>
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        onChange={handleChange}
-                                                        style={{ width: '100%', marginBottom: '1rem' }}
-                                                        label="Age"
-                                                        value={"category"}
-                                                    >
-                                                        {productCategory?.map((item, index) => (
-                
-                                                            <MenuItem value={item} key={index}>
-                                                                {item}
-                                                            </MenuItem>
-                
-                                                        ))
-                                                        }
-                
-                                                    </Select>
-                                                </div>
-                                            </Grid>
-                                            <Grid item xs={12} sm={12}  >
-                                                <p>select all images you to upload</p>
-                                                <input
-                
-                                                    required
-                                                    name='images'
-                                                    label='Images'
-                                                    type='file'
-                                                    fullWidth
-                                                    imginput
-                                                    multiple
-                                                    onChange={handelfileupload}
-                
-                                                />
-                
-                                            </Grid>
-                
-                                            <Grid item xs={12} sm={6} >
-                
-                                                <p>{productData.sizes}</p>
-                                                <TextField
-                                                    required
-                                                    name='variaton'
-                                                    label='All variaton'
-                                                    value={variations}
-                                                    fullWidth
-                                                    onChange={(e) => setVaritions(e.target.value)}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} >
-                                                <Button
-                                                    className=' w-full px-0 py-3'
-                                                    variant='contained'
-                                                    sx={{ background: "#9155FD" }}
-                                                    onClick={() => { productData.sizes.push(variations); setVaritions('') }}
-                                                >
-                
-                                                    add new one variation
-                                                </Button>
-                
-                                            </Grid>
-                
-                                            <Grid item xs={12} sm={6} >
-                                                <TextField
-                                                    required
-                                                    name='video'
-                                                    label='Video Link'
-                                                    onChange={handleInputChange}
-                                                    style={{ marginBottom: '1rem' }}
-                                                />
-                
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} >
-                                                <TextField
-                                                    required
-                                                    name='productvariaton'
-                                                    label='Product variaton'
-                
-                                                    fullWidth
-                                                    onChange={handleInputChange}
-                                                />
-                
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} >
-                                                <Button
-                                                    className=' w-full px-0 py-3'
-                                                    variant='contained'
-                                                    sx={{ background: "#9155FD" }}
-                                                    onClick={updateproductdetails}
-                                                >
-                                                    Update
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-                                    </form>
+                            <form >
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    name='title'
+                                    label='Title'
+                                    
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}  >
+                                <p>select all images you to upload</p>
+                                <input
+                                    style={{backgroundColor:'black',color:'#fff'}}
+                                    
+                                    required
+                                    name='images'
+                                    label='Images'
+                                    type='file'
+                                    fullWidth
+                                    imginput
+                                    multiple
+                                    onChange={handelfileupload}
+
+                                />
+
+                            </Grid>
+                            <Grid item xs={12}  >
+                                <TextField
+                                    required
+                                    name='description'
+                                    label='Description'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    multiline
+                                    rows={5}
+                                />
+                            </Grid>
+                            <Grid item xs={6} sm={6}  >
+
+                                <TextField
+                                    required
+                                    name='price'
+                                    label='Regular Price'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{paddingBottom:'10px'}}
+                                />
+                                   <TextField
+                                    required
+                                    name='discountedPrice'
+                                    label='Sale Price'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                />
+                            </Grid>
+                          
+                            <Grid item xs={12} sm={6} >
+                                <TextField
+                                    required
+                                    name='quantity'
+                                    label='Quantiy'
+                                    type='number'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} >
+                                <div>
+                                    <InputLabel id="demo-simple-select-label">{productData.category ? showCategory : "choose a category"}</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        onChange={handleChange}
+                                        style={{ width: '100%', marginBottom: '1rem' }}
+                                        label="Age"
+                                        value={"category"}
+                                    >
+                                        {productCategory?.map((item, index) => (
+
+                                            <MenuItem value={item} key={index}>
+                                                {item}
+                                            </MenuItem>
+
+                                        ))
+                                        }
+
+                                    </Select>
+                                </div>
+                                
+                            </Grid>
+                           
+                            <Grid item xs={12} sm={12} >
+                              
+                            <TextField
+                                    required
+                                    name='video'
+                                    label='Video Link'
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '1rem' }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} >
+
+<p>{productData?.sizes}</p>
+<TextField
+    required
+    name='variaton'
+    label='All variaton'
+    value={variations}
+    fullWidth
+    onChange={(e) =>{ setVariations(e.target.value)}}
+/>
+</Grid>
+                            <Grid item xs={12} sm={6} >
+                                <Button
+                                    className=' w-full px-0 py-3'
+                                    variant='contained'
+                                    sx={{ background: "#9155FD" }}
+                                    onClick={() => {setProductData(prevData => ({
+                                        ...prevData,
+                                        sizes: Array.isArray(prevData.sizes) ? [...prevData.sizes, variations] : [variations],
+                                      }));setVariations('') }}
+                                >
+
+                                    add new one variation
+                                </Button>
+
+                            </Grid>
+
+                          
+                            <Grid item xs={12} sm={6} >
+                                <TextField
+                                    required
+                                    name='productvariaton'
+                                    label='Product variaton'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                />
+
+                            </Grid>
+                            {editmenu?<Grid item xs={12} sm={6} >
+                                <Button
+                                    className=' w-full px-0 py-3'
+                                    variant='contained'
+                                    sx={{ background: "#9155FD" }}
+                                    onClick={updateproductdetails}
+                                >
+                                    Update
+                                </Button>
+                            </Grid>:<Grid item xs={12} sm={6} >
+                                <Button
+                                    className=' w-full px-0 py-3'
+                                    variant='contained'
+                                    sx={{ background: "#9155FD" }}
+                                    onClick={postProduct}
+                                >
+                                    Post
+                                </Button>
+                            </Grid>}
+                        </Grid>
+                    </form>
                             
                         </div>
                         </div>

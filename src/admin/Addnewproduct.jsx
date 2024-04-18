@@ -35,7 +35,8 @@ export default function Addnewproduct () {
         category: '',
         imageUrl: [],
         sizes: [],
-        brand: ''
+        brand: '',
+        discountedPrice:''
     });
 
    
@@ -62,6 +63,9 @@ export default function Addnewproduct () {
         }
         if (name == "productvariaton") {
             productData.brand = value
+        }
+        if (name == "discountedPrice") {
+            productData.discountedPrice = value
         }
 
 
@@ -175,7 +179,7 @@ export default function Addnewproduct () {
     
     }
    
-    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand) => {
+    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand,discountedPrice) => {
         setProduct_Id(id)
         setEditmenu(true)
         setOpen(true)
@@ -191,7 +195,8 @@ export default function Addnewproduct () {
      quantity : quantity,
      category : category,
     imageUrl : imageUrl,
-    sizes : sizes
+    sizes : sizes,
+    discountedPrice:discountedPrice
         })
      
        
@@ -256,14 +261,14 @@ export default function Addnewproduct () {
                                 <TextField
                                     required
                                     name='price'
-                                    label='Rgular Price'
+                                    label='Regular Price'
                                     fullWidth
                                     onChange={handleInputChange}
                                     style={{paddingBottom:'10px'}}
                                 />
                                    <TextField
                                     required
-                                    name='discountedprice'
+                                    name='discountedPrice'
                                     label='Sale Price'
                                     fullWidth
                                     onChange={handleInputChange}
@@ -302,10 +307,19 @@ export default function Addnewproduct () {
 
                                     </Select>
                                 </div>
+                                
                             </Grid>
-                            <br/>
                            
-
+                            <Grid item xs={12} sm={12} >
+                              
+                            <TextField
+                                    required
+                                    name='video'
+                                    label='Video Link'
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '1rem' }}
+                                />
+                            </Grid>
                             <Grid item xs={12} sm={6} >
 
                                 <p>{productData.sizes}</p>
@@ -331,16 +345,7 @@ export default function Addnewproduct () {
 
                             </Grid>
 
-                            <Grid item xs={12} sm={6} >
-                                <TextField
-                                    required
-                                    name='video'
-                                    label='Video Link'
-                                    onChange={handleInputChange}
-                                    style={{ marginBottom: '1rem' }}
-                                />
-
-                            </Grid>
+                          
                             <Grid item xs={12} sm={6} >
                                 <TextField
                                     required
