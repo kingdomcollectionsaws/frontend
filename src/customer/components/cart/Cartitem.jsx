@@ -66,11 +66,11 @@ setOrderDate(formattedDateRange)
      <div style={{ display: 'flex', justifyContent: 'space-between',}} className='flex-col lg:flex-row '>
       <div style={{ width: '90%' }}>
         <div className='flex align-center mx-3 mt-5 flex-col lg:flex-row  space-x-5 '>
-          <img className='max-w[15rem] max-h-[15rem] flex align-center mx-4' src={data?.product.imageUrl[0]} alt="img" />
+          <img className='max-w[15rem] max-h-[15rem] flex align-center mx-4' src={data?.product?.imageUrl[0]} alt="img" />
           <div className='flex align-center justify-center flex-col gap-3' >
-            <p>{data?.product.title}</p>
+            <p>{data?.product?.title}</p>
              <p>quantity:{data?.quantity} </p> 
-            <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.product.brand} </span> </p>
+            <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.product?.brand} </span> </p>
             <div className='flex align-center justify-center mx-3  space-x-5'>
     <IconButton onClick={()=>{{quantity+data.quantity < 2 ?setQuantity(0):setQuantity(quantity-1)}{setItemIndex(index)}}}>
         <RemoveCircleOutlineOutlined sx={{color:"black"}}/>
@@ -100,8 +100,8 @@ setOrderDate(formattedDateRange)
         </div>
       </div>
       <div style={{ width: '10%', display: 'flex', alignItems: 'center', marginTop: '1rem', flexDirection: 'column', }} className='mx-10 lg:mx-0 '>
-        <p className=' font-bold tracking-tight   text-green-600' style={{fontSize:'1.5rem'}}>£{data?.product.discountedPrice}</p>
-        <p className='font-semibold tracking-tight text-gray-600  line-through '>£{data?.product.price}</p>
+        <p className=' font-bold tracking-tight   text-green-600' style={{fontSize:'1.5rem'}}>£{data?.product?.discountedPrice}</p>
+        <p className='font-semibold tracking-tight text-gray-600  line-through '>£{data?.product?.price}</p>
       </div>
     </div>
     <div style={{display:'flex', borderTop:'1px solid gray',width:'100%',flexDirection:'column',}}> 
