@@ -40,7 +40,10 @@ export default function GuestForm() {
   localStorage.setItem('items', JSON.stringify(itemIds));
    await dispatch(loginUser(userData));
     if(user.role=='GUEST'){
-       alert("invalid email or passwords");
+      setTimeout(()=>{
+         alert("invalid email or passwords")
+       },[1500])
+      
        dispatch(getUserDetail());
     }else{
 
@@ -53,7 +56,7 @@ export default function GuestForm() {
      }else{
       setTimeout(()=>{
         notify("invalid email or password")
-       },[1000])
+       },[1500])
      }
    }
   };

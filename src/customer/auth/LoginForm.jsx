@@ -45,7 +45,9 @@ const handleSubmit =  async(event) => {
 localStorage.setItem('items', JSON.stringify(itemIds));
  await dispatch(loginUser(userData));
   if(user.role=='GUEST'){
-     alert("invalid email or passwords");
+    setTimeout(()=>{
+      alert("invalid email or password")
+     },[1500])
      dispatch(getUserDetail());
   }else{
 
@@ -58,7 +60,7 @@ localStorage.setItem('items', JSON.stringify(itemIds));
    }else{
     setTimeout(()=>{
       notify("invalid email or password")
-     },[1000])
+     },[1500])
    }
  }
 };
