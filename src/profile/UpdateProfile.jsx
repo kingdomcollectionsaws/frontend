@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import './Profileupdate.css'; // Import CSS file for styling
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../customer/state/Auth/registerSlice';
 
 const UpadteProfile = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-
-  const handleUpdateProfile = () => {
+  const { user } = useSelector(store => store.user)
+  const [firstName, setFirstName] = useState(user?.firstName);
+  const [lastName, setLastName] = useState(user?.lastName);
+  const [email, setEmail] = useState(user?.email);
+  const [phone, setPhone] = useState(user?.mobile);
+ const dispatch = useDispatch()
+  const handleUpdateProfile = async() => {
+    const userData = {
+      firstName:firstName,
+      lastName:lastName,
+      email:email,
+      mobile:phone
+    }
+    console.log(userData);
+   await dispatch(updateUser(userData))
     // Logic for updating profile
-    console.log("Profile updated!");
+   console.log("Profile updated!");
   };
 
   const handleAdminDashboard = () => {
@@ -18,12 +30,15 @@ const UpadteProfile = () => {
 
   return (
     <div className="profile-page">
-      <h2>Profile</h2>
       <div className="profile-section">
-        <h3>Personal Information</h3>
+        <h3>Update Personal Information</h3>
         <div className="profile-field">
-          <label>Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <label>FirstName:</label>
+          <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        </div>
+        <div className="profile-field">
+          <label>LastName:</label>
+          <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </div>
         <div className="profile-field">
           <label>Email:</label>
@@ -36,8 +51,8 @@ const UpadteProfile = () => {
       </div>
 
      
-      <div className="profile-buttons">
-        <button onClick={handleUpdateProfile}>Update Profile</button>
+      <div onClick={handleUpdateProfile} className="profile-buttons" style={{display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer'}}>
+        <button >Update Profile</button>
       </div>
     </div>
   );
