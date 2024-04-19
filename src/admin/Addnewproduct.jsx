@@ -209,6 +209,7 @@ export default function Addnewproduct () {
     }, []);
     return (
         <div style={{padding:'1rem'}}>
+            
         {editmenu?<div>
             <p style={{color:'red'}}>*If you don't want to change any field, keep that input empty</p>
                 <p>Product : {productData.title}</p>

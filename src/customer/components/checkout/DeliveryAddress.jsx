@@ -76,6 +76,7 @@ if(checked){
   //  deliver()
   // window.location.reload();
   } catch (error) {
+    alert("something is wrong")
     console.error('Error creating order:', error);
     // Handle error here (e.g., display error message to the user)
   }
@@ -251,7 +252,7 @@ if(checked){
     <TextField
     required
     id='billing_email'
-    name='email'
+    name='billing_email'
     label='Email'
     fullWidth
     autoComplete='given-email'
@@ -263,7 +264,7 @@ if(checked){
     <TextField
     required
     id='billing_firstname'
-    name='firstname'
+    name='billing_firstname'
     label='Firstname'
     fullWidth
     autoComplete='given-name'
@@ -274,7 +275,7 @@ if(checked){
     <TextField
     required
     id='billing_lastname'
-    name='lastname'
+    name='billing_lastname'
     label='Lastname'
     fullWidth
   
@@ -285,7 +286,7 @@ if(checked){
     <TextField
     required
     id='billing_country'
-    name='country'
+    name='billing_country'
     label='Country'
     fullWidth
     autoComplete='given-country'
@@ -296,7 +297,7 @@ if(checked){
     <TextField
     required
     id='billing_address'
-    name='address'
+    name='billing_address'
     label='Address'
     fullWidth
   
@@ -306,7 +307,7 @@ if(checked){
     <TextField
     required
     id='billing_city'
-    name='city'
+    name='billing_city'
     label='City'
     fullWidth
     autoComplete='city'
@@ -317,7 +318,7 @@ if(checked){
     <TextField
     required
     id='billing_pincode'
-    name='pincode'
+    name='billing_pincode'
     label='Zip code/ Post Code'
     fullWidth
     
@@ -328,7 +329,7 @@ if(checked){
     <TextField
     required
     id='billing_state'
-    name='state'
+    name='billing_state'
     label='State/Region'
     fullWidth
     autoComplete='given-state'
@@ -340,7 +341,7 @@ if(checked){
     <TextField
     required
     id='billing_number'
-    name='number'
+    name='billing_number'
     label='Number'
     fullWidth
     autoComplete='given-number'
