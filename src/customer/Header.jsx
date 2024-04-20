@@ -73,7 +73,7 @@ export default function Header() {
           </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '5rem' }} onClick={handleOpen}  >Sign in</div>
           }
           {/* <div className={style.signIn} title='sign in'>Sign in</div> */}
-          <div className={style.like}><FaRegHeart /></div>
+          <div className={style.like} onClick={()=>navigate('/account/order')}><FaRegHeart /></div>
           <div className={style.cart} onClick={gocart}>
 
             <FiShoppingCart />
