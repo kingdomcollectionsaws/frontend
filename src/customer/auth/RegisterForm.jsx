@@ -6,7 +6,7 @@ import { createUser, getUserDetail, updateUser } from '../state/Auth/registerSli
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function RegisterForm() {
-  const { user, error } = useSelector(store => store.user)
+  const { user} = useSelector(store => store.user)
   const dispatch = useDispatch();
 
   const notify = (msg) => toast(msg, {
