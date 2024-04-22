@@ -36,7 +36,8 @@ export default function Addnewproduct () {
         imageUrl: [],
         sizes: [],
         brand: '',
-        discountedPrice:''
+        discountedPrice:'',
+        slug:''
     });
 
    
@@ -67,7 +68,9 @@ export default function Addnewproduct () {
         if (name == "discountedPrice") {
             productData.discountedPrice = value
         }
-
+        if (name == "slug") {
+            productData.slug = value
+        }
 
     };
     const handleChange = (e) => {
@@ -215,7 +218,8 @@ export default function Addnewproduct () {
                 <p>Product : {productData.title}</p>
                     </div>:''}
             {
-                !open ? <div>
+                !open ?
+                 <div>
                     
                     <form >
                         <Grid container spacing={3}>
@@ -225,6 +229,15 @@ export default function Addnewproduct () {
                                     name='title'
                                     label='Title'
                                     
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    name='slug'
+                                    label='Slug'
                                     onChange={handleInputChange}
                                     fullWidth
                                 />

@@ -186,6 +186,96 @@ const cancelstatus = async (id) => {
       console.error('There was a problem with the fetch request:', error);
   }
 };
+const [feds,setFeds]= useState()
+const fedexhandel = (item)=>{
+  
+  //console.log(item);
+  addressData.map((address,index)=>{
+    
+    if (address._id== item.shippingAddress) {
+setFeds(address)
+    }
+  })
+
+  feddata(item,feds)
+}
+
+const feddata = (item,feds)=>{
+console.log(item,feds);
+
+ // Sample input data for creating a shipment
+const input = {
+  "RequestedShipment": {
+    "ShipTimestamp": new Date().toISOString(), // Current timestamp
+    "DropoffType": "REGULAR_PICKUP",
+    "ServiceType": "FEDEX_GROUND",
+    "PackagingType": "FEDEX_BOX", // e.g., FEDEX_BOX
+    "Shipper": {
+      "Contact": {
+        "PersonName": "John Doe",
+        "CompanyName": "Sender Company",
+        "PhoneNumber": "1234567890"
+      },
+      "Address": {
+        "StreetLines": ["123 Main St"],
+        "City": "Anytown",
+        "StateOrProvinceCode": "NY",
+        "PostalCode": "12345",
+        "CountryCode": "US"
+      }
+    },
+    "Recipient": {
+      "Contact": {
+        "PersonName": "Jane Smith",
+        "CompanyName": "Recipient Company",
+        "PhoneNumber": "9876543210"
+      },
+      "Address": {
+        "StreetLines": ["456 Elm St"],
+        "City": "Othertown",
+        "StateOrProvinceCode": "CA",
+        "PostalCode": "54321",
+        "CountryCode": "US"
+      }
+    },
+    "ShippingChargesPayment": {
+      "PaymentType": "SENDER",
+      "Payor": {
+        "ResponsibleParty": {
+          "AccountNumber": "YOUR_ACCOUNT_NUMBER"
+        }
+      }
+    },
+    "LabelSpecification": {
+      "LabelFormatType": "COMMON2D",
+      "ImageType": "PDF",
+      "LabelStockType": "PAPER_4X6"
+    },
+    "PackageCount": "1",
+    "RequestedPackageLineItems": [{
+      "SequenceNumber": "1",
+      "Weight": {
+        "Value": "1.0",
+        "Units": "LB"
+      },
+      "Dimensions": {
+        "Length": "10",
+        "Width": "5",
+        "Height": "4",
+        "Units": "IN"
+      }
+    }]
+  }
+};
+
+// Convert the input data to JSON string
+const data = JSON.stringify(input);
+
+
+}
+useEffect(() => {
+ // console.log(feds); // Log feds whenever it changes
+}, [feds]);
   return (
   !loading? <div>
    {
@@ -218,8 +308,9 @@ const cancelstatus = async (id) => {
     
   <div>
   {addressData.map((address,index)=>{
-      
+    
       if (address._id== item. shippingAddress) {
+        
         return (
           <div className='flex flex-col' key={address.user}>
             <p className='font-bold mb-2'></p>
@@ -270,6 +361,7 @@ const cancelstatus = async (id) => {
    <button onClick={()=>deliverstatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Deliver</button>
    <button onClick={()=>deletestatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Delete</button>
    <button onClick={()=>cancelstatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Cancel</button>
+   <button style={{background:'black',color:'#fff',padding:'4px'}} onClick={()=>fedexhandel(item)}>Fedex</button>
    </div>
 
     <div>

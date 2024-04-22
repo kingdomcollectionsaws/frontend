@@ -7,7 +7,8 @@ import { API_BASE_URL } from '../config/apiConfig.js';
 import OrderCard from '../customer/components/order/OrderCard.jsx';
 import Orders from './Orders.jsx';
 import { MdDashboard } from "react-icons/md";
-import { FaBoxes } from "react-icons/fa";
+import { FaBlogger, FaBoxes } from "react-icons/fa";
+import { FaBloggerB } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import Orderpie from './Orderpie.jsx';
@@ -15,6 +16,8 @@ import Todayorder from './Todayorder.jsx';
 import { useNavigate } from 'react-router-dom';
 import Addnewproduct from './Addnewproduct.jsx';
 import { Vibration } from '@mui/icons-material';
+import Blog from './Blog.jsx';
+import AddBlog from './AddBlog.jsx';
 export default function Dashboard() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
@@ -38,7 +41,8 @@ export default function Dashboard() {
         imageUrl: [],
         sizes: [],
         brand: '',
-        discountedPrice:''
+        discountedPrice:'',
+        slug:''
     });
 
     const [variations, setVariations] = useState('');
@@ -73,7 +77,9 @@ export default function Dashboard() {
         if (name == " discountedPrice") {
             productData.discountedPrice = value
         }
-
+        if (name == "slug") {
+            productData.slug = value
+        }
 
     };
     const handleChange = (e) => {
@@ -241,7 +247,7 @@ export default function Dashboard() {
     
     }
   
-    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand, discountedPrice) => {
+    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand, discountedPrice,slug) => {
         setProduct_Id(id)
         setEditmenu(true)
         setOpen(true)
@@ -263,8 +269,9 @@ export default function Dashboard() {
                 quantity: quantity,
                 category: category,
                 imageUrl: imageUrl,
-                
-                discountedPrice: discountedPrice
+                discountedPrice: discountedPrice,
+                slug:slug,
+
             });
         
      
@@ -275,7 +282,7 @@ export default function Dashboard() {
         dispatch(getAllProducts())
         getorder();
         getusers()
-    }, [open]);
+    }, [open,]);
     const navigate = useNavigate()
     return (
         !loading && user?.role === "ADMIN" ?
@@ -291,8 +298,8 @@ export default function Dashboard() {
                             style={{ color: '#fff', fontSize: '1.5rem', marginRight: '1rem' }}><MdLocalShipping /></span>Orders</p>
                         <p style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => {setOpenSection("USERS");setEditmenu(false)}}> <span
                             style={{ color: '#fff', fontSize: '1.5rem', marginRight: '1rem' }}><FaUsers /></span> Users</p>
-                        {/* <p style={{width:'15rem',height:'3rem',}} onClick={()=>setOpenSection("OVERVIEW")}>Overview</p> */}
-
+                         <p style={{width:'15rem',height:'1rem', cursor:'pointer',display:'flex',alignItems:'center',fontSize:'1.2rem',gap:'1rem'}} onClick={()=>setOpenSection("BLOG")}> <FaBlogger/>Blogs</p> 
+                         <p style={{width:'15rem',height:'1rem', cursor:'pointer'}} onClick={()=>setOpenSection("ADDBLOG")}>Add new blog</p>
                     </div>
                 </div>
 
@@ -339,7 +346,9 @@ export default function Dashboard() {
                         </div>
                     </> : ''}
                     {openSection == "ORDERS" ? <Orders /> : ''}
-                    {openSection == "ADDNEWPRODUCT" ? <Addnewproduct /> : ''}
+                    {openSection == "BLOG" ? <Blog value={false}/> : ''}
+                    {openSection == "ADDBLOG" ? <AddBlog/> : ''}
+                    {openSection == "ADDNEWPRODUCT" ? <Addnewproduct/> : ''}
                     {openSection == "PRODUCTS" ? 
                    <div>
                   {  !editmenu?<div style={{display:'flex',flexDirection:'row',gap:'100px',paddingLeft:'4rem',borderBottom:'1px solid gray',}}>
@@ -360,8 +369,8 @@ export default function Dashboard() {
                                         <div style={{width:'11rem'}}>
                                         <p>{i.title} </p>
                                         <div style={{display:'flex',width:'14rem'}}>
-                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl, i.sizes, i.brand,i.discountedPrice)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
-                                        
+                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl, i.sizes, i.brand,i.discountedPrice,i.slug)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
+           
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => navigate(`/product/${i.title}/${i._id}`)} >View</Button>
                                     </div>
@@ -396,6 +405,16 @@ export default function Dashboard() {
                                     required
                                     name='title'
                                     label='Title'
+                                    
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    name='slug'
+                                    label='Slug'
                                     
                                     onChange={handleInputChange}
                                     fullWidth
@@ -563,7 +582,7 @@ export default function Dashboard() {
       {allusers.map((i)=><div >
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row',border:'1px solid black',margin:'4px'}}>
     <div style={{width:'60%'}}>
-    <div className='flex flex-col '>
+    <div className='flex flex-col m-5 '>
       <p className='font-bold mb-2'></p>
       <p>Firstname: {i?.firstName}</p>
       <p>Lastname: {i?.lastName}</p>

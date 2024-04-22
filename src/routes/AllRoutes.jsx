@@ -20,6 +20,7 @@ import PrivacyPolicy from '../customer/PrivacyPolicy'
 import AboutUs from '../customer/About'
 import ShippingPolicy from '../customer/ShippingPolicy'
 import ContactUs from '../customer/Contact'
+import BlogDetails from '../customer/BlogDetails'
 
 export default function AllRoutes() {
 
@@ -47,6 +48,7 @@ export default function AllRoutes() {
 <Route path='/About' element={<AboutUs/>}/>
 <Route path='/ShippingPolicy' element={<ShippingPolicy/>}/>
 <Route path='/Contact' element={<ContactUs/>}/>
+<Route path='/blog' element={<BlogDetails/>}/>
     </Routes>
     
     </>

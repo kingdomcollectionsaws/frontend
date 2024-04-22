@@ -2,11 +2,10 @@ import { Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import OrderCard from './OrderCard'
 import { API_BASE_URL } from '../../../config/apiConfig'
-
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 export default function Order() {
 const [orderitem,setOrderitem] = useState()
  useEffect(()=>{
- 
 orders()
 }
  ,[])
@@ -68,7 +67,7 @@ console.error('There was a problem with the fetch request:', error);
       {item.orderItems.map((i)=><div >
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
     <div style={{width:'60%'}}>
-    <div className=' rounded-sm sm:w-[5rem] sm:h-[5rem] h-[5rem] w-[5rem]  '>
+    <div className=' rounded-sm sm:w-[5rem] sm:h-[5rem] h-[5rem] w-[5rem]'>
     <img className='object-cover border rounded-lg' src={i.product.imageUrl[0]} alt="img" />
       </div> 
     <div className='flex flex-col '>
@@ -78,8 +77,9 @@ console.error('There was a problem with the fetch request:', error);
       <p>Style: {i.sizes[0]}</p>
       <p className=' mb-2'>Quantity: {i.quantity}</p>
       <p className=' mb-2'>Order date: {item.createdAt.slice(0,10)}</p>
-      
-      <p>{i.title}</p>
+      <div className='flex align-center  p-5 text-black cursor-pointer' onClick={()=>alert(i.product._id)}>
+ <StarBorderIcon/><span>Rate & Review</span>
+</div>
     </div>
    
     </div>

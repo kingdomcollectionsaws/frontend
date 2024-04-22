@@ -21,30 +21,31 @@ import { getCart } from './state/cart/cartSlice'
 import { getUserDetail } from './state/Auth/registerSlice'
 import ProfilePage from '../profile/Profile'
 import ReactGA from 'react-ga';
+import { API_BASE_URL } from '../config/apiConfig'
 const carousel = lazy(() => import('./components/homecarousel/Carousel'));
 export default function MainPage() {
   ReactGA.initialize('G-509RBXK1MX');
  
-  const blogs = [
-    {
-      title: '9 Comfy Throws for Cosy Autumn Vibes',
-      tag: 'Shopping Guides',
-      img: b1,
-      des: "Embrace the snuggling season with stylish throws that will warm your hearts."
-    },
-    {
-      title: '14 Beautiful Bags That Express Your Unique Style',
-      tag: 'Shopping Guides',
-      img: b2,
-      des: "Amp up your fashion game with bags that perfectly match your aesthetic."
-    },
-    {
-      title: 'The Best Gift Ideas for Kids of All Ages',
-      tag: 'Gifts Guides',
-      img: b3,
-      des: "Shop the sweetest surprises for all little ones in your family–these gifts for kids will definitely earn you some brownie points."
-    },
-  ]
+  // const blogs = [
+  //   {
+  //     title: '9 Comfy Throws for Cosy Autumn Vibes',
+  //     tag: 'Shopping Guides',
+  //     img: b1,
+  //     des: "Embrace the snuggling season with stylish throws that will warm your hearts."
+  //   },
+  //   {
+  //     title: '14 Beautiful Bags That Express Your Unique Style',
+  //     tag: 'Shopping Guides',
+  //     img: b2,
+  //     des: "Amp up your fashion game with bags that perfectly match your aesthetic."
+  //   },
+  //   {
+  //     title: 'The Best Gift Ideas for Kids of All Ages',
+  //     tag: 'Gifts Guides',
+  //     img: b3,
+  //     des: "Shop the sweetest surprises for all little ones in your family–these gifts for kids will definitely earn you some brownie points."
+  //   },
+  // ]
   const [allproduct, setAllproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -105,6 +106,25 @@ export default function MainPage() {
   }
 ]
   const navigate = useNavigate()
+  const [blogs, setBlogs] = useState([]);
+  const getblogs = async () => {
+    try {
+
+      const requestOptions = {
+        method: 'GET',
+
+      };
+      const response = await fetch(`${API_BASE_URL}/api/blog/allblogs`, requestOptions);
+
+      const data = await response.json();
+      setBlogs(data)
+    } catch (error) {
+      console.error('There was a problem with the fetch request:', error);
+    }
+  }
+  useEffect(()=>{
+    getblogs()
+  },[])
   return (
     !loading ?
     
@@ -179,13 +199,12 @@ export default function MainPage() {
           <h1 className={style.text} style={{ fontSize: '24px', color: '#222222', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> Fresh from the blog <GoArrowRight /></h1>
           <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '15px' }}>
             {
-              blogs.map((i, index) => (
-                <div key={index} className={style.homeProduct} style={{ padding: '0', border: '.1px solid gray', alignItems: 'flex-start', gap: '10px', }} >
-                  <img src={i.img} height={250} style={{ borderRadius: '12px', width: '100%' }} alt='img' />
-
-                  <div className={style.Blogtext}>{i.tag}</div>
-                  <div className={style.text} style={{ fontWeight: '600', paddingLeft: '2rem' }}>{i.title}</div>
-                  <div className={style.Blogtext} style={{ width: '20rem' }} >{i.des}</div>
+              blogs.slice(0,3).map((i, index) => (
+                <div key={index} className={style.homeProduct} style={{ padding: '0', border: '.1px solid gray', alignItems: 'flex-start', gap: '10px', cursor:'pointer' }} onClick={()=>navigate('/blog')} >
+                  <img src={i?.image} height={250} style={{ borderRadius: '12px', width: '100%' }} alt='img' />
+                  <div className={style.Blogtext}>Shopping Guides</div>
+                  <div className={style.text} style={{ fontWeight: '600', paddingLeft: '2rem' }}>{i?.title}</div>
+                  <div className={style.Blogtext} style={{ width: '20rem' }} >{i?.description}</div>
 
 
                 </div>
