@@ -200,7 +200,7 @@ export default function MainPage() {
           <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '15px' }}>
             {
               blogs.slice(0,3).map((i, index) => (
-                <div key={index} className={style.homeProduct} style={{ padding: '0', border: '.1px solid gray', alignItems: 'flex-start', gap: '10px', cursor:'pointer' }} onClick={()=>navigate('/blog')} >
+                <div key={index} className={style.homeProduct} style={{ padding: '0', border: '.1px solid gray', alignItems: 'flex-start', gap: '10px', cursor:'pointer' }} onClick={()=>navigate(`/blog/${i.slug}`)} >
                   <img src={i?.image} height={250} style={{ borderRadius: '12px', width: '100%' }} alt='img' />
                   <div className={style.Blogtext}>Shopping Guides</div>
                   <div className={style.text} style={{ fontWeight: '600', paddingLeft: '2rem' }}>{i?.title}</div>

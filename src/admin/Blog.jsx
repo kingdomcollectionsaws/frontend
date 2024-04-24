@@ -68,7 +68,7 @@ export default function Blog({value}) {
       blogData.description = value
     }
     if (name == "slug") {
-      blogData.slug = value
+      blogData.slug = value.toLowerCase()
   }
   }
   const handelfileupload = async (event) => {

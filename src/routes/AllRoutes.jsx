@@ -48,7 +48,7 @@ export default function AllRoutes() {
 <Route path='/About' element={<AboutUs/>}/>
 <Route path='/ShippingPolicy' element={<ShippingPolicy/>}/>
 <Route path='/Contact' element={<ContactUs/>}/>
-<Route path='/blog' element={<BlogDetails/>}/>
+<Route path='/blog/:slug' element={<BlogDetails/>}/>
     </Routes>
     
     </>

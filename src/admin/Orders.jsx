@@ -202,75 +202,37 @@ setFeds(address)
 
 const feddata = (item,feds)=>{
 console.log(item,feds);
+const grant_type = 'client_credentials';
+const client_id = 'l7fac14eef2af1454787d2302a6fa57e1b';
+const client_secret = 'c9888b2c3643479b872b5ac902286df3';
 
- // Sample input data for creating a shipment
-const input = {
-  "RequestedShipment": {
-    "ShipTimestamp": new Date().toISOString(), // Current timestamp
-    "DropoffType": "REGULAR_PICKUP",
-    "ServiceType": "FEDEX_GROUND",
-    "PackagingType": "FEDEX_BOX", // e.g., FEDEX_BOX
-    "Shipper": {
-      "Contact": {
-        "PersonName": "John Doe",
-        "CompanyName": "Sender Company",
-        "PhoneNumber": "1234567890"
-      },
-      "Address": {
-        "StreetLines": ["123 Main St"],
-        "City": "Anytown",
-        "StateOrProvinceCode": "NY",
-        "PostalCode": "12345",
-        "CountryCode": "US"
-      }
-    },
-    "Recipient": {
-      "Contact": {
-        "PersonName": "Jane Smith",
-        "CompanyName": "Recipient Company",
-        "PhoneNumber": "9876543210"
-      },
-      "Address": {
-        "StreetLines": ["456 Elm St"],
-        "City": "Othertown",
-        "StateOrProvinceCode": "CA",
-        "PostalCode": "54321",
-        "CountryCode": "US"
-      }
-    },
-    "ShippingChargesPayment": {
-      "PaymentType": "SENDER",
-      "Payor": {
-        "ResponsibleParty": {
-          "AccountNumber": "YOUR_ACCOUNT_NUMBER"
-        }
-      }
-    },
-    "LabelSpecification": {
-      "LabelFormatType": "COMMON2D",
-      "ImageType": "PDF",
-      "LabelStockType": "PAPER_4X6"
-    },
-    "PackageCount": "1",
-    "RequestedPackageLineItems": [{
-      "SequenceNumber": "1",
-      "Weight": {
-        "Value": "1.0",
-        "Units": "LB"
-      },
-      "Dimensions": {
-        "Length": "10",
-        "Width": "5",
-        "Height": "4",
-        "Units": "IN"
-      }
-    }]
-  }
-};
+const params = new URLSearchParams({
+    grant_type,
+    client_id,
+    client_secret
+});
 
-// Convert the input data to JSON string
-const data = JSON.stringify(input);
-
+fetch("https://apis-sandbox.fedex.com/oauth/token", {
+    method: 'POST',
+    mode:'no-cors',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: params
+})
+.then(response => {
+    // if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    // }
+    
+    return response.json();
+})
+.then(json => {
+    console.log(json);
+})
+.catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+});
 
 }
 useEffect(() => {
