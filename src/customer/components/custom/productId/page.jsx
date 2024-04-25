@@ -373,7 +373,7 @@ getUserDetail()
                 <div className={style.info} style={{ width: '100%', marginLeft: '2px' }}>
                   <div className={style.limited}> Limited Stock! Order Now.</div>
                   <div className={style.price} style={{display:'flex',flexDirection:'row'}}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
-                  <div className={style.choose} >
+                  <div className={style.choose}>
                     Choose from multiple variations
                   </div>
                   <div className={style.des}>{productDetails?.title}</div>
@@ -1195,7 +1195,7 @@ getUserDetail()
 
               {
                 categories.slice(0, 5)?.map((i) => (
-                  <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem' }} key={i.id}>
+                  <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem',cursor:'pointer' }} key={i.id} onClick={()=>navigate(`/products/${i.slug}`)}>
                     <img src={i.image} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
                     <p style={{ fontWeight: '500' }}>{i.name}</p>
                   </div>

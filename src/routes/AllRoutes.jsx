@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Route, Routes} from "react-router-dom"
 import Homepage from '../customer/pages/homepage/Homepage'
 import Cart from '../customer/components/cart/Cart'
@@ -19,11 +19,27 @@ import ContactUs from '../customer/Contact'
 import BlogDetails from '../customer/BlogDetails'
 
 export default function AllRoutes() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(()=>{
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 800);
+    };
 
-  
+    // Call handleResize on initial render
+    handleResize();
+
+    // Add event listener to listen for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  },[])
   return (
     <>
  <Header/>
+ {isMobile?<div style={{height:'4rem'}}></div>:''}
     <Routes>
 <Route path='/' element={<Homepage/>}/>
 <Route path='/login' element={<Homepage/>}/>

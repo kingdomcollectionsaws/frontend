@@ -7,6 +7,7 @@
     justify-content: center;
     /* Align items at the start and end of the flex container */
     align-items: center;
+    height: auto;
 }
 
 .search {

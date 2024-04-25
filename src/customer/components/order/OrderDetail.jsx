@@ -60,8 +60,7 @@ export default function OderDetail() {
 </div>
 <div className='mx-5'>
 <p className='font-bold mb-2'>{i.product.title}</p>
- 
-  <p className='font-semibold mb-2'>£{i.product.price}</p>
+  <p className='font-semibold mb-2'>${i.product.price}</p>
   <p className='font-bold'>delivery on may</p>
 </div>
   </div>
