@@ -1,7 +1,6 @@
 import React from 'react'
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
-import {carouseldata } from './carouseldata';
 import style from '../../components/custom/styles.module.css'
 import { useNavigate } from 'react-router-dom';
 export default function Carousel({data}) {
@@ -15,8 +14,7 @@ const items = data.map((i)=> <div  style={{ borderRadius:'0',border:'none',displ
    <img src={i?.imageUrl[0]}   alt='img' style={{width:'95vw',height:'25rem'}}/>
  
    <h1 className={style.text} style={{fontWeight:'700',width:'90%',fontSize:'1rem',display:'flex',alignSelf: "flex-start" ,}}>{i?.title.substring(0, 20)}...</h1>
-   <h1 className={style.text} style={{fontWeight:'500',width:'90%',fontSize:'1rem',display:'flex',alignSelf: "flex-start"}}>£ {i?.price}</h1>
-  
+   <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${i.price}</p></span> $ {i.discountedPrice}</h1>
   
    </div>,)
   return (
@@ -47,7 +45,7 @@ const items = data.map((i)=> <div  style={{ borderRadius:'0',border:'none',displ
  <img src={i?.imageUrl[0]}   alt='img' style={{width:'95vw',height:'25rem',}}/>
 
  <h1 className={style.text} style={{fontWeight:'700',width:'90%',fontSize:'1rem',display:'flex',alignSelf: "flex-start" , paddingLeft:'1rem'}}>{i?.title.substring(0, 20)}...</h1>
- <h1 className={style.text} style={{fontWeight:'500',width:'90%',fontSize:'1rem',display:'flex',alignSelf: "flex-start", paddingLeft:'1rem'}}>£ {i?.price}</h1>
+ <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${i.price}</p></span> $ {i.discountedPrice}</h1>
 
 
  </div>,)

@@ -372,7 +372,7 @@ getUserDetail()
                 <ProductSlider imagesdata={productDetails?.imageUrl} />
                 <div className={style.info} style={{ width: '100%', marginLeft: '2px' }}>
                   <div className={style.limited}> Limited Stock! Order Now.</div>
-                  <div className={style.price}>£{productDetails?.price}</div>
+                  <div className={style.price} style={{display:'flex',flexDirection:'row'}}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
                   <div className={style.choose} >
                     Choose from multiple variations
                   </div>
@@ -1051,7 +1051,7 @@ getUserDetail()
               </div>
               <div className={style.info}>
                 <div className={style.limited}>Limited Stock Order Now</div>
-                <div className={style.price}>£{productDetails?.price}</div>
+                <div className={style.price} style={{display:'flex',flexDirection:'row'}}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
                 <div className={style.choose}>
                   Choose from multiple variations
                 </div>

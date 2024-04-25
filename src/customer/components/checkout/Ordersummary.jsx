@@ -52,7 +52,7 @@ const token = localStorage.getItem('jwt')
         <img className='max-w[10rem] max-h-[10rem] flex align-center mx-4'  src={i.product.imageUrl[0]} alt="img" />
        <div className='flex align-center justify-center flex-col' >
 <p>{i?.product.title}</p>
-<p>£{i?.product.discountedPrice}</p>
+<p>${i?.product.discountedPrice}</p>
   <p>quantity:{i?.quantity}</p>
 <p className=' font-semibold tracking-tight   text-green-600'>{i?.product.sizes[0]}</p>
 <div className="flex align-center justify-start m-y-1 space-x-2">
@@ -69,7 +69,7 @@ const token = localStorage.getItem('jwt')
    <h1 className=' flex justify-center align-center font-bold'>Price Details</h1>
  {/* <div className=' flex justify-around w-full  font-semibold pt-3'>
    <span>price</span>
-   <span>£{order?.totalPrice}</span>
+   <span>${order?.totalPrice}</span>
  </div> */}
     <div className=' flex justify-between  w-full   pt-3 justify-center p-4 ' style={{alignItems:'flex-start',alignSelf:'flex-start'}}>
    <span>Total amount</span>

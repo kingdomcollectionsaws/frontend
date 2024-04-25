@@ -127,7 +127,6 @@ export default function MainPage() {
   },[])
   return (
     !loading ?
-    
       <div style={{ overflowX: 'hidden', boxSizing: 'border-box', paddingLeft: '0', paddingRight: '0',marginTop:'3rem' }} className={style.mainPage}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
           <h1 className={style.text} style={{ fontSize: '24px', color: '#222222', marginBottom: '-.5rem' }} >Shop by Category</h1>
@@ -153,7 +152,6 @@ export default function MainPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', }} className={style.cateHeading}>
             <div className={style.categoryHead}>All</div>
-
             <div className={style.categoryHead}>SALE</div>
             <div className={style.categoryHead}>FRESH</div>
             <div className={style.categoryHead}>GAUNTLETS</div>
@@ -168,7 +166,7 @@ export default function MainPage() {
                     <img src={i.imageUrl[0]} width={250} height={190} alt='img' />
 
                     <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start",cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 20)}...</h1>
-                    <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}>£ {i.price}</h1>
+                    <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${i.price}</p></span> $ {i.discountedPrice}</h1>
 
 
                   </div>
@@ -189,7 +187,7 @@ export default function MainPage() {
                   <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none' }} onClick={() => navigate(`/product/${i.title}/${i._id}`)} >
                     <img src={i.imageUrl[0]} alt='img' style={{ width: '15rem', height: '15rem' }} />
                     <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 20)}...</h1>
-                    <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}>£ {i.price}</h1>
+                    <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${i.price}</p></span> $ {i.discountedPrice}</h1>
                   </div>
                 ))}
             </div>

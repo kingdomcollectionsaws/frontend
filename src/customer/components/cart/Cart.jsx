@@ -75,11 +75,11 @@ export default function Cart() {
           </div>
          <div className=' flex  w-full justify-between p-4 pt-3'>
           <span>Item(s) total</span>
-          <span>£{cart?.totalPrice}</span>
+          <span>${cart?.totalPrice}</span>
         </div> 
           <div className=' flex  w-full justify-between p-4  pt-3'>
           <span>Total discount</span>
-          <span >£{cart?.discounte}</span>
+          <span >${cart?.discounte}</span>
         </div> 
           <div className=' flex  w-full justify-between p-4   pt-3'>
           <span>Shipping Charges</span>
@@ -87,7 +87,7 @@ export default function Cart() {
         </div>
           <div className=' flex justify-between p-4 w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
           <span>Total ({cart?.cartItems.length} item)</span>
-          <span >£{cart?.totalDiscountedPrice}</span>
+          <span >${cart?.totalDiscountedPrice}</span>
         </div>
         </div>
         <Button 

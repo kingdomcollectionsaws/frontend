@@ -100,16 +100,13 @@ setOrderDate(formattedDateRange)
         </div>
       </div>
       <div style={{ width: '10%', display: 'flex', alignItems: 'center', marginTop: '1rem', flexDirection: 'column', }} className='mx-10 lg:mx-0 '>
-        <p className=' font-bold tracking-tight   text-green-600' style={{fontSize:'1.5rem'}}>£{data?.product?.discountedPrice}</p>
-        <p className='font-semibold tracking-tight text-gray-600  line-through '>£{data?.product?.price}</p>
+        <p className=' font-bold tracking-tight   text-green-600' style={{fontSize:'1.5rem'}}>${data?.product?.discountedPrice}</p>
+        <p className='font-semibold tracking-tight text-gray-600  line-through '>${data?.product?.price}</p>
       </div>
     </div>
-    <div style={{display:'flex', borderTop:'1px solid gray',width:'100%',flexDirection:'column',}}> 
-     <p style={{fontWeight:'500'}}>
-     Delivery:Free
-     </p>
+    <div style={{display:'flex', borderTop:'1px solid gray',width:'100%',flexDirection:'column', fontWeight:'bold'}}> 
      <p style={{color:'#595959'}}>
-     Estimated delivery: <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span> from United States
+     Estimated delivery: <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span> from UK
      </p>
     </div>
 </div>)):<>
