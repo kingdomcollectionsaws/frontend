@@ -24,12 +24,12 @@ export default function Footer() {
             <li>  <a href="#">  Registry </a> </li> 
             <li>  <a href="#"> Sitemap </a> </li> 
             <li>  <a href="#">  blog </a> </li> 
-            <li>  <a href="#"> United Kingdom </a> </li> 
+            {/* <li>  <a href="#"> United Kingdom </a> </li> 
             <li>  <a href="#"> Germany </a> </li> 
-            <li>  <a href="#">Canada </a> </li> 
+            <li>  <a href="#">Canada </a> </li>  */}
           </ul>
         </div>
-        <div className={style.column}>
+        {/* <div className={style.column}>
           <h3>Sell</h3>
           <ul>
             <li>  <a href="#"> Sell </a> </li> 
@@ -37,16 +37,16 @@ export default function Footer() {
             <li>  <a href="#"> Forums </a> </li> 
             <li>  <a href="#"> Affiliates & Creators </a> </li> 
           </ul>
-        </div>
+        </div> */}
         <div className={style.column}>
           <h3>About</h3>
           <ul>
             <li>  <a href="#">  Inc. </a> </li> 
             <li>  <a href="/PrivacyPolicy"> Policies </a> </li> 
-            <li>  <a href="#"> Investors </a> </li> 
+            {/* <li>  <a href="#"> Investors </a> </li>  */}
             <li>  <a href="/About"> About Us </a> </li> 
-            <li>  <a href="#"> Press </a> </li> 
-            <li>  <a href="#"> Impact </a> </li> 
+            {/* <li>  <a href="#"> Press </a> </li> 
+            <li>  <a href="#"> Impact </a> </li>  */}
             <li>  <a href="/ShippingPolicy"> Shipping Policy </a> </li> 
           </ul>
         </div>
@@ -67,7 +67,6 @@ export default function Footer() {
                       <div className={style.icons}><a href="#"><FiTwitter/></a></div>
                       <div className={style.icons}><a href="https://youtube.com/@kingdomcollectionofficial/"><FiYoutube/></a></div>
                     </div>
-       
       </div>
       <div className={style.footerRight}>
       <div className={style.column} >
@@ -75,9 +74,9 @@ export default function Footer() {
           <li><a href="#" > &copy; 2024  Inc. </a></li>
            <li>  <a href="#">  Terms of Use</a> </li> 
             <li>  <a href="/PrivacyPolicy"> Privacy </a> </li> 
-            <li>  <a href="#"> Interest-based ads </a> </li> 
+            {/* <li>  <a href="#"> Interest-based ads </a> </li> 
             <li>  <a href="#"> Local Shops </a> </li> 
-            <li>  <a href="#">  Regions </a> </li> 
+            <li>  <a href="#">  Regions </a> </li>  */}
           </ul>
         </div>
       </div>
@@ -104,13 +103,13 @@ export default function Footer() {
                       <li>  <a href="#">  Registry </a> </li> 
                       <li>  <a href="#"> Sitemap </a> </li> 
                       <li>  <a href="#">  blog </a> </li> 
-                      <li>  <a href="#"> United Kingdom </a> </li> 
+                      {/* <li>  <a href="#"> United Kingdom </a> </li> 
                       <li>  <a href="#"> Germany </a> </li> 
-                      <li>  <a href="#">Canada </a> </li> 
+                      <li>  <a href="#">Canada </a> </li>  */}
                     </ul>
                   </div> : <h1></h1>
                   }
-                   <h2 className={style.toggleBtn} onClick={()=>setOpen2(!open2)}>Sell <span style={{ marginLeft: '305px' }}>{open2 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
+                   {/* <h2 className={style.toggleBtn} onClick={()=>setOpen2(!open2)}>Sell <span style={{ marginLeft: '305px' }}>{open2 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                     {
                     open2? <div className={style.column} style={{marginLeft:'1rem'}}>
                     <ul>
@@ -120,17 +119,15 @@ export default function Footer() {
                       <li>  <a href="#"> Affiliates & Creators </a> </li> 
                     </ul>
                   </div> : <h1></h1>
-                  }
+                  } */}
                    <h2 className={style.toggleBtn} onClick={()=>setOpen3(!open3)}>About <span style={{ paddingLeft: '290px' }}>{open3 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                     {
                     open3?<div className={style.column} style={{marginLeft:'1rem'}}>
                     <ul>
                     <li>  <a href="#">  Inc. </a> </li> 
             <li>  <a href="/PrivacyPolicy"> Policies </a> </li> 
-            <li>  <a href="#"> Investors </a> </li> 
+            {/* <li>  <a href="#"> Investors </a> </li>  */}
             <li>  <a href="/About"> About Us </a> </li> 
-            <li>  <a href="#"> Press </a> </li> 
-            <li>  <a href="#"> Impact </a> </li> 
             <li>  <a href="/ShippingPolicy"> Shipping Policy </a> </li> 
                     </ul>
                   </div> : <h1></h1>
@@ -160,9 +157,9 @@ export default function Footer() {
           <ul style={{ display:'flex',  flexDirection:'row',gap:'20px',justifyContent:'center',alignItems:'center'}}>
            <li>  <a href="#">  Terms of Use</a> </li> 
             <li>  <a href="/PrivacyPolicy"> Privacy </a> </li> 
-            <li>  <a href="#"> Interest-based ads </a> </li> 
+            {/* <li>  <a href="#"> Interest-based ads </a> </li> 
             <li>  <a href="#"> Local Shops </a> </li> 
-            <li>  <a href="#">  Regions </a> </li> 
+            <li>  <a href="#">  Regions </a> </li>  */}
           </ul>
         </div>
       </div>

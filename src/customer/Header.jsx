@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetail } from './state/Auth/registerSlice';
 import 'react-toastify/dist/ReactToastify.css';
 import { getCart } from './state/cart/cartSlice';
+import { BsHandbag } from "react-icons/bs";
 export default function Header() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ export default function Header() {
           </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '5rem' }} onClick={handleOpen}  >Sign in</div>
           }
           {/* <div className={style.signIn} title='sign in'>Sign in</div> */}
-          <div className={style.like} onClick={()=>navigate('/account/order')}><FaRegHeart /></div>
+          <div className={style.like} onClick={()=>navigate('/account/order')}><BsHandbag /></div>
           <div className={style.cart} onClick={gocart}>
 
             <FiShoppingCart />

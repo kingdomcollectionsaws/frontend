@@ -226,7 +226,7 @@ if(checked){
     required
     id='number'
     name='number'
-    label='Number'
+    label='Phone'
     fullWidth
     autoComplete='given-number'
     />
@@ -342,7 +342,7 @@ if(checked){
     required
     id='billing_number'
     name='billing_number'
-    label='Number'
+    label='Phone'
     fullWidth
     autoComplete='given-number'
     />

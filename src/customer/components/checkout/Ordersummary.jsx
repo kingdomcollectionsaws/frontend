@@ -71,20 +71,21 @@ const token = localStorage.getItem('jwt')
    <span>price</span>
    <span>£{order?.totalPrice}</span>
  </div> */}
-   <div className=' flex justify-around w-full  font-mono pt-3'>
-   <span>Shipping Charges</span>
-   <span className='text-green-500'>free</span>
- </div>
-   <div className=' flex justify-around w-full  font-mono pt-3'>
-   <span>total amount</span>
+    <div className=' flex justify-between  w-full   pt-3 justify-center p-4 ' style={{alignItems:'flex-start',alignSelf:'flex-start'}}>
+   <span>Total amount</span>
    <span className='text-green-500'>${order?.totalDiscountedPrice}</span>
  </div>
+   <div className=' flex justify-between  w-full   pt-3 p-4' style={{alignItems:'flex-start',alignSelf:'flex-start'}}>
+   <span>Shipping Charges</span>
+   <span className='text-green-500'>Free</span>
+ </div>
+
  </div>
  <Button
          variant="container" className="w-full font-bold" sx={{bgcolor:"black",color:"#fff"}}
          onClick={()=>makePayment(order._id)}
        >
-        Pay
+        Pay Now
        </Button>
 </Grid>
 

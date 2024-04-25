@@ -108,7 +108,7 @@ export default function ProductDetailPage({ params }) {
   const paginationHandel = (page) => {
     //console.log(page);
 
-    newPage = page + 1;
+    newPage = page;
     newCountStart = newPage * 5;
     newCountEnd = newCountStart + 5;
 
@@ -300,7 +300,7 @@ getUserDetail()
         for (let i = selectedProducts.length - 1; i >= 0; i--) {
           if (selectedProducts[i].brand == event.target.value) {
             let lastMatchingProduct = selectedProducts[i];
-            setProductDetails(lastMatchingProduct);
+            setProductDetails(lastMatchingProduct);    
             break; // Exit loop once the last matching product is found
           }
         }
@@ -353,7 +353,7 @@ getUserDetail()
     }
   }
   useEffect(() => {
-
+  
 
   }, [showindex, open]);
 
@@ -377,15 +377,6 @@ getUserDetail()
                     Choose from multiple variations
                   </div>
                   <div className={style.des}>{productDetails?.title}</div>
-                  <div className={style.stars}>
-                    <ReactStars
-                      count={5}
-                      size={20}
-                      activeColor="#222222"
-                      value={5}
-                      color='#222222'
-                    />
-                  </div>
                   <div className={style.check}>
                     <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
                      <p className={style.checkP}>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
@@ -597,7 +588,7 @@ getUserDetail()
 
                                           <p style={{ paddingTop: '5rem' }}>Purchased item</p>
 
-                                          {products.map((pro) => {
+                                          {products?.map((pro) => {
                                             if (pro._id == review[showindex]?.product) {
                                               return (
                                                 <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer', }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
@@ -634,7 +625,7 @@ getUserDetail()
                       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowindex(index) }}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
-                            count={5}
+                            count={item.ratings}
                             size={24}
                             activeColor="black"
                             value={item.ratings}
@@ -735,7 +726,7 @@ getUserDetail()
                   <ResponsivePagination
 
                     current={currentPage}
-                    total={50}
+                    total={Math.ceil(allproductreviews?.length/5)}
                     onPageChange={() => paginationHandel(currentPage)}
 
 
@@ -856,15 +847,16 @@ getUserDetail()
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
                       {
-                        review?.map((item) => (<Transition.Root show={open} as={Fragment}>
+                        
+                        review?.slice(count, countend).map((item) => (<Transition.Root show={open} as={Fragment}>
 
-                          <Dialog as="div" className="fixed inset-0 backdrop-blur-lg overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                          <Dialog as="div" className="fixed inset-0  overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
                             <div className="flex items-center justify-center min-h-screen px-4 text-center">
                               <Transition.Child
                                 as={Fragment}
 
                               >
-                                <Dialog.Overlay className="fixed inset-0  bg-opacity-50 transition-opacity" />
+                                <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{backgroundColor:'gray',opacity:'0.5'}}  />
                               </Transition.Child>
 
                               <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -967,17 +959,17 @@ getUserDetail()
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
                       {
-                        allproductreviews?.map((item) => (
-                          <Transition.Root show={open} as={Fragment}>
+                        allproductreviews?.slice(count, countend).map((item) => (
+                          <Transition.Root show={open} as={Fragment} className = "bg-green">
 
-                            <Dialog as="div" className="fixed inset-0  backdrop-blur-sm overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                            <Dialog as="div" className="fixed inset-0   overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen} >
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
 
 
                                 >
-                                  <Dialog.Overlay className="fixed inset-0 bg-opacity-50 transition-opacity" />
+                                  <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{backgroundColor:'gray',opacity:'0.1'}} />
                                 </Transition.Child>
 
                                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -990,7 +982,7 @@ getUserDetail()
                                 >
 
                                   <div className="inline-block align-bottom rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
-                                    <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
+                                    <div style={{ width: '50rem', backgroundColor: '#fff',opacity:'1', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
                                       <div>
                                         <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
                                       </div>
@@ -1064,18 +1056,10 @@ getUserDetail()
                   Choose from multiple variations
                 </div>
                 <div className={style.des}> <p>{productDetails?.title}</p></div>
-                <div className={style.stars}>
-                  <ReactStars
-                    count={5}
-                    size={20}
-                    activeColor="#222222"
-                    value={5}
-                    color='#222222'
-                  />
-                </div>
+               
                 <div className={style.check}>
                   <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
-                  <p className={style.checkP}>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
+                  <p className={style.checkP} >Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                 </div>
                 <div className={style.check} style={{ marginTop: '1px' }}>
                   <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
@@ -1153,7 +1137,7 @@ getUserDetail()
                     open2 ? <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
                       <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
                         <MdDateRange />
-                        <p>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
+                        <p>Order today to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
                         <BsBox2 />
@@ -1197,7 +1181,7 @@ getUserDetail()
             <div className="flex overflow-x-auto  m-[1rem]">
               <ResponsivePagination
                 current={currentPage}
-                total={10}
+                total={Math.ceil(allproductreviews?.length/5)}
                 onPageChange={paginationHandel}
               />
             </div>
