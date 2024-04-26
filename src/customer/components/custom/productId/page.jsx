@@ -29,7 +29,7 @@ import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic.css';
 import ricon from '../../../../../public/ricon.jpg';
 import { useDispatch, useSelector } from "react-redux";
-import { findProductById } from "../../../state/product/productSlice";
+import { findProductById, getAllProducts } from "../../../state/product/productSlice";
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from "../../../Loader";
 import { addItemInCart, getCart, updateItemInCart } from "../../../state/cart/cartSlice";
@@ -107,7 +107,10 @@ export default function ProductDetailPage({ params }) {
   let newCountEnd = 5;
   const paginationHandel = (page) => {
     //console.log(page);
-
+if(page == 1){
+  setCount(0);
+  setCountend(5);
+}
     newPage = page;
     newCountStart = newPage * 5;
     newCountEnd = newCountStart + 5;
@@ -211,7 +214,7 @@ export default function ProductDetailPage({ params }) {
 
   useEffect(() => {
    // setCategories(CategoryList)
-getUserDetail()
+    getUserDetail()
     Getreviews(id)
     dispatch(findProductById(id));
     setProductDetails(null);
@@ -257,6 +260,7 @@ getUserDetail()
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+    Getreviews(id)
   }, [data]);
   const handleDiv = () => {
     setOpen1(!open1)
@@ -352,10 +356,15 @@ getUserDetail()
      // console.log(showindex);
     }
   }
-  useEffect(() => {
   
+  useEffect(() => {
+    
 
   }, [showindex, open]);
+  useEffect(() => {
+    dispatch(getAllProducts());
+
+  }, []);
 
 
 
@@ -371,7 +380,7 @@ getUserDetail()
               <div className={style.carousel} style={{ width: '100%', height: '20rem' }}>
                 <ProductSlider imagesdata={productDetails?.imageUrl} />
                 <div className={style.info} style={{ width: '100%', marginLeft: '2px' }}>
-                  <div className={style.limited}> Limited Stock! Order Now.</div>
+                  <div className={style.limited}> Only 1 left and in 2 carts</div>
                   <div className={style.price} style={{display:'flex',flexDirection:'row'}}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
                   <div className={style.choose}>
                     Choose from multiple variations
@@ -545,7 +554,6 @@ getUserDetail()
                               <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                 <Transition.Child
                                   as={Fragment}
-
                                 >
                                   <Dialog.Overlay className="fixed inset-0  bg-black  bg-opacity-20 transition-opacity" />
                                 </Transition.Child>
@@ -848,7 +856,8 @@ getUserDetail()
                       </div>
                       {
                         
-                        review?.slice(count, countend).map((item) => (<Transition.Root show={open} as={Fragment}>
+                        review?.slice(count, countend).map((item) => (
+                        <Transition.Root show={open} as={Fragment}>
 
                           <Dialog as="div" className="fixed inset-0  overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
                             <div className="flex items-center justify-center min-h-screen px-4 text-center">
@@ -1050,7 +1059,7 @@ getUserDetail()
                 }
               </div>
               <div className={style.info}>
-                <div className={style.limited}>Limited Stock Order Now</div>
+                <div className={style.limited}>Only 1 left and in 2 carts</div>
                 <div className={style.price} style={{display:'flex',flexDirection:'row'}}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
                 <div className={style.choose}>
                   Choose from multiple variations
@@ -1192,7 +1201,6 @@ getUserDetail()
     </div> */}
             <h1 style={{ fontWeight: '500', margin: '2rem', color: '#222222', fontFamily: '"Guardian-EgypTT", "Charter", "Charter Bitstream", "Cambria", "Noto Serif Light", "Droid Serif", "Georgia", "serif"', fontSize: '1.5rem' }}>Explore Related Categories</h1>
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', margin: '1rem' }}>
-
               {
                 categories.slice(0, 5)?.map((i) => (
                   <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem',cursor:'pointer' }} key={i.id} onClick={()=>navigate(`/products/${i.slug}`)}>
@@ -1201,7 +1209,6 @@ getUserDetail()
                   </div>
                 ))
               }
-
             </div>
             <h1 style={{ fontWeight: '500', margin: '2rem', color: '#222222', fontFamily: '"Guardian-EgypTT", "Charter", "Charter Bitstream", "Cambria", "Noto Serif Light", "Droid Serif", "Georgia", "serif"', fontSize: '1.5rem' }}>Explore More Related Search</h1>
             <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', flexWrap: 'wrap', marginLeft: '2rem', marginBottom: '1rem' }}>

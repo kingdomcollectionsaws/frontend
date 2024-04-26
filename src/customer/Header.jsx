@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getCart } from './state/cart/cartSlice';
 import { BsHandbag } from "react-icons/bs";
 import HeaderCategory from './HeaderCategory';
+import { AiOutlineClose } from "react-icons/ai";
 export default function Header() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -20,9 +21,12 @@ export default function Header() {
   const [handleOpenAuth, setHandleOpeneAuth] = useState(false);
   const { user, error } = useSelector(store => store.user);
   const { cart } = useSelector(store => store.cart);
+  const { products } = useSelector(store => store.allproducts);
   const [SearchValue, setSearchValue] = useState()
   const jwt = localStorage.getItem('jwt');
   const [isMobile, setIsMobile] = useState(false);
+  const [suggestion,setSuggestion] = useState(false)
+  const [suggestionvalue,setSuggestionvalue] = useState([])
   useEffect(() => {
     dispatch(getUserDetail())
     dispatch(getCart())
@@ -53,7 +57,7 @@ export default function Header() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [dispatch, jwt, location,cart?.cartItems.length ])
+  }, [dispatch, jwt, location,cart?.cartItems.length])
 
   const handleClose = () => {
     setHandleOpeneAuth(false)
@@ -67,17 +71,43 @@ export default function Header() {
     navigate('/cart')
   }
   const searchvalue = (e) => {
+   
     setSearchValue(e.target.value);
+    if(e.target.value.trim() == ''){
+      setSuggestion(false);
+    }else{
+      const matchingProducts = products.filter(product => product.title.toLowerCase().includes(e.target.value.toLowerCase()));
+        const matchingTitles = matchingProducts.map(product => product.title.slice(0,30));
+        console.log(matchingProducts,products,e);
+        setSuggestionvalue(matchingTitles);
+        setSuggestion(true);
+        
+    }
   }
   const en = (event) => {
     if (event.keyCode == 13) {
       navigate(`/searchproducts/${SearchValue}`)
     }
   }
+  const closesearch = ()=>{
+    setSearchValue(''); // Clear the search input value
+    setSuggestion(false);
+
+  }
+  
   return (
     <>
       {!isMobile?<>
+        <div style={{width:'100%',top:'13%',position:'absolute',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          {
+      suggestion? <div style={{position:'sticky',backgroundColor:'#fff',width:'40%',paddingLeft:'1rem',top:'7%',marginLeft:'1rem',boxShadow:'2px 2px 2px #BEBEBE',zIndex:'1000'}}>
+      {suggestionvalue?.map((i)=>(
+        <h1 style={{cursor:'pointer',marginBottom:'.5rem'}} className='hover:bg-gray-200' onClick={() => {SearchValue.trim()?(navigate(`/searchproducts/${SearchValue}`),setSuggestion(false)):''}}>{i}...</h1>
+      ))}
 
+      </div>:''
+     }
+          </div>
         <div className={style.navber}>
         <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <img src={logo} width={180} height={70} alt="Description" />
@@ -87,9 +117,17 @@ export default function Header() {
         </div>
        
         <div className={style.search}>
-          <input placeholder='Search..' className={style.input} onChange={searchvalue} onKeyDown={en} />
-          <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} onClick={() => navigate(`/searchproducts/${SearchValue}`)} /></div>
+          <input placeholder='Search..' value={SearchValue} className={style.input} onChange={searchvalue} onKeyDown={en} />
+          
+        {!SearchValue?.trim()==''?  <div className={style.searchIconDiv} style={{right:'7%',backgroundColor:'#fff'}}>
+          <AiOutlineClose  onClick={closesearch}/>
+             </div>:''}
+           <div className={style.searchIconDiv} style={{flexDirection:'row'}}>
+             <IoSearch className={style.searchIcon} onClick={() => {SearchValue.trim()?navigate(`/searchproducts/${SearchValue}`):''}} />
+             </div>
+         
         </div>
+
         <div className={style.navberList}>
           {user && user?.role != 'GUEST' ? <div className={style.signIn} title='my account' onClick={() => navigate('/profile')}>
             <IoPerson />
@@ -106,7 +144,16 @@ export default function Header() {
       </div>
       <AuthModel handleClose={handleClose} open={handleOpenAuth} />
       </>:<>
-     
+      <div style={{width:'100%',top:'11%',position:'absolute',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          {
+      suggestion? <div style={{position:'sticky',backgroundColor:'#fff',width:'100%',paddingLeft:'1rem',top:'7%',marginLeft:'1rem',boxShadow:'2px 2px 2px #BEBEBE',zIndex:'1000'}}>
+      {suggestionvalue?.map((i)=>(
+        <h1 style={{cursor:'pointer',marginBottom:'.5rem'}} className='hover:bg-gray-200' onClick={() => {SearchValue.trim()?(navigate(`/searchproducts/${SearchValue}`),setSuggestion(false)):''}}>{i}...</h1>
+      ))}
+
+      </div>:''
+     }
+          </div>
       <div className={style.navber} style={{flexDirection:'column',gap:'4px',}}>
         <div style={{display:'flex',flexDirection:'row'}}>
         <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
@@ -132,9 +179,13 @@ export default function Header() {
         </div>
        
         <div className={style.search} style={{width:'67%'}}>
-          <input placeholder='Search..' className={style.input} onChange={searchvalue} onKeyDown={en}  style={{width:'100%'}} />
-          <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} onClick={() => navigate(`/searchproducts/${SearchValue}`)} /></div>
+          <input placeholder='Search..' className={style.input} onChange={searchvalue} onKeyDown={en}  style={{width:'100%'}}  value={SearchValue}/>
+          {!SearchValue?.trim()==''?  <div className={style.searchIconDiv} style={{right:'14%',backgroundColor:'#fff'}}>
+          <AiOutlineClose  onClick={closesearch}/>
+             </div>:''}
+          <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} onClick={() => {SearchValue.trim()?navigate(`/searchproducts/${SearchValue}`):''}} /></div>
         </div>
+        
       </div>
        
       </div>
