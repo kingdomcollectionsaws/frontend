@@ -37,7 +37,10 @@ export default function Addnewproduct () {
         sizes: [],
         brand: '',
         discountedPrice:'',
-        slug:''
+        slug:'',
+        height:'',
+        width:'',
+        materials:''
     });
 
    
@@ -48,7 +51,6 @@ export default function Addnewproduct () {
         //    }
         if (name == "price") {
             productData.price = value
-            productData.productData = price
         }
         if (name == "description") {
             productData.description = value
@@ -70,6 +72,15 @@ export default function Addnewproduct () {
         }
         if (name == "slug") {
             productData.slug = value
+        }
+        if (name == "height") {
+            productData.height = value
+        }
+        if (name == "width") {
+            productData.width = value
+        }
+        if (name == "materials") {
+            productData.materials = value
         }
 
     };
@@ -116,11 +127,12 @@ export default function Addnewproduct () {
             },
             body: JSON.stringify(productData)
         }
+        console.log(productData);
         fetch(`${API_BASE_URL}/api/admin/products/`, requestOptions)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                 if (!response.ok) {
+                 throw new Error('Network response was not ok');
+                 }
                 return response.json();
             })
             .then(products => {
@@ -280,14 +292,44 @@ export default function Addnewproduct () {
                                     onChange={handleInputChange}
                                     style={{paddingBottom:'10px'}}
                                 />
-                                   <TextField
+                                
+                            </Grid>
+                            <Grid  item xs={6} sm={6}>
+                            <TextField
                                     required
                                     name='discountedPrice'
                                     label='Sale Price'
                                     fullWidth
                                     onChange={handleInputChange}
-                                />
-                            </Grid>
+                                    style={{paddingBottom:'10px'}}
+                                /></Grid>
+                                  <Grid  item xs={6} sm={6}>
+                            <TextField
+                                    required
+                                    name='height'
+                                    label='Height'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{paddingBottom:'10px'}}
+                                /></Grid>
+                                <Grid  item xs={6} sm={6}>
+                            <TextField
+                                    required
+                                    name='width'
+                                    label='Width'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{paddingBottom:'10px'}}
+                                /></Grid>
+                                <Grid  item xs={6} sm={6}>
+                            <TextField
+                                    required
+                                    name='materials'
+                                    label='Materials'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{paddingBottom:'10px'}}
+                                /></Grid>
                           
                             <Grid item xs={12} sm={6} >
                                 <TextField

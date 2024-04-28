@@ -95,7 +95,6 @@ export const cartReducer = createSlice({
             state.loading = false
         },
         [addItemInCart.rejected]:(state,action)=>{
-            console.log("kk");
             state.loading= false
             state.error = action.payload
         },

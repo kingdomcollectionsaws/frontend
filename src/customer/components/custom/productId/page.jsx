@@ -16,7 +16,7 @@ import { useState, useEffect, Fragment, useRef, } from "react";
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon, PhoneXMarkIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { IoIosArrowUp } from "react-icons/io";
-import { AiFillLike } from "react-icons/ai";
+import { AiFillLike, AiFillSlackCircle } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaHand } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
@@ -49,6 +49,7 @@ import c3 from "/public/c3.png"
 import c4 from "/public/c4.png"
 import c5 from "/public/c5.png"
 import c6 from "/public/c6.png"
+import axios from "axios";
 export default function ProductDetailPage({ params }) {
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
@@ -60,37 +61,37 @@ export default function ProductDetailPage({ params }) {
   const [isMobile, setIsMobile] = useState(false);
   const [data, setData] = useState()
   const [review, setReview] = useState()
-  const [categories, setCategories] = useState( [{
-    slug:"gladiator-costume",
-    name:"Gladiator Costume",
-    image:c1
+  const [categories, setCategories] = useState([{
+    slug: "gladiator-costume",
+    name: "Gladiator Costume",
+    image: c1
   },
   {
-    slug:"mf-doom-mask",
-    name:"Mf doom mask",
-    image:c2
+    slug: "mf-doom-mask",
+    name: "Mf doom mask",
+    image: c2
   },
   {
-    slug:"nazgul-costume",
-    name:"Nazgul costume",
-    image:c3
+    slug: "nazgul-costume",
+    name: "Nazgul costume",
+    image: c3
   },
   {
-    slug:"roman-costume",
-    name:"Roman costume",
-    image:c4
+    slug: "roman-costume",
+    name: "Roman costume",
+    image: c4
   },
   {
-    slug:"spartan-costume",
-    name:"Spartan costume",
-    image:c5
+    slug: "spartan-costume",
+    name: "Spartan costume",
+    image: c5
   },
   {
-    slug:"templar-costume",
-    name:"Templar costume",
-    image:c6
+    slug: "templar-costume",
+    name: "Templar costume",
+    image: c6
   }
-])
+  ])
   const [productDetails, setProductDetails] = useState();
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -107,19 +108,21 @@ export default function ProductDetailPage({ params }) {
   let newCountEnd = 5;
   const paginationHandel = (page) => {
     //console.log(page);
-if(page == 1){
-  setCount(0);
-  setCountend(5);
-}
-    newPage = page;
-    newCountStart = newPage * 5;
-    newCountEnd = newCountStart + 5;
+    if (page == 1) {
+      setCount(0);
+      setCountend(5);
+    } else {
+      newPage = page;
+      newCountStart = newPage * 5;
+      newCountEnd = newCountStart + 5;
+    }
+
 
     setCount(newCountStart);
     setCountend(newCountEnd);
     setCurrentPage(newPage);
 
-    //console.log(newCountStart, newCountEnd, newPage);
+    console.log(newCountStart, newCountEnd, newPage);
   }
   const allreviews = () => {
     setCount(6)
@@ -131,17 +134,17 @@ if(page == 1){
     closeOnClick: true,
     pauseOnHover: false,
   });
-  const carts = async(id) => {
+  const carts = async (id) => {
     const token = localStorage.getItem('jwt');
     if (selectedValue) {
       const data = { productId: id }
       if (token) {
-       
+
         dispatch(addItemInCart(data));
         notify("Item added to cart")
       }
       else {
-        
+
 
         if (!user) {
           const uniqueIdentifier = Math.floor(Math.random() * 100000);
@@ -158,7 +161,7 @@ if(page == 1){
           }
           await dispatch(createUser(userData));
           await dispatch(addItemInCart(data));
-          notify("Item added to cart");   
+          notify("Item added to cart");
         } else {
           dispatch(addItemInCart(data));
           navigate('/cart')
@@ -171,19 +174,19 @@ if(page == 1){
 
     }
   }
-  const buynow = async(id) => {
+  const buynow = async (id) => {
     const token = localStorage.getItem('jwt');
     if (selectedValue) {
       const data = { productId: id }
       if (token) {
 
-        
+
         dispatch(addItemInCart(data));
         notify("Item added to cart");
         navigate('/cart')
       }
       else {
-       
+
         if (!user) {
           const uniqueIdentifier = Math.floor(Math.random() * 100000);
           const uniqueIdentifierdate = Date.now();
@@ -213,7 +216,7 @@ if(page == 1){
   }
 
   useEffect(() => {
-   // setCategories(CategoryList)
+    // setCategories(CategoryList)
     getUserDetail()
     Getreviews(id)
     dispatch(findProductById(id));
@@ -230,6 +233,7 @@ if(page == 1){
       })
       .then(Review => {
         setAllproductreviews(Review);
+        console.log(allproductreviews);
       })
       .catch(error => {
         console.error('There was a problem with the fetch request:', error);
@@ -242,9 +246,9 @@ if(page == 1){
     if (product) {
       setProductDetails(product);
     }
-  }, [product,user])
+  }, [product, user])
   useEffect(() => {
-
+    Getreviews(id)
     dates()
     const handleResize = () => {
       setIsMobile(window.innerWidth < 800);
@@ -260,7 +264,7 @@ if(page == 1){
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-    Getreviews(id)
+
   }, [data]);
   const handleDiv = () => {
     setOpen1(!open1)
@@ -299,12 +303,12 @@ if(page == 1){
         return response.json();
       })
       .then(selectedProducts => {
-      //  console.log("hello", selectedProducts);
+        //  console.log("hello", selectedProducts);
 
         for (let i = selectedProducts.length - 1; i >= 0; i--) {
           if (selectedProducts[i].brand == event.target.value) {
             let lastMatchingProduct = selectedProducts[i];
-            setProductDetails(lastMatchingProduct);    
+            setProductDetails(lastMatchingProduct);
             break; // Exit loop once the last matching product is found
           }
         }
@@ -326,7 +330,7 @@ if(page == 1){
         return response.json();
       })
       .then(reviews => {
-     //   console.log('reviews:', reviews);
+        //   console.log('reviews:', reviews);
         setReview(reviews)
       })
       .catch(error => {
@@ -337,7 +341,7 @@ if(page == 1){
   const handlePrev = () => {
     if (showindex > 0) {
       setShowindex(showindex => showindex - 1);
-     // console.log(showindex);
+      // console.log(showindex);
     } else {
       setShowindex(review.length);
     }
@@ -345,20 +349,20 @@ if(page == 1){
   const handleNext = () => {
     if (showindex < review.length - 1) {
       setShowindex(showindex => showindex + 1);
-    //  console.log(showindex);
-    }else{
+      //  console.log(showindex);
+    } else {
       setShowindex(0);
     }
   }
   const handleallNext = () => {
     if (showindex < allproductreviews.length - 1) {
       setShowindex(showindex => showindex + 1);
-     // console.log(showindex);
+      // console.log(showindex);
     }
   }
-  
+
   useEffect(() => {
-    
+
 
   }, [showindex, open]);
   useEffect(() => {
@@ -366,12 +370,10 @@ if(page == 1){
 
   }, []);
 
-
-
-
+  
   return (
     !loading ? <>
-      
+
       {
         isMobile ?
           <>
@@ -381,14 +383,14 @@ if(page == 1){
                 <ProductSlider imagesdata={productDetails?.imageUrl} />
                 <div className={style.info} style={{ width: '100%', marginLeft: '2px' }}>
                   <div className={style.limited}> Only 1 left and in 2 carts</div>
-                  <div className={style.price} style={{display:'flex',flexDirection:'row'}}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
+                  <div className={style.price} style={{ display: 'flex', flexDirection: 'row' }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
                   <div className={style.choose}>
                     Choose from multiple variations
                   </div>
                   <div className={style.des}>{productDetails?.title}</div>
                   <div className={style.check}>
                     <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
-                     <p className={style.checkP}>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
+                    <p className={style.checkP}>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                     {/* <span style={{ borderBottom: '1px dashed black' }}>06-07 Mar</span> if you order today */}
                   </div>
                   <div className={style.check} style={{ marginTop: '.1rem' }}>
@@ -442,14 +444,38 @@ if(page == 1){
                         <div style={{ display: 'flex', fontSize: '1rem', color: '#222222', flexDirection: 'row', alignItems: 'center', marginBottom: '1rem', gap: '10px', padding: '1rem' }}>
                           <IoLocationSharp style={{ fontSize: '1.2rem' }} />
                           <p>Delivery from UK</p>
-                        </div>
-                        <div style={{ padding: '1rem' }}>
-                          Great King Leonidas Sparta 300 Movie Helmet Battle Damage Edition Best For Valentine s Gift For Him
 
                         </div>
-                        <div style={{ marginTop: '2rem', display: 'flex', gap: '-1px', flexDirection: 'column', padding: '1rem' }}>
-                          <span>Helmet Comes With Wooden Stand</span> <br />
-                          <span>Material Steel/Iron</span><br />
+                        <div style={{ marginLeft: '1rem' }}>
+                          <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
+
+                            <div style={{ display: 'flex', gap: '1rem' }}>
+                              <span><PiGiftFill style={{ fontSize: '1.2rem' }} /></span>  <p>Gift wrapping available
+                                 {/* <span style={{ fontSize: '1rem', borderBottom: '1px dashed black', cursor: 'pointer' }}
+                                  onMouseOver={() => alert('j')}>See details</span> */}
+                                  </p>
+
+
+                            </div>
+
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', color: '#222222', gap: '1rem', marginBottom: '1rem' }}>
+                            <AiFillSlackCircle style={{ fontSize: '1.2rem' }} />
+                            <p>Materials:{productDetails?.materials}</p>
+                          </div>
+                          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', fontSize: '1rem', color: '#222222', marginBottom: '1rem' }}>
+                            <div>
+                              <TbRulerMeasure style={{ fontSize: '1.2rem' }} />
+                            </div>
+                            <div>
+                              <p>Width:  {productDetails?.width}</p>
+                              <p>Height: {productDetails?.height}</p>
+                            </div>
+
+                          </div>
+                          <div >
+                            Great King Leonidas Sparta 300 Movie Helmet Battle Damage Edition Best For Valentine s Gift For Him
+                          </div>
                         </div>
                       </div> : <h1></h1>
                     }
@@ -697,7 +723,7 @@ if(page == 1){
                                           {products.map((pro) => {
                                             if (pro._id == allproductreviews[showindex].product) {
                                               return (
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${allproductreviews[showindex].product}`) }}>
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${pro.slug}/${allproductreviews[showindex].product}`) }}>
                                                   <div>
                                                     <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                   </div>
@@ -732,12 +758,9 @@ if(page == 1){
                 </div>
                 <div className="flex overflow-x-auto  m-[1rem]">
                   <ResponsivePagination
-
                     current={currentPage}
-                    total={Math.ceil(allproductreviews?.length/5)}
+                    total={Math.ceil(allproductreviews?.length / 5)}
                     onPageChange={() => paginationHandel(currentPage)}
-
-
                   />
                 </div>
                 <h1 style={{ fontWeight: '500', margin: '2rem', color: '#222222', fontFamily: '"Guardian-EgypTT", "Charter", "Charter Bitstream", "Cambria", "Noto Serif Light", "Droid Serif", "Georgia", "serif"', fontSize: '1.5rem' }}>Explore Related Categories</h1>
@@ -854,104 +877,108 @@ if(page == 1){
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
-                      {
-                        
-                        review?.slice(count, countend).map((item) => (
-                        <Transition.Root show={open} as={Fragment}>
 
-                          <Dialog as="div" className="fixed inset-0  overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-                            <div className="flex items-center justify-center min-h-screen px-4 text-center">
-                              <Transition.Child
-                                as={Fragment}
+                      <div>
+                        {
 
-                              >
-                                <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{backgroundColor:'gray',opacity:'0.5'}}  />
-                              </Transition.Child>
+                          review?.slice(count, countend).map((item) => (
+                            <Transition.Root show={open} as={Fragment}>
 
-                              <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-                                &#8203;
-                              </span>
+                              <Dialog as="div" className="fixed inset-0  overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+                                <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                                  <Transition.Child
+                                    as={Fragment}
 
-                              <Transition.Child
-                                as={Fragment}
+                                  >
+                                    <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.5' }} />
+                                  </Transition.Child>
 
-                              >
+                                  <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                                    &#8203;
+                                  </span>
 
-                                <div className="inline-block align-bottom bg-[#F9F6EE] shadow-sm rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
-                                  <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
-                                    <div>
-                                      <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                      <div >
-                                        <img src={review[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
-                                      </div>
-                                      <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
-                                        <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
-                                          {/* <div>
+                                  <Transition.Child
+                                    as={Fragment}
+
+                                  >
+
+                                    <div className="inline-block align-bottom bg-[#F9F6EE] shadow-sm rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
+                                      <div style={{ width: '50rem', backgroundColor: '#fff', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
+                                        <div>
+                                          <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
+                                        </div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                          <div >
+                                            <img src={review[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                          </div>
+                                          <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
+                                            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                                              {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                          <div >{review[showindex]?.review}</div>
+                                              <div >{review[showindex]?.review}</div>
+                                            </div>
+                                            <div>  <ReactStars
+                                              count={5}
+                                              size={24}
+                                              activeColor="black"
+                                              edit={false}
+                                              value={5}
+                                              color='#fff'
+                                            /></div>
+
+                                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                              <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
+                                              <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
+
+                                            </div>
+
+                                            <p style={{ paddingTop: '10rem' }}>Purchased item</p>
+                                            {products.map(pro => {
+                                              if (pro._id === item.product) {
+                                                return (
+                                                  <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false) }}>
+                                                    <div>
+                                                      <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                    </div>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                                      <p >{pro.title}</p>
+
+                                                    </div>
+                                                  </div>
+                                                );
+                                              }
+                                              return null;
+                                            })}
+                                            <div>
+
+                                              <div className="next" onClick={handleNext}><MdOutlineArrowForwardIos /></div>
+                                            </div>
+                                          </div>
+
                                         </div>
-                                        <div>  <ReactStars
-                                          count={5}
-                                          size={24}
-                                          activeColor="black"
-                                          edit={false}
-                                          value={5}
-                                          color='#fff'
-                                        /></div>
 
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                          <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
-                                          <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
 
-                                        </div>
-
-                                        <p style={{ paddingTop: '10rem' }}>Purchased item</p>
-                                        {products.map(pro => {
-                                          if (pro._id === item.product) {
-                                            return (
-                                              <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor:'pointer' }} onClick={() => { setOpen(false);  }}>
-                                                <div>
-                                                  <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
-                                                </div>
-                                                <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                                  <p >{pro.title}</p>
-
-                                                </div>
-                                              </div>
-                                            );
-                                          }
-                                          return null;
-                                        })}
-                                        <div>
-
-                                          <div className="next" onClick={handleNext}><MdOutlineArrowForwardIos /></div>
-                                        </div>
                                       </div>
-
                                     </div>
-
-
-                                  </div>
+                                  </Transition.Child>
                                 </div>
-                              </Transition.Child>
-                            </div>
-                          </Dialog>
-                        </Transition.Root>))}
+                              </Dialog>
+                            </Transition.Root>))}
+                      </div>
+
                     </div>
                   )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true) }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); }}>
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }} >
-                      <div>  <ReactStars
-                                          count={5}
-                                          size={24}
-                                          activeColor="black"
-                                          edit={false}
-                                          value={5}
-                                          color='#fff'
-                                        /></div>
+                        <div>  <ReactStars
+                          count={5}
+                          size={24}
+                          activeColor="black"
+                          edit={false}
+                          value={5}
+                          color='#fff'
+                        /></div>
                         <div className={style.text}>
                           {item.review}
                         </div>
@@ -967,92 +994,91 @@ if(page == 1){
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                       </div>
-                      {
-                        allproductreviews?.slice(count, countend).map((item) => (
-                          <Transition.Root show={open} as={Fragment} className = "bg-green">
+                      <div>
+                        {
+                          allproductreviews?.slice(count, countend).map((item) => (
+                            <Transition.Root show={open} as={Fragment} className="bg-green">
 
-                            <Dialog as="div" className="fixed inset-0   overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen} >
-                              <div className="flex items-center justify-center min-h-screen px-4 text-center">
-                                <Transition.Child
-                                  as={Fragment}
+                              <Dialog as="div" className="fixed inset-0   overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen} >
+                                <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                                  <Transition.Child
+                                    as={Fragment}
+                                  >
+                                    <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.1' }} />
+                                  </Transition.Child>
 
+                                  <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                                    &#8203;
+                                  </span>
 
-                                >
-                                  <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{backgroundColor:'gray',opacity:'0.1'}} />
-                                </Transition.Child>
+                                  <Transition.Child
+                                    as={Fragment}
 
-                                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-                                  &#8203;
-                                </span>
+                                  >
 
-                                <Transition.Child
-                                  as={Fragment}
-
-                                >
-
-                                  <div className="inline-block align-bottom rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
-                                    <div style={{ width: '50rem', backgroundColor: '#fff',opacity:'1', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
-                                      <div>
-                                        <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
-                                      </div>
-                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <div >
-                                          <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                    <div className="inline-block align-bottom rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
+                                      <div style={{ width: '50rem', backgroundColor: '#fff', opacity: '1', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
+                                        <div>
+                                          <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
                                         </div>
-                                        <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
-                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
-                                            {/* <div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                          <div >
+                                            <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                          </div>
+                                          <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
+                                            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                                              {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{allproductreviews[showindex].review}</div>
+                                              <div >{allproductreviews[showindex].review}</div>
+                                            </div>
+                                            <div>  <ReactStars
+                                              count={5}
+                                              size={24}
+                                              activeColor="black"
+                                              edit={false}
+                                              value={5}
+                                              color='#fff'
+                                            /></div>
+
+                                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                              <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex].name}</p>
+                                              <p>{allproductreviews[showindex].createdAt.slice(0, 10)}</p>
+
+                                            </div>
+
+                                            <p style={{ paddingTop: '10rem' }}>Purchased item</p>
+
+
+
+                                            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${allproductreviews[showindex]?.product.slug}/${allproductreviews[showindex]?.product._id}`); }}>
+                                              <div>
+                                                <img src={allproductreviews[showindex]?.product.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                              </div>
+                                              <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                                <p >{allproductreviews[showindex]?.product.title}</p>
+
+                                              </div>
+                                            </div>
+
+
+
+                                            <div>
+
+                                              <div className="next" onClick={handleallNext}><MdOutlineArrowForwardIos /></div>
+                                            </div>
                                           </div>
-                                          <div>  <ReactStars
-                                            count={5}
-                                            size={24}
-                                            activeColor="black"
-                                            edit={false}
-                                            value={5}
-                                            color='#fff'
-                                          /></div>
 
-                                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex].name}</p>
-                                            <p>{allproductreviews[showindex].createdAt.slice(0, 10)}</p>
-
-                                          </div>
-
-                                          <p style={{ paddingTop: '10rem' }}>Purchased item</p>
-                                          {products.map((pro) => {
-                                            if (pro._id == allproductreviews[showindex].product) {
-                                              return (
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false); navigate(`/product/${allproductreviews[showindex].product}`) }}>
-                                                  <div>
-                                                    <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
-                                                  </div>
-                                                  <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                                    <p >{pro.title}</p>
-
-                                                  </div>
-                                                </div>
-                                              );
-                                            }
-                                            return null;
-                                          })}
-                                          <div>
-
-                                            <div className="next" onClick={handleallNext}><MdOutlineArrowForwardIos /></div>
-                                          </div>
                                         </div>
 
+
                                       </div>
-
-
                                     </div>
-                                  </div>
-                                </Transition.Child>
-                              </div>
-                            </Dialog>
-                          </Transition.Root>))}
+                                  </Transition.Child>
+                                </div>
+                              </Dialog>
+                            </Transition.Root>))}
+                      </div>
                     </div>
                   ))
 
@@ -1060,12 +1086,12 @@ if(page == 1){
               </div>
               <div className={style.info}>
                 <div className={style.limited}>Only 1 left and in 2 carts</div>
-                <div className={style.price} style={{display:'flex',flexDirection:'row'}}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
+                <div className={style.price} style={{ display: 'flex', flexDirection: 'row' }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
                 <div className={style.choose}>
                   Choose from multiple variations
                 </div>
                 <div className={style.des}> <p>{productDetails?.title}</p></div>
-               
+
                 <div className={style.check}>
                   <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
                   <p className={style.checkP} >Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
@@ -1127,15 +1153,33 @@ if(page == 1){
                         <p>Delivery from UK</p>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
-                        <PiGiftFill style={{ fontSize: '1.2rem' }} />
-                        <div>
-                          <p>Gift wrapping available <span style={{ fontSize: '1rem', borderBottom: '1px dashed black', cursor: 'pointer' }}>See details</span></p>
-                          <div >
-                            Great King Leonidas Sparta 300 Movie Helmet Battle Damage Edition Best For Valentine s Gift For Him
-                          </div>
+
+                        <div style={{ display: 'flex', gap: '1rem' }}>
+                          <span><PiGiftFill style={{ fontSize: '1.2rem' }} /></span>  <p>Gift wrapping available 
+                            {/* <span style={{ fontSize: '1rem', borderBottom: '1px dashed black', cursor: 'pointer' }}
+                             onMouseOver={() => alert('j')}>See details</span> */}
+                            </p>
+
 
                         </div>
 
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', color: '#222222', gap: '1rem', marginBottom: '1rem' }}>
+                        <AiFillSlackCircle style={{ fontSize: '1.2rem' }} />
+                        <p>Materials:{productDetails?.materials}</p>
+                      </div>
+                      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', fontSize: '1rem', color: '#222222', marginBottom: '1rem' }}>
+                        <div>
+                          <TbRulerMeasure style={{ fontSize: '1.2rem' }} />
+                        </div>
+                        <div>
+                          <p>Width:  {productDetails?.width}</p>
+                          <p>Height: {productDetails?.height}</p>
+                        </div>
+
+                      </div>
+                      <div >
+                        Great King Leonidas Sparta 300 Movie Helmet Battle Damage Edition Best For Valentine s Gift For Him
                       </div>
                     </div> : <h1></h1>
                   }
@@ -1190,7 +1234,7 @@ if(page == 1){
             <div className="flex overflow-x-auto  m-[1rem]">
               <ResponsivePagination
                 current={currentPage}
-                total={Math.ceil(allproductreviews?.length/5)}
+                total={Math.ceil(allproductreviews?.length / 5)}
                 onPageChange={paginationHandel}
               />
             </div>
@@ -1203,7 +1247,7 @@ if(page == 1){
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', margin: '1rem' }}>
               {
                 categories.slice(0, 5)?.map((i) => (
-                  <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem',cursor:'pointer' }} key={i.id} onClick={()=>navigate(`/products/${i.slug}`)}>
+                  <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem', cursor: 'pointer' }} key={i.id} onClick={() => navigate(`/products/${i.slug}`)}>
                     <img src={i.image} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
                     <p style={{ fontWeight: '500' }}>{i.name}</p>
                   </div>

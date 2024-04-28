@@ -57,7 +57,7 @@ export default function SearchProducts() {
               {
                filteredProducts = products.filter(product => product.title.toLowerCase().includes(search.toLowerCase())).map((i) => (
 
-                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none' }} onClick={() => navigate(`/product/${i._id}`)} >
+                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none' }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
                     <img src={i.imageUrl[0]} width={250} height={190} alt='img' />
 
                     <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", }}>{i.title.substring(0, 20)}...</h1>

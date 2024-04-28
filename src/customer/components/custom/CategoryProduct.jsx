@@ -42,7 +42,7 @@ export default function CategoryProduct() {
     !loading?<div style={{ display: 'flex',  justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '20px',height:'auto', height: '100vh' }}>
     {
      products?.map((i) => (
-        <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none',width:'20rem',height:'25rem' }} onClick={() => navigate(`/product/${i._id}`)} >
+        <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none',width:'20rem',height:'25rem' }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
           <img src={i.imageUrl[0]} alt='img' style={{ width: '20rem', height: '20rem' }} />
           <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", }}>{i.title.substring(0, 30)}...</h1>
           <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${i.price}</p></span> $ {i.discountedPrice}</h1>

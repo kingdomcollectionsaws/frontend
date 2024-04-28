@@ -42,7 +42,10 @@ export default function Dashboard() {
         sizes: [],
         brand: '',
         discountedPrice:'',
-        slug:''
+        slug:'',
+        height:'',
+        width:'',
+        materials:''
     });
 
     const [variations, setVariations] = useState('');
@@ -74,11 +77,20 @@ export default function Dashboard() {
         if (name == "productvariaton") {
             productData.brand = value
         }
-        if (name == " discountedPrice") {
+        if (name == "discountedPrice") {
             productData.discountedPrice = value
         }
         if (name == "slug") {
             productData.slug = value
+        }
+        if (name == "height") {
+            productData.height = value
+        }
+        if (name == "width") {
+            productData.width = value
+        }
+        if (name == "materials") {
+            productData.materials = value
         }
 
     };
@@ -372,7 +384,7 @@ export default function Dashboard() {
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl, i.sizes, i.brand,i.discountedPrice,i.slug)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
            
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
-                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => navigate(`/product/${i.title}/${i._id}`)} >View</Button>
+                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >View</Button>
                                     </div>
                                         </div>
                                         <p style={{marginLeft:'2rem',}}><spna style={{color:'green'}}>in stock</spna> ({i.quantity})</p>
@@ -458,15 +470,44 @@ export default function Dashboard() {
                                     onChange={handleInputChange}
                                     style={{paddingBottom:'10px'}}
                                 />
-                                   <TextField
+                              
+                            </Grid>  
+                            <Grid item xs={6} sm={6}  >
+                               <TextField
                                     required
                                     name='discountedPrice'
                                     label='Sale Price'
                                     fullWidth
                                     onChange={handleInputChange}
                                 />
-                            </Grid>
-                          
+                          </Grid>  
+                          <Grid  item xs={6} sm={6}>
+                            <TextField
+                                    required
+                                    name='height'
+                                    label='Height'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{paddingBottom:'10px'}}
+                                /></Grid>
+                                <Grid  item xs={6} sm={6}>
+                            <TextField
+                                    required
+                                    name='width'
+                                    label='Width'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{paddingBottom:'10px'}}
+                                /></Grid>
+                                <Grid  item xs={6} sm={6}>
+                            <TextField
+                                    required
+                                    name='materials'
+                                    label='Materials'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{paddingBottom:'10px'}}
+                                /></Grid>
                             <Grid item xs={12} sm={6} >
                                 <TextField
                                     required

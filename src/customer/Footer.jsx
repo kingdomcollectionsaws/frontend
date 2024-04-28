@@ -20,7 +20,6 @@ export default function Footer() {
         <div className={style.column} >
           <h3>Shop</h3>
           <ul>
-            <li>  <a href="#"> Gift cards </a> </li> 
             <li>  <a href="#">  Registry </a> </li> 
             <li>  <a href="#"> Sitemap </a> </li> 
             <li>  <a href="#">  blog </a> </li> 
@@ -99,7 +98,6 @@ export default function Footer() {
                     {
                     open?<div className={style.column} style={{marginLeft:'1rem'}} >
                     <ul>
-                      <li>  <a href="#"> Gift cards </a> </li> 
                       <li>  <a href="#">  Registry </a> </li> 
                       <li>  <a href="#"> Sitemap </a> </li> 
                       <li>  <a href="#">  blog </a> </li> 

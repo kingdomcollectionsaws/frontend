@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../Loader'
 import { getCart, removeItemInCart, updateItemInCart } from '../../state/cart/cartSlice'
-
+import Edititem from '../custom/productId/Edititem'
+import { AiOutlineClose } from "react-icons/ai";
 export default function Cartitem() {
 
   const dispatch = useDispatch()
@@ -12,18 +13,18 @@ export default function Cartitem() {
   const { user } = useSelector(store => store.user);
   const [quantity, setQuantity] = useState(0);
   const [itemIndex, setItemIndex] = useState(0)
+  const [editmenu, setEditmenu] = useState(false)
+  const [editproduct, setEditproduct] = useState(false)
   const updatequan = async(id,quan) => {
     const updatedata = { id: id, quantity: quan };
    await dispatch(updateItemInCart(updatedata));
-    window.location.reload()
+    dispatch(getCart())
   }
-  const handleChange = (e) => {
-    setQuantity(e.target.value);
-  }
+
   
   const reamoveitem = (id) => {
-    dispatch(removeItemInCart(id)).then(() => {
-      // After removing the item, fetch the updated cart data
+    dispatch(removeItemInCart(id))
+    .then(() => {
       dispatch(getCart());
     })
       .catch(error => {
@@ -32,11 +33,9 @@ export default function Cartitem() {
       });
   }
   // const [quantityarray,setQuantityarray] = useState([]);
-  let quantityarray = Array.from({ length: 5 }, (_, index) => index + 1);
   useEffect(()=>{
     dates()
     getCartItems();
-    let a = localStorage.getItem('cart');
    // console.log("k",a);
   },[])
 
@@ -62,7 +61,18 @@ setOrderDate(formattedDateRange)
   return (
     !loading ? 
    <>
+    { editmenu?
+  
+      <div style={{position:'fixed',right:'0%',backgroundColor:'#E8E8E8',zIndex:'1000',height:'90vh',padding:'1rem',}} className='sm:w-[40%] w-[100%]'>
+   <div style={{position:'absolute',left:'1%',cursor:'pointer'}} onClick={()=>setEditmenu(false)}>
+    <AiOutlineClose style={{fontSize:'1.5rem'}}/>
+   </div>
+              <Edititem data={editproduct}/>
+             
+    </div>
+    :''}
    {user? cart?.cartItems.map((data,index)=>(<div className='border mb-3 p-2' >
+ 
      <div style={{ display: 'flex', justifyContent: 'space-between',}} className='flex-col lg:flex-row '>
       <div style={{ width: '90%' }}>
         <div className='flex align-center mx-3 mt-5 flex-col lg:flex-row  space-x-5 '>
@@ -71,7 +81,11 @@ setOrderDate(formattedDateRange)
             <p>{data?.product?.title}</p>
              <p>quantity:{data?.quantity} </p> 
             <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.product?.brand} </span> </p>
+             
+     
             <div className='flex align-center justify-center mx-3  space-x-5'>
+             <Button sx={{color:"black"}} onClick={()=>{setEditmenu(true);setEditproduct(data);console.log(data?.product);}} >Edit</Button>
+           
     <IconButton onClick={()=>{{quantity+data.quantity < 2 ?setQuantity(0):setQuantity(quantity-1)}{setItemIndex(index)}}}>
         <RemoveCircleOutlineOutlined sx={{color:"black"}}/>
     </IconButton>
@@ -80,7 +94,6 @@ setOrderDate(formattedDateRange)
         <AddCircleOutlineOutlined sx={{color:"black"}}/>
     </IconButton>
     <div>
-     
       {
          quantity !== data.quantity  >1? <Button sx={{color:"black"}} onClick={()=>updatequan(data._id,quantity+data.quantity)} >update</Button>:''
       } 

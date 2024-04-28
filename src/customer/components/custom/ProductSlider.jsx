@@ -27,7 +27,7 @@ const ProductSlider = ({ imagesdata }) => {
     <div className="image-slider-container">
       <div className="image-slider">
        {imagesdata[currentImageIndex]?.endsWith('.mp4')? 
-         <video controls autoPlay style={{height:'30rem',width:'30rem'}}>
+         <video controls autoPlay style={{height:'30rem',width:'30rem'}} loop>
           <img src={img} alt="kk" />
          <source src={`${imagesdata[currentImageIndex]}#t=1`} type="video/mp4"   />
          Your browser does not support the video tag.
@@ -49,6 +49,41 @@ const ProductSlider = ({ imagesdata }) => {
           />
         ))}
       </div>
+    </div>
+  );
+};
+ export const EProductSlider = ({ imagesdata }) => {
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // const images = imagesdata.map(src => src);
+  if (!imagesdata || imagesdata.length === 0) {
+    return <div>No images available</div>;
+  }
+  const handleThumbnailClick = (index) => {
+     setCurrentImageIndex(index);
+   };
+
+  const handlePrev = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? imagesdata?.length - 1 : prevIndex - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === imagesdata?.length - 1 ? 0 : prevIndex + 1));
+  };
+
+  return (
+    <div className="image-slider-container" style={{marginTop:'0',justifyContent:'center'}}>
+      <div className="image-slider" style={{width:'100%',marginLeft:'0rem'}}>
+       {imagesdata[currentImageIndex]?.endsWith('.mp4')? 
+         <video autoPlay controls style={{height:'20rem',width:'20rem'}} loop >
+          <img src={img} alt="kk" />
+         <source src={`${imagesdata[currentImageIndex]}#t=1`} type="video/mp4"    />
+         Your browser does not support the video tag.
+       </video>: <img src={imagesdata[currentImageIndex]} alt={"img"} style={{width:'20rem',height:'20rem'}} />}
+        <div className="prev" onClick={handlePrev} ><MdOutlineArrowBackIos /></div>
+        <div className="next" onClick={handleNext} ><MdOutlineArrowForwardIos /></div>
+      </div>
+     
     </div>
   );
 };

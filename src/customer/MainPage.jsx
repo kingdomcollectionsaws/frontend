@@ -1,4 +1,4 @@
-
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState,lazy } from 'react'
 import style from '../customer/components/custom/styles.module.css'
 import b1 from "../../public/b1.jpg"
@@ -22,6 +22,8 @@ import { getUserDetail } from './state/Auth/registerSlice'
 import ProfilePage from '../profile/Profile'
 import ReactGA from 'react-ga';
 import { API_BASE_URL } from '../config/apiConfig'
+import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 const carousel = lazy(() => import('./components/homecarousel/Carousel'));
 export default function MainPage() {
   ReactGA.initialize('G-509RBXK1MX');
@@ -48,6 +50,7 @@ export default function MainPage() {
   // ]
   const [allproduct, setAllproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
+ 
   useEffect(() => {
     dispatch(getAllProducts());
     dispatch(getCart())
@@ -65,6 +68,7 @@ export default function MainPage() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+
   }, []);
   const dispatch = useDispatch();
   const { products, loading } = useSelector(store => store.allproducts);
@@ -107,9 +111,19 @@ export default function MainPage() {
 ]
   const navigate = useNavigate()
   const [blogs, setBlogs] = useState([]);
+  const notify = (msg) => toast(<div><h1 style={{color:'red'}}>Limit stocks avaiable </h1>
+  <div>
+
+  </div>
+  </div>, {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+  });
   const getblogs = async () => {
     try {
-
       const requestOptions = {
         method: 'GET',
 
@@ -122,22 +136,28 @@ export default function MainPage() {
       console.error('There was a problem with the fetch request:', error);
     }
   }
+  
   useEffect(()=>{
     getblogs()
+
+  
   },[])
-  return (
-    !loading ?
+  return (   
+ !loading ?
+    <>
+      <ToastContainer />
       <div style={{ overflowX: 'hidden', boxSizing: 'border-box', paddingLeft: '0', paddingRight: '0',marginTop:'3rem' }} className={style.mainPage}>
+     
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-          <h1 className={style.text} style={{ fontSize: '24px', color: '#222222', marginBottom: '-.5rem' }} >Shop by Category</h1>
+          <h1 className={style.text} style={{ fontSize: '24px', color: '#222222', marginBottom: '-.5rem' }} onClick={notify} >Shop by Category</h1>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '15px' }} className={style.cate}>
 
 
             {
               CategoryList ?.slice(0, 6).map((i) => (
-                
-                
+            
                   <div className={style.categoryProduct} onClick={()=>navigate(`/products/${i.slug}`)} >
+                     
                     <img src={i.image} style={{ borderRadius: '50%', width: "8rem", height: '8rem' }} alt='img' />
                     <p style={{ fontWeight: '600' }}>{i.name}</p>
                   </div>
@@ -162,7 +182,7 @@ export default function MainPage() {
               {
                 allproduct?.slice(4, 8).map((i) => (
 
-                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none' }} onClick={() => navigate(`/product/${i.title}/${i._id}`)} >
+                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none' }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
                     <img src={i.imageUrl[0]} width={250} height={190} alt='img' />
 
                     <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start",cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 20)}...</h1>
@@ -184,7 +204,7 @@ export default function MainPage() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '20px' }}>
               {
                 allproduct?.slice(1, 5).map((i) => (
-                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none' }} onClick={() => navigate(`/product/${i.title}/${i._id}`)} >
+                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none' }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
                     <img src={i.imageUrl[0]} alt='img' style={{ width: '15rem', height: '15rem' }} />
                     <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 20)}...</h1>
                     <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${i.price}</p></span> $ {i.discountedPrice}</h1>
@@ -202,7 +222,7 @@ export default function MainPage() {
                   <img src={i?.image} height={250} style={{ borderRadius: '12px', width: '100%' }} alt='img' />
                   <div className={style.Blogtext}>Shopping Guides</div>
                   <div className={style.text} style={{ fontWeight: '600', paddingLeft: '2rem' }}>{i?.title}</div>
-                  <div className={style.Blogtext} style={{ width: '20rem' }} >{i?.description}</div>
+                  <div className={style.Blogtext} style={{ width: '20rem' }} >{i?.description.slice(0,100)}</div>
 
 
                 </div>
@@ -220,7 +240,7 @@ export default function MainPage() {
         {
           isMobile ? <Mobilefooter /> : <Footer />
         }
-      </div> : <Loader />
+      </div></> : <Loader />
   )
 }
 

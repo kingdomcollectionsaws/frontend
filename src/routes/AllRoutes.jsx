@@ -17,6 +17,7 @@ import AboutUs from '../customer/About'
 import ShippingPolicy from '../customer/ShippingPolicy'
 import ContactUs from '../customer/Contact'
 import BlogDetails from '../customer/BlogDetails'
+import PaymentCancel from '../customer/PaymentCancel'
 
 export default function AllRoutes() {
   const [isMobile, setIsMobile] = useState(false);
@@ -61,6 +62,7 @@ export default function AllRoutes() {
 <Route path='/ShippingPolicy' element={<ShippingPolicy/>}/>
 <Route path='/Contact' element={<ContactUs/>}/>
 <Route path='/blog/:slug' element={<BlogDetails/>}/>
+<Route path='/paynment/paymentcanceled' element={<PaymentCancel/>}/>
     </Routes>
     
     </>
