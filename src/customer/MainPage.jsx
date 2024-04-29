@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState,lazy } from 'react'
-import style from '../customer/components/custom/styles.module.css'
+
 import c1 from "../../public/c1.png"
 import c2 from "../../public/c2.png"
 import c3 from "../../public/c3.png"
@@ -20,6 +20,7 @@ import { API_BASE_URL } from '../config/apiConfig'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const carousel = lazy(() => import('./components/homecarousel/Carousel'));
+import style from '../customer/components/custom/styles.module.css'
 export default function MainPage() {
   const {cart} = useSelector(store=>store.cart);
   // const blogs = [

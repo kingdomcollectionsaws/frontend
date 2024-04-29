@@ -370,7 +370,7 @@ export default function ProductDetailPage({ params }) {
 
   }, []);
 
-  
+  const [showModelReview,setShowModelReview] = useState()
   return (
     !loading ? <>
 
@@ -558,7 +558,7 @@ export default function ProductDetailPage({ params }) {
                   </div>
                   {
                     !showall ? review?.slice(count, countend).map((item, index) => (
-                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowindex(index) }}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowModelReview(item) }}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
                             count={5}
@@ -596,14 +596,14 @@ export default function ProductDetailPage({ params }) {
                                     <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', padding: '1rem' }}>
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
                                         <div style={{ marginLeft: '-1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-                                          <img src={review[showindex]?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
+                                          <img src={showModelReview?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
                                         </div>
                                         <div style={{ height: '25rem', paddingTop: '1rem' }}>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{review[showindex]?.review}</div>
+                                            <div >{showModelReview?.review}</div>
                                           </div>
                                           <div>  <ReactStars
                                             count={5}
@@ -616,28 +616,23 @@ export default function ProductDetailPage({ params }) {
 
                                           <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
-                                            <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
+                                            <p>{showModelReview?.createdAt.slice(0, 10)}</p>
 
                                           </div>
 
                                           <p style={{ paddingTop: '5rem' }}>Purchased item</p>
 
-                                          {products?.map((pro) => {
-                                            if (pro._id == review[showindex]?.product) {
-                                              return (
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer', }} onClick={() => { setOpen(false); navigate(`/product/${item.product}`) }}>
+                                         
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer', }} onClick={() => { setOpen(false); }}>
                                                   <div>
-                                                    <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                    <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                   </div>
                                                   <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                                    <p >{pro.title}</p>
+                                                    <p >{showModelReview?.product?.title}</p>
 
                                                   </div>
                                                 </div>
-                                              );
-                                            }
-                                            return null;
-                                          })}
+                                       
                                         </div>
 
                                       </div>
@@ -656,7 +651,7 @@ export default function ProductDetailPage({ params }) {
                         </div>
                       </div>
                     )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowindex(index) }}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowModelReview(item)}}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
                             count={item.ratings}
@@ -673,9 +668,10 @@ export default function ProductDetailPage({ params }) {
                             <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
                             <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
                           </div>
+                         
                           <Transition.Root show={open} as={Fragment}>
                             <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-                              <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                              <div className="flex items-center justify-center min-h-screen px-4 text-center" style={{height:'75vh'}}>
                                 <Transition.Child
                                   as={Fragment}
 
@@ -695,14 +691,14 @@ export default function ProductDetailPage({ params }) {
                                     <div style={{ width: '100vw', backgroundColor: '#fff', height: '43rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', padding: '1rem' }}>
                                       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                                         <div style={{ display: 'flex', justifyContent: 'center', width: '100%', alignItems: 'center', marginLeft: '-1rem' }} >
-                                          <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
+                                          <img src={showModelReview?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
                                         </div>
                                         <div style={{ height: '20rem', paddingTop: '1rem', width: '100%' }}>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{allproductreviews[showindex]?.review}</div>
+                                            <div >{showModelReview?.review}</div>
                                           </div>
                                           <div>  <ReactStars
                                             count={5}
@@ -720,22 +716,16 @@ export default function ProductDetailPage({ params }) {
                                           </div>
 
                                           <p style={{ paddingTop: '5rem' }}>Purchased item</p>
-                                          {products.map((pro) => {
-                                            if (pro._id == allproductreviews[showindex].product) {
-                                              return (
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${pro.slug}/${allproductreviews[showindex].product}`) }}>
+                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${showModelReview?.product?.slug}/${showModelReview?.product?._id}`) }}>
                                                   <div>
-                                                    <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                    <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                   </div>
                                                   <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                                    <p >{pro.title}</p>
+                                                    <p >{showModelReview?.product?.title}</p>
 
                                                   </div>
                                                 </div>
-                                              );
-                                            }
-                                            return null;
-                                          })}
+                                        
                                         </div>
 
                                       </div>
@@ -747,6 +737,7 @@ export default function ProductDetailPage({ params }) {
                               </div>
                             </Dialog>
                           </Transition.Root>
+                          
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -756,13 +747,13 @@ export default function ProductDetailPage({ params }) {
                     ))
                   }
                 </div>
-                <div className="flex overflow-x-auto  m-[1rem]">
-                  <ResponsivePagination
-                    current={currentPage}
-                    total={Math.ceil(allproductreviews?.length / 5)}
-                    onPageChange={() => paginationHandel(currentPage)}
-                  />
-                </div>
+                <div className="flex overflow-x-auto  m-[1rem] relative z-[-10]">
+              <ResponsivePagination
+                current={currentPage}
+                total={Math.ceil(allproductreviews?.length / 5)}
+                onPageChange={paginationHandel}
+              />
+            </div>
                 <h1 style={{ fontWeight: '500', margin: '2rem', color: '#222222', fontFamily: '"Guardian-EgypTT", "Charter", "Charter Bitstream", "Cambria", "Noto Serif Light", "Droid Serif", "Georgia", "serif"', fontSize: '1.5rem' }}>Explore Related Categories</h1>
                 <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', margin: '1rem' }}>
 
@@ -825,7 +816,6 @@ export default function ProductDetailPage({ params }) {
                     />
                   </div>
                 </div>
-
                 <div style={{ display: 'flex', gap: '5px', marginBottom: '1rem' }}>
                   {!showall ? <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '2rem', cursor: 'pointer', borderBottom: '2px solid black' }} onClick={() => { setShowall(false); setShowindex(0) }}>
                     <p style={{ fontSize: '1rem' }} className={style.text}> Product Reviews </p>
@@ -850,7 +840,7 @@ export default function ProductDetailPage({ params }) {
                 </div>
                 {
                   !showall ? review?.slice(count, countend).map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={() => setOpen(true)} >
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={() => {setOpen(true);setShowModelReview(item)}} >
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                         <ReactStars
                           count={5}
@@ -909,14 +899,14 @@ export default function ProductDetailPage({ params }) {
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                           <div >
-                                            <img src={review[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                            <img src={showModelReview?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
                                           </div>
                                           <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
                                             <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                               {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                              <div >{review[showindex]?.review}</div>
+                                              <div >{showModelReview?.review}</div>
                                             </div>
                                             <div>  <ReactStars
                                               count={5}
@@ -929,27 +919,25 @@ export default function ProductDetailPage({ params }) {
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                               <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
-                                              <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
+                                              <p>{showModelReview?.createdAt.slice(0, 10)}</p>
 
                                             </div>
 
                                             <p style={{ paddingTop: '10rem' }}>Purchased item</p>
-                                            {products.map(pro => {
-                                              if (pro._id === item.product) {
-                                                return (
+                                     
+                                        
                                                   <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { setOpen(false) }}>
                                                     <div>
-                                                      <img src={pro.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                      <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                                     </div>
                                                     <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                                      <p >{pro.title}</p>
+                                                      <p >{showModelReview?.product?.title}</p>
 
                                                     </div>
                                                   </div>
-                                                );
-                                              }
-                                              return null;
-                                            })}
+                              
+                                          
+                                       
                                             <div>
 
                                               <div className="next" onClick={handleNext}><MdOutlineArrowForwardIos /></div>
@@ -969,7 +957,7 @@ export default function ProductDetailPage({ params }) {
 
                     </div>
                   )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true);setShowModelReview(item) }}>
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }} >
                         <div>  <ReactStars
                           count={5}

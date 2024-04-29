@@ -6,7 +6,6 @@ import { IoIosArrowUp } from "react-icons/io";
 import { AiFillLike } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { FiInstagram,FiFacebook ,FiTwitter,FiYoutube} from "react-icons/fi";
-import { FaWhatsapp,FaYoutube } from 'react-icons/fa';
 export default function Footer() {
   
     const navigate = useNavigate()
@@ -22,7 +21,7 @@ export default function Footer() {
           <ul>
             <li>  <a href="#">  Registry </a> </li> 
             <li>  <a href="#"> Sitemap </a> </li> 
-            <li>  <a href="#">  blog </a> </li> 
+            <li>  <a href="/blog/all">  blog </a> </li> 
             {/* <li>  <a href="#"> United Kingdom </a> </li> 
             <li>  <a href="#"> Germany </a> </li> 
             <li>  <a href="#">Canada </a> </li>  */}
@@ -100,7 +99,7 @@ export default function Footer() {
                     <ul>
                       <li>  <a href="#">  Registry </a> </li> 
                       <li>  <a href="#"> Sitemap </a> </li> 
-                      <li>  <a href="#">  blog </a> </li> 
+                      <li>  <a href="/blog/all">  blog </a> </li> 
                       {/* <li>  <a href="#"> United Kingdom </a> </li> 
                       <li>  <a href="#"> Germany </a> </li> 
                       <li>  <a href="#">Canada </a> </li>  */}
