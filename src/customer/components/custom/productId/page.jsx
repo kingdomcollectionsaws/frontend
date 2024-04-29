@@ -577,7 +577,7 @@ export default function ProductDetailPage({ params }) {
                           </div>
                           <Transition.Root show={open} as={Fragment}>
                             <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-                              <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                              <div className="flex items-center justify-center min-h-screen px-4 text-center" style={{height:'70vh',marginTop:'2rem'}}>
                                 <Transition.Child
                                   as={Fragment}
                                 >
@@ -671,7 +671,7 @@ export default function ProductDetailPage({ params }) {
                          
                           <Transition.Root show={open} as={Fragment}>
                             <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-                              <div className="flex items-center justify-center min-h-screen px-4 text-center" style={{height:'75vh'}}>
+                              <div className="flex items-center justify-center min-h-screen px-4 text-center" style={{height:'70vh',marginTop:'2rem'}}>
                                 <Transition.Child
                                   as={Fragment}
 
