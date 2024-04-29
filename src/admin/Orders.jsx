@@ -247,12 +247,12 @@ useEffect(() => {
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
     <div style={{width:'60%'}}>
     <div className=' rounded-sm sm:w-[5rem] sm:h-[5rem] h-[5rem] w-[5rem]  '>
-    <img className='object-cover border rounded-lg' src={i.product.imageUrl[0]} alt="img" />
+    <img className='object-cover border rounded-lg' src={i.product?.imageUrl[0]} alt="img" />
       </div> 
     <div className='flex flex-col '>
       <p className='font-bold mb-2'></p>
       <p>Price: {i.price}</p>
-      <p>Name: {i.product.title}</p>
+      <p>Name: {i.product?.title}</p>
       <p>Style: {i.sizes[0]}</p>
       <p className=' mb-2'>Quantity: {i.quantity}</p>
       <p className=' mb-2'>Order date: {item.createdAt.slice(0,10)}</p>

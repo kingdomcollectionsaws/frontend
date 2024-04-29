@@ -68,12 +68,10 @@ getCart()
 },[dispatch])
   return (
       <div style={{zIndex:'100',display:'flex',alignItems:'center'}}>
-         <div className={style.carousel} style={{ width: '100%', height: '10rem' ,justifyContent:'center'}}>
-               
+         <div className={style.carousel} style={{ width: '100%', height: '10rem' ,justifyContent:'center'}}> 
                 <div  style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',}}>
                 <EProductSlider imagesdata={productDetails?.imageUrl}  />
                 </div>
-               
                 <div className={style.info} style={{ width: '100%', marginLeft: '2px',marginTop:'1px' }}>
                   <div className={style.price} style={{display:'flex',flexDirection:'row'}}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${productDetails?.price}</p></span>${productDetails?.discountedPrice}</div>
                   <div className={style.des}>{productDetails?.title}</div>

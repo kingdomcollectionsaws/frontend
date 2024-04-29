@@ -1,9 +1,6 @@
-import 'react-toastify/dist/ReactToastify.css';
+
 import React, { useEffect, useState,lazy } from 'react'
 import style from '../customer/components/custom/styles.module.css'
-import b1 from "../../public/b1.jpg"
-import b2 from "../../public/b4.jpg"
-import b3 from "../../public/b3.jpg"
 import c1 from "../../public/c1.png"
 import c2 from "../../public/c2.png"
 import c3 from "../../public/c3.png"
@@ -11,7 +8,7 @@ import c4 from "../../public/c4.png"
 import c5 from "../../public/c5.png"
 import c6 from "../../public/c6.png"
 import { GoArrowRight } from "react-icons/go";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Loader from './Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProducts } from './state/product/productSlice'
@@ -19,15 +16,12 @@ import Footer, { Mobilefooter } from './Footer'
 import Carousel, { Carousel2 } from './components/homecarousel/Carousel'
 import { getCart } from './state/cart/cartSlice'
 import { getUserDetail } from './state/Auth/registerSlice'
-import ProfilePage from '../profile/Profile'
-import ReactGA from 'react-ga';
 import { API_BASE_URL } from '../config/apiConfig'
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
 const carousel = lazy(() => import('./components/homecarousel/Carousel'));
 export default function MainPage() {
-  ReactGA.initialize('G-509RBXK1MX');
- 
+  const {cart} = useSelector(store=>store.cart);
   // const blogs = [
   //   {
   //     title: '9 Comfy Throws for Cosy Autumn Vibes',
@@ -50,10 +44,28 @@ export default function MainPage() {
   // ]
   const [allproduct, setAllproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
- 
+  const notify = (msg) => toast(<div><h1 style={{color:'tomato'}}>Limit stocks avaiable!</h1>
+  <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',gap:'20px',flexWrap:'wrap'}}>
+    {cart?.cartItems.map((i)=>(
+   <img src={i.product?.imageUrl[0]} alt="img"  style={{width:'3rem',height:'3rem'}}/>
+    ))}
+  </div>
+ <button style={{display:'flex',alignItems:'center',justifyContent:'center',padding:'4px',borderRadius:'12px',backgroundColor:'black',color:'#fff'}} onClick={()=>navigate('/cart')}>
+  View cart & check out
+  </button>
+  <div>
+  </div>
+  </div>, {
+    position: "top-right",
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+  });
   useEffect(() => {
     dispatch(getAllProducts());
     dispatch(getCart())
+
     const handleResize = () => {
       setIsMobile(window.innerWidth < 800);
     };
@@ -70,6 +82,14 @@ export default function MainPage() {
     };
 
   }, []);
+  const [notificationShown, setNotificationShown] = useState(false)
+  useEffect(() => {
+    if (cart && cart.cartItems.length > 0 && !notificationShown) {
+      // Notify when cart is updated
+      notify();
+      setNotificationShown(true);
+    }
+  }, [cart,notificationShown]);
   const dispatch = useDispatch();
   const { products, loading } = useSelector(store => store.allproducts);
   //dispatch(getAllProducts())
@@ -111,17 +131,8 @@ export default function MainPage() {
 ]
   const navigate = useNavigate()
   const [blogs, setBlogs] = useState([]);
-  const notify = (msg) => toast(<div><h1 style={{color:'red'}}>Limit stocks avaiable </h1>
-  <div>
-
-  </div>
-  </div>, {
-    position: "top-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-  });
+ 
+  
   const getblogs = async () => {
     try {
       const requestOptions = {
@@ -131,7 +142,9 @@ export default function MainPage() {
       const response = await fetch(`${API_BASE_URL}/api/blog/allblogs`, requestOptions);
 
       const data = await response.json();
+  
       setBlogs(data)
+     
     } catch (error) {
       console.error('There was a problem with the fetch request:', error);
     }
@@ -139,7 +152,8 @@ export default function MainPage() {
   
   useEffect(()=>{
     getblogs()
-
+    
+   
   
   },[])
   return (   
@@ -223,8 +237,6 @@ export default function MainPage() {
                   <div className={style.Blogtext}>Shopping Guides</div>
                   <div className={style.text} style={{ fontWeight: '600', paddingLeft: '2rem' }}>{i?.title}</div>
                   <div className={style.Blogtext} style={{ width: '20rem' }} >{i?.description.slice(0,100)}</div>
-
-
                 </div>
               ))
             }
