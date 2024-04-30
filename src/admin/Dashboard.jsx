@@ -18,6 +18,7 @@ import Addnewproduct from './Addnewproduct.jsx';
 import { Vibration } from '@mui/icons-material';
 import Blog from './Blog.jsx';
 import AddBlog from './AddBlog.jsx';
+import Fedex from './Fedex.jsx';
 export default function Dashboard() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);

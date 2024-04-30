@@ -25,7 +25,7 @@ const address =  user?.addresses;
   <p  className='font-semibold mb-2'>{address?.country}</p>
 </div>
 
-    </div>:<p  className='font-semibold mb-2'>No address saved</p>}
-    </>:<p  className='font-semibold mb-2'>No address saved</p>
+    </div>:<p  className='font-semibold mb-2'></p>}
+    </>:<p  className='font-semibold mb-2'>d</p>
   )
 }

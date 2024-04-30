@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { API_BASE_URL } from '../config/apiConfig';
+import Fedex from './Fedex';
 
 export default function Orders() {
   const [loading,setLoading] = useState(true);
@@ -187,8 +188,10 @@ const cancelstatus = async (id) => {
   }
 };
 const [feds,setFeds]= useState()
+const [fedexmenu,setFedexmenu]= useState(false)
+
 const fedexhandel = (item)=>{
-  
+  setFedexmenu(true)
   //console.log(item);
   addressData.map((address,index)=>{
     
@@ -240,8 +243,11 @@ useEffect(() => {
 }, [feds]);
   return (
   !loading? <div>
-   {
-  ordersData?.map((item)=>(
+   { fedexmenu?
+  <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',height:'100vh',backgroundColor:'red'}}>
+    <Fedex demo={feds}/>
+<button onClick={()=>setFedexmenu(false)}>cancle</button>
+  </div>: ordersData?.map((item)=>(
       <div  className='flex align-center justify-around border shadow-lg mt-8 hover:scale-105 flex-warp flex-col m-10 p-5' style={{border:'1px solid black'}}>
       {item.orderItems.map((i)=><div >
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
@@ -313,8 +319,8 @@ useEffect(() => {
       return null;
 }) }
   </div>
+    
     </div>
-  
     <p className='font-semibold mb-2'>Status: {item.orderStatus}</p>
    <button>Update status</button>
    <div style={{display:'flex',flexDirection:'row', alignItems:'center',justifyContent:'center',gap:'20px',marginTop:'1rem'}}>
@@ -331,9 +337,8 @@ useEffect(() => {
     </div>
     </div>
    
-    ))
+    ))}
    
-   }
    </div>:<h1>Loading..</h1>
   )
 }

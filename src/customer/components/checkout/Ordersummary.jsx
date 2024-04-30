@@ -13,12 +13,13 @@ export default function Ordersummary() {
   const {order,loading} = useSelector(store=>store.order);
   useEffect (()=>{
 dispatch(getOrderById(id));
-//console.log(order);
-  },[])
+console.log(order);
+  },[order])
 
 
   const makePayment = async(id)=>{
-    const stripe = await loadStripe('pk_live_ubfwKtKQLJvxjZhEVyq8Jk4h006y8Vtcx6');
+    const stripe = await loadStripe('pk_test_51OzLLPSJiFVUl1Nr8Ksa2nxAsCTEdJzaWhr8lJD5Tpuafsm2GeZNjsI6kMQR2jWrTiPrvPiKd2yj8du92oGCUQvk00Lpip6MXm');
+    //pk_live_ubfwKtKQLJvxjZhEVyq8Jk4h006y8Vtcx6
 const token = localStorage.getItem('jwt')
     const headers = { 
       'authorization': token,
@@ -48,7 +49,7 @@ const token = localStorage.getItem('jwt')
 <div className='lg:grid grid-cols-3 relative   '>
 
 <div className='col-span-2 lg:w-[55vw] sm:w-[80vw]'>
-{order?.orderItems.map((i)=><div className='flex align-center mx-3 mt-10  space-x-5' key={i._id}>
+{order?.orderItems.map((i)=><div className='flex align-center mx-3 mt-10  space-x-5 lg:flex-row  flex-col' key={i._id}>
         <img className='max-w[10rem] max-h-[10rem] flex align-center mx-4'  src={i.product.imageUrl[0]} alt="img" />
        <div className='flex align-center justify-center flex-col' >
 <p>{i?.product.title}</p>
