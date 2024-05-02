@@ -16,7 +16,7 @@ import { useState, useEffect, Fragment, useRef, } from "react";
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon, PhoneXMarkIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { IoIosArrowUp } from "react-icons/io";
-import { AiFillLike, AiFillSlackCircle } from "react-icons/ai";
+import { AiFillLike, AiFillSlackCircle, AiOutlineClose } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaHand } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
@@ -575,9 +575,10 @@ export default function ProductDetailPage({ params }) {
                             <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
                             <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
                           </div>
-                          <Transition.Root show={open} as={Fragment}>
-                            <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-                              <div className="flex items-center justify-center min-h-screen px-4 text-center" style={{height:'70vh',marginTop:'2rem'}}>
+                         <Transition.Root show={open} as={Fragment}>
+                            <Dialog as="div" className="fixed inset-0 overflow-y-auto align-center h-[90vh]" initialFocus={cancelButtonRef} onClose={setOpen}>
+                              
+                              <div className="flex items-center justify-center min-h-screen px-1 text-center" style={{height:'70vh',marginTop:'2rem'}}>
                                 <Transition.Child
                                   as={Fragment}
                                 >
@@ -593,6 +594,7 @@ export default function ProductDetailPage({ params }) {
 
                                 >
                                   <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20">
+                                    
                                     <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', padding: '1rem' }}>
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
                                         <div style={{ marginLeft: '-1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
@@ -670,8 +672,8 @@ export default function ProductDetailPage({ params }) {
                           </div>
                          
                           <Transition.Root show={open} as={Fragment}>
-                            <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-                              <div className="flex items-center justify-center min-h-screen px-4 text-center" style={{height:'70vh',marginTop:'2rem'}}>
+                            <Dialog as="div" className="fixed inset-0 overflow-y-auto h-[95vh]" initialFocus={cancelButtonRef} onClose={setOpen}>
+                              <div className="flex items-center justify-center min-h-screen px-1 text-center" style={{height:'50vh',marginTop:'2rem'}}>
                                 <Transition.Child
                                   as={Fragment}
 
@@ -880,7 +882,7 @@ export default function ProductDetailPage({ params }) {
                                     as={Fragment}
 
                                   >
-                                    <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.5' }} />
+                                    <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.1' }} />
                                   </Transition.Child>
 
                                   <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
