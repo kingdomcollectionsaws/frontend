@@ -46,8 +46,8 @@ localStorage.setItem('items', JSON.stringify(itemIds));
  await dispatch(loginUser(userData));
   if(user.role=='GUEST'){
     setTimeout(()=>{
-      alert("invalid email or password")
-     },[1500])
+     notify("invalid email or password")
+     },[2000])
      dispatch(getUserDetail());
   }else{
 
@@ -60,7 +60,7 @@ localStorage.setItem('items', JSON.stringify(itemIds));
    }else{
     setTimeout(()=>{
       notify("invalid email or password")
-     },[1500])
+     },[2000])
    }
  }
 };

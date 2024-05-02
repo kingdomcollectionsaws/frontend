@@ -23,6 +23,7 @@ const carousel = lazy(() => import('./components/homecarousel/Carousel'));
 import style from '../customer/components/custom/styles.module.css'
 export default function MainPage() {
   const {cart} = useSelector(store=>store.cart);
+  const {user} = useSelector(store=>store.user);
   
   //   {
   //     title: '9 Comfy Throws for Cosy Autumn Vibes',
@@ -45,7 +46,7 @@ export default function MainPage() {
   // ]
   const [allproduct, setAllproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
-  const notify = (msg) => toast(<div style={{display:'flex',alignItems:'center',flexDirection:'column'}}><h1 style={{color:'tomato'}}>Limit stocks avaiable!</h1>
+  const cartnotify = (msg) => toast(<div style={{display:'flex',alignItems:'center',flexDirection:'column'}}><h1 style={{color:'tomato'}}>Limit stocks avaiable!</h1>
   <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',gap:'20px',flexWrap:'wrap'}}>
     {cart?.cartItems.map((i)=>(
    <img src={i.product?.imageUrl[0]} alt="img"  style={{width:'3rem',height:'3rem'}}/>
@@ -62,6 +63,7 @@ export default function MainPage() {
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,
+    delay:10000,
   });
   useEffect(() => {
     dispatch(getAllProducts());
@@ -88,7 +90,7 @@ export default function MainPage() {
     dispatch(getUserDetail())
     if (cart && cart.cartItems.length > 0 && !notificationShown) {
       // Notify when cart is updated
-      notify();
+      cartnotify();
      
       setNotificationShown(true);
     }
@@ -153,20 +155,32 @@ export default function MainPage() {
       console.error('There was a problem with the fetch request:', error);
     }
   }
-  
+  const [showoffer,setShowoffer] = useState(true)
   useEffect(()=>{
     getblogs()
 
-  
+  setTimeout(()=>{
+    setShowoffer(false)
+  },[5000])
   },[])
   return (   
  !loading ?
     <>
       <ToastContainer />
+    {/* { showoffer ?<div style={{position:'absolute',width:'100%',height:'100%',backgroundColor:'black',opacity:'0.5',display:'flex',alignItems:'center',justifyContent:'center',}}>
+
+      <div style={{width:'50%',height:'50%',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',backgroundColor:'#fff',position:'relative',zIndex:'10000',opacity:'1'}}>
+        <h1>Sign up & get %50 </h1>
+        <h1>Free</h1>
+        <button>Sign up now</button>
+      </div>
+      </div>:''} */}
+    { user?.role == 'GUEST' || !user ?  <h1 style={{position:'relative',display:'flex',alignItems:'center',justifyContent:'center',}}> <span style={{color:'green',paddingRight:'1rem',cursor:'pointer'}} onClick={()=>navigate('/register')}>Sign up </span> & get $50 free!</h1>:''}
       <div style={{ overflowX: 'hidden', boxSizing: 'border-box', paddingLeft: '0', paddingRight: '0',marginTop:'3rem' }} className={style.mainPage}>
-     
+        
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-          <h1 className={style.text} style={{ fontSize: '24px', color: '#222222', marginBottom: '-.5rem' }} onClick={notify} >Shop by Category</h1>
+          
+          <h1 className={style.text} style={{ fontSize: '24px', color: '#222222', marginBottom: '-.5rem' }} >Shop by Category</h1>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '15px' }} className={style.cate}>
 
 

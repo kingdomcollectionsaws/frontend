@@ -95,32 +95,18 @@ export default function Header() {
     setSearchValue(''); 
     setSuggestion(false);
 
-  }
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/admin/orders/location`);
-         if (!response.ok) {
-           throw new Error('Failed to fetch data');
-         }
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  }  
   return (
     <>
       {!isMobile?<>
         <div style={{width:'100%',top:'13%',position:'absolute',display:'flex',alignItems:'center',justifyContent:'center'}}>
+      
           {
       suggestion? <div style={{position:'sticky',backgroundColor:'#fff',width:'40%',paddingLeft:'1rem',top:'7%',marginLeft:'1rem',boxShadow:'2px 2px 2px #BEBEBE',zIndex:'1000'}}>
       {suggestionvalue?.map((i)=>(
         <h1 style={{cursor:'pointer',marginBottom:'.5rem'}} className='hover:bg-gray-200' onClick={() => {SearchValue.trim()?(navigate(`/searchproducts/${SearchValue}`),setSuggestion(false)):''}}>{i}...</h1>
       ))}
+        
 
       </div>:''
      }
@@ -146,12 +132,12 @@ export default function Header() {
         </div>
 
         <div className={style.navberList}>
-        <div  style={{width:'2rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}}>
+        {/* <div  style={{width:'2rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}} >
           <img src="https://flagsapi.com/US/flat/64.png"  style={{ width: '3rem', height: '3rem', objectFit:'cover' }}/>
-          </div>
+          </div> */}
           {user && user?.role != 'GUEST' ? <div className={style.signIn} title='my account' onClick={() => navigate('/profile')}>
             <IoPerson />
-          </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '5rem' }} onClick={handleOpen}  >Sign in</div>
+          </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '5rem',fontWeight:'600' }} onClick={handleOpen}  >Sign in</div>
           }
           {/* <div className={style.signIn} title='sign in'>Sign in</div> */}
           <div className={style.like} onClick={()=>navigate('/account/order')}><BsHandbag /></div>
