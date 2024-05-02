@@ -45,7 +45,7 @@ export default function MainPage() {
   // ]
   const [allproduct, setAllproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
-  const notify = (msg) => toast(<div><h1 style={{color:'tomato'}}>Limit stocks avaiable!</h1>
+  const notify = (msg) => toast(<div style={{display:'flex',alignItems:'center',flexDirection:'column'}}><h1 style={{color:'tomato'}}>Limit stocks avaiable!</h1>
   <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',gap:'20px',flexWrap:'wrap'}}>
     {cart?.cartItems.map((i)=>(
    <img src={i.product?.imageUrl[0]} alt="img"  style={{width:'3rem',height:'3rem'}}/>
