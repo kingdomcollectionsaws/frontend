@@ -37,8 +37,8 @@ export default function Header() {
     if (location.pathname === "/register") {
       setHandleOpeneAuth(true)
     }
-    if (location.pathname === "/checkout?step=2") {
-      setHandleOpeneAuth(false)
+    if (location.pathname === "/checkout") {
+      setHandleOpeneAuth(false);
     }
     if (location.pathname === "/Guest") {
       setHandleOpeneAuth(true)
@@ -174,11 +174,11 @@ export default function Header() {
         </div>
         </div>
       <div style={{display:'flex',flexDirection:'row',width:'100%',gap:'4px'}}>
-      <div style={{margin:'0',width:'30%'}}>
+      <div style={{marginRight:'1rem',width:'30%'}}>
           <HeaderCategory/>
         </div>
        
-        <div className={style.search} style={{width:'67%'}}>
+        <div className={style.search} style={{width:'64%'}}>
           <input placeholder='Search..' className={style.input} onChange={searchvalue} onKeyDown={en}  style={{width:'100%'}}  value={SearchValue}/>
           {!SearchValue?.trim()==''?  <div className={style.searchIconDiv} style={{right:'14%',backgroundColor:'#fff'}}>
           <AiOutlineClose  onClick={closesearch}/>

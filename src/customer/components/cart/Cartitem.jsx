@@ -65,7 +65,7 @@ setOrderDate(formattedDateRange)
     { editmenu?
   
       <div style={{position:'fixed',right:'0%',backgroundColor:'#E8E8E8',zIndex:'1000',height:'90vh',padding:'1rem',}} className='sm:w-[40%] w-[100%]'>
-   <div style={{position:'absolute',left:'1%',cursor:'pointer'}} onClick={()=>setEditmenu(false)}>
+   <div style={{position:'absolute',left:'1%',cursor:'pointer',top:'0%'}} onClick={()=>setEditmenu(false)}>
     <AiOutlineClose style={{fontSize:'1.5rem'}}/>
    </div>
               <Edititem data={editproduct}/>

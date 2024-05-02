@@ -173,10 +173,9 @@ export default function MainPage() {
             {
               CategoryList ?.slice(0, 6).map((i) => (
             
-                  <div className={style.categoryProduct} onClick={()=>navigate(`/products/${i.slug}`)} >
-                     
+                  <div className={style.categoryProduct} onClick={()=>navigate(`/products/${i.slug}`)}>
                     <img src={i.image} style={{ borderRadius: '50%', width: "8rem", height: '8rem' }} alt='img' />
-                    <p style={{ fontWeight: '600' }}>{i.name}</p>
+                    <p style={{ fontWeight: '600' ,width:'110%'}} >{i.name}</p>
                   </div>
                
               ))

@@ -125,7 +125,7 @@ export default function DeliveryAddress() {
   }
   return (
     <>
-      {!loading ? <Grid container spacing={4} style={{ display: 'flex', justifyContent: 'center' }} >
+      {!loading ? <Grid container spacing={1} style={{ display: 'flex', justifyContent: 'center',alignItems:'center' }} >
 
         <Grid item xs={12} lg={7} className='border shadow-md p-3 cursor-pointer'>
           <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.7rem', marginBottom: '10px' }}>Enter  delivery address</h1>

@@ -47,7 +47,7 @@ const location = useLocation()
         <GoX style={{color:'#fff'}} />
       </div>
         {
-    location.pathname === "/login" ? <LoginForm /> : location.pathname === "/register" ? <RegisterForm /> : <GuestForm />
+    location.pathname === "/login" ? <LoginForm /> : location.pathname === "/register" ? <RegisterForm />  : <GuestForm />
 }
 
        

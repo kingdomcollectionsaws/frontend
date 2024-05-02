@@ -90,10 +90,10 @@ export default function Footer() {
   const [open4,setOpen4] = useState(false);
   return(
     <>
-     <div className={style.leftColumn} style={{backgroundColor:'#fff'}} >
+     <div className={style.leftColumn} style={{backgroundColor:'#fff',margin:''}} >
         <img src="/kc-logo.png" alt="Logo" className={style.logo}   />
       </div>
-    <h2 className={style.toggleBtn} onClick={()=>setOpen(!open)}>Shop <span style={{ marginLeft: '295px' }}>{open ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
+    <h2 className={style.toggleBtn} onClick={()=>setOpen(!open)}>Shop <span style={{ marginLeft: '290px' }}>{open ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                     {
                     open?<div className={style.column} style={{marginLeft:'1rem'}} >
                     <ul>
@@ -117,7 +117,7 @@ export default function Footer() {
                     </ul>
                   </div> : <h1></h1>
                   } */}
-                   <h2 className={style.toggleBtn} onClick={()=>setOpen3(!open3)}>About <span style={{ paddingLeft: '290px' }}>{open3 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
+                   <h2 className={style.toggleBtn} onClick={()=>setOpen3(!open3)}>About <span style={{ paddingLeft: '285px' }}>{open3 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                     {
                     open3?<div className={style.column} style={{marginLeft:'1rem'}}>
                     <ul>
@@ -129,7 +129,7 @@ export default function Footer() {
                     </ul>
                   </div> : <h1></h1>
                   }
-                   <h2 className={style.toggleBtn} onClick={()=>setOpen4(!open4)}>Help <span style={{ paddingLeft: '300px' }}>{open4 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
+                   <h2 className={style.toggleBtn} onClick={()=>setOpen4(!open4)}>Help <span style={{ paddingLeft: '295px' }}>{open4 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                     {
                     open4?<div className={style.column} style={{marginLeft:'1rem'}}>
                     <ul>

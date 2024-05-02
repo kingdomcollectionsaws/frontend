@@ -73,7 +73,7 @@ const ProductSlider = ({ imagesdata }) => {
 
   return (
     <div className="image-slider-container" style={{marginTop:'0',justifyContent:'center'}}>
-      <div className="image-slider" style={{width:'100%',marginLeft:'0rem'}}>
+      <div className="image-slider" style={{width:'100%',marginLeft:'0rem',height:'40%'}}>
        {imagesdata[currentImageIndex]?.endsWith('.mp4')? 
          <video autoPlay controls style={{height:'20rem',width:'20rem'}} loop >
           <img src={img} alt="kk" />

@@ -53,14 +53,14 @@ export default function Cart() {
     
       user?
       
-       <div>
+       <div style={{margin:'1rem'}}>
          <ToastContainer/>
          <AuthModel  handleClose={handleClose} open={handleOpenAuth}/>
     <div className='mt-20  sm:mt-0'>
       </div>
     <div className='lg:grid grid-cols-3 relative space-x-3'>
       
-       <div className='col-span-2'>
+       <div className='col-span-2 '>
        {cart?.cartItems.length > 0 || localcart ? <Cartitem/> :<h1 className='m-4'>Your cart is Empty</h1>}
        </div>
        <Grid className='sticky top-5 space-y-3 mt-1 '>

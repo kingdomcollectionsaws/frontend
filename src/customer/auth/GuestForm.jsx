@@ -80,7 +80,7 @@ export default function GuestForm() {
         <ToastContainer />
           <p style={{ paddingBottom: '1rem' }}>Go to checkout</p>
          
-          <button style={{ display: 'flex', width: '100%', height: '3rem', border: ' 2px solid black', borderRadius: '20px', alignItems: 'center', justifyContent: 'center', color: 'black', marginBottom: '1rem' }} onClick={() => navigate("/checkout?step=2")}>continue as a guest</button>
+          <button style={{ display: 'flex', width: '100%', height: '3rem', border: ' 2px solid black', borderRadius: '20px', alignItems: 'center', justifyContent: 'center', color: 'black', marginBottom: '1rem' }} onClick={() => {navigate("/checkout?step=2")}}>continue as a guest</button>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '2rem' }}>
           <div style={{ fontWeight: 'bold' }}>
