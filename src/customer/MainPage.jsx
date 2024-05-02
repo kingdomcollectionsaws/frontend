@@ -23,7 +23,7 @@ const carousel = lazy(() => import('./components/homecarousel/Carousel'));
 import style from '../customer/components/custom/styles.module.css'
 export default function MainPage() {
   const {cart} = useSelector(store=>store.cart);
-  // const blogs = [
+  
   //   {
   //     title: '9 Comfy Throws for Cosy Autumn Vibes',
   //     tag: 'Shopping Guides',
@@ -85,11 +85,14 @@ export default function MainPage() {
   }, []);
   const [notificationShown, setNotificationShown] = useState(false)
   useEffect(() => {
+    dispatch(getUserDetail())
     if (cart && cart.cartItems.length > 0 && !notificationShown) {
       // Notify when cart is updated
       notify();
+     
       setNotificationShown(true);
     }
+   
   }, [cart,notificationShown]);
   const dispatch = useDispatch();
   const { products, loading } = useSelector(store => store.allproducts);
@@ -153,8 +156,7 @@ export default function MainPage() {
   
   useEffect(()=>{
     getblogs()
-    
-   
+
   
   },[])
   return (   

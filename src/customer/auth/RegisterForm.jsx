@@ -26,6 +26,7 @@ export default function RegisterForm() {
         email: data.get("email"),
         password: data.get("password"),
         mobile: data.get("mobile"),
+        joiningBonus:50
       }
       console.log(userData);
     await  dispatch(updateUser(userData));

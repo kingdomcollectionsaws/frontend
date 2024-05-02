@@ -39,14 +39,16 @@ export default function GuestForm() {
   // Store the array of IDs in localStorage
   localStorage.setItem('items', JSON.stringify(itemIds));
    await dispatch(loginUser(userData));
-    if(user.role=='GUEST'){
+    if(user.role !='GUEST'){
       setTimeout(()=>{
-         alert("invalid email or passwords")
-       },[1500])
-      
-       dispatch(getUserDetail());
+        alert("invalid")
+      },[3000])
+     
     }else{
-
+      setTimeout(()=>{
+        alert("invalid email or passwords")
+      },[3000])
+     
     }
    
    }else{
@@ -56,7 +58,7 @@ export default function GuestForm() {
      }else{
       setTimeout(()=>{
         notify("invalid email or password")
-       },[1500])
+       },[3000])
      }
    }
   };
@@ -64,9 +66,7 @@ export default function GuestForm() {
 
   useEffect(() => {
     dispatch(getUserDetail());
-   
-    
-    
+
   }, []);
   const navigate = useNavigate()
   return (

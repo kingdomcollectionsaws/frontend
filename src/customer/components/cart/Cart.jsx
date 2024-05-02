@@ -58,7 +58,7 @@ export default function Cart() {
          <AuthModel  handleClose={handleClose} open={handleOpenAuth}/>
     <div className='mt-20  sm:mt-0'>
       </div>
-    <div className='lg:grid grid-cols-3 relative space-x-3  '>
+    <div className='lg:grid grid-cols-3 relative space-x-3'>
       
        <div className='col-span-2'>
        {cart?.cartItems.length > 0 || localcart ? <Cartitem/> :<h1 className='m-4'>Your cart is Empty</h1>}
@@ -77,13 +77,17 @@ export default function Cart() {
           <span>Item(s) total</span>
           <span>${cart?.totalPrice}</span>
         </div> 
-          <div className=' flex  w-full justify-between p-4  pt-3'>
+          {/* <div className=' flex  w-full justify-between p-4  pt-3'>
           <span>Total discount</span>
           <span >${cart?.discounte}</span>
-        </div> 
+        </div>  */}
           <div className=' flex  w-full justify-between p-4   pt-3'>
           <span>Shipping Charges</span>
           <span className='text-green-500'>FREE</span>
+        </div>
+        <div className=' flex  w-full justify-between p-4   pt-3'>
+          <span>joining Bonus</span>
+          <span className=''>${user.joiningBonus?user.joiningBonus:0}</span>
         </div>
           <div className=' flex justify-between p-4 w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
           <span>Total ({cart?.cartItems.length} item)</span>

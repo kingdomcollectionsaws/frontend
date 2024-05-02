@@ -6,6 +6,7 @@ import Loader from '../../Loader'
 import { getCart, removeItemInCart, updateItemInCart } from '../../state/cart/cartSlice'
 import Edititem from '../custom/productId/Edititem'
 import { AiOutlineClose } from "react-icons/ai";
+import { MdOutlineModeEdit } from 'react-icons/md'
 export default function Cartitem() {
 
   const dispatch = useDispatch()
@@ -80,11 +81,12 @@ setOrderDate(formattedDateRange)
           <div className='flex align-center justify-center flex-col gap-3' >
             <p>{data?.product?.title}</p>
              <p>quantity:{data?.quantity} </p> 
-            <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.product?.brand} </span> </p>
+            <p > Style: <span className=' font-semibold tracking-tight   text-green-600'> {data?.product?.brand} </span> 
+            <span>   <Button sx={{color:"black"}} onClick={()=>{setEditmenu(true);setEditproduct(data);console.log(data?.product);}} >Edit <span><MdOutlineModeEdit/></span></Button></span></p>
              
      
             <div className='flex align-center justify-center mx-3  space-x-5'>
-             <Button sx={{color:"black"}} onClick={()=>{setEditmenu(true);setEditproduct(data);console.log(data?.product);}} >Edit</Button>
+          
            
     <IconButton onClick={()=>{{quantity+data.quantity < 2 ?setQuantity(0):setQuantity(quantity-1)}{setItemIndex(index)}}}>
         <RemoveCircleOutlineOutlined sx={{color:"black"}}/>

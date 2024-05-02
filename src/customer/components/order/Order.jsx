@@ -231,7 +231,12 @@ console.log(res);
  orderitem?.map((item)=>(
 
       <div  className='relative zIndex-10 flex align-center justify-around border shadow-lg mt-8 hover:scale-105 flex-warp flex-col sm:m-20 m-2 p-5' style={{border:'1px solid black',marginTop:'4rem'}}>
-          
+         <div style={{margin:'.3rem'}}>
+      <h1>Tracking id: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:'Processing'}</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
+      <h1>Total amount: ${item?.totalPrice}</h1>
+      <h1>orderDate: {item?.orderDate.slice(0,10)}</h1>
+      {item.trackingId?<h1 > <a href="https://www.fedex.com/en-in/tracking.html" target="_blank" rel="noopener noreferrer"  style={{color:'blue'}}>Click here </a>to track your order</h1>:''}
+    </div>
       {item.orderItems.map((i)=><div >
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
     <div style={{width:'60%'}}>
@@ -242,7 +247,7 @@ console.log(res);
     <div className='flex flex-col '>
       
       <p className='font-bold mb-2'></p>
-      <p>Price: {i.price}</p>
+      <p>Price: ${i.price}</p>
       <p>Name: {i.product.title}</p>
       <p>Style: {i.sizes[0]}</p>
       <p className=' mb-2'>Quantity: {i.quantity}</p>
@@ -253,7 +258,7 @@ console.log(res);
     </div>
    
     </div>
-    
+  
    
      </div></div>
     )} 
@@ -261,48 +266,32 @@ console.log(res);
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
     
   <div>
-  {addressData.map((address,index)=>{
-      
-      if (address._id== item. shippingAddress) {
-        return (
-          <div className='flex flex-col' key={address.user}>
+  <div className='flex flex-col' >
             <p className='font-bold mb-2'></p>
-            <p>name: {address.firstName}</p>
-            <p>mobile: {address.mobile}</p>
-            <p>email: {address.email}</p>
-            <p>country: {address.country}</p>
-            <p>state: {address.state}</p>
-            <p>city: {address.city}</p>
-            <p>Address: {address.streetAddress}</p>
-            <p>Zipcode: {address.zipCode}</p>
-            <p>Note: {item.note}</p>
+            <p>name: {item.shippingAddress?.firstName}</p>
+            <p>mobile: {item.shippingAddress?.mobile}</p>
+            <p>email: {item.shippingAddress?.email}</p>
+            <p>country: {item.shippingAddress?.country}</p>
+            <p>state: {item.shippingAddress?.state}</p>
+            <p>city: {item.shippingAddress?.city}</p>
+            <p>Address: {item.shippingAddress?.streetAddress}</p>
+            <p>Zipcode: {item.shippingAddress?.zipCode}</p>
+            <p>Note: {item.shippingAddress?.note}</p>
           </div>
-        );
-      }
-      return null;
-}) }
   </div>
   <div>
   <h1 style={{fontWeight:'bold'}}> Billing Address</h1>
-  {addressData.map((address,index)=>{
-      
-      if (address._id== item. shippingAddress) {
-        return (
-          <div className='flex flex-col' key={address.user}>
+  <div className='flex flex-col'>
             <p className='font-bold mb-2'></p>
-            <p>name: {address.billing.firstName}</p>
-            <p>mobile: {address.billing.mobile}</p>
-            <p>email: {address.billing.email}</p>
-            <p>country: {address.billing.country}</p>
-            <p>state: {address.billing.state}</p>
-            <p>city: {address.billing.city}</p>
-            <p>address: {address.billing.streetAddress}</p>
-            <p>Zipcode: {address.billing.zipCode}</p>
+            <p>name: {item.shippingAddress?.billing.firstName}</p>
+            <p>mobile: {item.shippingAddress?.billing.mobile}</p>
+            <p>email: {item.shippingAddress?.billing.email}</p>
+            <p>country: {item.shippingAddress?.billing.country}</p>
+            <p>state: {item.shippingAddress?.billing.state}</p>
+            <p>city: {item.shippingAddress?.billing.city}</p>
+            <p>address: {item.shippingAddress?.billing.streetAddress}</p>
+            <p>Zipcode: {item.shippingAddress?.billing.zipCode}</p>
           </div>
-        );
-      }
-      return null;
-}) }
   </div>
     </div>
   
