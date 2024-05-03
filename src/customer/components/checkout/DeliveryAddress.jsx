@@ -128,7 +128,7 @@ export default function DeliveryAddress() {
       {!loading ? <Grid container spacing={1} style={{ display: 'flex', justifyContent: 'center',alignItems:'center' }} >
 
         <Grid item xs={12} lg={7} className='border shadow-md p-3 cursor-pointer'>
-          <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.7rem', marginBottom: '10px' }}>Enter  delivery address</h1>
+          <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.7rem', marginBottom: '10px' }}>Enter  Delivery Address</h1>
           <Box>
             <form onSubmit={handlesubmit} encType="multipart/form-data">
               <Grid container spacing={3}>
@@ -171,7 +171,7 @@ export default function DeliveryAddress() {
                     required
                     id='country'
                     name='country'
-                    label='Country code (2 latter)'
+                    label='Country'
                     fullWidth
                     autoComplete='given-country'
                   />
@@ -214,7 +214,7 @@ export default function DeliveryAddress() {
                     required
                     id='state'
                     name='state'
-                    label='State Provisional code (2 latter)'
+                    label='State'
                     fullWidth
                     autoComplete='given-state'
                   />
@@ -223,7 +223,7 @@ export default function DeliveryAddress() {
 
                 <Grid item xs={12} lg={6}>
                   <TextField
-                    required
+                  
                     id='number'
                     name='number'
                     label='Phone'
@@ -243,7 +243,7 @@ export default function DeliveryAddress() {
 
                 </Grid>
               </Grid>
-              <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.7rem', marginBottom: '10px' }}>Enter  billing address</h1>
+              <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.7rem', marginBottom: '10px' }}>Enter  Billing Address</h1>
 
               <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.3rem', marginBottom: '10px' }}>Same as delivery address <span><input type="checkbox" width={30} height={30} onClick={() => SetChecked(!checked)} style={{ padding: '.6rem' }} /></span></h1>
               {!checked ? <Grid container spacing={3}>
@@ -341,7 +341,7 @@ export default function DeliveryAddress() {
 
                 {<Grid item xs={12} lg={6}>
                   <TextField
-                    required
+                   
                     id='billing_number'
                     name='billing_number'
                     label='Phone'

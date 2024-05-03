@@ -100,7 +100,6 @@ export default function Header() {
     <>
       {!isMobile?<>
         <div style={{width:'100%',top:'13%',position:'absolute',display:'flex',alignItems:'center',justifyContent:'center'}}>
-      
           {
       suggestion? <div style={{position:'sticky',backgroundColor:'#fff',width:'40%',paddingLeft:'1rem',top:'7%',marginLeft:'1rem',boxShadow:'2px 2px 2px #BEBEBE',zIndex:'1000'}}>
       {suggestionvalue?.map((i)=>(
@@ -151,6 +150,7 @@ export default function Header() {
       <AuthModel handleClose={handleClose} open={handleOpenAuth} />
       </>:<>
       <div style={{width:'100%',top:'11%',position:'absolute',display:'flex',alignItems:'center',justifyContent:'center'}}>
+   
           {
       suggestion? <div style={{position:'sticky',backgroundColor:'#fff',width:'100%',paddingLeft:'1rem',top:'7%',marginLeft:'1rem',boxShadow:'2px 2px 2px #BEBEBE',zIndex:'1000'}}>
       {suggestionvalue?.map((i)=>(
@@ -160,7 +160,9 @@ export default function Header() {
       </div>:''
      }
           </div>
+          
       <div className={style.navber} style={{flexDirection:'column',gap:'4px',}}>
+     
         <div style={{display:'flex',flexDirection:'row'}}>
         <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <img src={logo} width={180} height={70} alt="Description" />
@@ -193,13 +195,14 @@ export default function Header() {
           <AiOutlineClose  onClick={closesearch}/>
              </div>:''}
           <div className={style.searchIconDiv}><IoSearch className={style.searchIcon} onClick={() => {SearchValue.trim()?navigate(`/searchproducts/${SearchValue}`):''}} /></div>
+         
         </div>
-        
-      </div>
        
       </div>
+     
+      </div>
       <AuthModel handleClose={handleClose} open={handleOpenAuth} />
-      
+     
       </>}
     </>
   )

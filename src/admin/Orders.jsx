@@ -113,7 +113,8 @@ export default function Orders() {
     }
 };
 const deletestatus = async (id) => {
-  try {
+  if(confirm("DO you want to delete it") == true){
+    try {
       const token = localStorage.getItem('jwt');
       const requestOptions = {
           method: 'DELETE',
@@ -136,6 +137,7 @@ const deletestatus = async (id) => {
       // setAllusers(filteredUser);
   } catch (error) {
       console.error('There was a problem with the fetch request:', error);
+  }
   }
 };
 const cancelstatus = async (id) => {
@@ -217,7 +219,7 @@ fetch("https://apis-sandbox.fedex.com/oauth/token", {
       <h1>Tracking id: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:'Not shiped yet'}</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
       <h1>Total amount: ${item?.totalPrice}</h1>
       <h1>orderDate: {item?.orderDate.slice(0,10)}</h1>
-      {item.trackingId?<h1 > <a href="https://www.fedex.com/en-in/tracking.html" target="_blank" rel="noopener noreferrer" style={{color:'blue'}}>Click here </a>to track your order</h1>:''}
+      {item.trackingId?<h1 > Track your order <a href="https://www.fedex.com/en-in/tracking.html" target="_blank" rel="noopener noreferrer" style={{color:'blue'}}>Click here </a></h1>:''}
     </div>
       {item.orderItems.map((i,index)=><div >
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}} key={index}>

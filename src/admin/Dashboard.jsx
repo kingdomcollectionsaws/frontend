@@ -206,6 +206,8 @@ export default function Dashboard() {
 
     }
     const deleteProduct = async (id) => {
+
+       if(confirm("DO you want to delete it") == true){
         const requestOptions = {
             method: 'DELETE',
             headers: {
@@ -226,6 +228,9 @@ export default function Dashboard() {
             .catch(error => {
                 console.error('There was a problem with the fetch request:', error);
             });
+       }else{
+
+       }
 
     }
 

@@ -232,9 +232,9 @@ console.log(res);
 
       <div  className='relative zIndex-10 flex align-center justify-around border shadow-lg mt-8 hover:scale-105 flex-warp flex-col sm:m-20 m-2 p-5' style={{border:'1px solid black',marginTop:'4rem'}}>
          <div style={{margin:'.3rem'}}>
-      <h1>Tracking id: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:'Processing'}</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
-      <h1>Total amount: ${item?.totalPrice}</h1>
-      <h1>orderDate: {item?.orderDate.slice(0,10)}</h1>
+      <h1>Tracking ID: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:'Processing'}</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
+      <h1>Total Amount: ${item?.totalPrice}</h1>
+      <h1>Order Date: {item?.orderDate.slice(0,10)}</h1>
       {item.trackingId?<h1 > <a href="https://www.fedex.com/en-in/tracking.html" target="_blank" rel="noopener noreferrer"  style={{color:'blue'}}>Click here </a>to track your order</h1>:''}
     </div>
       {item.orderItems.map((i)=><div >
@@ -295,7 +295,7 @@ console.log(res);
   </div>
     </div>
   
-    <p className='font-semibold mb-2'>Status: {item.orderStatus}</p>
+    <p className='font-semibold mb-2'> Order Status: {item.orderStatus}</p>
   
     <div>
       

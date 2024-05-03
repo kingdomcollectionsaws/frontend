@@ -690,18 +690,25 @@
 }
 @media screen and (max-width:800px) {
     .categoryProduct{
-        width: 9rem;
-        height: 15rem;
+        width: 7rem;
+        height: 9rem;
     }  
     .categoryProduct img{
-        width: 9rem;
+        width: 6rem;
+    }  
+    .categoryProduct p{
+        width: 10rem;
+        
+        font-size: .7rem;
     }  
     .gitfProduct{
-        width: 6rem;
-        height: 10rem;
+        width: 12rem;
+        height: 14rem;
+        background-color:rgb(241, 236, 236);
     }
     .gitfProduct img{
-        width: 6rem;
+        width: 12rem;
+        height: 10rem;
     }
     .giftHead{
         

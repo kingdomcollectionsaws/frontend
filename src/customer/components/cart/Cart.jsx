@@ -60,10 +60,10 @@ export default function Cart() {
       </div>
     <div className='lg:grid grid-cols-3 relative space-x-3'>
       
-       <div className='col-span-2 '>
+       <div className='col-span-2'>
        {cart?.cartItems.length > 0 || localcart ? <Cartitem/> :<h1 className='m-4'>Your cart is Empty</h1>}
        </div>
-       <Grid className='sticky top-5 space-y-3 mt-1 '>
+       <Grid className='sticky top-5 space-y-1 mt-1 '>
         <div className='border '>
           
           <h1 className=' flex  align-center font-bold p-4'>How you'll pay</h1>

@@ -20,25 +20,27 @@ export default function Blog({value}) {
     setBlogEdit(true)
   }
   const deleteblog = async(id) => {
-    try {
+    if(confirm("DO you want to delete it")==true){
+      try {
 
-      const requestOptions = {
-        method: 'DELETE',
-
-        headers: {
-          'Content-Type': 'application/json' // Set the content type to JSON
-        },
-        body: JSON.stringify({id})
-      };
-      const response = await fetch(`${API_BASE_URL}/api/blog/delete`, requestOptions);
-
-      const data = await response.json();
-      if(data){
-        alert("Blog deleted successfully")
+        const requestOptions = {
+          method: 'DELETE',
+  
+          headers: {
+            'Content-Type': 'application/json' // Set the content type to JSON
+          },
+          body: JSON.stringify({id})
+        };
+        const response = await fetch(`${API_BASE_URL}/api/blog/delete`, requestOptions);
+  
+        const data = await response.json();
+        if(data){
+          alert("Blog deleted successfully")
+        }
+        
+      } catch (error) {
+        console.error('There was a problem with the fetch request:', error);
       }
-      
-    } catch (error) {
-      console.error('There was a problem with the fetch request:', error);
     }
   }
 
