@@ -19,6 +19,7 @@ import { API_BASE_URL } from '../config/apiConfig'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import style from '../customer/components/custom/styles.module.css'
+import IPinfoWrapper from 'node-ipinfo'
 export default function MainPage() {
   const {cart} = useSelector(store=>store.cart);
   const {user} = useSelector(store=>store.user);
@@ -141,6 +142,7 @@ export default function MainPage() {
     setShowoffer(false)
   },[5000])
   },[])
+ 
   return (   
  !loading ?
     <>

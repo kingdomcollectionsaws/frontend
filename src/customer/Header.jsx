@@ -96,6 +96,23 @@ export default function Header() {
     setSuggestion(false);
 
   }  
+  const [ userlocation,setUserlocation] = useState()
+  const fetchIPInfo = async () => {
+    try {
+        const response = await fetch('https://ipinfo.io/json?token=b557ac5d05d643');
+        if (!response.ok) {
+            throw new Error(`Failed to fetch IP information. Status: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        setUserlocation(data.country)
+    } catch (error) {
+        console.log('Error fetching IP information:', error.message);
+    }
+};
+  useEffect(()=>{
+    fetchIPInfo()
+  },[])
   return (
     <>
       {!isMobile?<>
@@ -131,9 +148,9 @@ export default function Header() {
         </div>
 
         <div className={style.navberList}>
-        {/* <div  style={{width:'2rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}} >
-          <img src="https://flagsapi.com/US/flat/64.png"  style={{ width: '3rem', height: '3rem', objectFit:'cover' }}/>
-          </div> */}
+         <div  style={{width:'2rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}} >
+          <img src={`https://flagsapi.com/${userlocation?userlocation:'US'}/flat/64.png` } style={{ width: '3rem', height: '3rem', objectFit:'cover' }}/>
+          </div> 
           {user && user?.role != 'GUEST' ? <div className={style.signIn} title='my account' onClick={() => navigate('/profile')}>
             <IoPerson />
           </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '5rem',fontWeight:'600' }} onClick={handleOpen}  >Sign in</div>
@@ -168,6 +185,10 @@ export default function Header() {
           <img src={logo} width={180} height={70} alt="Description" />
         </div>
         <div className={style.navberList}>
+       
+         <div  style={{width:'3rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}} >
+          <img src={`https://flagsapi.com/${userlocation?userlocation:'US'}/flat/64.png` } style={{ width: '3rem', height: '3rem', objectFit:'cover' }}/>
+          </div> 
         {/* <div  style={{width:'4rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}}>
           <img src="https://flagsapi.com/US/flat/64.png"  style={{ width: '3rem', height: '3rem', objectFit:'cover' }}/>
           </div> */}

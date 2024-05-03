@@ -2738,6 +2738,11 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+lru-cache@^7.18.3:
+  version "7.18.3"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.18.3.tgz#f793896e0fd0e954a59dfdd82f0773808df6aa89"
+  integrity sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==
+
 "lru-cache@^9.1.1 || ^10.0.0":
   version "10.2.0"
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-10.2.0.tgz"
@@ -2827,6 +2832,14 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
+
+node-ipinfo@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/node-ipinfo/-/node-ipinfo-3.5.1.tgz#64249e89456e24c02073e93ecca6cdec17c8c886"
+  integrity sha512-sh9yzyItNmc6SetUfJaTn0vaHhbxmVd9oFJceo2PwMXrDdHgR5hEwOkHK+fXKypQRTc1KXq9pzMmrEzCFNFlow==
+  dependencies:
+    lru-cache "^7.18.3"
+    subnet-check "^1.10.1"
 
 node-releases@^2.0.14:
   version "2.0.14"
@@ -3612,6 +3625,11 @@ stylis@4.3.1:
   version "4.3.1"
   resolved "https://registry.npmjs.org/stylis/-/stylis-4.3.1.tgz"
   integrity sha512-EQepAV+wMsIaGVGX1RECzgrcqRRU/0sYOHkeLsZ3fzHaHXZy4DaOOX0vOlGQdlsjkh3mFHAIlVimpwAs4dslyQ==
+
+subnet-check@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/subnet-check/-/subnet-check-1.10.1.tgz#449025f12cac8d7fccc304a25de25735c4b400d5"
+  integrity sha512-e8lXZ9ICcG42fFsMDZO5TTZ3uS2436b5hnx3uS4Z3XkAFuDLa5R3Pvt9lYhewKm/vCd48t14v0jFaSmVYOT2Kg==
 
 sucrase@^3.32.0:
   version "3.35.0"
