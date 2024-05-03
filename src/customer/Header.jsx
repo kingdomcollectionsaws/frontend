@@ -180,21 +180,21 @@ export default function Header() {
           
       <div className={style.navber} style={{flexDirection:'column',gap:'4px',}}>
      
-        <div style={{display:'flex',flexDirection:'row'}}>
+        <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
         <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <img src={logo} width={180} height={70} alt="Description" />
         </div>
-        <div className={style.navberList}>
-       
-         <div  style={{width:'3rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}} >
+        <div  style={{width:'2rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}} >
           <img src={`https://flagsapi.com/${userlocation?userlocation:'US'}/flat/64.png` } style={{ width: '3rem', height: '3rem', objectFit:'cover' }}/>
           </div> 
-        {/* <div  style={{width:'4rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}}>
-          <img src="https://flagsapi.com/US/flat/64.png"  style={{ width: '3rem', height: '3rem', objectFit:'cover' }}/>
-          </div> */}
-          {user && user?.role != 'GUEST' ? <div className={style.signIn} title='my account' onClick={() => navigate('/profile')}>
+        <div className={style.navberList}>
+       
+        
+      
+          {user && user?.role != 'GUEST' ? 
+          <div className={style.signIn} title='my account' onClick={() => navigate('/profile')}>
             <IoPerson />
-          </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '5rem' }} onClick={handleOpen}  >Sign in</div>
+          </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '10rem', }} onClick={handleOpen}  >Sign in</div>
           }
           {/* <div className={style.signIn} title='sign in'>Sign in</div> */}
           <div className={style.like} onClick={()=>navigate('/account/order')}><BsHandbag /></div>

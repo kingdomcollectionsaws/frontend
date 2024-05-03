@@ -225,7 +225,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    width: 90%;
+    width: 96%;
     max-width: 10rem;
 
 }
@@ -702,12 +702,12 @@
         font-size: .7rem;
     }  
     .gitfProduct{
-        width: 12rem;
+        width: 11rem;
         height: 14rem;
         background-color:rgb(241, 236, 236);
     }
     .gitfProduct img{
-        width: 12rem;
+        width: 11rem;
         height: 10rem;
     }
     .giftHead{
