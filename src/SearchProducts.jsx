@@ -51,24 +51,20 @@ export default function SearchProducts() {
     // );
 
   return (
-    <div>
-        {
-            isMobile ? <Carousel2 data={filteredProducts = products.filter(product => product.title.toLowerCase().includes(search.toLowerCase()))} /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '15px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px',marginTop:'4rem'}} >
               {
                filteredProducts = products.filter(product => product.title.toLowerCase().includes(search.toLowerCase())).map((i) => (
 
-                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '0', border: 'none' }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
-                    <img src={i.imageUrl[0]} width={250} height={190} alt='img' />
+                <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '.5rem', border: 'none' ,}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
+                <img src={i.imageUrl[0]}  alt='img' className='lg:w-[15rem]'  style={{borderRadius: '.5rem',}}/>
 
-                    <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", }}>{i.title.substring(0, 20)}...</h1>
-                    <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${i.price}</p></span> $ {i.discountedPrice}</h1>  
+                <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start",cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 15)}...</h1>
+                <h1 className={style.text} style={{ fontWeight: '500', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start" }}> <span><p className=' tracking-tight text-gray-600  line-through px-2 '>${i.price}</p></span> $ {i.discountedPrice}</h1>
 
 
-                  </div>
+              </div>
                 ))
               }
-            </div>
-          }
     </div>
   )
 }

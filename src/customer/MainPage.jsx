@@ -182,7 +182,7 @@ export default function MainPage() {
             <div className={style.categoryHead}>All</div>
             <div className={style.categoryHead}>SALE</div>
             <div className={style.categoryHead}>FRESH</div>
-            <div className={style.categoryHead}>Tranding</div>
+            <div className={style.categoryHead}>Trending</div>
 
           </div>
          

@@ -369,7 +369,11 @@ export default function ProductDetailPage({ params }) {
     dispatch(getAllProducts());
 
   }, []);
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
+  const toggleDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
   const [showModelReview,setShowModelReview] = useState()
   return (
     !loading ? <>
@@ -473,9 +477,18 @@ export default function ProductDetailPage({ params }) {
                             </div>
 
                           </div>
-                          <div >
-                            Great King Leonidas Sparta 300 Movie Helmet Battle Damage Edition Best For Valentine s Gift For Him
-                          </div>
+                          <div style={{display:'flex',flexDirection:'column',gap:'10px',}}>
+                      {productDetails?.description.split('|').map((i, index) => (
+        <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
+      ))}
+      {productDetails?.description.split('|').length > 3 && (
+      <div style={{display:'flex',justifyContent:'center'}}>
+          <button onClick={toggleDescription} className={style.toggleBtn} style={{width:'70%',display:'flex',justifyContent:'center',fontSize:'.9rem',fontWeight:'bold'}}>
+          {showFullDescription ? 'Less' : 'Learn more about this item'}
+        </button>
+      </div>
+      )}
+                      </div>
                         </div>
                       </div> : <h1></h1>
                     }
@@ -575,10 +588,11 @@ export default function ProductDetailPage({ params }) {
                             <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
                             <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
                           </div>
+                         
                          <Transition.Root show={open} as={Fragment}>
                             <Dialog as="div" className="fixed inset-0 overflow-y-auto align-center h-[90vh]" initialFocus={cancelButtonRef} onClose={setOpen}>
                               
-                              <div className="flex items-center justify-center min-h-screen px-1 text-center" style={{height:'70vh',marginTop:'2rem'}}>
+                              <div className="flex items-center justify-center min-h-screen px-1 text-center" style={{height:'90vh',marginTop:'6rem'}}>
                                 <Transition.Child
                                   as={Fragment}
                                 >
@@ -595,10 +609,10 @@ export default function ProductDetailPage({ params }) {
                                 >
                                   <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20">
                                     
-                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', padding: '1rem' }}>
+                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px',}}>
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
                                         <div style={{ marginLeft: '-1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-                                          <img src={showModelReview?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
+                                          <img src={showModelReview?.image} alt={"img"} style={{ width: '100%', height: '20rem', borderRadius: '12px' }} />
                                         </div>
                                         <div style={{ height: '25rem', paddingTop: '1rem' }}>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
@@ -646,6 +660,7 @@ export default function ProductDetailPage({ params }) {
                               </div>
                             </Dialog>
                           </Transition.Root>
+              
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -673,10 +688,9 @@ export default function ProductDetailPage({ params }) {
                          
                           <Transition.Root show={open} as={Fragment}>
                             <Dialog as="div" className="fixed inset-0 overflow-y-auto h-[95vh]" initialFocus={cancelButtonRef} onClose={setOpen}>
-                              <div className="flex items-center justify-center min-h-screen px-1 text-center" style={{height:'50vh',marginTop:'2rem'}}>
+                              <div className="flex items-center justify-center min-h-screen px-1 text-center" style={{height:'50vh',marginTop:'5rem'}}>
                                 <Transition.Child
                                   as={Fragment}
-
                                 >
                                   <Dialog.Overlay className="fixed inset-0 bg-black  bg-opacity-20 transition-opacity-50" />
                                 </Transition.Child>
@@ -882,7 +896,7 @@ export default function ProductDetailPage({ params }) {
                                     as={Fragment}
 
                                   >
-                                    <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.1' }} />
+                                    <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.05' }} />
                                   </Transition.Child>
 
                                   <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -994,7 +1008,7 @@ export default function ProductDetailPage({ params }) {
                                   <Transition.Child
                                     as={Fragment}
                                   >
-                                    <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.1' }} />
+                                    <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.05' }} />
                                   </Transition.Child>
 
                                   <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -1168,8 +1182,17 @@ export default function ProductDetailPage({ params }) {
                         </div>
 
                       </div>
-                      <div >
-                        Great King Leonidas Sparta 300 Movie Helmet Battle Damage Edition Best For Valentine s Gift For Him
+                      <div style={{display:'flex',flexDirection:'column',gap:'10px',}}>
+                      {productDetails?.description.split('|').map((i, index) => (
+        <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
+      ))}
+      {productDetails?.description.split('|').length > 3 && (
+      <div style={{display:'flex',justifyContent:'center'}}>
+          <button onClick={toggleDescription} className={style.toggleBtn} style={{width:'70%',display:'flex',justifyContent:'center',fontSize:'.9rem',fontWeight:'bold'}}>
+          {showFullDescription ? 'Less' : 'Learn more about this item'}
+        </button>
+      </div>
+      )}
                       </div>
                     </div> : <h1></h1>
                   }
