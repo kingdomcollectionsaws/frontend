@@ -242,6 +242,10 @@ export default function DeliveryAddress() {
                   />
 
                 </Grid>
+                <Grid item xs={6} lg={6} style={{display:'flex',alignItems:'center',gap:'1rem'}}>
+                  <p style={{fontWeight:'bold'}}>Mark order as a gift</p>
+               <input type="checkbox"  style={{width:'2rem',height:'2rem'}}/>
+                </Grid>
               </Grid>
               <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.7rem', marginBottom: '10px' }}>Enter  Billing Address</h1>
 

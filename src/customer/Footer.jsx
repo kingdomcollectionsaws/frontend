@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import img from "../../public/img1.png"
+import esty from "../../public/esty.png"
 import style from '../customer/components/custom/styles.module.css'
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowUp } from "react-icons/io";
@@ -9,6 +10,10 @@ import { FiInstagram,FiFacebook ,FiTwitter,FiYoutube} from "react-icons/fi";
 export default function Footer() {
   
     const navigate = useNavigate()
+    const estylink = ()=>{
+      window.open('https://www.etsy.com/uk/shop/KingdomCollectionArt?ref=shop-header-name&listing_id=1710058058&from_page=listing', '_blank', 'noopener, noreferrer');
+
+    }
   return (
     <div>
           <footer className={style.footer}>
@@ -39,7 +44,7 @@ export default function Footer() {
         <div className={style.column}>
           <h3>About</h3>
           <ul>
-            <li>  <a href="#">  Inc. </a> </li> 
+            
             <li>  <a href="/PrivacyPolicy"> Policies </a> </li> 
             {/* <li>  <a href="#"> Investors </a> </li>  */}
             <li>  <a href="/About"> About Us </a> </li> 
@@ -51,6 +56,7 @@ export default function Footer() {
         <div className={style.column}>
           <h3>Help</h3>
           <ul>
+          <li>  <a href="#">  Inc. </a> </li> 
             <li>  <a href="#"> Help Centre </a> </li> 
             <li>  <a href="/Contact"> Contact Us</a> </li> 
           </ul>
@@ -64,6 +70,7 @@ export default function Footer() {
                       <div className={style.icons}><a href=" https://www.instagram.com/kingdomcollectionofficial/"><FiInstagram /></a></div>
                       <div className={style.icons}><a href="#"><FiTwitter/></a></div>
                       <div className={style.icons}><a href="https://youtube.com/@kingdomcollectionofficial/"><FiYoutube/></a></div>
+                      <div onClick={estylink}><img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/></div>
                     </div>
       </div>
       <div className={style.footerRight}>
@@ -88,6 +95,10 @@ export default function Footer() {
   const [open2,setOpen2] = useState(false);
   const [open3,setOpen3] = useState(false);
   const [open4,setOpen4] = useState(false);
+  const estylink = ()=>{
+    window.open('https://www.etsy.com/uk/shop/KingdomCollectionArt?ref=shop-header-name&listing_id=1710058058&from_page=listing', '_blank', 'noopener, noreferrer');
+
+  }
   return(
     <>
      <div className={style.leftColumn} style={{backgroundColor:'#fff',margin:''}} >
@@ -121,7 +132,7 @@ export default function Footer() {
                     {
                     open3?<div className={style.column} style={{marginLeft:'1rem'}}>
                     <ul>
-                    <li>  <a href="#">  Inc. </a> </li> 
+                    
             <li>  <a href="/PrivacyPolicy"> Policies </a> </li> 
             {/* <li>  <a href="#"> Investors </a> </li>  */}
             <li>  <a href="/About"> About Us </a> </li> 
@@ -135,6 +146,7 @@ export default function Footer() {
                     <ul>
                     <li>  <a href="#"> Help Centre </a> </li> 
             <li>  <a href="/Contact"> Contact Us</a> </li> 
+            <li>  <a href="#">  Inc. </a> </li> 
                     </ul>
                   </div> : <h1></h1>
                 
@@ -144,6 +156,8 @@ export default function Footer() {
                       <div className={style.icons}><a href=" https://www.instagram.com/kingdomcollectionofficial/"><FiInstagram /></a></div>
                       <div className={style.icons}><a href="#"><FiTwitter/></a></div>
                       <div className={style.icons}><a href="https://youtube.com/@kingdomcollectionofficial/"><FiYoutube/></a></div>
+                      <div onClick={estylink}><img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/></div>
+                    
                     </div>
                     <footer className={style.footerEnd}>
       <div className={style.footerLeft}>

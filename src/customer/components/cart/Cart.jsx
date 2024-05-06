@@ -86,8 +86,8 @@ export default function Cart() {
           <span className='text-green-500'>FREE</span>
         </div>
         <div className=' flex  w-full justify-between p-4   pt-3'>
-          <span>joining Bonus</span>
-          <span className=''>${user.joiningBonus?user.joiningBonus:0}</span>
+          <span>Total discount</span>
+          <span className=''>${cart?.discounte}</span>
         </div>
           <div className=' flex justify-between p-4 w-full  font-bold pt-3 ' style={{borderTop:'1px solid gray'}}>
           <span>Total ({cart?.cartItems.length} item)</span>
