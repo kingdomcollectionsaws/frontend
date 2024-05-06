@@ -24,9 +24,7 @@ export default function MainPage() {
   const {cart} = useSelector(store=>store.cart);
   const {user} = useSelector(store=>store.user);
   const [allproduct, setAllproduct] = useState([])
-  const [allsale, setAllsale] = useState([])
-  const [allfresh, setAllfresh] = useState([])
-  const [alltrendin, setAlltrending] = useState([])
+  const [bestproduct, setBestproduct] = useState([])
   const [isMobile, setIsMobile] = useState(false);
   const all = ()=>{
     setAllproduct(products)
@@ -37,7 +35,7 @@ export default function MainPage() {
      let value = i.price-i.discountedPrice
      discounarr.push(value)
     })
-    const sortedObjects = [...discounarr].sort((a, b) =>b  - a);
+    const sortedObjects = [...discounarr].sort((a, b) => b - a);
 
  const filteredproducts = products.filter((i)=>{
   return sortedObjects.slice(0,4).includes(i.price-i.discountedPrice)
@@ -204,8 +202,6 @@ export default function MainPage() {
             <div className={style.categoryHead} onClick={all}>All</div>
             <div className={style.categoryHead} onClick={sale}>SALE</div>
             <div className={style.categoryHead} onClick={fresh}>FRESH</div>
-            <div className={style.categoryHead}>Trending</div>
-
           </div>
          
              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px',}}>
@@ -229,7 +225,7 @@ export default function MainPage() {
           
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px' }}>
               {
-                allproduct?.slice(1, 5).map((i) => (
+                products?.slice(3, 7).map((i) => (
                   <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '.5rem', border: 'none' ,}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
                     <img src={i.imageUrl[0]}  alt='img'  className='lg:w-[15rem] lg:h-[15rem]'   style={{borderRadius: '.5rem',}}/>
 
