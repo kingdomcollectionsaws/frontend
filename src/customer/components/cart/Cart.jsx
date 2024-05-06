@@ -103,7 +103,7 @@ export default function Cart() {
        </Grid>
        
     </div></div>
-      :<div className='flex align-center justify-center'>Your cart is Empty</div>
+      :<div className='flex align-center justify-center my-40'>Your cart is Empty</div>
      :<Loader/>
   )
 }

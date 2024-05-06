@@ -7,6 +7,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import { AiFillLike } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { FiInstagram,FiFacebook ,FiTwitter,FiYoutube} from "react-icons/fi";
+import { RiTwitterXFill } from "react-icons/ri";
 export default function Footer() {
   
     const navigate = useNavigate()
@@ -68,7 +69,7 @@ export default function Footer() {
       <div style={{display:'flex',alignItems:'center',flexDirection:'row',justifyContent:'center',gap:'20px' ,marginTop:'2rem',marginBottom:'2rem'}}>
                       <div className={style.icons}><a href="#"><FiFacebook/></a></div>
                       <div className={style.icons}><a href=" https://www.instagram.com/kingdomcollectionofficial/"><FiInstagram /></a></div>
-                      <div className={style.icons}><a href="#"><FiTwitter/></a></div>
+                      <div className={style.icons}><a href="https://twitter.com/KingdomCollect2"><RiTwitterXFill /></a></div>
                       <div className={style.icons}><a href="https://youtube.com/@kingdomcollectionofficial/"><FiYoutube/></a></div>
                       <div onClick={estylink}><img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/></div>
                     </div>
@@ -154,7 +155,7 @@ export default function Footer() {
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row',justifyContent:'center',gap:'20px' ,marginTop:'2rem',marginBottom:'2rem'}}>
                     <div className={style.icons}><a href="#"><FiFacebook/></a></div>
                       <div className={style.icons}><a href=" https://www.instagram.com/kingdomcollectionofficial/"><FiInstagram /></a></div>
-                      <div className={style.icons}><a href="#"><FiTwitter/></a></div>
+                      <div className={style.icons}><a href="https://twitter.com/KingdomCollect2"><RiTwitterXFill/></a></div>
                       <div className={style.icons}><a href="https://youtube.com/@kingdomcollectionofficial/"><FiYoutube/></a></div>
                       <div onClick={estylink}><img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/></div>
                     

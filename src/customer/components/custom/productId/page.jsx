@@ -2,6 +2,7 @@
 //import img1 from "../../../../public/img1.png"
 import ReactStars from "react-rating-stars-component";
 import img1 from "../../../../../public/img1.png"
+import esty from "../../../../../public/esty.png"
 import fv from "../../../../../public/fv.png"
 import Header from "../../../Header";
 import ProductSlider from "../ProductSlider";
@@ -127,6 +128,8 @@ export default function ProductDetailPage({ params }) {
     closeOnClick: true,
     pauseOnHover: false,
   });
+  const inputRef = useRef(null);
+ 
   const carts = async (id) => {
     const token = localStorage.getItem('jwt');
     if (selectedValue) {
@@ -162,8 +165,9 @@ export default function ProductDetailPage({ params }) {
       }
     }
     else {
-
-      notify("please select a Variation")
+      inputRef.current.style.borderWidth = '2px'
+      inputRef.current.style.borderColor = 'red';
+      inputRef.current.focus();
 
     }
   }
@@ -203,7 +207,9 @@ export default function ProductDetailPage({ params }) {
       }
     } else {
 
-      notify("please select a Variation")
+      inputRef.current.style.borderWidth = '2px'
+      inputRef.current.style.borderColor = 'red';
+      inputRef.current.focus();
 
     }
   }
@@ -283,6 +289,11 @@ export default function ProductDetailPage({ params }) {
 
   }
   const handleChange = (event) => {
+    if(event.target.value){
+      inputRef.current.style.borderWidth = ''
+      inputRef.current.style.borderColor = '';
+   
+    }
     setSelectedValue(event.target.value);
     localStorage.setItem('value', event.target.value);
     // Update the selected value state
@@ -391,9 +402,10 @@ export default function ProductDetailPage({ params }) {
                   <div>
                     <p style={{ display: 'flex', alignItems: 'center', paddingLeft: '1rem' }}>Style<sup style={{ color: '#A61A2E', fontSize: '10px', }}> <IoMdStar /></sup></p>
                   </div>
-                  <div style={{ marginLeft: '1rem', width: '95%' }}>
+                  <div style={{ marginLeft: '1rem', width: '95%' }} >
 
                     <Select
+                    ref={inputRef}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       onChange={handleChange}
@@ -419,9 +431,9 @@ export default function ProductDetailPage({ params }) {
                       Buy Now
                     </button>
                   </div>
-                  <div className={style.starReview} style={{ marginTop: '1rem',marginLeft:'1rem',marginRight:'1rem',gap:'10px' }} >
+                  <div className={style.starReview} style={{ marginTop: '1rem',marginLeft:'1rem',marginRight:'1rem',gap:'10px' }} onClick={estylink} >
                   
-                <img src={'/public/esty.png'} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/>
+                <img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/>
                   <p className={style.checkP}>Our exclusive collection now available on Etsy</p>
                 </div>
 
@@ -561,7 +573,7 @@ export default function ProductDetailPage({ params }) {
                     }
                   </div>
                   {
-                    !showall ? review?.slice(count, countend).map((item, index) => (
+                    !showall  && !review?.length == 0 ? review?.slice(count, countend).map((item, index) => (
                       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowModelReview(item) }}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
@@ -854,7 +866,7 @@ export default function ProductDetailPage({ params }) {
                   }
                 </div>
                 {
-                  !showall ? review?.slice(count, countend).map((item, index) => (
+                  !showall && !review?.length == 0  ? review?.slice(count, countend).map((item, index) => (
                     <>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={() => {setOpen(true);setShowindex(index+count)}} >
                       <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
@@ -989,7 +1001,7 @@ export default function ProductDetailPage({ params }) {
                         <div className={style.text}>
                           {item.review}
                         </div>
-                        <h1>{index}</h1>
+  
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                           <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
                           <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
@@ -1116,6 +1128,7 @@ export default function ProductDetailPage({ params }) {
                 </div>
                 <div style={{ width: '95%', marginLeft: '1rem' }} >
                   <Select
+                  ref={inputRef}
                     labelId="select-label"
                     id="simple-select"
                     onChange={handleChange}
@@ -1148,7 +1161,7 @@ export default function ProductDetailPage({ params }) {
                     
                 </div>
                 <div className={style.starReview} style={{ marginTop: '1rem', marginBottom: '1rem',gap:'10px' }} onClick={estylink}>
-                <img src={'/public/esty.png'} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/>
+                <img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/>
                   <p className={style.checkP}>Our exclusive collection now available on Etsy</p>
                 </div>
 

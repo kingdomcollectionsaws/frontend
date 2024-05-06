@@ -24,7 +24,29 @@ export default function MainPage() {
   const {cart} = useSelector(store=>store.cart);
   const {user} = useSelector(store=>store.user);
   const [allproduct, setAllproduct] = useState([])
+  const [allsale, setAllsale] = useState([])
+  const [allfresh, setAllfresh] = useState([])
+  const [alltrendin, setAlltrending] = useState([])
   const [isMobile, setIsMobile] = useState(false);
+  const all = ()=>{
+    setAllproduct(products)
+  }
+  const sale = ()=>{
+    let discounarr = []
+    products.forEach((i)=>{
+     let value = i.price-i.discountedPrice
+     discounarr.push(value)
+    })
+    const sortedObjects = [...discounarr].sort((a, b) =>b  - a);
+
+ const filteredproducts = products.filter((i)=>{
+  return sortedObjects.slice(0,4).includes(i.price-i.discountedPrice)
+})
+  setAllproduct(filteredproducts)
+  }
+  const fresh = ()=>{
+    setAllproduct(products.slice(products?.length-5,products?.length-1))
+  }
   const cartnotify = (msg) => toast(<div style={{display:'flex',alignItems:'center',flexDirection:'column'}}><h1 style={{color:'tomato'}}>Limit stocks avaiable!</h1>
   <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',gap:'20px',flexWrap:'wrap'}}>
     {cart?.cartItems.map((i)=>(
@@ -179,24 +201,24 @@ export default function MainPage() {
 
           </div>
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', }} className={style.cateHeading}>
-            <div className={style.categoryHead}>All</div>
-            <div className={style.categoryHead}>SALE</div>
-            <div className={style.categoryHead}>FRESH</div>
+            <div className={style.categoryHead} onClick={all}>All</div>
+            <div className={style.categoryHead} onClick={sale}>SALE</div>
+            <div className={style.categoryHead} onClick={fresh}>FRESH</div>
             <div className={style.categoryHead}>Trending</div>
 
           </div>
          
              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px',}}>
               {
-                allproduct?.slice(4, 8).map((i) => (
-                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '.5rem', border: 'none' ,}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
-                    <img src={i.imageUrl[0]}  alt='img' className='lg:w-[15rem] lg:h-[15rem]'  style={{borderRadius: '.5rem',}}/>
+                allproduct?.map((i,index) => (
+                  index < 4 ?<div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '.5rem', border: 'none' ,}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
+                  <img src={i.imageUrl[0]}  alt='img' className='lg:w-[15rem] lg:h-[15rem]'  style={{borderRadius: '.5rem',}}/>
 
-                    <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start",cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 15)}...</h1>
-                    <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems:'center',color:'#16A34A' }}> ${i.discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{fontSize:'12px',fontWeight:'300'}}>${i.price}</p></span> </h1>
+                  <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start",cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 12)}...</h1>
+                  <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems:'center',color:'#16A34A', }}> ${i.discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{fontSize:'15px',fontWeight:'300',paddingTop:'1px'}}>${i.price}</p></span> </h1>
 
 
-                  </div>
+                </div>:null
                 ))
               }
             </div>

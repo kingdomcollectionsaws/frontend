@@ -234,7 +234,7 @@ console.log(res);
          <div style={{margin:'.3rem'}}>
       <h1>Tracking ID: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:'Processing'}</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
       <h1>Total Amount: ${item?.totalPrice}</h1>
-      <h1>Order Date: {item?.orderDate.slice(0,10)}</h1>
+      <h1>Order Date: {item?.orderDate.slice(5,7)}/{item?.orderDate.slice(8,10)}/{item?.orderDate.slice(0,4)}</h1>
       {item.trackingId?<h1 > <a href="https://www.fedex.com/en-in/tracking.html" target="_blank" rel="noopener noreferrer"  style={{color:'blue'}}>Click here </a>to track your order</h1>:''}
     </div>
       {item.orderItems.map((i)=><div >
@@ -268,12 +268,12 @@ console.log(res);
   <div>
   <div className='flex flex-col' >
             <p className='font-bold mb-2'></p>
-            <p>name: {item.shippingAddress?.firstName}</p>
-            <p>mobile: {item.shippingAddress?.mobile}</p>
-            <p>email: {item.shippingAddress?.email}</p>
-            <p>country: {item.shippingAddress?.country}</p>
-            <p>state: {item.shippingAddress?.state}</p>
-            <p>city: {item.shippingAddress?.city}</p>
+            <p>Name: {item.shippingAddress?.firstName}</p>
+            <p>Mobile: {item.shippingAddress?.mobile}</p>
+            <p>Email: {item.shippingAddress?.email}</p>
+            <p>Country: {item.shippingAddress?.country}</p>
+            <p>State: {item.shippingAddress?.state}</p>
+            <p>City: {item.shippingAddress?.city}</p>
             <p>Address: {item.shippingAddress?.streetAddress}</p>
             <p>Zipcode: {item.shippingAddress?.zipCode}</p>
             <p>Note: {item.shippingAddress?.note}</p>
@@ -283,13 +283,13 @@ console.log(res);
   <h1 style={{fontWeight:'bold'}}> Billing Address</h1>
   <div className='flex flex-col'>
             <p className='font-bold mb-2'></p>
-            <p>name: {item.shippingAddress?.billing.firstName}</p>
-            <p>mobile: {item.shippingAddress?.billing.mobile}</p>
-            <p>email: {item.shippingAddress?.billing.email}</p>
-            <p>country: {item.shippingAddress?.billing.country}</p>
-            <p>state: {item.shippingAddress?.billing.state}</p>
-            <p>city: {item.shippingAddress?.billing.city}</p>
-            <p>address: {item.shippingAddress?.billing.streetAddress}</p>
+            <p>Name: {item.shippingAddress?.billing.firstName}</p>
+            <p>Mobile: {item.shippingAddress?.billing.mobile}</p>
+            <p>Email: {item.shippingAddress?.billing.email}</p>
+            <p>Country: {item.shippingAddress?.billing.country}</p>
+            <p>State: {item.shippingAddress?.billing.state}</p>
+            <p>City: {item.shippingAddress?.billing.city}</p>
+            <p>Address: {item.shippingAddress?.billing.streetAddress}</p>
             <p>Zipcode: {item.shippingAddress?.billing.zipCode}</p>
           </div>
   </div>
