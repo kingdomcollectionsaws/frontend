@@ -183,7 +183,7 @@ export default function Header() {
      
         <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
         <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-          <img src={logo} width={180} height={70} alt="Description" />
+          <img src={logo} width={130} height={70} alt="Description" />
         </div>
         
         <div className={style.navberList}>
@@ -191,13 +191,15 @@ export default function Header() {
         
       
           {user && user?.role != 'GUEST' ? 
-          <div className={style.signIn} title='my account' onClick={() => navigate('/profile')}>
-            <IoPerson />
-          </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '10rem', }} onClick={handleOpen}  >Sign in</div>
+          <div className={style.signIn} title='my account' onClick={() => navigate('/profile')} style={{width: '170px',  }}>
+            <IoPerson  />
+          </div> : <div className={style.signIn} title='sign in' style={{ fontSize: '1rem', width: '12rem', }} onClick={handleOpen}  >Sign in</div>
           }
-          <div  style={{marginLeft:'.5rem',width:'3rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}} >
+        
+        <div  style={{marginLeft:'1rem',width:'4.2rem',height:'2rem' ,borderRadius:'50%', overflow: 'hidden',display:'flex',alignItems:'center'}} >
           <img src={`https://flagsapi.com/${userlocation?userlocation:'US'}/flat/64.png` } style={{ width: '3rem', height: '3rem', objectFit:'cover' }}/>
           </div> 
+    
           {/* <div className={style.signIn} title='sign in'>Sign in</div> */}
           <div className={style.like} onClick={()=>navigate('/account/order')}><BsHandbag /></div>
           <div className={style.cart} onClick={gocart}>

@@ -10,11 +10,13 @@ import { getCart } from '../../state/cart/cartSlice';
 import { getAllProducts } from '../../state/product/productSlice';
 import { CheckBox } from '@mui/icons-material';
 import { API_BASE_URL } from '../../../config/apiConfig';
+import { FaGift } from 'react-icons/fa';
 
 export default function DeliveryAddress() {
   const dispatch = useDispatch();
   const [loading, SetLoading] = useState(false);
   const [checked, SetChecked] = useState(false);
+  const [gift, setGift] = useState('');
 
   const { user } = useSelector(store => store.user);
   const { order } = useSelector(store => store.order);
@@ -24,7 +26,10 @@ export default function DeliveryAddress() {
     dispatch(getCart());
     dispatch(getAllProducts());
   }, [loading, dispatch])
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const markgift =()=> {
+    setGift('This product  is a Gift')
+  }
   const handlesubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -65,10 +70,10 @@ export default function DeliveryAddress() {
       mobile: data.get("number"),
       email: data.get("email"),
       country: data.get("country"),
-      note: data.get("note"),
+      note:`${gift} & ${ data.get("note")}`,
       billing: billing
     }
-    //console.log("submit", address);
+   console.log("submit", address);
     try {
       const orderData = { address, navigate }
       await dispatch(createOrder(orderData));
@@ -242,12 +247,12 @@ export default function DeliveryAddress() {
                   />
 
                 </Grid>
-                <Grid item xs={6} lg={6} style={{display:'flex',alignItems:'center',gap:'1rem'}}>
-                  <p style={{fontWeight:'bold'}}>Mark order as a gift</p>
+                <Grid item xs={12} lg={6} style={{display:'flex',alignItems:'center',gap:'1rem'}} onClick={markgift}>
+                  <p style={{fontWeight:'bold',display:'flex',alignItems:'center',gap:'10px'}}>Mark order as a gift <span><FaGift /></span></p>
                <input type="checkbox"  style={{width:'2rem',height:'2rem'}}/>
                 </Grid>
               </Grid>
-              <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.7rem', marginBottom: '10px' }}>Enter  Billing Address</h1>
+              <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.7rem', marginBottom: '10px',marginTop:'1rem' }}>Enter  Billing Address</h1>
 
               <h1 style={{ fontFamily: 'inherit', fontWeight: '400', fontSize: '1.3rem', marginBottom: '10px' }}>Same as delivery address <span><input type="checkbox" width={30} height={30} onClick={() => SetChecked(!checked)} style={{ padding: '.6rem' }} /></span></h1>
               {!checked ? <Grid container spacing={3}>

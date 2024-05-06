@@ -225,8 +225,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    width: 96%;
-    max-width: 10rem;
+    width: 100vw;
+    max-width: 13rem;
+    gap: 2px;
 
 }
     .navber {
@@ -244,7 +245,7 @@
         z-index: 1000;     
     }
     .signIn{
-      margin-left: 2.2rem;
+      margin-left: 1rem;
 
     }
 }
