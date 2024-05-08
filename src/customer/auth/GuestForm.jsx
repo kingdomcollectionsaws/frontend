@@ -1,44 +1,59 @@
 import { Button, Grid, TextField } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUserDetail, loginUser } from '../state/Auth/registerSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addItemInCart, getCart } from '../state/cart/cartSlice';
 export default function GuestForm() {
-  const { user, jwt } = useSelector(store => store.user)
-  const { cart } = useSelector(store => store.cart)
+  const { user, jwt } = useSelector(store => store.user);
+  const { cart } = useSelector(store => store.cart);
+  const [error,setError] = useState(false)
   const dispatch = useDispatch();
   const notify = (msg) => toast(msg, {
-    position: "center",
+    position: "top-center",
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,
   });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setTimeout(()=>{
-      alert("invalid email or password")
-     },[2000])
     const data = new FormData(event.currentTarget);
-    const userData = {
+    let userData = {
       email: data.get("email"),
       password: data.get("password"),
     };
+
     if (user && user.role === 'GUEST') {
-      let itemIds = [];
-      for (let index = 0; index < cart.cartItems.length; index++) {
-        let itemId = cart.cartItems[index].product._id;
-        itemIds.push(itemId);
-      }
+      let itemIds = cart.cartItems.map(cartItem => cartItem.product._id);
       localStorage.setItem('items', JSON.stringify(itemIds));
+      await dispatch(loginUser(userData));
+      if (user.role === 'GUEST') {
+        setTimeout(() => {
+      
+          notify("invalid email or password");
+          event.target.reset();
+        }, 2000);
+        dispatch(getUserDetail());
+      }else{
+navigate('/checkout?step=2')
+      }
+    } else {
       dispatch(loginUser(userData));
-    
+      if (!jwt) {
+        setTimeout(() => {
+          notify("invalid email or passwords");
+          event.target.reset();
+        }, 2000);
+      }
     }
-  };
+
+    // Reset form fields
   
+  };
+
   useEffect(() => {
     dispatch(getUserDetail());
   }, []);
@@ -47,16 +62,14 @@ export default function GuestForm() {
     <>
 
       <div>
-
-      
-<ToastContainer />
+      <ToastContainer />
         <div style={{ borderBottom: '1px solid #D4D4D4', padding: '1rem', width: '100%', marginTop: '-2rem' }}>
-        
           <p style={{ paddingBottom: '1rem' }}>Go to checkout</p>
-         
+          
           <button style={{ display: 'flex', width: '100%', height: '3rem', border: ' 2px solid black', borderRadius: '20px', alignItems: 'center', justifyContent: 'center', color: 'black', marginBottom: '1rem' }} onClick={() => {navigate("/checkout?step=2")}}>continue as a guest</button>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '2rem' }}>
+      
           <div style={{ fontWeight: 'bold' }}>
             Sign in
           </div>

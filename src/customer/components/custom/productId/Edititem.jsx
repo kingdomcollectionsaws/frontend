@@ -67,7 +67,7 @@ useEffect(()=>{
 getCart()
 },[dispatch])
   return (
-      <div style={{zIndex:'100',display:'flex',alignItems:'center' ,height:'auto',}}>
+      <div style={{zIndex:'1000',display:'flex',alignItems:'center' ,height:'auto',marginTop:'-.7rem'}}>
          <div className={style.carousel} style={{ width: '100%', height: '10rem' ,justifyContent:'center'}}> 
                 <div  style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',}}>
                 <EProductSlider imagesdata={productDetails?.imageUrl}  />

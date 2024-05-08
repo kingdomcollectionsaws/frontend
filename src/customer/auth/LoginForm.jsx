@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Grid, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,8 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { addItemInCart } from '../state/cart/cartSlice';
 
 export default function LoginForm() {
-  const { user,jwt } = useSelector(store => store.user);
-  const [userdetails,setUserdetails] = useState(null)
+  const { user, jwt } = useSelector(store => store.user);
   const { cart } = useSelector(store => store.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,56 +20,43 @@ export default function LoginForm() {
     closeOnClick: true,
     pauseOnHover: false,
   });
-//const jwt = localStorage.getItem('jwt');
 
-const handleSubmit =  async(event) => {
-  event.preventDefault();
-  const data = new FormData(event.currentTarget);
-  const userData = {
-    email: data.get("email"),
-    password: data.get("password"),
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    let userData = {
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+
+    if (user && user.role === 'GUEST') {
+      let itemIds = cart.cartItems.map(cartItem => cartItem.product._id);
+      localStorage.setItem('items', JSON.stringify(itemIds));
+      await dispatch(loginUser(userData));
+      if (user.role === 'GUEST') {
+        setTimeout(() => {
+          notify("invalid email or password");
+          event.target.reset();
+        }, 2000);
+        dispatch(getUserDetail());
+      }
+    } else {
+      dispatch(loginUser(userData));
+      if (!jwt) {
+        setTimeout(() => {
+          notify("invalid email or password");
+          event.target.reset();
+        }, 2000);
+      }
+    }
+
+    // Reset form fields
+  
   };
- if(user && user.role == 'GUEST'){
-  console.log(cart);
-  let itemIds = [];
-  for (let index = 0; index < cart.cartItems.length; index++) {
-    // Get the ID of the current cartItem
-    let itemId = cart.cartItems[index].product._id;
-    
-    // Push the ID into the array
-    itemIds.push(itemId);
-}
-
-// Store the array of IDs in localStorage
-localStorage.setItem('items', JSON.stringify(itemIds));
- await dispatch(loginUser(userData));
-  if(user.role=='GUEST'){
-    setTimeout(()=>{
-     notify("invalid email or password")
-     },[2000])
-     dispatch(getUserDetail());
-  }else{
-
-  }
- 
- }else{
-   dispatch(loginUser(userData));
-   if(jwt){
-    
-   }else{
-    setTimeout(()=>{
-      notify("invalid email or password")
-     },[2000])
-   }
- }
-};
 
   useEffect(() => {
     dispatch(getUserDetail());
- 
-    
   }, []);
-
 
   return (
     <>

@@ -58,7 +58,6 @@ export default function Cart() {
       user?
       
        <div style={{margin:'1rem'}}>
-         <ToastContainer/>
          <AuthModel  handleClose={handleClose} open={handleOpenAuth}/>
     <div className='mt-20  sm:mt-0'>
       </div>
