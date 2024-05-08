@@ -1,10 +1,9 @@
 import { Grid, Button,TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import OrderCard from './OrderCard'
 import { API_BASE_URL } from '../../../config/apiConfig'
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { GoX } from "react-icons/go";
 import ReactStars from "react-rating-stars-component";
+import { useNavigate } from 'react-router-dom';
 export default function Order() {
 const [orderitem,setOrderitem] = useState()
  useEffect(()=>{
@@ -37,7 +36,9 @@ console.error('There was a problem with the fetch request:', error);
  }
  const [addressData,setAddressData] = useState([]);
  const [reviewmodel,setReviewmodel]= useState(false)
+ const navigate = useNavigate()
  const ordersadd = ()=>{
+ 
   const token = localStorage.getItem('jwt');
   const requestOptions = {
     method: 'GET',
@@ -144,6 +145,7 @@ fetch(`${API_BASE_URL}/api/reviews/create`, requestOptions)
 // if (!response.ok) {
 //   throw new Error('Network response was not ok');
 // }
+setReviewmodel(false)
 return response.json();
 })
 .then(res=> {
@@ -232,7 +234,10 @@ console.log(res);
 
       <div  className='relative zIndex-10 flex align-center justify-around border shadow-lg mt-8 hover:scale-105 flex-warp flex-col sm:m-20 m-2 p-5' style={{border:'1px solid black',marginTop:'4rem'}}>
          <div style={{margin:'.3rem'}}>
-      <h1>Tracking ID: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:'Processing'}</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
+   {
+    item?.orderStatus == 'PENDING' ?   <button onClick={()=>navigate(`/checkout?step=3?order_id=${item?._id}`)} ><span style={{color:'#ff4000'}}>Pay now</span> your payment is pending</button>:<h1>Tracking ID: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:'Processing'}</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
+    
+   }
       <h1>Total Amount: ${item?.totalPrice}</h1>
       <h1>Order Date: {item?.orderDate.slice(5,7)}/{item?.orderDate.slice(8,10)}/{item?.orderDate.slice(0,4)}</h1>
       {item.trackingId?<h1 > <a href="https://www.fedex.com/en-in/tracking.html" target="_blank" rel="noopener noreferrer"  style={{color:'blue'}}>Click here </a>to track your order</h1>:''}
@@ -252,9 +257,9 @@ console.log(res);
       <p>Style: {i.sizes[0]}</p>
       <p className=' mb-2'>Quantity: {i.quantity}</p>
       <p className=' mb-2'>Order date: {item.createdAt.slice(0,10)}</p>
-      <div className='flex align-center  p-5 text-black cursor-pointer' onClick={()=>{setReviewmodel(true);setProductId(i.product._id)}}>
+      {item?.orderStatus == 'PENDING' || item?.orderStatus == 'CANCEL'?null:<div className='flex align-center  p-5 text-black cursor-pointer' onClick={()=>{setReviewmodel(true);setProductId(i.product._id)}}>
  <StarBorderIcon/><span>Rate & Review</span>
-</div>
+</div>}
     </div>
    
     </div>

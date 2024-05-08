@@ -39,12 +39,12 @@ export const createOrder = createAsyncThunk('createOrder', async (orderData, thu
  export const getOrderById = createAsyncThunk('getOrderById',async(id,thunkAPI)=>{
     const token = localStorage.getItem('jwt');
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/orders/${id}`,data,{
+        const response = await axios.get(`${API_BASE_URL}/api/orders/${id}`,{
             headers: {
                 authorization: token
             }
         });
-        const order = await response.data;
+        const order = await response.json();
         return order;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data);
@@ -65,6 +65,18 @@ extraReducers:{
     state.loading= false
 },
 [createOrder.rejected]:(state ,action)=>{
+    state.error = action.payload
+    state.loading= false
+},
+[getOrderById.pending]:(state)=>{
+    state.loading= true
+},
+[getOrderById.fulfilled]:(state ,action)=>{
+    console.log("ddd");
+    state.order = action.payload
+    state.loading= false
+},
+[getOrderById.rejected]:(state ,action)=>{
     console.log("uu");
     state.error = action.payload
     state.loading= false

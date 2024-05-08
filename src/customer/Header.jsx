@@ -88,8 +88,11 @@ export default function Header() {
   }
   const en = (event) => {
     if (event.keyCode == 13) {
-      navigate(`/searchproducts/${SearchValue}`)
+      navigate(`/searchproducts/${SearchValue}`);
+      setSearchValue(''); 
+    setSuggestion(false);
     }
+
   }
   const closesearch = ()=>{
     setSearchValue(''); 

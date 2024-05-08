@@ -18,9 +18,11 @@ import { getUserDetail } from './state/Auth/registerSlice'
 import { API_BASE_URL } from '../config/apiConfig'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FcRight } from "react-icons/fc";
 import style from '../customer/components/custom/styles.module.css'
 import IPinfoWrapper from 'node-ipinfo'
 export default function MainPage() {
+  const { products, loading } = useSelector(store => store.allproducts);
   const {cart} = useSelector(store=>store.cart);
   const {user} = useSelector(store=>store.user);
   const [allproduct, setAllproduct] = useState([])
@@ -33,17 +35,16 @@ export default function MainPage() {
     let discounarr = []
     products.forEach((i)=>{
      let value = i.price-i.discountedPrice
-     discounarr.push(value)
+     discounarr.push(i)
     })
-    const sortedObjects = [...discounarr].sort((a, b) => b - a);
-
- const filteredproducts = products.filter((i)=>{
-  return sortedObjects.slice(0,4).includes(i.price-i.discountedPrice)
-})
-  setAllproduct(filteredproducts)
+   
+    const sortedObjects = [...discounarr].sort((a, b) => b.price - a.discountedPrice);
+  setAllproduct(sortedObjects )
   }
   const fresh = ()=>{
-    setAllproduct(products.slice(products?.length-5,products?.length-1))
+
+const newarr = [...products].reverse()
+setAllproduct(newarr)
   }
   const cartnotify = (msg) => toast(<div style={{display:'flex',alignItems:'center',flexDirection:'column'}}><h1 style={{color:'tomato'}}>Limit stocks avaiable!</h1>
   <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',gap:'20px',flexWrap:'wrap'}}>
@@ -96,7 +97,7 @@ export default function MainPage() {
    
   }, [cart,notificationShown]);
   const dispatch = useDispatch();
-  const { products, loading } = useSelector(store => store.allproducts);
+
   //dispatch(getAllProducts())
   useEffect(() => {
     if (products.length > 0) {
@@ -219,6 +220,7 @@ export default function MainPage() {
               }
             </div>
         </div>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem',cursor:'pointer',fontWeight:'500'}} onClick={()=>navigate('/allproducts')} >View all Products <span><FcRight style={{fontSize:'1.5rem'}}/></span></div>
         <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column',  marginTop: '2rem' }}>
           <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'center' }}> <h1 className={style.text} style={{ fontSize: '24px', color: '#222222', marginBottom: '1rem' }}> Our Bestsellers </h1>
           </div>

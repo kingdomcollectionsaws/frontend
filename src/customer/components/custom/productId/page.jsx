@@ -1,28 +1,23 @@
 
 //import img1 from "../../../../public/img1.png"
+import { TfiMoreAlt } from "react-icons/tfi";
 import ReactStars from "react-rating-stars-component";
-import img1 from "../../../../../public/img1.png"
 import esty from "../../../../../public/esty.png"
-import fv from "../../../../../public/fv.png"
-import Header from "../../../Header";
+import noimage from "../../../../../public/noimage.png"
 import ProductSlider from "../ProductSlider";
 import style from '../styles.module.css'
 import { IoMdStar } from "react-icons/io";
 import { IoCheckmark } from "react-icons/io5";
-import starimg from '../../../../../public/star.png'
-import { FaRegHeart, FaXing } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import hand from '../../../../../public/hand.jpg'
 import brand from '../../../../../public/brand.png'
 import { useState, useEffect, Fragment, useRef, } from "react";
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon, PhoneXMarkIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { IoIosArrowUp } from "react-icons/io";
-import { AiFillLike, AiFillSlackCircle, AiOutlineClose } from "react-icons/ai";
+import { AiFillSlackCircle } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaHand } from "react-icons/fa6";
-import { IoLocationSharp } from "react-icons/io5";
-import { GiCrumblingBall } from "react-icons/gi";
-import { TbRulerMeasure } from "react-icons/tb";
+import { IoLocationSharp } from "react-icons/io5";;
 import { PiGiftFill } from "react-icons/pi";
 import { MdDateRange, MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from "react-icons/md";
 import { BsBox2 } from "react-icons/bs";
@@ -33,13 +28,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { findProductById, getAllProducts } from "../../../state/product/productSlice";
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from "../../../Loader";
-import { addItemInCart, getCart, updateItemInCart } from "../../../state/cart/cartSlice";
+import { addItemInCart, } from "../../../state/cart/cartSlice";
 import Footer, { Mobilefooter } from "../../../Footer";
-import { InputLabel, MenuItem, Select, Stack } from "@mui/material";
+import { MenuItem, Select, } from "@mui/material";
 import { API_BASE_URL } from "../../../../config/apiConfig";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel';
-import ReviewsSlider from "../ReviewsSlider";
 //require("bootstrap/less/bootstrap.less");
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -50,19 +43,21 @@ import c3 from "/public/c3.png"
 import c4 from "/public/c4.png"
 import c5 from "/public/c5.png"
 import c6 from "/public/c6.png"
-import axios from "axios";
+import { RiMoreFill } from "react-icons/ri";
 export default function ProductDetailPage({ params }) {
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
+  const [showfullreview, setShowfullreview] = useState(false)
+  const [showfullreviewindex, setShowfullreviewindex] = useState()
   const [open1, setOpen1] = useState(true)
-  const [currentPage, setCurrentPage] = useState(0)
   const [allproductreviews, setAllproductreviews] = useState()
   const [open2, setOpen2] = useState(true)
   const [open3, setOpen3] = useState(true)
   const [isMobile, setIsMobile] = useState(false);
   const [data, setData] = useState()
-  const [review, setReview] = useState()
-  const estylink = ()=>{
+  const [review, setReview] = useState();
+  const [openselect, setOpenselect] = useState(false)
+  const estylink = () => {
     window.open('https://www.etsy.com/uk/shop/KingdomCollectionArt?ref=shop-header-name&listing_id=1710058058&from_page=listing', '_blank', 'noopener, noreferrer');
 
   }
@@ -105,17 +100,18 @@ export default function ProductDetailPage({ params }) {
   const { cart } = useSelector(store => store.cart);
   const { id } = useParams();
   const [open, setOpen] = useState(false)
-
+  const [currentPage,setCurrentPage] = useState(0)
   const cancelButtonRef = useRef(null)
   const paginationHandel = (page) => {
     //console.log(page);
     if (page == 1) {
       setCount(0);
       setCountend(5);
+      setCurrentPage(1);
     } else {
-      setCount(prev=> (prev + 5));
-      setCountend(prev=> (prev + 5));
-     
+      setCount(prev => (page*5-5));
+      setCountend(prev => (page*5));
+      setCurrentPage(page);
     }
   }
   const allreviews = () => {
@@ -129,7 +125,7 @@ export default function ProductDetailPage({ params }) {
     pauseOnHover: false,
   });
   const inputRef = useRef(null);
- 
+
   const carts = async (id) => {
     const token = localStorage.getItem('jwt');
     if (selectedValue) {
@@ -167,6 +163,7 @@ export default function ProductDetailPage({ params }) {
     else {
       inputRef.current.style.borderWidth = '2px'
       inputRef.current.style.borderColor = 'red';
+      setOpenselect(true)
       inputRef.current.focus();
 
     }
@@ -209,6 +206,7 @@ export default function ProductDetailPage({ params }) {
 
       inputRef.current.style.borderWidth = '2px'
       inputRef.current.style.borderColor = 'red';
+      setOpenselect(true)
       inputRef.current.focus();
 
     }
@@ -288,40 +286,46 @@ export default function ProductDetailPage({ params }) {
     setOrderDate(formattedDateRange)
 
   }
+  const [allImagesUrls,setAllImagesUrls] = useState(product?.imageUrl)
+  const [showimage,setShowimage] = useState(product?.imageUrl[0])
+  // const getimages = ()=>{
+  //   const getproductimages =  products.filter((i)=>{
+  //     return i.category == product.category 
+  //     })
+  //     getproductimages.forEach((i)=>{
+  
+  //   i.imageUrl.forEach((i)=>{
+  //     allImagesUrls.push(i)
+  //   })
+  //     })
+  //     const filteredarray = allImagesUrls.filter((value, index)=>{
+  //       allImagesUrls.indexOf(value) === index
+  //     })
+  //     setAllImagesUrls(filteredarray);
+  //     console.log('res',allImagesUrls);
+  // }
   const handleChange = (event) => {
-    if(event.target.value){
+
+    if (event.target.value) {
       inputRef.current.style.borderWidth = ''
       inputRef.current.style.borderColor = '';
-   
+      setOpenselect(false)
+
     }
     setSelectedValue(event.target.value);
     localStorage.setItem('value', event.target.value);
+
+  console.log(event.target.value);
     // Update the selected value state
-    fetch(`${API_BASE_URL}/api/products/?category=${product.category}&brand=${event.target.value}`, {
-      method: 'GET'
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(selectedProducts => {
-        //  console.log("hello", selectedProducts);
-
-        for (let i = selectedProducts.length - 1; i >= 0; i--) {
-          if (selectedProducts[i].brand == event.target.value) {
-            let lastMatchingProduct = selectedProducts[i];
-            setProductDetails(lastMatchingProduct);
-            break; // Exit loop once the last matching product is found
-          }
-        }
-
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch request:', error);
-      });
+    const getproduct =  products.filter((i)=>{
+     return i.category == product.category && i.brand == event.target.value
+     })
+   setProductDetails(getproduct[0])
+  
+ 
   };
+  
+
   const Getreviews = (id) => {
     const requestOptions = {
       method: 'GET',
@@ -343,19 +347,19 @@ export default function ProductDetailPage({ params }) {
   }
   const [showindex, setShowindex] = useState(0)
   const handleNext = (length) => {
-    if(showindex == length - 1){
+    if (showindex == length - 1) {
       setShowindex(0)
     }
-    setShowindex(prevIndex => ( prevIndex + 1) );
+    setShowindex(prevIndex => (prevIndex + 1));
 
     setOpen(true)
   };
-  
+
   const handlePrev = () => {
-  if(showindex == 0){
-    setShowindex(1)
-  }
-    setShowindex(prevIndex => (prevIndex - 1) );
+    if (showindex == 0) {
+      setShowindex(1)
+    }
+    setShowindex(prevIndex => (prevIndex - 1));
     setOpen(true)
   };
 
@@ -364,6 +368,7 @@ export default function ProductDetailPage({ params }) {
 
   }, [showindex, open]);
   useEffect(() => {
+  //  getimages()
     dispatch(getAllProducts());
 
   }, []);
@@ -372,22 +377,25 @@ export default function ProductDetailPage({ params }) {
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
-  const [showModelReview,setShowModelReview] = useState()
+  const [showModelReview, setShowModelReview] = useState()
   return (
     !loading ? <>
-
       {
         isMobile ?
           <>
             <ToastContainer />
             <div className={style.main} style={{ boxSizing: 'border-box', padding: '0', margin: '0', height: '100vh' }}>
               <div className={style.carousel} style={{ width: '100%', height: '20rem' }}>
-                <ProductSlider imagesdata={productDetails?.imageUrl} />
+                <ProductSlider imagesdata={productDetails?.imageUrl}  />
                 <div className={style.info} style={{ width: '100%', marginLeft: '2px' }}>
                   <div className={style.limited}> Only 1 left and in 2 carts</div>
-                  <div className={style.price} style={{ display: 'flex', flexDirection: 'row',alignItems:'center',color:'#16A34A' }}>${productDetails?.discountedPrice} <span><p className=' tracking-tight text-gray-600 text-lg  line-through px-2 '>${productDetails?.price}</p></span></div>
+                  <div className={style.price} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: '#16A34A' }}>${productDetails?.discountedPrice} <span><p className=' tracking-tight text-gray-600 text-lg  line-through px-2 '>${productDetails?.price}</p></span> <span
+                  style={{color:'black',backgroundColor:'#A0E193',padding:'4px',borderRadius:'10px',fontWeight:'200',fontSize:'.9rem'}}>{((productDetails?.price-productDetails?.discountedPrice)/(productDetails?.price/100)).toFixed(2)}% off</span></div>
                   <div className={style.choose}>
                     Choose from multiple variations
+                  </div>
+                  <div className={style.choose}>
+                    Local taxes included (where applicable)
                   </div>
                   <div className={style.des}>{productDetails?.title}</div>
                   <div className={style.check}>
@@ -402,17 +410,19 @@ export default function ProductDetailPage({ params }) {
                   <div>
                     <p style={{ display: 'flex', alignItems: 'center', paddingLeft: '1rem' }}>Style<sup style={{ color: '#A61A2E', fontSize: '10px', }}> <IoMdStar /></sup></p>
                   </div>
-                  <div style={{ marginLeft: '1rem', width: '95%' }} >
+                  <div style={{ marginLeft: '1rem', width: '95%' }} onClick={() => { setOpenselect(!openselect) }} >
 
                     <Select
-                    ref={inputRef}
+                      ref={inputRef}
+
+                      open={openselect}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       onChange={handleChange}
                       style={{ width: '95%', marginBottom: '1rem' }}
 
                     >
-                      {productDetails?.sizes.map((item, index) => (
+                      {productDetails?.sizes?.map((item, index) => (
 
                         <MenuItem value={item} key={index}>
                           {item}
@@ -431,69 +441,69 @@ export default function ProductDetailPage({ params }) {
                       Buy Now
                     </button>
                   </div>
-                  <div className={style.starReview} style={{ marginTop: '1rem',marginLeft:'1rem',marginRight:'1rem',gap:'10px' }} onClick={estylink} >
-                  
-                <img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/>
-                  <p className={style.checkP}>Our exclusive collection now available on Etsy</p>
-                </div>
+                  <div className={style.starReview} style={{ marginTop: '1rem', marginLeft: '1rem', marginRight: '1rem', gap: '10px' }} onClick={estylink} >
+
+                    <img src={esty} alt='esty' style={{ width: '2.5rem', height: '2.5rem', borderRadius: '.6rem', cursor: 'pointer' }} />
+                    <p className={style.checkP}>Our exclusive collection now available on Etsy</p>
+                  </div>
 
                   <div>
                     <h2 className={style.toggleBtn} onClick={handleDiv}>Item details <span style={{ marginLeft: '13rem' }}>{open1 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                     {
                       !open1 ?
-                       <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
-                          <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center',  gap: '10px', padding: '1rem' ,marginBottom:'-1rem'}}>
-                          <FaHand />
-                          <p>Handmade</p>
-                        </div>
-                        <div style={{ display: 'flex', fontSize: '1rem', color: '#222222', flexDirection: 'row', alignItems: 'center',  gap: '10px', padding: '1rem' }}>
-                          <IoLocationSharp style={{ fontSize: '1.2rem' }} />
-                          <p>Delivery from UK</p>
+                        <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
+                          <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', gap: '10px', padding: '1rem', marginBottom: '-1rem' }}>
+                            <FaHand />
+                            <p>Handmade</p>
+                          </div>
+                          <div style={{ display: 'flex', fontSize: '1rem', color: '#222222', flexDirection: 'row', alignItems: 'center', gap: '10px', padding: '1rem' }}>
+                            <IoLocationSharp style={{ fontSize: '1.2rem' }} />
+                            <p>Delivery from UK</p>
 
-                        </div>
-                        
-                      
-                        <div style={{ marginLeft: '1rem' }}>
-                          <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
+                          </div>
 
-                            <div style={{ display: 'flex', gap: '10px' }}>
-                              <span><PiGiftFill style={{ fontSize: '1.2rem' }} /></span>  <p>Gift wrapping available
-                                  </p>
+
+                          <div style={{ marginLeft: '1rem' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
+
+                              <div style={{ display: 'flex', gap: '10px' }}>
+                                <span><PiGiftFill style={{ fontSize: '1.2rem' }} /></span>  <p>Gift wrapping available
+                                </p>
+
+
+                              </div>
 
 
                             </div>
-                           
-                        
-                          </div>
-                        
-                          <div style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', color: '#222222', gap: '10px', marginBottom: '1rem' }}>
-                            <AiFillSlackCircle style={{ fontSize: '1.2rem' }} />
-                            <p>Materials:{productDetails?.materials}</p>
-                          </div>
-                          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', fontSize: '1rem', color: '#222222', marginBottom: '1rem' }}>
-                            {/* <div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', color: '#222222', gap: '10px', marginBottom: '1rem' }}>
+                              <AiFillSlackCircle style={{ fontSize: '1.2rem' }} />
+                              <p>Materials:{productDetails?.materials}</p>
+                            </div>
+                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', fontSize: '1rem', color: '#222222', marginBottom: '1rem' }}>
+                              {/* <div>
                               <TbRulerMeasure style={{ fontSize: '1.2rem' }} />
                             </div> */}
-                            {/* <div>
+                              {/* <div>
                               <p>Width:  {productDetails?.width}</p>
                               <p>Height: {productDetails?.height}</p>
                             </div> */}
 
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', }}>
+                              {productDetails?.description.split('|').map((i, index) => (
+                                <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
+                              ))}
+                              {productDetails?.description.split('|').length > 3 && (
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                  <button onClick={toggleDescription} className={style.toggleBtn} style={{ width: '70%', display: 'flex', justifyContent: 'center', fontSize: '.9rem', fontWeight: 'bold' }}>
+                                    {showFullDescription ? 'Less' : 'Learn more about this item'}
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                          <div style={{display:'flex',flexDirection:'column',gap:'10px',}}>
-                      {productDetails?.description.split('|').map((i, index) => (
-        <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
-      ))}
-      {productDetails?.description.split('|').length > 3 && (
-      <div style={{display:'flex',justifyContent:'center'}}>
-          <button onClick={toggleDescription} className={style.toggleBtn} style={{width:'70%',display:'flex',justifyContent:'center',fontSize:'.9rem',fontWeight:'bold'}}>
-          {showFullDescription ? 'Less' : 'Learn more about this item'}
-        </button>
-      </div>
-      )}
-                      </div>
-                        </div>
-                      </div> : <h1></h1>
+                        </div> : <h1></h1>
                     }
                   </div>
                   <div>
@@ -573,29 +583,32 @@ export default function ProductDetailPage({ params }) {
                     }
                   </div>
                   {
-                    !showall  && !review?.length == 0 ? review?.slice(count, countend).map((item, index) => (
+                    !showall && !review?.length == 0 ? review?.slice(count, countend).map((item, index) => (
                       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowModelReview(item) }}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
                             count={5}
                             size={24}
                             activeColor="black"
-                            value={item.ratings}
+                            value={item.ratings?item.ratings:1}
                             color='#fff'
                           />
+
+
                           <div className={style.text}>
                             {item?.review}
+
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                             <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
-                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
-                            <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
+                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem', fontSize: '.9rem' }} className={style.text}>{item.name}</div>
+                            <div className={style.text} style={{ fontSize: '.7rem' }}> {item.createdAt.slice(0, 10)}</div>
                           </div>
-                         
-                         <Transition.Root show={open} as={Fragment}>
+
+                          <Transition.Root show={open} as={Fragment}>
                             <Dialog as="div" className="fixed inset-0 overflow-y-auto align-center h-[90vh] z-[1000]" initialFocus={cancelButtonRef} onClose={setOpen}>
-                              
-                              <div className="flex items-center justify-center min-h-screen  text-center " style={{height:'90vh',marginTop:'6rem'}}>
+
+                              <div className="flex items-center justify-center min-h-screen  text-center " style={{ height: '90vh', marginTop: '5rem' }}>
                                 <Transition.Child
                                   as={Fragment}
                                 >
@@ -611,25 +624,25 @@ export default function ProductDetailPage({ params }) {
 
                                 >
                                   <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20" >
-                                    
-                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '45rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', margin:'1rem'}}>
+
+                                    <div style={{ width: '100vw', backgroundColor: '#fff', height: '50rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', margin: '1rem', }}>
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
                                         <div style={{ marginLeft: '-1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-                                          <img src={showModelReview?.image} alt={"img"} style={{ width: '100%', height: '20rem', borderRadius: '12px' }} />
+                                          <img src={showModelReview?.image?showModelReview?.image:noimage} alt={"img"} style={{ width: '100%', height: '20rem', borderRadius: '12px', }} />
                                         </div>
                                         <div style={{ height: '25rem', paddingTop: '1rem' }}>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{showModelReview?.review}</div>
+                                            <div >{showModelReview?.review.slice(0, 80)}..</div>
                                           </div>
                                           <div>  <ReactStars
                                             count={5}
                                             size={24}
                                             activeColor="black"
 
-                                            value={5}
+                                            value={showModelReview?.ratings}
                                             color='#fff'
                                           /></div>
 
@@ -641,17 +654,17 @@ export default function ProductDetailPage({ params }) {
 
                                           <p style={{ paddingTop: '1rem' }}>Purchased item</p>
 
-                                         
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer', }} onClick={() => { setOpen(false); }}>
-                                                  <div>
-                                                    <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
-                                                  </div>
-                                                  <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                                    <p >{showModelReview?.product?.title}</p>
 
-                                                  </div>
-                                                </div>
-                                       
+                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer', }} onClick={() => { setOpen(false); }}>
+                                            <div>
+                                              <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                              <p >{showModelReview?.product?.title}</p>
+
+                                            </div>
+                                          </div>
+
                                         </div>
 
                                       </div>
@@ -663,21 +676,21 @@ export default function ProductDetailPage({ params }) {
                               </div>
                             </Dialog>
                           </Transition.Root>
-              
+
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                          <img src={item.image?item.image:noimage} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                         </div>
                       </div>
                     )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowModelReview(item)}}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowModelReview(item) }}>
                         <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
                           <ReactStars
-                            count={item.ratings}
+                            count={5}
                             size={24}
                             activeColor="black"
-                            value={item.ratings}
+                            value={item.ratings?item.ratings:1}
                             color='#fff'
                           />
                           <div className={style.text}>
@@ -685,13 +698,13 @@ export default function ProductDetailPage({ params }) {
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                             <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
-                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
-                            <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
+                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem', fontSize: '.9rem' }} className={style.text}>{item.name}</div>
+                            <div className={style.text} style={{ fontSize: '.7rem' }}> {item.createdAt.slice(0, 10)}</div>
                           </div>
-                         
+
                           <Transition.Root show={open} as={Fragment}>
                             <Dialog as="div" className="fixed inset-0 overflow-y-auto h-[95vh] z-[1000]" initialFocus={cancelButtonRef} onClose={setOpen}>
-                              <div className="flex items-center justify-center min-h-screen px-1 text-center"  style={{height:'90vh',margin:'1rem',marginTop:'1rem'}}>
+                              <div className="flex items-center justify-center min-h-screen px-1 text-center" style={{ height: '90vh', margin: '1rem', marginTop: '1rem' }}>
                                 <Transition.Child
                                   as={Fragment}
                                 >
@@ -706,18 +719,18 @@ export default function ProductDetailPage({ params }) {
                                   as={Fragment}
 
                                 >
-                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20" style={{height:'auto'}}>
+                                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle my-20" style={{ height: 'auto' }}>
                                     <div style={{ width: '100vw', backgroundColor: '#fff', height: '43rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', borderRadius: '12px', padding: '1rem' }}>
                                       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                                         <div style={{ display: 'flex', justifyContent: 'center', width: '100%', alignItems: 'center', marginLeft: '-2rem' }} >
-                                          <img src={showModelReview?.image} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
+                                          <img src={showModelReview?.image?showModelReview?.image:noimage} alt={"img"} style={{ width: '80%', height: '20rem', borderRadius: '12px' }} />
                                         </div>
                                         <div style={{ height: '20rem', paddingTop: '1rem', width: '100%' }}>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{showModelReview?.review}</div>
+                                            <div >{showModelReview?.review.slice(0, 80)}..</div>
                                           </div>
                                           <div>  <ReactStars
                                             count={5}
@@ -734,17 +747,17 @@ export default function ProductDetailPage({ params }) {
 
                                           </div>
 
-                                          <p style={{ paddingTop: '1rem' }}>Purchased item</p>
-                                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${showModelReview?.product?.slug}/${showModelReview?.product?._id}`) }}>
-                                                  <div>
-                                                    <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
-                                                  </div>
-                                                  <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                                    <p >{showModelReview?.product?.title}</p>
+                                          <p style={{ paddingTop: '5rem' }}>Purchased item</p>
+                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${showModelReview?.product?.slug}/${showModelReview?.product?._id}`) }}>
+                                            <div>
+                                              <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                              <p >{showModelReview?.product?.title}</p>
 
-                                                  </div>
-                                                </div>
-                                        
+                                            </div>
+                                          </div>
+
                                         </div>
 
                                       </div>
@@ -756,31 +769,26 @@ export default function ProductDetailPage({ params }) {
                               </div>
                             </Dialog>
                           </Transition.Root>
-                          
+
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                          <img src={item.image?item.image:noimage} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
                         </div>
                       </div>
                     ))
                   }
                 </div>
                 <div className="flex overflow-x-auto m-[1rem]   z-[-10]" >
-               
-             
-         <ResponsivePagination
-              
-              current={countend/5}
-              total={Math.ceil(allproductreviews?.length / 5)}
-              onPageChange={paginationHandel
-                
-              }
-            
-            />
-            
-          
-            </div>
+                  <ResponsivePagination
+                    current={currentPage}
+                    total={Math.ceil(allproductreviews?.length / 5)}
+                    onPageChange={paginationHandel}
+
+                  />
+
+
+                </div>
                 <h1 style={{ fontWeight: '500', margin: '2rem', color: '#222222', fontFamily: '"Guardian-EgypTT", "Charter", "Charter Bitstream", "Cambria", "Noto Serif Light", "Droid Serif", "Georgia", "serif"', fontSize: '1.5rem' }}>Explore Related Categories</h1>
                 <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', margin: '1rem' }}>
 
@@ -866,159 +874,41 @@ export default function ProductDetailPage({ params }) {
                   }
                 </div>
                 {
-                  !showall && !review?.length == 0  ? review?.slice(count, countend).map((item, index) => (
+                  !showall && !review?.length == 0 ? review?.slice(count, countend).map((item, index) => (
                     <>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={() => {setOpen(true);setShowindex(index+count)}} >
-                      <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
-                        <ReactStars
-                          count={5}
-                          size={24}
-                          activeColor="black"
-                          value={item.ratings}
-                          color='#fff'
-                        />
-                        <div className={style.text}>
-                          {item.review}
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
-                          <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
-                          <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
-                          <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
-                        </div>
-                        {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem', cursor: 'pointer' }} key={index} onClick={() => { setOpen(true); setShowindex(index + count) }} >
+                        <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }}>
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            activeColor="black"
+                            value={item.ratings?item.ratings:1}
+                            color='#fff'
+                          />
+                          <div className={style.text}>
+                            {item.review}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
+                            <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
+                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
+                            <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
+                          </div>
+                          {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                           <AiFillLike />
                           <p> Helpful</p>
                         </div> */}
 
-                      </div>
+                        </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src={item.image?item.image:noimage} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                        </div>
                       </div>
- </div>
                       <div>
-                     
+
                         {
 
                           review?.slice(count, countend).map((item) => (
-                            <Transition.Root show={open} as={Fragment} className="bg-green">
-
-                            <Dialog as="div" className="fixed inset-0   overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen} >
-                              <div className="flex items-center justify-center min-h-screen px-4 text-center">
-                                <Transition.Child
-                                  as={Fragment}
-                                >
-                                  <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.05' }} />
-                                </Transition.Child>
-
-                                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-                                  &#8203;
-                                </span>
-
-                                <Transition.Child
-                                  as={Fragment}
-
-                                >
-
-                                  <div className="inline-block align-bottom rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
-                                    <div style={{ width: '50rem', backgroundColor: '#fff', opacity: '1', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
-                                      <div>
-                                        <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
-                                      </div>
-                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <div >
-                                          <img src={review[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
-                                        </div>
-                                        <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
-                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
-                                            {/* <div>
-                                    <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
-                                  </div> */}
-                                            <div >{review[showindex]?.review}</div>
-                                          </div>
-                                          <div>  <ReactStars
-                                            count={5}
-                                            size={24}
-                                            activeColor="black"
-                                            edit={false}
-                                            value={review[showindex]?.ratings}
-                                            color='#fff'
-                                          /></div>
-
-                                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
-                                            <p>{review[showindex].createdAt.slice(0, 10)}</p>
-
-                                          </div>
-                                         
-
-                                          <p style={{ paddingTop: '10rem' }}>Purchased item</p>
-
-
-
-                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${allproductreviews[showindex]?.product.slug}/${allproductreviews[showindex]?.product._id}`); }}>
-                                            <div>
-                                              <img src={review[showindex]?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                              <p >{review[showindex]?.product?.title}</p>
-
-                                            </div>
-                                          </div>
-
-
-
-                                          <div>
-
-                                            <div className="next" onClick={()=>handleNext(review.length)}><MdOutlineArrowForwardIos /></div>
-                                          </div>
-                                        </div>
-
-                                      </div>
-
-
-                                    </div>
-                                  </div>
-                                </Transition.Child>
-                              </div>
-                            </Dialog>
-                          </Transition.Root>))}
-                      </div>
-
-                    </>
-                  )) : allproductreviews?.slice(count, countend).map((item, index) => (
-                    <>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true);setShowindex(index+count);}}>
-                      <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }} >
-                        <div>  <ReactStars
-                          count={5}
-                          size={24}
-                          activeColor="black"
-                          edit={false}
-                          value={5}
-                          color='#fff'
-                        /></div>
-                        <div className={style.text}>
-                          {item.review}
-                        </div>
-  
-                        <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
-                          <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
-                          <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
-                          <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
-                        </div>
-
-
-                      </div>
-
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src={item.image} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
-                      </div>
-                      <div>
-                      </div>
-                      </div>
-                        {
-                          allproductreviews?.slice(count, countend).map((item) => (
                             <Transition.Root show={open} as={Fragment} className="bg-green">
 
                               <Dialog as="div" className="fixed inset-0   overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen} >
@@ -1045,29 +935,30 @@ export default function ProductDetailPage({ params }) {
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                           <div >
-                                            <img src={allproductreviews[showindex]?.image} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                            <img src={review[showindex]?.image?review[showindex]?.image:noimage} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
                                           </div>
                                           <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
                                             <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                               {/* <div>
-                                      <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
-                                    </div> */}
-                                              <div >{allproductreviews[showindex]?.review}</div>
+                                    <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
+                                  </div> */}
+                                              <div >{review[showindex]?.review.slice(0,100)}...</div>
                                             </div>
                                             <div>  <ReactStars
                                               count={5}
                                               size={24}
                                               activeColor="black"
                                               edit={false}
-                                              value={allproductreviews[showindex]?.ratings}
+                                              value={review[showindex]?.ratings}
                                               color='#fff'
                                             /></div>
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                              <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex]?.name}</p>
-                                              <p>{allproductreviews[showindex]?.createdAt.slice(0, 10)}</p>
-                                          
+                                              <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
+                                              <p>{review[showindex].createdAt.slice(0, 10)}</p>
+
                                             </div>
+
 
                                             <p style={{ paddingTop: '10rem' }}>Purchased item</p>
 
@@ -1075,10 +966,10 @@ export default function ProductDetailPage({ params }) {
 
                                             <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${allproductreviews[showindex]?.product.slug}/${allproductreviews[showindex]?.product._id}`); }}>
                                               <div>
-                                                <img src={allproductreviews[showindex]?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                <img src={review[showindex]?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                               </div>
                                               <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
-                                                <p >{allproductreviews[showindex]?.product?.title}</p>
+                                                <p >{review[showindex]?.product?.title}</p>
 
                                               </div>
                                             </div>
@@ -1087,7 +978,7 @@ export default function ProductDetailPage({ params }) {
 
                                             <div>
 
-                                              <div className="next" onClick={()=>handleNext(allproductreviews.length)}><MdOutlineArrowForwardIos /></div>
+                                              <div className="next" onClick={() => handleNext(review.length)}><MdOutlineArrowForwardIos /></div>
                                             </div>
                                           </div>
 
@@ -1100,8 +991,126 @@ export default function ProductDetailPage({ params }) {
                                 </div>
                               </Dialog>
                             </Transition.Root>))}
-                
-                    
+                      </div>
+
+                    </>
+                  )) : allproductreviews?.slice(count, countend).map((item, index) => (
+                    <>
+                      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '1rem', borderBottom: '1px solid #EAEAEA', marginBottom: '1rem' }} key={index} onClick={() => { setOpen(true); setShowindex(index + count); }}>
+                        <div style={{ display: 'flex', width: '65%', flexDirection: 'column', gap: '10px' }} >
+                          <div>  <ReactStars
+                            count={5}
+                            size={24}
+                            activeColor="black"
+                            edit={false}
+                            value={5}
+                            color='#fff'
+                          /></div>
+                          <div className={style.text}>
+                            {item?.review.slice(0,showfullreviewindex == index?1000:200)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer',position:'absolute', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
+                             showfullreviewindex == index? setShowfullreviewindex():setShowfullreviewindex(index)}}><RiMoreFill/></span>:null}
+                          </div>
+
+                          <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
+                            <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
+                            <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
+                            <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
+                          </div>
+
+
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src={item.image?item.image:noimage} alt="img" style={{ display: 'flex', width: '10rem', height: '10rem', alignItems: 'center', justifyContent: 'center' }} />
+                        </div>
+                        <div>
+                        </div>
+                      </div>
+                      {
+                        allproductreviews?.slice(count, countend).map((item) => (
+                          <Transition.Root show={open} as={Fragment} className="bg-green">
+
+                            <Dialog as="div" className="fixed inset-0   overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen} >
+                              <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                                <Transition.Child
+                                  as={Fragment}
+                                >
+                                  <Dialog.Overlay className="fixed inset-0  transition-opacity" style={{ backgroundColor: 'gray', opacity: '0.05' }} />
+                                </Transition.Child>
+
+                                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                                  &#8203;
+                                </span>
+
+                                <Transition.Child
+                                  as={Fragment}
+
+                                >
+
+                                  <div className="inline-block align-bottom rounded-lg text-left overflow-hidden  transform transition-all sm:my-8 sm:align-middle">
+                                    <div style={{ width: '50rem', backgroundColor: '#fff', opacity: '1', height: '25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: '12px', }}>
+                                      <div>
+                                        <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
+                                      </div>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div >
+                                          <img src={allproductreviews[showindex]?.image?allproductreviews[showindex]?.image:noimage} alt={"img"} style={{ width: '40rem', height: '25rem', borderRadius: '12px' }} />
+                                        </div>
+                                        <div style={{ height: '25rem', paddingLeft: '1rem', paddingTop: '1rem' }}>
+                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                                            {/* <div>
+                                      <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
+                                    </div> */}
+                                            <div >{allproductreviews[showindex]?.review.slice(0,100)}..</div>
+                                          </div>
+                                          <div>  <ReactStars
+                                            count={5}
+                                            size={24}
+                                            activeColor="black"
+                                            edit={false}
+                                            value={allproductreviews[showindex]?.ratings}
+                                            color='#fff'
+                                          /></div>
+
+                                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex]?.name}</p>
+                                            <p>{allproductreviews[showindex]?.createdAt.slice(0, 10)}</p>
+
+                                          </div>
+
+                                          <p style={{ paddingTop: '10rem' }}>Purchased item</p>
+
+
+
+                                          <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${allproductreviews[showindex]?.product.slug}/${allproductreviews[showindex]?.product._id}`); }}>
+                                            <div>
+                                              <img src={allproductreviews[showindex]?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
+                                              <p >{allproductreviews[showindex]?.product?.title}</p>
+
+                                            </div>
+                                          </div>
+
+
+
+                                          <div>
+
+                                            <div className="next" onClick={() => handleNext(allproductreviews.length)}><MdOutlineArrowForwardIos /></div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+
+                                    </div>
+                                  </div>
+                                </Transition.Child>
+                              </div>
+                            </Dialog>
+                          </Transition.Root>))}
+
+
                     </>
                   ))
 
@@ -1109,9 +1118,14 @@ export default function ProductDetailPage({ params }) {
               </div>
               <div className={style.info}>
                 <div className={style.limited}>Only 1 left and in 2 carts</div>
-                <div className={style.price} style={{ display: 'flex', flexDirection: 'row',alignItems:'center',color:'#16A34A' }}>${productDetails?.discountedPrice} <span><p className=' tracking-tight text-gray-600 text-lg  line-through px-2 '>${productDetails?.price}</p></span></div>
+                <div className={style.price} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: '#16A34A' }}>${productDetails?.discountedPrice} <span><p className=' tracking-tight text-gray-600 text-lg  line-through px-2 '>${productDetails?.price}</p></span><span
+                  style={{color:'black',backgroundColor:'#A0E193',padding:'4px',borderRadius:'10px',fontWeight:'200',fontSize:'.9rem'}}>{((productDetails?.price-productDetails?.discountedPrice)/(productDetails?.price/100)).toFixed(2)}% off</span></div>
                 <div className={style.choose}>
                   Choose from multiple variations
+                </div>
+                <div className={style.choose}>
+                  Local taxes included (where applicable)
+
                 </div>
                 <div className={style.des}> <p>{productDetails?.title}</p></div>
 
@@ -1126,9 +1140,11 @@ export default function ProductDetailPage({ params }) {
                 <div>
                   <p style={{ display: 'flex', alignItems: 'center', margin: '1rem' }}>Style<sup style={{ color: '#A61A2E', fontSize: '10px' }}> <IoMdStar /></sup></p>
                 </div>
-                <div style={{ width: '95%', marginLeft: '1rem' }} >
+                <div style={{ width: '95%', marginLeft: '1rem' }} onClick={() => { setOpenselect(!openselect) }}  >
                   <Select
-                  ref={inputRef}
+                    ref={inputRef}
+                    open={openselect}
+
                     labelId="select-label"
                     id="simple-select"
                     onChange={handleChange}
@@ -1158,10 +1174,10 @@ export default function ProductDetailPage({ params }) {
                   <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem' }} onClick={() => buynow(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)}>
                     Buy Now
                   </button>
-                    
+
                 </div>
-                <div className={style.starReview} style={{ marginTop: '1rem', marginBottom: '1rem',gap:'10px' }} onClick={estylink}>
-                <img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/>
+                <div className={style.starReview} style={{ marginTop: '1rem', marginBottom: '1rem', gap: '10px' }} onClick={estylink}>
+                  <img src={esty} alt='esty' style={{ width: '2.5rem', height: '2.5rem', borderRadius: '.6rem', cursor: 'pointer' }} />
                   <p className={style.checkP}>Our exclusive collection now available on Etsy</p>
                 </div>
 
@@ -1180,10 +1196,10 @@ export default function ProductDetailPage({ params }) {
                       <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1rem', color: '#222222', alignItems: 'center', gap: '10px', paddingBottom: '1rem' }}>
 
                         <div style={{ display: 'flex', gap: '10px' }}>
-                          <span><PiGiftFill style={{ fontSize: '1.2rem' }} /></span>  <p>Gift wrapping available 
+                          <span><PiGiftFill style={{ fontSize: '1.2rem' }} /></span>  <p>Gift wrapping available
                             {/* <span style={{ fontSize: '1rem', borderBottom: '1px dashed black', cursor: 'pointer' }}
                              onMouseOver={() => alert('j')}>See details</span> */}
-                            </p>
+                          </p>
 
 
                         </div>
@@ -1203,17 +1219,17 @@ export default function ProductDetailPage({ params }) {
                         </div> */}
 
                       </div>
-                      <div style={{display:'flex',flexDirection:'column',gap:'10px',}}>
-                      {productDetails?.description.split('|').map((i, index) => (
-        <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
-      ))}
-      {productDetails?.description.split('|').length > 3 && (
-      <div style={{display:'flex',justifyContent:'center'}}>
-          <button onClick={toggleDescription} className={style.toggleBtn} style={{width:'70%',display:'flex',justifyContent:'center',fontSize:'.9rem',fontWeight:'bold'}}>
-          {showFullDescription ? 'Less' : 'Learn more about this item'}
-        </button>
-      </div>
-      )}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', }}>
+                        {productDetails?.description.split('|').map((i, index) => (
+                          <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
+                        ))}
+                        {productDetails?.description.split('|').length > 3 && (
+                          <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <button onClick={toggleDescription} className={style.toggleBtn} style={{ width: '70%', display: 'flex', justifyContent: 'center', fontSize: '.9rem', fontWeight: 'bold' }}>
+                              {showFullDescription ? 'Less' : 'Learn more about this item'}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div> : <h1></h1>
                   }
@@ -1266,15 +1282,13 @@ export default function ProductDetailPage({ params }) {
               </div>
             </div>
             <div className="flex overflow-x-auto  m-[1rem]" >
-             <ResponsivePagination
-              
-              current={countend/5}
-              total={Math.ceil(allproductreviews?.length / 5)}
-              onPageChange={paginationHandel
-                
-              }
-            
-            />
+              <ResponsivePagination
+
+                current={currentPage}
+                total={Math.ceil(allproductreviews?.length / 5)}
+                onPageChange={paginationHandel}
+
+              />
             </div>
             {/* 
       <Pagination  totalPages={10} currentPage={currentPage}  showIcons    onPageChange={paginationHandel} style={{

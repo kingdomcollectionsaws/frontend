@@ -19,6 +19,7 @@ import ContactUs from '../customer/Contact'
 import BlogDetails from '../customer/BlogDetails'
 import PaymentCancel from '../customer/PaymentCancel'
 import AllBlogs from '../customer/AllBlogs'
+import Allproducts from '../customer/Allproducts'
 
 export default function AllRoutes() {
   const [isMobile, setIsMobile] = useState(false);
@@ -54,6 +55,7 @@ export default function AllRoutes() {
 <Route path='/product/:id' element={<ProductDetailPage/>}/>
 <Route path='/searchproducts/:search' element={<SearchProducts/>}/>
 <Route path='/products/:category' element={<CategoryProduct/>}/>
+<Route path='/allproducts/' element={<Allproducts/>}/>
 <Route path='/account/order' element={<Order/>}/>
 <Route path='/account/order/:order_id/:payment_id' element={<OderDetail/>}/>
 <Route path='/AdmIn' element={<Dashboard/>}/>

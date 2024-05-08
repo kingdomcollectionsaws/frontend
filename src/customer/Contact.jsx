@@ -1,19 +1,18 @@
 import React from 'react';
+import { RiWhatsappFill } from 'react-icons/ri';
 import 'tailwindcss/tailwind.css';
-
+import ws from '../../public/whatsapp.png'
 const Contact = () => {
-
   return (<>
     <div className="flex bg-black color-white text-white p-10 sm:flex-row flex-col my-10 justify-center ">
       {/* WhatsApp QR Code */}
     <div>
-    <p>Chat on WhatsApp</p>
+    <p style={{display:'flex',alignItems:'center',gap:'10px'}}>Chat on WhatsApp <span><RiWhatsappFill style={{color:' #128C7E',fontSize:'1.5rem'}} /></span></p>
       <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG7TIzcr70nvAJ4W1i6QNT2tfOmNGnLwjrDTX8HpUQ0Q&s"
+          src={ws}
           alt="WhatsApp QR Code"
           className="mt-4"
-          width={250}
-          height={250}
+          style={{width:'15rem',height:'15rem'}}
         />
     </div>
 

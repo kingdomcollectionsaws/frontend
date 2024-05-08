@@ -7,7 +7,9 @@ import Loader from '../../Loader';
 import { addItemInCart, getCart, updateItemInCart } from '../../state/cart/cartSlice';
 import visa from '../../../../public/visa.png'
 import american from '../../../../public/amarican.png'
+import paypal from '../../../../public/paypal.png'
 import master from '../../../../public/master.png'
+import gpay from '../../../../public/googlepay.png'
 import diners from '../../../../public/diners.jpg'
 import AuthModel from '../../auth/AuthModel';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,20 +19,22 @@ export default function Cart() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [localcart,setLocalcart] =useState();
-  useEffect(() => {
-    dispatch(getCart());
-    
-   const items = localStorage.getItem('items');
+  const getpastitems = async()=>{
+    const items = localStorage.getItem('items');
    if (items) {
      const localcart = JSON.parse(items);
      for (let index = 0; index < localcart.length; index++) {
        let data = { productId: localcart[index] };
-       dispatch(addItemInCart(data));
+      await dispatch(addItemInCart(data));
      }
      localStorage.removeItem('items');
-     window.location.reload() // Remove the 'items' key from local storage
+     dispatch(getCart())
    }
-   
+  }
+  useEffect(() => {
+    dispatch(getCart());
+    getpastitems();
+    console.log(cart);
   }, []);
   const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
   
@@ -72,6 +76,8 @@ export default function Cart() {
       <img src={master} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={american} alt="card" style={{width:'3rem',height:'2rem'}} />
       <img src={diners} alt="card" style={{width:'3rem',height:'2rem'}} />
+      <img src={paypal} alt="card" style={{width:'3rem',height:'2rem'}} />
+      <img src={gpay} alt="card" style={{width:'3rem',height:'2rem',objectFit:'cover'}} />
           </div>
          <div className=' flex  w-full justify-between p-4 pt-3'>
           <span>Item(s) total</span>

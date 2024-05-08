@@ -11,62 +11,36 @@ export default function GuestForm() {
   const { cart } = useSelector(store => store.cart)
   const dispatch = useDispatch();
   const notify = (msg) => toast(msg, {
-    position: "top-center",
+    position: "center",
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,
   });
-
-  const handleSubmit =  async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setTimeout(()=>{
+      alert("invalid email or password")
+     },[2000])
     const data = new FormData(event.currentTarget);
     const userData = {
       email: data.get("email"),
       password: data.get("password"),
     };
-   if(user && user.role == 'GUEST'){
-    console.log(cart);
-    let itemIds = [];
-    for (let index = 0; index < cart.cartItems.length; index++) {
-      // Get the ID of the current cartItem
-      let itemId = cart.cartItems[index].product._id;
-      
-      // Push the ID into the array
-      itemIds.push(itemId);
-  }
-  
-  // Store the array of IDs in localStorage
-  localStorage.setItem('items', JSON.stringify(itemIds));
-   await dispatch(loginUser(userData));
-    if(user.role !='GUEST'){
-      setTimeout(()=>{
-        alert("invalid")
-      },[3000])
-     
-    }else{
-      setTimeout(()=>{
-        alert("invalid email or passwords")
-      },[3000])
-     
+    if (user && user.role === 'GUEST') {
+      let itemIds = [];
+      for (let index = 0; index < cart.cartItems.length; index++) {
+        let itemId = cart.cartItems[index].product._id;
+        itemIds.push(itemId);
+      }
+      localStorage.setItem('items', JSON.stringify(itemIds));
+      dispatch(loginUser(userData));
+    
     }
-   
-   }else{
-     dispatch(loginUser(userData));
-     if(jwt){
-      
-     }else{
-      setTimeout(()=>{
-        notify("invalid email or password")
-       },[3000])
-     }
-   }
   };
-
-
+  
   useEffect(() => {
     dispatch(getUserDetail());
-
   }, []);
   const navigate = useNavigate()
   return (
@@ -75,9 +49,9 @@ export default function GuestForm() {
       <div>
 
       
-
+<ToastContainer />
         <div style={{ borderBottom: '1px solid #D4D4D4', padding: '1rem', width: '100%', marginTop: '-2rem' }}>
-        <ToastContainer />
+        
           <p style={{ paddingBottom: '1rem' }}>Go to checkout</p>
          
           <button style={{ display: 'flex', width: '100%', height: '3rem', border: ' 2px solid black', borderRadius: '20px', alignItems: 'center', justifyContent: 'center', color: 'black', marginBottom: '1rem' }} onClick={() => {navigate("/checkout?step=2")}}>continue as a guest</button>
