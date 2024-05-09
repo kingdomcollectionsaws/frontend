@@ -4,7 +4,7 @@ import { Button, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../Loader';
-import { addItemInCart, getCart, updateItemInCart } from '../../state/cart/cartSlice';
+import { addItemInCart, getCart} from '../../state/cart/cartSlice';
 import visa from '../../../../public/visa.png'
 import american from '../../../../public/amarican.png'
 import paypal from '../../../../public/paypal.png'
@@ -28,14 +28,15 @@ export default function Cart() {
       await dispatch(addItemInCart(data));
      }
      localStorage.removeItem('items');
-     dispatch(getCart())
+     dispatch(getCart());
+     navigate('/cart')
    }
   }
   useEffect(() => {
     dispatch(getCart());
     getpastitems();
     console.log(cart);
-  }, []);
+  }, [user?.role]);
   const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
   
   const handleClose = ()=>{

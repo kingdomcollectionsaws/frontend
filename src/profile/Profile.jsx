@@ -14,7 +14,7 @@ function ProfilePage() {
         dispatch(logout())
         localStorage.clear();
         navigate('/');
-        // window.location.reload();
+         window.location.reload();
           }
           useEffect(()=>{
             dispatch(getUserDetail())

@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function GuestForm() {
   const { user, jwt } = useSelector(store => store.user);
   const { cart } = useSelector(store => store.cart);
-  const [error,setError] = useState(false)
   const dispatch = useDispatch();
   const notify = (msg) => toast(msg, {
     position: "top-center",
