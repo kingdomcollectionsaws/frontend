@@ -167,42 +167,39 @@ const cancelstatus = async (id) => {
   }
 };
 const [fedexorderdata,setFedexorderdata]= useState()
-const [fedexmenu,setFedexmenu]= useState(false)
-
-
-const feddata = (item,feds)=>{
-const grant_type = 'client_credentials';
-const client_id = 'l7fac14eef2af1454787d2302a6fa57e1b';
-const client_secret = 'c9888b2c3643479b872b5ac902286df3';
-
-const params = new URLSearchParams({
-    grant_type,
-    client_id,
-    client_secret
-});
-
-fetch("https://apis-sandbox.fedex.com/oauth/token", {
-    method: 'POST',
-    mode:'no-cors',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: params
-})
-.then(response => {
-    // if (!response.ok) {
-    //     throw new Error('Network response was not ok');
-    // }
+const [fedexmenu,setFedexmenu]= useState(false);
+const [trackingID,setTrackingID] = useState()
+const [trackingURL,setTrackingURL] = useState()
+const trackinginputd = (e)=>{
+  if(e.target.name == 'trackingId'){
+setTrackingID(e.target.value)
+  }
+  if(e.target.name =='trackingUrl'){
+    setTrackingURL(e.target.value)
+      }
     
-    return response.json();
-})
-.then(json => {
-    console.log(json);
-})
-.catch(error => {
-    console.error('There was a problem with the fetch operation:', error);
-});
-
+}
+const customTrackingDetails  = async(id)=>{
+  try {
+      const token = localStorage.getItem('jwt');
+      const data = {id:id,trackingId:trackingID,url:trackingURL}
+          const requestOptions = {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'authorization': token
+              },
+              body: JSON.stringify(data)
+          };
+          const response = await fetch(`${API_BASE_URL}/api/admin/orders/trakingId`, requestOptions);
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const msg = await response.json();
+          console.log(msg);
+  } catch (error) {
+    console.log(error);
+  }
 }
   return (
   !loading? <div>
@@ -216,10 +213,15 @@ fetch("https://apis-sandbox.fedex.com/oauth/token", {
   </div>: ordersData?.map((item)=>(
       <div  className='flex align-center justify-around border shadow-lg mt-8 hover:scale-105 flex-warp flex-col m-10 p-5' style={{border:'1px solid black'}}>
            <div style={{margin:'.3rem'}}>
-      <h1>Tracking id: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:'Not shiped yet'}</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
+      <h1>Tracking id: <span style={{color:'#ff4000'}}>{item.trackingId?item.trackingId:<div>
+        <input type="text" name='trackingId' placeholder='Tracking id' onChange={trackinginputd} />
+        <input type="text" name='trackingUrl' placeholder='Tracking Url' onChange={trackinginputd} />
+        <button onClick={()=>customTrackingDetails(item._id)} style={{color:'black' ,marginLeft:'1rem'}}>Add</button>
+      </div>
+      }</span> {item.trackingId?<span style={{cursor:'pointer',backgroundColor:'gray',color:'#fff'}} onClick={()=>{navigator.clipboard.writeText(item.trackingId);alert(" Tracking id copied")}}>Copy</span>:''}</h1>
       <h1>Total amount: ${item?.totalPrice}</h1>
       <h1>orderDate: {item?.orderDate.slice(0,10)}</h1>
-      {item.trackingId?<h1 > Track your order <a href="https://www.fedex.com/en-in/tracking.html" target="_blank" rel="noopener noreferrer" style={{color:'blue'}}>Click here </a></h1>:''}
+      {item.trackingId?<h1 > Track your order <a href={item.trackingUrl?item.trackingUrl:'https://www.fedex.com/en-in/tracking.html'} target="_blank" rel="noopener noreferrer" style={{color:'blue'}}>Click here </a></h1>:''}
     </div>
       {item.orderItems.map((i,index)=><div >
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}} key={index}>
@@ -232,9 +234,7 @@ fetch("https://apis-sandbox.fedex.com/oauth/token", {
       <p>Price: {i.price}</p>
       <p>Name: {i.product?.title}</p>
       <p>Style: {i.sizes[0]}</p>
-      <p className=' mb-2'>Quantity: {i.quantity}</p>
-      <p className=' mb-2'>Order date: {item.createdAt.slice(0,10)}</p>
-      
+      <p className=' mb-2'>Quantity: {i.quantity}</p>     
       <p>{i.title}</p>
     </div>
    
@@ -287,7 +287,7 @@ fetch("https://apis-sandbox.fedex.com/oauth/token", {
    <button onClick={()=>deliverstatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Deliver</button>
    <button onClick={()=>deletestatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Delete</button>
    <button onClick={()=>cancelstatus(item._id)} style={{background:'black',color:'#fff',padding:'4px'}}>Cancel</button>
-   <button style={{background:'black',color:'#fff',padding:'4px'}} onClick={()=>{setFedexmenu(true);setFedexorderdata(item)}}>Fedex</button>
+   {!item.trackingId ? <button style={{background:'black',color:'#fff',padding:'4px'}} onClick={()=>{setFedexmenu(true);setFedexorderdata(item)}}>Fedex</button>:null}
    </div>
 
     <div>

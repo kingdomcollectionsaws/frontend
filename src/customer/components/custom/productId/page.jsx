@@ -593,12 +593,9 @@ export default function ProductDetailPage({ params }) {
                             value={item.ratings?item.ratings:1}
                             color='#fff'
                           />
-
-
                           <div className={style.text}>
                           {item?.review.slice(0,showfullreviewindex == index?1000:180)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
                              showfullreviewindex == index? setShowfullreviewindex():setShowfullreviewindex(index)}}><RiMoreFill/></span>:null}
-
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                             <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>

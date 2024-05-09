@@ -105,6 +105,7 @@ navigate('/checkout?step=2')
             </Grid>
             <Grid item xs={12} >
               <Button
+              onClick={()=>navigate('/forgotpassword')}
                 className=' w-full px-0 py-3'
                 type='submit'
                 variant='contained'

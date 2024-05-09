@@ -385,10 +385,9 @@ export default function Dashboard() {
                                     <img src={i.imageUrl[0]} alt='img' style={{ width: '5rem', height: '5rem' }} />
                                     <div className='flex align-center justify-center flex-row ' style={{gap:'110px'}} >
                                         <div style={{width:'11rem'}}>
-                                        <p>{i.title} </p>
+                                        <p>{i.title} <span>style : {i.brand}</span> </p>
                                         <div style={{display:'flex',width:'14rem'}}>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl, i.sizes, i.brand,i.discountedPrice,i.slug)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
-           
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >View</Button>
                                     </div>

@@ -20,6 +20,7 @@ import BlogDetails from '../customer/BlogDetails'
 import PaymentCancel from '../customer/PaymentCancel'
 import AllBlogs from '../customer/AllBlogs'
 import Allproducts from '../customer/Allproducts'
+import Forgotpassword from '../profile/Forgotpassword'
 
 export default function AllRoutes() {
   const [isMobile, setIsMobile] = useState(false);
@@ -64,6 +65,7 @@ export default function AllRoutes() {
 <Route path='/About' element={<AboutUs/>}/>
 <Route path='/ShippingPolicy' element={<ShippingPolicy/>}/>
 <Route path='/Contact' element={<ContactUs/>}/>
+<Route path='/forgotpassword' element={<Forgotpassword/>}/>
 <Route path='/blog/:slug' element={<BlogDetails/>}/>
 <Route path='/blog/all' element={<AllBlogs/>}/>
 <Route path='/paynment/paymentcanceled' element={<PaymentCancel/>}/>

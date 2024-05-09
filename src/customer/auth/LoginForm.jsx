@@ -109,6 +109,7 @@ export default function LoginForm() {
         <div>
           <div style={{ marginTop: '1rem' }}>
             <Button
+            onClick={()=>navigate('/forgotpassword')}
               className='px-0 py-10'
               sx={{ background: "none", color: 'black', fontSize: '.7rem' }}
             >
