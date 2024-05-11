@@ -208,11 +208,12 @@ setAllproduct(newarr)
              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px',}}>
               {
                 allproduct?.map((i,index) => (
-                  index < 4 ?<div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '.5rem', border: 'none' ,}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
-                  <img src={i.imageUrl[0]}  alt='img' className='lg:w-[15rem] lg:h-[15rem]'  style={{borderRadius: '.5rem',}}/>
+                  index < 4 ?
+                  <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '.5rem', border: 'none' ,}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
+                  <img src={i?.variations[0].images[0]}  alt='img' className='lg:w-[15rem] lg:h-[15rem]'  style={{borderRadius: '.5rem',}}/>
 
                   <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start",cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 12)}...</h1>
-                  <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems:'center',color:'#16A34A', }}> ${i.discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{fontSize:'15px',fontWeight:'300',paddingTop:'1px'}}>${i.price}</p></span> </h1>
+                  <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems:'center',color:'#16A34A', }}> ${i?.variations[0].discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{fontSize:'15px',fontWeight:'300',paddingTop:'1px'}}>${i?.variations[0].price}</p></span> </h1>
 
 
                 </div>:null
@@ -227,15 +228,15 @@ setAllproduct(newarr)
           
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px' }}>
               {
-                products?.slice(3, 7).map((i) => (
+                products?.slice(0, 7).map((i) => (
                   <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '.5rem', border: 'none' ,}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
-                    <img src={i.imageUrl[0]}  alt='img'  className='lg:w-[15rem] lg:h-[15rem]'   style={{borderRadius: '.5rem',}}/>
+                  <img src={i?.variations[0].images[0]}  alt='img' className='lg:w-[15rem] lg:h-[15rem]'  style={{borderRadius: '.5rem',}}/>
 
-                    <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start",cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 15)}...</h1>
-                    <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems:'center',color:'#16A34A' }}> ${i.discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{fontSize:'12px',fontWeight:'300'}}>${i.price}</p></span> </h1>
+                  <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start",cursor:'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 12)}...</h1>
+                  <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems:'center',color:'#16A34A', }}> ${i?.variations[0].discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{fontSize:'15px',fontWeight:'300',paddingTop:'1px'}}>${i?.variations[0].price}</p></span> </h1>
 
 
-                  </div>
+                </div>
                 ))}
             </div>
         </div>

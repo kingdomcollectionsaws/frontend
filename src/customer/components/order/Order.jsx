@@ -246,15 +246,15 @@ console.log(res);
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
     <div style={{width:'60%'}}>
     <div className=' rounded-sm sm:w-[5rem] sm:h-[5rem] h-[5rem] w-[5rem]'>
-    <img className='object-cover border rounded-lg' src={i.product.imageUrl[0]} alt="img" />
+    <img className='object-cover border rounded-lg' src={i?.image} alt="img" style={{height:'5rem',width:'5rem'}} />
       </div> 
       
     <div className='flex flex-col '>
       
       <p className='font-bold mb-2'></p>
-      <p>Price: ${i.price}</p>
-      <p>Name: {i.product.title}</p>
-      <p>Style: {i.sizes[0]}</p>
+      <p>Price: ${i?.discountedPrice}</p>
+      <p>Name: {i?.product.title}</p>
+      <p>Style: {i?.style}</p>
       <p className=' mb-2'>Quantity: {i.quantity}</p>
       <p className=' mb-2'>Order date: {item.createdAt.slice(0,10)}</p>
       {item?.orderStatus == 'PENDING' || item?.orderStatus == 'CANCEL'?null:<div className='flex align-center  p-5 text-black cursor-pointer' onClick={()=>{setReviewmodel(true);setProductId(i.product._id)}}>

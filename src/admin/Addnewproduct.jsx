@@ -13,19 +13,14 @@ import { FaUsers } from "react-icons/fa";
 import Orderpie from './Orderpie.jsx';
 import Todayorder from './Todayorder.jsx';
 import { useNavigate } from 'react-router-dom';
-export default function Addnewproduct () {
+export default function Addnewproduct() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
     const [editmenu, setEditmenu] = useState(false);
-    const [allorders, setAllorders] = useState([]);
-    const [allusers, setAllusers] = useState([]);
-    const [openSection, setOpenSection] = useState("DASHBOARD")
-    const [variations, setVaritions] = useState();
     const [showCategory, setShowCategory] = useState()
     const { products, loading, product } = useSelector(store => store.allproducts);
     const { user } = useSelector(store => store.user);
     const productCategory = ["gladiator-costume", "mf-doom-mask", "nazgul-costume", "roman-costume", "spartan-costume", "templar-costume"]
-
     const [productData, setProductData] = useState({
         title: '',
         price: '',
@@ -36,14 +31,13 @@ export default function Addnewproduct () {
         imageUrl: [],
         sizes: [],
         brand: '',
-        discountedPrice:'',
-        slug:'',
-        height:'',
-        width:'',
-        materials:''
+        discountedPrice: '',
+        slug: '',
+        height: '',
+        width: '',
+        materials: '',
+        variations: []
     });
-
-   
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         //    if(name=="images"){
@@ -87,13 +81,13 @@ export default function Addnewproduct () {
     const handleChange = (e) => {
         setShowCategory(e.target.value)
         productData.category = e.target.value;
-      //  console.log(productData.category);
+        //  console.log(productData.category);
     }
 
-  
+
     useEffect(() => {
-      
-    }, []);
+
+    }, [productData]);
 
     const handelfileupload = async (event) => {
         const files = event.target.files;
@@ -119,7 +113,17 @@ export default function Addnewproduct () {
         const imageUrls = uploadResponses.map(response => response.secure_url).filter(url => url);
         productData.imageUrl = imageUrls
     }
+    const addvaraitiondata = () => {
+        productData.variations.push(
+            { price: productData.price, discountedPrice: productData.discountedPrice, style: productData.brand, images: productData.imageUrl }
+        )
+        const form = document.getElementById('variationform'); // Replace 'yourFormId' with the actual ID of your form
+        form.reset();
+        console.log(productData);
+    }
     const postProduct = () => {
+
+
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -130,13 +134,13 @@ export default function Addnewproduct () {
         console.log(productData);
         fetch(`${API_BASE_URL}/api/admin/products/`, requestOptions)
             .then(response => {
-                 if (!response.ok) {
-                 throw new Error('Network response was not ok');
-                 }
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 return response.json();
             })
             .then(products => {
-               // console.log('Products page:', products);
+                // console.log('Products page:', products);
                 setOpen(false)
             })
             .catch(error => {
@@ -167,8 +171,8 @@ export default function Addnewproduct () {
             });
 
     }
-    const [product_Id,setProduct_Id] = useState()
-    const updateproductdetails = ()=>{
+    const [product_Id, setProduct_Id] = useState()
+    const updateproductdetails = () => {
         const requestOptions = {
             method: 'PUT',
             headers: {
@@ -191,74 +195,163 @@ export default function Addnewproduct () {
                 console.error('There was a problem with the fetch request:', error);
             });
 
-    
+
     }
-   
-    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand,discountedPrice) => {
-        setProduct_Id(id)
-        setEditmenu(true)
-        setOpen(true)
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth" // Optional: smooth scrolling behavior
-          });
-        setProductData({
-            title : title ,
-     brand : brand,
-     price : price,
-     description : description,
-     quantity : quantity,
-     category : category,
-    imageUrl : imageUrl,
-    sizes : sizes,
-    discountedPrice:discountedPrice
-        })
-     
-       
-      
-    }
-    
-    
     useEffect(() => {
-      
+
     }, []);
     return (
-        <div style={{padding:'1rem'}}>
-            
-        {editmenu?<div>
-            <p style={{color:'red'}}>*If you don't want to change any field, keep that input empty</p>
+        <div style={{ padding: '1rem' }}>
+
+            {editmenu ? <div>
+                <p style={{ color: 'red' }}>*If you don't want to change any field, keep that input empty</p>
                 <p>Product : {productData.title}</p>
-                    </div>:''}
+            </div> : ''}
             {
                 !open ?
-                 <div>
-                    
-                    <form >
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    required
-                                    name='title'
-                                    label='Title'
-                                    
-                                    onChange={handleInputChange}
-                                    fullWidth
-                                />
+                    <div>
+
+                        <form >
+                            <Grid container spacing={3}>
+                                <Grid item xs={12} sm={12}>
+                                    <TextField
+                                        required
+                                        name='title'
+                                        label='Title'
+
+                                        onChange={handleInputChange}
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <Grid item xs={12}  >
+                                    <TextField
+                                        required
+                                        name='description'
+                                        label='Description'
+                                        fullWidth
+                                        onChange={handleInputChange}
+                                        multiline
+                                        rows={5}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={12}>
+                                    <TextField
+                                        required
+                                        name='slug'
+                                        label='Slug'
+                                        onChange={handleInputChange}
+                                        fullWidth
+                                    />
+                                </Grid>
+
+                                <Grid item xs={6} sm={6}>
+                                    <TextField
+                                        required
+                                        name='height'
+                                        label='Height'
+                                        fullWidth
+                                        onChange={handleInputChange}
+                                        style={{ paddingBottom: '10px' }}
+                                    /></Grid>
+                                <Grid item xs={6} sm={6}>
+                                    <TextField
+                                        required
+                                        name='width'
+                                        label='Width'
+                                        fullWidth
+                                        onChange={handleInputChange}
+                                        style={{ paddingBottom: '10px' }}
+                                    /></Grid>
+                                <Grid item xs={6} sm={6}>
+                                    <TextField
+                                        required
+                                        name='materials'
+                                        label='Materials'
+                                        fullWidth
+                                        onChange={handleInputChange}
+                                        style={{ paddingBottom: '10px' }}
+                                    /></Grid>
+
+                                <Grid item xs={12} sm={6} >
+                                    <TextField
+                                        required
+                                        name='quantity'
+                                        label='Quantiy'
+                                        type='number'
+                                        fullWidth
+                                        onChange={handleInputChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6} >
+                                    <div>
+                                        <InputLabel id="demo-simple-select-label">{productData.category ? showCategory : "choose a category"}</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            onChange={handleChange}
+                                            style={{ width: '100%', marginBottom: '1rem' }}
+                                            label="Age"
+                                            value={"category"}
+                                        >
+                                            {productCategory?.map((item, index) => (
+
+                                                <MenuItem value={item} key={index}>
+                                                    {item}
+                                                </MenuItem>
+
+                                            ))
+                                            }
+
+                                        </Select>
+                                    </div>
+
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} >
+
+                                    <TextField
+                                        required
+                                        name='video'
+                                        label='Video Link'
+                                        onChange={handleInputChange}
+                                        style={{ marginBottom: '1rem' }}
+                                    />
+                                </Grid>
+
+
+
+
+                                 <Grid item xs={12} sm={6} >
+                                    <Button
+                                        className=' w-full px-0 py-3'
+                                        variant='contained'
+                                        sx={{ background: "#9155FD" }}
+                                        onClick={postProduct}
+                                    >
+                                        Post
+                                    </Button>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    required
-                                    name='slug'
-                                    label='Slug'
-                                    onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Grid>
+                        </form>
+                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column',margin:'1rem' }}>
+                            {
+                                productData?.variations.map((i) => (
+                                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row',gap:'2rem' }}>
+                                        <p>{i.price}</p>
+                                        <p>{i.discountedPrice}</p>
+                                        <p>{i.style}</p>
+                                    </div>
+                                )
+                                )
+                            }
+
+                        </div>
+                        <form id='variationform'>
+                            <h1 style={{ margin: '1rem' }}>Add varitions section</h1>
                             <Grid item xs={12} sm={12}  >
                                 <p>select all images you to upload</p>
                                 <input
-                                    style={{backgroundColor:'black',color:'#fff'}}
-                                    
+                                    style={{ backgroundColor: 'black', color: '#fff', margin: '1rem' }}
                                     required
                                     name='images'
                                     label='Images'
@@ -271,17 +364,7 @@ export default function Addnewproduct () {
                                 />
 
                             </Grid>
-                            <Grid item xs={12}  >
-                                <TextField
-                                    required
-                                    name='description'
-                                    label='Description'
-                                    fullWidth
-                                    onChange={handleInputChange}
-                                    multiline
-                                    rows={5}
-                                />
-                            </Grid>
+
                             <Grid item xs={6} sm={6}  >
 
                                 <TextField
@@ -290,152 +373,46 @@ export default function Addnewproduct () {
                                     label='Regular Price'
                                     fullWidth
                                     onChange={handleInputChange}
-                                    style={{paddingBottom:'10px'}}
+                                    style={{ paddingBottom: '10px' }}
                                 />
-                                
+
                             </Grid>
-                            <Grid  item xs={6} sm={6}>
-                            <TextField
+                            <Grid item xs={6} sm={6}>
+                                <TextField
                                     required
                                     name='discountedPrice'
                                     label='Sale Price'
                                     fullWidth
                                     onChange={handleInputChange}
-                                    style={{paddingBottom:'10px'}}
+                                    style={{ paddingBottom: '10px' }}
                                 /></Grid>
-                                  <Grid  item xs={6} sm={6}>
-                            <TextField
-                                    required
-                                    name='height'
-                                    label='Height'
-                                    fullWidth
-                                    onChange={handleInputChange}
-                                    style={{paddingBottom:'10px'}}
-                                /></Grid>
-                                <Grid  item xs={6} sm={6}>
-                            <TextField
-                                    required
-                                    name='width'
-                                    label='Width'
-                                    fullWidth
-                                    onChange={handleInputChange}
-                                    style={{paddingBottom:'10px'}}
-                                /></Grid>
-                                <Grid  item xs={6} sm={6}>
-                            <TextField
-                                    required
-                                    name='materials'
-                                    label='Materials'
-                                    fullWidth
-                                    onChange={handleInputChange}
-                                    style={{paddingBottom:'10px'}}
-                                /></Grid>
-                          
-                            <Grid item xs={12} sm={6} >
-                                <TextField
-                                    required
-                                    name='quantity'
-                                    label='Quantiy'
-                                    type='number'
-                                    fullWidth
-                                    onChange={handleInputChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6} >
-                                <div>
-                                    <InputLabel id="demo-simple-select-label">{productData.category ? showCategory : "choose a category"}</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        onChange={handleChange}
-                                        style={{ width: '100%', marginBottom: '1rem' }}
-                                        label="Age"
-                                        value={"category"}
-                                    >
-                                        {productCategory?.map((item, index) => (
-
-                                            <MenuItem value={item} key={index}>
-                                                {item}
-                                            </MenuItem>
-
-                                        ))
-                                        }
-
-                                    </Select>
-                                </div>
-                                
-                            </Grid>
-                           
-                            <Grid item xs={12} sm={12} >
-                              
-                            <TextField
-                                    required
-                                    name='video'
-                                    label='Video Link'
-                                    onChange={handleInputChange}
-                                    style={{ marginBottom: '1rem' }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6} >
-
-                                <p>{productData.sizes}</p>
-                                <TextField
-                                    required
-                                    name='variaton'
-                                    label='All variaton'
-                                    value={variations}
-                                    fullWidth
-                                    onChange={(e) => setVaritions(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6} >
-                                <Button
-                                    className=' w-full px-0 py-3'
-                                    variant='contained'
-                                    sx={{ background: "#9155FD" }}
-                                    onClick={() => { productData.sizes.push(variations); setVaritions('') }}
-                                >
-
-                                    add new one variation
-                                </Button>
-
-                            </Grid>
-
-                          
                             <Grid item xs={12} sm={6} >
                                 <TextField
                                     required
                                     name='productvariaton'
-                                    label='Product variaton'
+                                    label='Style'
 
                                     fullWidth
                                     onChange={handleInputChange}
                                 />
 
                             </Grid>
-                            {editmenu?<Grid item xs={12} sm={6} >
+                            <Grid item xs={6} sm={6} >
                                 <Button
+
                                     className=' w-full px-0 py-3'
                                     variant='contained'
                                     sx={{ background: "#9155FD" }}
-                                    onClick={updateproductdetails}
+                                    onClick={addvaraitiondata}
                                 >
-                                    Update
+
+                                    Add  Variation
                                 </Button>
-                            </Grid>:<Grid item xs={12} sm={6} >
-                                <Button
-                                    className=' w-full px-0 py-3'
-                                    variant='contained'
-                                    sx={{ background: "#9155FD" }}
-                                    onClick={postProduct}
-                                >
-                                    Post
-                                </Button>
-                            </Grid>}
-                        </Grid>
-                    </form>
-                </div> : ''
-}
+
+                            </Grid>
+                        </form>
+                    </div> : ''
+            }
         </div>
     )
 }

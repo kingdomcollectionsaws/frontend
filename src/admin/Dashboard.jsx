@@ -40,16 +40,15 @@ export default function Dashboard() {
         quantity: '',
         category: '',
         imageUrl: [],
-        sizes: [],
         brand: '',
         discountedPrice:'',
         slug:'',
         height:'',
         width:'',
-        materials:''
+        materials:'',
+        variations:[]
     });
 
-    const [variations, setVariations] = useState('');
     const handleInputChange = (e) => {
         
         const { name, value } = e.target;
@@ -95,6 +94,17 @@ export default function Dashboard() {
         }
 
     };
+    let [newvaraitons,setNewvaraitons] = useState([
+        { price: productData.price, discountedPrice: productData.discountedPrice, style: productData.brand, images: productData.imageUrl }
+    ])
+    const addvaraitiondata = () => {
+       newvaraitons.push(
+        { price: productData.price, discountedPrice: productData.discountedPrice, style: productData.brand, images: productData.imageUrl }
+    )
+    const form = document.getElementById('variationform'); // Replace 'yourFormId' with the actual ID of your form
+    form.reset();
+        console.log(newvaraitons);
+    }
     const handleChange = (e) => {
         setShowCategory(e.target.value)
         productData.category = e.target.value;
@@ -265,7 +275,7 @@ export default function Dashboard() {
     
     }
   
-    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,sizes,brand, discountedPrice,slug) => {
+    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,brand, discountedPrice,slug,variations) => {
         setProduct_Id(id)
         setEditmenu(true)
         setOpen(true)
@@ -289,6 +299,7 @@ export default function Dashboard() {
                 imageUrl: imageUrl,
                 discountedPrice: discountedPrice,
                 slug:slug,
+                variations:newvaraitons
 
             });
         
@@ -387,7 +398,7 @@ export default function Dashboard() {
                                         <div style={{width:'11rem'}}>
                                         <p>{i.title} <span>style : {i.brand}</span> </p>
                                         <div style={{display:'flex',width:'14rem'}}>
-                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl, i.sizes, i.brand,i.discountedPrice,i.slug)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
+                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl,  i.brand,i.discountedPrice,i.slug,i.variations)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >View</Button>
                                     </div>
@@ -437,23 +448,6 @@ export default function Dashboard() {
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12}  >
-                                <p>select all images you to upload</p>
-                                <input
-                                    style={{backgroundColor:'black',color:'#fff'}}
-                                    
-                                    required
-                                    name='images'
-                                    label='Images'
-                                    type='file'
-                                    fullWidth
-                                    imginput
-                                    multiple
-                                    onChange={handelfileupload}
-
-                                />
-
-                            </Grid>
                             <Grid item xs={12}  >
                                 <TextField
                                     required
@@ -465,27 +459,8 @@ export default function Dashboard() {
                                     rows={5}
                                 />
                             </Grid>
-                            <Grid item xs={6} sm={6}  >
-
-                                <TextField
-                                    required
-                                    name='price'
-                                    label='Regular Price'
-                                    fullWidth
-                                    onChange={handleInputChange}
-                                    style={{paddingBottom:'10px'}}
-                                />
-                              
-                            </Grid>  
-                            <Grid item xs={6} sm={6}  >
-                               <TextField
-                                    required
-                                    name='discountedPrice'
-                                    label='Sale Price'
-                                    fullWidth
-                                    onChange={handleInputChange}
-                                />
-                          </Grid>  
+                        
+                           
                           <Grid  item xs={6} sm={6}>
                             <TextField
                                     required
@@ -558,45 +533,6 @@ export default function Dashboard() {
                                     style={{ marginBottom: '1rem' }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6} >
-
-<p>{productData?.sizes}</p>
-<TextField
-    required
-    name='variaton'
-    label='All variaton'
-    value={variations}
-    fullWidth
-    onChange={(e) =>{ setVariations(e.target.value)}}
-/>
-</Grid>
-                            <Grid item xs={12} sm={6} >
-                                <Button
-                                    className=' w-full px-0 py-3'
-                                    variant='contained'
-                                    sx={{ background: "#9155FD" }}
-                                    onClick={() => {setProductData(prevData => ({
-                                        ...prevData,
-                                        sizes: Array.isArray(prevData.sizes) ? [...prevData.sizes, variations] : [variations],
-                                      }));setVariations('') }}
-                                >
-
-                                    add new one variation
-                                </Button>
-
-                            </Grid>
-
-                          
-                            <Grid item xs={12} sm={6} >
-                                <TextField
-                                    required
-                                    name='productvariaton'
-                                    label='Product variaton'
-                                    fullWidth
-                                    onChange={handleInputChange}
-                                />
-
-                            </Grid>
                             {editmenu?<Grid item xs={12} sm={6} >
                                 <Button
                                     className=' w-full px-0 py-3'
@@ -618,7 +554,71 @@ export default function Dashboard() {
                             </Grid>}
                         </Grid>
                     </form>
-                            
+                    <form id='variationform'>
+                            <h1 style={{ margin: '1rem' }}>Add varitions section</h1>
+                            <Grid item xs={12} sm={12}  >
+                                <p>select all images you to upload</p>
+                                <input
+                                    style={{ backgroundColor: 'black', color: '#fff', margin: '1rem' }}
+                                    required
+                                    name='images'
+                                    label='Images'
+                                    type='file'
+                                    fullWidth
+                                    imginput
+                                    multiple
+                                    onChange={handelfileupload}
+
+                                />
+
+                            </Grid>
+
+                            <Grid item xs={6} sm={6}  >
+
+                                <TextField
+                                    required
+                                    name='price'
+                                    label='Regular Price'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{ paddingBottom: '10px' }}
+                                />
+
+                            </Grid>
+                            <Grid item xs={6} sm={6}>
+                                <TextField
+                                    required
+                                    name='discountedPrice'
+                                    label='Sale Price'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{ paddingBottom: '10px' }}
+                                /></Grid>
+                            <Grid item xs={12} sm={6} >
+                                <TextField
+                                    required
+                                    name='productvariaton'
+                                    label='Style'
+
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                />
+
+                            </Grid>
+                            <Grid item xs={6} sm={6} >
+                                <Button
+
+                                    className=' w-full px-0 py-3'
+                                    variant='contained'
+                                    sx={{ background: "#9155FD" }}
+                                    onClick={addvaraitiondata}
+                                >
+
+                                    Add  Variation
+                                </Button>
+
+                            </Grid>
+                        </form>
                         </div>
                         </div>
                             </div>}

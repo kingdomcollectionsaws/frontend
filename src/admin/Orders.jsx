@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { API_BASE_URL } from '../config/apiConfig';
 import Fedex from './Fedex';
 import { AiOutlineClose } from 'react-icons/ai';
-
 export default function Orders() {
   const [loading,setLoading] = useState(true);
   const [ordersData,setOrdersData] = useState([]);

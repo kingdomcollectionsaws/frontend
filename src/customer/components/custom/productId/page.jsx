@@ -1,6 +1,4 @@
 
-//import img1 from "../../../../public/img1.png"
-import { TfiMoreAlt } from "react-icons/tfi";
 import ReactStars from "react-rating-stars-component";
 import esty from "../../../../../public/esty.png"
 import noimage from "../../../../../public/noimage.png"
@@ -125,11 +123,11 @@ export default function ProductDetailPage({ params }) {
     pauseOnHover: false,
   });
   const inputRef = useRef(null);
-
+  const [productVariation,setProductVariation] = useState()
   const carts = async (id) => {
     const token = localStorage.getItem('jwt');
     if (selectedValue) {
-      const data = { productId: id }
+      const data = { productId: id,variation:productVariation}
       if (token) {
 
         dispatch(addItemInCart(data));
@@ -171,7 +169,7 @@ export default function ProductDetailPage({ params }) {
   const buynow = async (id) => {
     const token = localStorage.getItem('jwt');
     if (selectedValue) {
-      const data = { productId: id }
+      const data = { productId: id,variation:productVariation}
       if (token) {
 
 
@@ -237,11 +235,12 @@ export default function ProductDetailPage({ params }) {
       });
     setOpen(false)
   }, [dispatch, id])
-
+ 
   useEffect(() => {
     // Update product details when 'product' from Redux store changes
     if (product) {
       setProductDetails(product);
+      setProductVariation(productDetails?.variations[0])
     }
   }, [product, user])
   useEffect(() => {
@@ -286,26 +285,27 @@ export default function ProductDetailPage({ params }) {
     setOrderDate(formattedDateRange)
 
   }
-  const [allImagesUrls,setAllImagesUrls] = useState(product?.imageUrl)
-  const [showimage,setShowimage] = useState(product?.imageUrl[0])
-  // const getimages = ()=>{
-  //   const getproductimages =  products.filter((i)=>{
-  //     return i.category == product.category 
-  //     })
-  //     getproductimages.forEach((i)=>{
-  
-  //   i.imageUrl.forEach((i)=>{
-  //     allImagesUrls.push(i)
-  //   })
-  //     })
-  //     const filteredarray = allImagesUrls.filter((value, index)=>{
-  //       allImagesUrls.indexOf(value) === index
-  //     })
-  //     setAllImagesUrls(filteredarray);
-  //     console.log('res',allImagesUrls);
-  // }
-  const handleChange = (event) => {
+  const [allImagesUrls, setAllImagesUrls] = useState([]);
 
+  // State for the currently displayed image
+  const [showImage, setShowImage] = useState(null);
+
+  // Effect to update image URLs when productDetails or product change
+  useEffect(() => {
+    // Ensure productDetails and product are available
+    if (productDetails && product) {
+      // Extract image URLs from variations and set them to state
+      const imageUrls = productDetails.variations.flatMap(variation => variation.images);
+      setAllImagesUrls(imageUrls);
+
+      // Set the first image as the initially displayed one
+      if (imageUrls.length > 0) {
+        setShowImage(imageUrls[0]);
+      }
+    }
+  }, [productDetails, product]);
+
+  const handleChange = (event) => {
     if (event.target.value) {
       inputRef.current.style.borderWidth = ''
       inputRef.current.style.borderColor = '';
@@ -314,18 +314,36 @@ export default function ProductDetailPage({ params }) {
     }
     setSelectedValue(event.target.value);
     localStorage.setItem('value', event.target.value);
-
-  console.log(event.target.value);
-    // Update the selected value state
-    const getproduct =  products.filter((i)=>{
-     return i.category == product.category && i.brand == event.target.value
-     })
-   setProductDetails(getproduct[0])
-  
+    
+for (let index = 0; index < productDetails?.variations.length; index++) {
+  if(productDetails.variations[index].style == event.target.value ){
+    setProductVariation(productDetails?.variations[index]);
+    
+   break;
+  }
  
+}
   };
   
-
+  const MhandleChange = (event) => {
+        if (event.target.value) {
+          inputRef.current.style.borderWidth = ''
+          inputRef.current.style.borderColor = '';
+          setOpenselect(false)
+    
+        }
+        setSelectedValue(event.target.value);
+        localStorage.setItem('value', event.target.value);
+        
+    for (let index = 0; index < productDetails?.variations.length; index++) {
+      if(productDetails.variations[index].style == event.target.value.style ){
+        setProductVariation(productDetails?.variations[index]);
+        
+       break;
+      }
+     
+    }
+      };
   const Getreviews = (id) => {
     const requestOptions = {
       method: 'GET',
@@ -345,7 +363,7 @@ export default function ProductDetailPage({ params }) {
         console.error('There was a problem with the fetch request:', error);
       });
   }
-  const [showindex, setShowindex] = useState(0)
+  
   const handleNext = (length) => {
     if (showindex == length - 1) {
       setShowindex(0)
@@ -365,10 +383,9 @@ export default function ProductDetailPage({ params }) {
 
   useEffect(() => {
 
-
-  }, [showindex, open]);
+  }, [ open]);
   useEffect(() => {
-  //  getimages()
+    
     dispatch(getAllProducts());
 
   }, []);
@@ -377,7 +394,14 @@ export default function ProductDetailPage({ params }) {
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
-  const [showModelReview, setShowModelReview] = useState()
+  const [showModelReview, setShowModelReview] = useState();
+     const [showindex, setShowindex] = useState()
+  useEffect(() => {
+    setShowindex(productVariation?.images[0]);
+  }, [productVariation]);
+  useEffect(()=>{
+
+  },[showindex])
   return (
     !loading ? <>
       {
@@ -386,11 +410,12 @@ export default function ProductDetailPage({ params }) {
             <ToastContainer />
             <div className={style.main} style={{ boxSizing: 'border-box', padding: '0', margin: '0', height: '100vh' }}>
               <div className={style.carousel} style={{ width: '100%', height: '20rem' }}>
-                <ProductSlider imagesdata={productDetails?.imageUrl}  />
-                <div className={style.info} style={{ width: '100%', marginLeft: '2px' }}>
+                <ProductSlider imagesdata={allImagesUrls} showindex = {showindex}/>
+                <div className={style.info} style={{width: '100%', marginLeft: '2px'}}>
                   <div className={style.limited}> Only 1 left and in 2 carts</div>
-                  <div className={style.price} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: '#16A34A' }}>${productDetails?.discountedPrice} <span><p className=' tracking-tight text-gray-600 text-lg  line-through px-2 '>${productDetails?.price}</p></span> <span
-                  style={{color:'black',backgroundColor:'#A0E193',padding:'4px',borderRadius:'10px',fontWeight:'200',fontSize:'.9rem'}}>{((productDetails?.price-productDetails?.discountedPrice)/(productDetails?.price/100)).toFixed(2)}% off</span></div>
+                  
+                  <div className={style.price} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: '#16A34A' }}>${productVariation?.discountedPrice} <span><p className=' tracking-tight text-gray-600 text-lg  line-through px-2 '>${productVariation?.price}</p></span> <span
+                  style={{color:'black',backgroundColor:'#A0E193',padding:'4px',borderRadius:'10px',fontWeight:'200',fontSize:'.9rem'}}>{((productVariation?.price-productVariation?.discountedPrice)/(productVariation?.price/100)).toFixed(2)}% off</span></div>
                   <div className={style.choose}>
                     Choose from multiple variations
                   </div>
@@ -414,18 +439,18 @@ export default function ProductDetailPage({ params }) {
 
                     <Select
                       ref={inputRef}
-
                       open={openselect}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      onChange={handleChange}
+                     
+                      onChange={MhandleChange}
                       style={{ width: '95%', marginBottom: '1rem' }}
 
                     >
-                      {productDetails?.sizes?.map((item, index) => (
+                      {productDetails?.variations.map((item, index) => (
 
                         <MenuItem value={item} key={index}>
-                          {item}
+                          {item.style}
                         </MenuItem>
 
                       ))
@@ -434,10 +459,10 @@ export default function ProductDetailPage({ params }) {
                     </Select>
                   </div>
                   <div>
-                    <button className={style.cartBtn} onClick={() => carts(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)} style={{ marginLeft: '1rem', width: '90%' }}>
+                    <button className={style.cartBtn} onClick={() => carts(productDetails?._id, productDetails?.title, productVariation?.price, productVariation?.images[0], productVariation?.discountedPrice)} style={{ marginLeft: '1rem', width: '90%' }}>
                       Add to cart
                     </button>
-                    <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', width: '90%' }} onClick={() => buynow(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)}>
+                    <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', width: '90%' }} onClick={() => buynow(productDetails?._id, productDetails?.title, productVariation?.price, productVariation?.images[0], productVariation?.discountedPrice)}>
                       Buy Now
                     </button>
                   </div>
@@ -837,7 +862,7 @@ export default function ProductDetailPage({ params }) {
             <ToastContainer />
             <div className={style.main}>
               <div className={style.carousel}>
-                <ProductSlider imagesdata={productDetails?.imageUrl} />
+                <ProductSlider imagesdata={allImagesUrls}  showindex = {showindex}/>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: '2rem' }}>
                   <p style={{ fontSize: '1.6rem' }} className={style.text}> {allproductreviews?.length} reviews</p>
                   <div className={style.stars} style={{ paddingLeft: '1rem' }}>
@@ -1118,8 +1143,8 @@ export default function ProductDetailPage({ params }) {
               </div>
               <div className={style.info}>
                 <div className={style.limited}>Only 1 left and in 2 carts</div>
-                <div className={style.price} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: '#16A34A' }}>${productDetails?.discountedPrice} <span><p className=' tracking-tight text-gray-600 text-lg  line-through px-2 '>${productDetails?.price}</p></span><span
-                  style={{color:'black',backgroundColor:'#A0E193',padding:'4px',borderRadius:'10px',fontWeight:'200',fontSize:'.9rem'}}>{((productDetails?.price-productDetails?.discountedPrice)/(productDetails?.price/100)).toFixed(2)}% off</span></div>
+                <div className={style.price} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: '#16A34A' }}>${productVariation?.discountedPrice} <span><p className=' tracking-tight text-gray-600 text-lg  line-through px-2 '>${productVariation?.price}</p></span><span
+                  style={{color:'black',backgroundColor:'#A0E193',padding:'4px',borderRadius:'10px',fontWeight:'200',fontSize:'.9rem'}}>{((productVariation?.price-productVariation?.discountedPrice)/(productVariation?.price/100)).toFixed(2)}% off</span></div>
                 <div className={style.choose}>
                   Choose from multiple variations
                 </div>
@@ -1150,10 +1175,10 @@ export default function ProductDetailPage({ params }) {
                     onChange={handleChange}
                     style={{ width: '100%', marginBottom: '1rem' }}
                   >
-                    {productDetails?.sizes.map((item, index) => (
+                    {productDetails?.variations.map((item, index) => (
 
-                      <MenuItem value={item} key={index} >
-                        {item}
+                      <MenuItem value={item.style} key={index} >
+                        {item.style}
                       </MenuItem>
 
                     ))
@@ -1168,10 +1193,10 @@ export default function ProductDetailPage({ params }) {
 
 
                 <div style={{ marginLeft: '1rem' }}>
-                  <button className={style.cartBtn} onClick={() => carts(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)}>
+                  <button className={style.cartBtn} onClick={() => carts(productDetails?._id, productDetails?.title, productVariation?.price, productVariation?.images[0], productVariation?.discountedPrice)}>
                     Add to cart
                   </button>
-                  <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem' }} onClick={() => buynow(productDetails?._id, productDetails?.title, productDetails?.price, productDetails?.imageUrl[0], productDetails?.discountedPrice)}>
+                  <button className={style.cartBtn} style={{ marginTop: '1rem', marginBottom: '1rem' }} onClick={() => buynow(productDetails?._id, productDetails?.title, productVariation?.price, productVariation?.images[0], productVariation?.discountedPrice)}>
                     Buy Now
                   </button>
 

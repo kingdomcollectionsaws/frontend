@@ -68,12 +68,12 @@ const token = localStorage.getItem('jwt')
 
 <div className='col-span-2 lg:w-[55vw] sm:w-[80vw]'>
 {orderData?.orderItems.map((i)=><div className='flex align-center mx-3 mt-10  space-x-5 lg:flex-row  flex-col' key={i._id}>
-        <img className='max-w[10rem] max-h-[10rem] flex align-center mx-4'  src={i.product.imageUrl[0]} alt="img" />
+        <img className='max-w[10rem] max-h-[10rem] flex align-center mx-4'  src={i?.image} alt="img" style={{width:'10rem',height:'10rem'}} />
        <div className='flex align-center justify-center flex-col' >
 <p>{i?.product.title}</p>
-<p>${i?.product.discountedPrice}</p>
+<p>${i?.discountedPrice}</p>
   <p>quantity:{i?.quantity}</p>
-<p className=' font-semibold tracking-tight   text-green-600'>{i?.product.sizes[0]}</p>
+<p className=' font-semibold tracking-tight   text-green-600'>style:{i?.style}</p>
 <div className="flex align-center justify-start m-y-1 space-x-2">
           </div>
        </div>

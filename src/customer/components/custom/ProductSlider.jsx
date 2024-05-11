@@ -1,26 +1,35 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ImageSlider.css';
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import img from '../../../../public/videoimg.png'
-const ProductSlider = ({ imagesdata }) => {
+const ProductSlider = ({ imagesdata,showindex }) => {
 
+  const [showimage,setShowimage] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    useEffect(()=>{
+      setShowimage(true)
+console.log(showimage);
+    },[showindex])
+  
   // const images = imagesdata.map(src => src);
   if (!imagesdata || imagesdata.length === 0) {
     return <div>No images available</div>;
   }
   const handleThumbnailClick = (index) => {
      setCurrentImageIndex(index);
+     setShowimage(false)
+   
    };
 
   const handlePrev = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? imagesdata?.length - 1 : prevIndex - 1));
+    setShowimage(false)
   };
-
   const handleNext = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex === imagesdata?.length - 1 ? 0 : prevIndex + 1));
+    setShowimage(false)
   };
 
   return (
@@ -31,7 +40,7 @@ const ProductSlider = ({ imagesdata }) => {
           <img src={img} alt="kk" />
          <source src={`${imagesdata[currentImageIndex]}#t=1`} type="video/mp4"   />
          Your browser does not support the video tag.
-       </video>: <img src={imagesdata[currentImageIndex]} alt={"img"} width={1000} height={1000} />}
+       </video>:<img src={showimage && showindex?showindex:imagesdata[currentImageIndex]} alt={"img"} width={1000} height={1000} /> }
         <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
         <div className="next" onClick={handleNext}><MdOutlineArrowForwardIos /></div>
       </div>
@@ -41,7 +50,7 @@ const ProductSlider = ({ imagesdata }) => {
           <img
             width={1000} height={1000}
             key={index}
-            src={item.endsWith('.mp4')?img:item}
+            src={item.endsWith('.mp4')?img: item}
             alt={"img"}
             style={{ height: '60px', width: '60px', borderRadius: '10px' }}
             className={index === currentImageIndex ? 'active-thumbnail' : 'thumbnail'}
@@ -52,23 +61,26 @@ const ProductSlider = ({ imagesdata }) => {
     </div>
   );
 };
- export const EProductSlider = ({ imagesdata }) => {
+ export const EProductSlider = ({ imagesdata,showindex }) => {
 
+  
+  const [showimage,setShowimage] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    useEffect(()=>{
+      setShowimage(true)
+    },[showindex])
+  
   // const images = imagesdata.map(src => src);
   if (!imagesdata || imagesdata.length === 0) {
     return <div>No images available</div>;
   }
-  const handleThumbnailClick = (index) => {
-     setCurrentImageIndex(index);
-   };
-
   const handlePrev = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? imagesdata?.length - 1 : prevIndex - 1));
+    setShowimage(false)
   };
-
   const handleNext = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex === imagesdata?.length - 1 ? 0 : prevIndex + 1));
+    setShowimage(false)
   };
 
   return (
@@ -79,7 +91,7 @@ const ProductSlider = ({ imagesdata }) => {
           <img src={img} alt="kk" />
          <source src={`${imagesdata[currentImageIndex]}#t=1`} type="video/mp4"    />
          Your browser does not support the video tag.
-       </video>: <img src={imagesdata[currentImageIndex]} alt={"img"} style={{width:'20rem',height:'20rem'}} />}
+       </video>: <img src={showimage && showindex?showindex:imagesdata[currentImageIndex]} alt={"img"} style={{width:'20rem',height:'20rem'}} />}
         <div className="prev" onClick={handlePrev} ><MdOutlineArrowBackIos /></div>
         <div className="next" onClick={handleNext} ><MdOutlineArrowForwardIos /></div>
       </div>
