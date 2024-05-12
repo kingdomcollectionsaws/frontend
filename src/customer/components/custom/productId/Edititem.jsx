@@ -9,22 +9,19 @@ import { API_BASE_URL } from "../../../../config/apiConfig";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
-import { addItemInCart, getCart, removeItemInCart } from '../../../state/cart/cartSlice';
+import { getCart, updateItemInCart} from '../../../state/cart/cartSlice';
 import axios from 'axios';
 export default function Edititem({data}) {
+  const dispatch = useDispatch();
+
   const inputRef = useRef(null);
   const [productDetails,setProductDetails] = useState(data?.product);
   const [productVariation,setProductVariation] = useState(data?.product.variations[0])
   const [showindex,setShowindex] = useState()
   const [allImagesUrls, setAllImagesUrls] = useState([]);
  const [selectedValue, setSelectedValue] = useState('');
-
- // State for the currently displayed image
- // Effect to update image URLs when productDetails or product change
  useEffect(() => {
-   // Ensure productDetails and product are available
    if (productDetails ) {
-     // Extract image URLs from variations and set them to state
      const imageUrls = productDetails.variations.flatMap(variation => variation.images);
      setAllImagesUrls(imageUrls);
    }
@@ -48,7 +45,9 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
  }
 
 }
+
  };
+
    useEffect(() => {
   
     setShowindex(productVariation?.images[0])
@@ -59,6 +58,16 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 useEffect(()=>{
 getCart();
 },[])
+const updateitem = async(productVariation)=>{
+const updatedata =   { id: data._id, style:productVariation.style,
+  price:productVariation.price,
+  discountedPrice:productVariation.discountedPrice,
+  quantity:data.quantity,image:productVariation.images[0]};
+console.log(updatedata);
+   await dispatch(updateItemInCart(updatedata));
+   dispatch(getCart())
+ 
+}
   return (
       <div style={{zIndex:'1000',display:'flex',alignItems:'center' ,height:'auto',marginTop:'-.7rem'}}>
          <div className={style.carousel} style={{ width: '100%', height: '10rem' ,justifyContent:'center'}}> 
@@ -92,7 +101,7 @@ getCart();
                     </Select>
                   </div>
                   <div>
-                    <button className={style.cartBtn}style={{ marginLeft: '1rem', width: '90%' }} onClick={() => removeItem(productDetails?._id)}>
+                    <button className={style.cartBtn}style={{ marginLeft: '1rem', width: '90%' }} onClick={() => updateitem(productVariation)}>
                       Save
                     </button>
                

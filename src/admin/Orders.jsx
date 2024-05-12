@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { API_BASE_URL } from '../config/apiConfig';
 import Fedex from './Fedex';
 import { AiOutlineClose } from 'react-icons/ai';
+import Loader from '../customer/Loader'
 export default function Orders() {
   const [loading,setLoading] = useState(true);
   const [ordersData,setOrdersData] = useState([]);
@@ -201,7 +202,8 @@ const customTrackingDetails  = async(id)=>{
   }
 }
   return (
-  !loading? <div>
+    ordersData.length >= 1? 
+    <div>
    { fedexmenu?
   <div style={{display:'flex',width:'100%',height:'150vh',backgroundColor:'#fff',margin:'2rem',flexDirection:'column'}}>
    <button onClick={()=>setFedexmenu(false)} style={{margin:'2rem',position:'absolute',right:'1%'}}>
@@ -226,13 +228,13 @@ const customTrackingDetails  = async(id)=>{
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}} key={index}>
     <div style={{width:'60%'}}>
     <div className=' rounded-sm sm:w-[5rem] sm:h-[5rem] h-[5rem] w-[5rem]  '>
-    <img className='object-cover border rounded-lg' src={i.product?.imageUrl[0]} alt="img" />
+    <img className='object-cover border rounded-lg' src={i.image} alt="img" />
       </div> 
     <div className='flex flex-col '>
       <p className='font-bold mb-2'></p>
       <p>Price: {i.price}</p>
       <p>Name: {i.product?.title}</p>
-      <p>Style: {i.sizes[0]}</p>
+      <p>Style: {i.style}</p>
       <p className=' mb-2'>Quantity: {i.quantity}</p>     
       <p>{i.title}</p>
     </div>
@@ -296,6 +298,6 @@ const customTrackingDetails  = async(id)=>{
    
     ))}
    
-   </div>:<h1 style={{height:'80vh',width:'70%'}}>Loading..</h1>
+   </div>:<div style={{height:'80vh',width:'70%'}}><Loader/></div>
   )
 }

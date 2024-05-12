@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { findProductById, getAllProducts } from "../../../state/product/productSlice";
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from "../../../Loader";
-import { addItemInCart, } from "../../../state/cart/cartSlice";
+import { addItemInCart, getCart, } from "../../../state/cart/cartSlice";
 import Footer, { Mobilefooter } from "../../../Footer";
 import { MenuItem, Select, } from "@mui/material";
 import { API_BASE_URL } from "../../../../config/apiConfig";
@@ -43,6 +43,7 @@ import c5 from "/public/c5.png"
 import c6 from "/public/c6.png"
 import { RiMoreFill } from "react-icons/ri";
 export default function ProductDetailPage({ params }) {
+ 
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
   const [showfullreview, setShowfullreview] = useState(false)
@@ -126,8 +127,9 @@ export default function ProductDetailPage({ params }) {
   const [productVariation,setProductVariation] = useState()
   const carts = async (id) => {
     const token = localStorage.getItem('jwt');
+    const data = { productId: id,variation:productVariation}
     if (selectedValue) {
-      const data = { productId: id,variation:productVariation}
+     
       if (token) {
 
         dispatch(addItemInCart(data));
@@ -168,8 +170,11 @@ export default function ProductDetailPage({ params }) {
   }
   const buynow = async (id) => {
     const token = localStorage.getItem('jwt');
+    const data = { productId: id,variation:productVariation}
     if (selectedValue) {
-      const data = { productId: id,variation:productVariation}
+      
+
+      
       if (token) {
 
 
@@ -385,7 +390,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
   }, [ open]);
   useEffect(() => {
-    
+    dispatch(getCart())
     dispatch(getAllProducts());
 
   }, []);

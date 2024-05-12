@@ -215,11 +215,11 @@ export default function OderDetail() {
          <div className='flex align-center justify-around border shadow-lg mt-8 cursor-pointer flex-col '>
   <div className=' rounded-sm flex align-center sm:flex-col lg:flex-row  '>
 <div className='w-[10rem] h-[10rem]'>
-<img className='object-cover border rounded-lg' src={i.product.imageUrl[0]} alt="img" />
+<img className='object-cover border rounded-lg' src={i.image} alt="img" />
 </div>
 <div className='mx-5'>
 <p className='font-bold mb-2'>{i.product.title}</p>
-  <p className='font-semibold mb-2'>${i.product.price}</p>
+  <p className='font-semibold mb-2'>${i.discountedPrice}</p>
   <p className='font-bold'>Shiped</p>
 </div>
   </div>

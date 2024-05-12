@@ -15,7 +15,6 @@ import Orderpie from './Orderpie.jsx';
 import Todayorder from './Todayorder.jsx';
 import { useNavigate } from 'react-router-dom';
 import Addnewproduct from './Addnewproduct.jsx';
-import { Vibration } from '@mui/icons-material';
 import Blog from './Blog.jsx';
 import AddBlog from './AddBlog.jsx';
 import Fedex from './Fedex.jsx';
@@ -275,7 +274,7 @@ export default function Dashboard() {
     
     }
   
-    const updateProduct = async (id,title,price,description,quantity,category,imageUrl,brand, discountedPrice,slug,variations) => {
+    const updateProduct = async (id,title,description,quantity,category,slug,variations) => {
         setProduct_Id(id)
         setEditmenu(true)
         setOpen(true)
@@ -291,15 +290,15 @@ export default function Dashboard() {
                 
             setProductData({
                 title: title,
-                brand: brand,
-                price: price,
+               // brand: brand,
+            //    price: price,
                 description: description,
                 quantity: quantity,
                 category: category,
-                imageUrl: imageUrl,
-                discountedPrice: discountedPrice,
+              //  imageUrl: imageUrl,
+              //  discountedPrice: discountedPrice,
                 slug:slug,
-                variations:newvaraitons
+                variations:variations
 
             });
         
@@ -312,7 +311,35 @@ export default function Dashboard() {
         getorder();
         getusers()
     }, [open,]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [variationUpdateMenu,setVariationUpdateMenu] = useState(false);
+    const [variationId,setVariationId] = useState();
+
+    const updatevariation = ()=>{
+        console.log(product_Id,variationId);
+        const Data = {product_Id,variationId,style:productData.brand,images:productData.imageUrl,price:productData.price,discountedPrice:productData.discountedPrice}
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json' // Set the content type to JSON
+            },
+            body: JSON.stringify(Data)
+        }
+        fetch(`${API_BASE_URL}/api/admin/variation/variations/update`, requestOptions)
+            .then(response => {
+                // if (!response.ok) {
+                //     throw new Error('Network response was not ok');
+                // }
+                return response.json();
+            })
+            .then(products => {
+                console.log('Products delete successfully',products );
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch request:', error);
+            });
+
+    }
     return (
         !loading && user?.role === "ADMIN" ?
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -393,18 +420,18 @@ export default function Dashboard() {
                             <>  
                             <div className='border mb-3 m-10'>
                                 <div className='flex align-center mx-3 mt-10  space-x-5 m-10' key={i} >
-                                    <img src={i.imageUrl[0]} alt='img' style={{ width: '5rem', height: '5rem' }} />
+                                    <img src={i.variations[0].images[0]} alt='img' style={{ width: '5rem', height: '5rem' }} />
                                     <div className='flex align-center justify-center flex-row ' style={{gap:'110px'}} >
                                         <div style={{width:'11rem'}}>
-                                        <p>{i.title} <span>style : {i.brand}</span> </p>
+                                        <p>{i.title} <span>style : {i.variations[0].style}</span> </p>
                                         <div style={{display:'flex',width:'14rem'}}>
-                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.price, i.description, i.quantity, i.category, i.imageUrl,  i.brand,i.discountedPrice,i.slug,i.variations)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
+                                        <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.description, i.quantity, i.category,   i.slug, i.variations)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >View</Button>
                                     </div>
                                         </div>
                                         <p style={{marginLeft:'2rem',}}><spna style={{color:'green'}}>in stock</spna> ({i.quantity})</p>
-                                        <p >  {i.price}</p>
+                                        <p >  {i.variations[0].discountedPrice}<span className='line-through'> {i.variations[0].price} </span></p>
                                         
                                         <p> {i.category}</p>
                                         <p style={{width:'10rem'}}> {i.createdAt.slice(0,10)}</p>
@@ -433,7 +460,6 @@ export default function Dashboard() {
                                     required
                                     name='title'
                                     label='Title'
-                                    
                                     onChange={handleInputChange}
                                     fullWidth
                                 />
@@ -443,7 +469,6 @@ export default function Dashboard() {
                                     required
                                     name='slug'
                                     label='Slug'
-                                    
                                     onChange={handleInputChange}
                                     fullWidth
                                 />
@@ -554,10 +579,88 @@ export default function Dashboard() {
                             </Grid>}
                         </Grid>
                     </form>
-                    <form id='variationform'>
+                    <div style={{display:'flex' ,alignItems:'center',flexDirection:'column',margin:'1rem'}}>
+{productData?.variations.map((i)=>(
+        <div style={{display:'flex' ,alignItems:'center',justifyContent:'center',gap:'20px',margin:'1rem',borderBottom:'2px solid black',}} >
+            <img src={i.images[0]} alt="img"  style={{width:'3rem',height:'3rem'}}/>
+            <p>{i.style}</p>
+            <p>{i.discountedPrice}</p>
+            <p className='line-through'>{i.price}</p>
+            <button style={{backgroundColor:'black',color:'#fff'}} >Delete</button>
+           <button style={{backgroundColor:'black',color:'#fff'}} onClick={()=>{setVariationId(i._id);setVariationUpdateMenu(true)}} >Update</button>
+        </div>
+    ))
+}
+  {variationUpdateMenu?<button style={{backgroundColor:'black',color:'#fff'}} onClick={()=>setVariationUpdateMenu(false)} >Update cancel</button>:null}
+                    </div>
+                   {variationUpdateMenu? <form id='variationform'>
                             <h1 style={{ margin: '1rem' }}>Add varitions section</h1>
                             <Grid item xs={12} sm={12}  >
-                                <p>select all images you to upload</p>
+                                <p>Select all images</p>
+                                <input
+                                    style={{ backgroundColor: 'black', color: '#fff', margin: '1rem' }}
+                                    required
+                                    name='images'
+                                    label='Images'
+                                    type='file'
+                                    fullWidth
+                                    imginput
+                                    multiple
+                                    onChange={handelfileupload}
+
+                                />
+
+                            </Grid>
+
+                            <Grid item xs={6} sm={6}  >
+
+                                <TextField
+                                    required
+                                    name='price'
+                                    label='Regular Price'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{ paddingBottom: '10px' }}
+                                />
+
+                            </Grid>
+                            <Grid item xs={6} sm={6}>
+                                <TextField
+                                    required
+                                    name='discountedPrice'
+                                    label='Sale Price'
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                    style={{ paddingBottom: '10px' }}
+                                /></Grid>
+                            <Grid item xs={12} sm={6} >
+                                <TextField
+                                    required
+                                    name='productvariaton'
+                                    label='Style'
+
+                                    fullWidth
+                                    onChange={handleInputChange}
+                                />
+
+                            </Grid>
+                            <Grid item xs={6} sm={6} >
+                                <Button
+
+                                    className=' w-full px-0 py-3'
+                                    variant='contained'
+                                    sx={{ background: "#9155FD" }}
+                                    onClick={updatevariation}
+                                >
+
+                                    Update  Variation
+                                </Button>
+
+                            </Grid>
+                        </form>: <form id='variationform'>
+                            <h1 style={{ margin: '1rem' }}>Add varitions section</h1>
+                            <Grid item xs={12} sm={12}  >
+                                <p>Select all images</p>
                                 <input
                                     style={{ backgroundColor: 'black', color: '#fff', margin: '1rem' }}
                                     required
@@ -614,11 +717,11 @@ export default function Dashboard() {
                                     onClick={addvaraitiondata}
                                 >
 
-                                    Add  Variation
+                                    Add New  Variation
                                 </Button>
 
                             </Grid>
-                        </form>
+                        </form>}
                         </div>
                         </div>
                             </div>}

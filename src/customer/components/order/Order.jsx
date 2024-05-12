@@ -4,6 +4,7 @@ import { API_BASE_URL } from '../../../config/apiConfig'
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ReactStars from "react-rating-stars-component";
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../Loader'
 export default function Order() {
 const [orderitem,setOrderitem] = useState()
  useEffect(()=>{
@@ -28,7 +29,6 @@ return response.json();
 })
 .then(products => {
   setOrderitem(products);
-  ordersadd()
 })
 .catch(error => {
 console.error('There was a problem with the fetch request:', error);
@@ -37,32 +37,6 @@ console.error('There was a problem with the fetch request:', error);
  const [addressData,setAddressData] = useState([]);
  const [reviewmodel,setReviewmodel]= useState(false)
  const navigate = useNavigate()
- const ordersadd = ()=>{
- 
-  const token = localStorage.getItem('jwt');
-  const requestOptions = {
-    method: 'GET',
-    headers:{
-      authorization: token
-    }
-  }
-
-fetch(`${API_BASE_URL}/api/admin/orders/alladdress`, requestOptions)
-.then(response => {
-if (!response.ok) {
-  throw new Error('Network response was not ok');
-}
-return response.json();
-})
-.then(address => {
-//  console.log('address:', address);
-setAddressData(address)
-})
-.catch(error => {
-console.error('There was a problem with the fetch request:', error);
-});
- }
-
  const [rating, setRating] = useState(1);
 
  const [reviewData, setReviewData] = useState({
@@ -155,6 +129,7 @@ console.log(res);
 
   return (
     <>
+    {orderitem?<>
        {reviewmodel? <div style={{position:'fixed', top:'1',display:'flex',alignItems:'center',justifyContent:'center',width:'99vw',height:'99vh',opacity:'1',color:'#fff',zIndex:999}}>
    <div style={{display:'flex',alignItems:'center',justifyContent:'center',margin:'3rem'}}>
    <div style={{margin:'3rem',backgroundColor:'#E8E8E8',width:'30vw',position:'absolute',zIndex:999}}>
@@ -256,7 +231,6 @@ console.log(res);
       <p>Name: {i?.product.title}</p>
       <p>Style: {i?.style}</p>
       <p className=' mb-2'>Quantity: {i.quantity}</p>
-      <p className=' mb-2'>Order date: {item.createdAt.slice(0,10)}</p>
       {item?.orderStatus == 'PENDING' || item?.orderStatus == 'CANCEL'?null:<div className='flex align-center  p-5 text-black cursor-pointer' onClick={()=>{setReviewmodel(true);setProductId(i.product._id)}}>
  <StarBorderIcon/><span>Rate & Review</span>
 </div>}
@@ -310,6 +284,6 @@ console.log(res);
     ))
    
    }
-    </>
+   </>:<Loader/>} </>
   )
 }

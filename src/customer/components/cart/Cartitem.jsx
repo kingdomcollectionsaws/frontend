@@ -1,5 +1,5 @@
 import { AddCircleOutlineOutlined, RemoveCircleOutlineOutlined } from '@mui/icons-material'
-import { Button, IconButton, MenuItem, Select } from '@mui/material'
+import { Button, IconButton} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../Loader'
@@ -8,7 +8,6 @@ import Edititem from '../custom/productId/Edititem'
 import { AiOutlineClose } from "react-icons/ai";
 import { MdOutlineModeEdit } from 'react-icons/md'
 export default function Cartitem() {
-
   const dispatch = useDispatch()
   const { cart, loading } = useSelector(store => store.cart);
   const { user } = useSelector(store => store.user);
@@ -21,8 +20,6 @@ export default function Cartitem() {
    await dispatch(updateItemInCart(updatedata));
     dispatch(getCart())
   }
-
-  
   const reamoveitem = (id) => {
     dispatch(removeItemInCart(id))
     .then(() => {
@@ -67,7 +64,7 @@ setOrderDate(formattedDateRange)
    <div style={{position:'absolute',left:'1%',cursor:'pointer',top:'0%'}} onClick={()=>setEditmenu(false)}>
     <AiOutlineClose style={{fontSize:'1.5rem'}}/>
    </div>
-              <Edititem data={editproduct}/>
+              <Edititem data={editproduct} />
              
     </div>
     :''}
@@ -98,7 +95,6 @@ setOrderDate(formattedDateRange)
     </div>
       </div>
             <Button sx={{ color: "black" }} onClick={() => reamoveitem(data._id)} >remove</Button>
-          
           </div>
          
           <div>
