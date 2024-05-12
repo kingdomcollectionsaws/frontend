@@ -10,6 +10,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaBlogger, FaBoxes } from "react-icons/fa";
 import { FaBloggerB } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
+import { FiAlignCenter } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
 import Orderpie from './Orderpie.jsx';
 import Todayorder from './Todayorder.jsx';
@@ -18,6 +19,7 @@ import Addnewproduct from './Addnewproduct.jsx';
 import Blog from './Blog.jsx';
 import AddBlog from './AddBlog.jsx';
 import Fedex from './Fedex.jsx';
+import Category from './Category.jsx';
 export default function Dashboard() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
@@ -398,7 +400,9 @@ export default function Dashboard() {
                         <p style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => {setOpenSection("USERS");setEditmenu(false)}}> <span
                             style={{ color: '#fff', fontSize: '1.5rem', marginRight: '1rem' }}><FaUsers /></span> Users</p>
                          <p style={{width:'15rem',height:'1rem', cursor:'pointer',display:'flex',alignItems:'center',fontSize:'1.2rem',gap:'1rem'}} onClick={()=>setOpenSection("BLOG")}> <FaBlogger/>Blogs</p> 
+ 
                          <p style={{width:'15rem',height:'1rem', cursor:'pointer'}} onClick={()=>setOpenSection("ADDBLOG")}>Add new blog</p>
+                         <p style={{width:'15rem',height:'1rem', cursor:'pointer',display:'flex',alignItems:'center',fontSize:'1.2rem',gap:'1rem'}} onClick={()=>setOpenSection("CATEGORIES")}> <FiAlignCenter/>Categories</p>
                     </div>
                 </div>
 
@@ -448,6 +452,7 @@ export default function Dashboard() {
                     {openSection == "BLOG" ? <Blog value={false}/> : ''}
                     {openSection == "ADDBLOG" ? <AddBlog/> : ''}
                     {openSection == "ADDNEWPRODUCT" ? <Addnewproduct/> : ''}
+                    {openSection == "CATEGORIES" ? <Category/> : ''}
                     {openSection == "PRODUCTS" ? 
                    <div>
                   {  !editmenu?<div style={{display:'flex',flexDirection:'row',gap:'100px',paddingLeft:'4rem',borderBottom:'1px solid gray',}}>
@@ -700,7 +705,8 @@ export default function Dashboard() {
                                 </Button>
 
                             </Grid>
-                        </form>: <form id='variationform'>
+                        </form>: 
+                        <form id='variationform'>
                             <h1 style={{ margin: '1rem' }}>Add varitions section</h1>
                             <Grid item xs={12} sm={12}  >
                                 <p>Select all images</p>

@@ -21,8 +21,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FcRight } from "react-icons/fc";
 import style from '../customer/components/custom/styles.module.css'
 import IPinfoWrapper from 'node-ipinfo'
+import { getCategories } from './state/category/categorySlice'
 export default function MainPage() {
-  const { products, loading } = useSelector(store => store.allproducts);
+  const { products} = useSelector(store => store.allproducts);
+  const { categories, loading } = useSelector(store => store.categories);
   const {cart} = useSelector(store=>store.cart);
   const {user} = useSelector(store=>store.user);
   const [allproduct, setAllproduct] = useState([])
@@ -66,6 +68,7 @@ setAllproduct(newarr)
     delay:1000,
   });
   useEffect(() => {
+    dispatch(getCategories())
     dispatch(getAllProducts());
     dispatch(getCart())
 
@@ -104,37 +107,7 @@ setAllproduct(newarr)
       setAllproduct(products);
     }
   }, [products]);
-  const CategoryList = [{
-    slug:"gladiator-costume",
-    name:"Gladiator Costume",
-    image:c1
-  },
-  {
-    slug:"mf-doom-mask",
-    name:"Mf doom mask",
-    image:c2
-  },
-  {
-    slug:"nazgul-costume",
-    name:"Nazgul costume",
-    image:c3
-  },
-  {
-    slug:"roman-costume",
-    name:"Roman costume",
-    image:c4
-  },
-  {
-    slug:"spartan-costume",
-    name:"Spartan costume",
-    image:c5
-  },
-  {
-    slug:"templar-costume",
-    name:"Templar costume",
-    image:c6
-  }
-]
+  const [CategoryList,setCategoryList] = useState(categories)
   const navigate = useNavigate()
   const [blogs, setBlogs] = useState([]);
  
@@ -158,6 +131,7 @@ setAllproduct(newarr)
   const [showoffer,setShowoffer] = useState(true)
   useEffect(()=>{
     getblogs()
+    
 
   setTimeout(()=>{
     setShowoffer(false)
@@ -184,7 +158,7 @@ setAllproduct(newarr)
 
 
             {
-              CategoryList ?.slice(0, 6).map((i) => (
+              categories?.slice(0, 6).map((i) => (
             
                   <div className={style.categoryProduct} onClick={()=>navigate(`/products/${i.slug}`)}>
                     <img src={i.image} style={{ borderRadius: '50%', width: "8rem", height: '8rem' }} alt='img'  />

@@ -1,49 +1,13 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { FiMenu } from "react-icons/fi";
-import c1 from "../../public/c1.png"
-import c2 from "../../public/c2.png"
-import c3 from "../../public/c3.png"
-import c4 from "../../public/c4.png"
-import c5 from "../../public/c5.png"
-import c6 from "../../public/c6.png"
+import { useSelector } from 'react-redux';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function HeaderCategory() {
-    const CategoryList = [{
-        slug:"gladiator-costume",
-        name:"Gladiator Costume",
-        image:c1
-      },
-      {
-        slug:"mf-doom-mask",
-        name:"Mf doom mask",
-        image:c2
-      },
-      {
-        slug:"nazgul-costume",
-        name:"Nazgul costume",
-        image:c3
-      },
-      {
-        slug:"roman-costume",
-        name:"Roman costume",
-        image:c4
-      },
-      {
-        slug:"spartan-costume",
-        name:"Spartan costume",
-        image:c5
-      },
-      {
-        slug:"templar-costume",
-        name:"Templar costume",
-        image:c6
-      }
-    ]
+  const { categories, loading } = useSelector(store => store.categories);
   return (
     <Menu as="div" className="relative inline-block text-left z-[1000]" >
       <div>
@@ -66,7 +30,7 @@ export default function HeaderCategory() {
         <Menu.Items className="fixed right-99 z-100 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             {
-                CategoryList?.map((i)=>(
+                categories?.map((i)=>(
                     <Menu.Item>
                     {({ active }) => (
                       <a
