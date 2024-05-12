@@ -96,14 +96,6 @@ export default function Dashboard() {
     let [newvaraitons,setNewvaraitons] = useState([
         { price: productData.price, discountedPrice: productData.discountedPrice, style: productData.brand, images: productData.imageUrl }
     ])
-    const addvaraitiondata = () => {
-       newvaraitons.push(
-        { price: productData.price, discountedPrice: productData.discountedPrice, style: productData.brand, images: productData.imageUrl }
-    )
-    const form = document.getElementById('variationform'); // Replace 'yourFormId' with the actual ID of your form
-    form.reset();
-        console.log(newvaraitons);
-    }
     const handleChange = (e) => {
         setShowCategory(e.target.value)
         productData.category = e.target.value;
@@ -338,6 +330,57 @@ export default function Dashboard() {
             .catch(error => {
                 console.error('There was a problem with the fetch request:', error);
             });
+
+    }
+    const addvaraitiondata = ()=>{
+        console.log(product_Id);
+        const Data = {product_Id,style:productData.brand,images:productData.imageUrl,price:productData.price,discountedPrice:productData.discountedPrice}
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Set the content type to JSON
+            },
+            body: JSON.stringify(Data)
+        }
+        fetch(`${API_BASE_URL}/api/admin/variation/variations/add`, requestOptions)
+            .then(response => {
+                // if (!response.ok) {
+                //     throw new Error('Network response was not ok');
+                // }
+                return response.json();
+            })
+            .then(products => {
+                alert('Variation added successfully')
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch request:', error);
+            });
+
+    }
+    const deletevariation = ()=>{
+        if(confirm("DO you want to delete it") == true){
+        console.log(product_Id,variationId);
+        const Data = {product_Id,variationId}
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json' // Set the content type to JSON
+            },
+            body: JSON.stringify(Data)
+        }
+        fetch(`${API_BASE_URL}/api/admin/variation/variations/delete`, requestOptions)
+            .then(response => {
+                // if (!response.ok) {
+                //     throw new Error('Network response was not ok');
+                // }
+                return response.json();
+            })
+            .then(products => {
+                alert("Variation delete succesfully")
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch request:', error);
+            });}
 
     }
     return (
@@ -586,7 +629,7 @@ export default function Dashboard() {
             <p>{i.style}</p>
             <p>{i.discountedPrice}</p>
             <p className='line-through'>{i.price}</p>
-            <button style={{backgroundColor:'black',color:'#fff'}} >Delete</button>
+            <button style={{backgroundColor:'black',color:'#fff'}} onClick={deletevariation} >Delete</button>
            <button style={{backgroundColor:'black',color:'#fff'}} onClick={()=>{setVariationId(i._id);setVariationUpdateMenu(true)}} >Update</button>
         </div>
     ))
