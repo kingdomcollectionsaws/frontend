@@ -591,7 +591,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                             color='#fff'
                           />
                           <div className={style.text}>
-                          {item?.review.slice(0,showfullreviewindex == index?1000:180)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
+                          {item?.review?.slice(0,showfullreviewindex == index?1000:180)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
                              showfullreviewindex == index? setShowfullreviewindex():setShowfullreviewindex(index)}}><RiMoreFill/></span>:null}
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
@@ -630,7 +630,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{showModelReview?.review.slice(0, 80)}..</div>
+                                            <div >{showModelReview?.review?.slice(0, 80)}..</div>
                                           </div>
                                           <div>  <ReactStars
                                             count={5}
@@ -643,7 +643,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
                                           <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
-                                            <p>{showModelReview?.createdAt.slice(0, 10)}</p>
+                                            <p>{showModelReview?.createdAt?.slice(0, 10)}</p>
 
                                           </div>
 
@@ -689,7 +689,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                             color='#fff'
                           />
                           <div className={style.text}>
-                          {item?.review.slice(0,showfullreviewindex == index?1000:180)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
+                          {item?.review?.slice(0,showfullreviewindex == index?1000:180)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
                              showfullreviewindex == index? setShowfullreviewindex():setShowfullreviewindex(index)}}><RiMoreFill/></span>:null}
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
@@ -726,7 +726,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                                             {/* <div>
                                       <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                     </div> */}
-                                            <div >{showModelReview?.review.slice(0, 80)}..</div>
+                                            <div >{showModelReview?.review?.slice(0, 80)}..</div>
                                           </div>
                                           <div>  <ReactStars
                                             count={5}
@@ -739,7 +739,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
                                           <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex]?.name}</p>
-                                            <p>{allproductreviews[showindex]?.createdAt.slice(0, 10)}</p>
+                                            <p>{allproductreviews[showindex]?.createdAt?.slice(0, 10)}</p>
 
                                           </div>
 
@@ -789,7 +789,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                 <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', margin: '1rem' }}>
 
                   {
-                    Categories.slice(0, 5)?.map((i) => (
+                    Categories?.slice(0, 5)?.map((i) => (
                       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem' }} key={i.id}>
                         <img src={i.image} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
                         <p style={{ fontWeight: '500' }}>{i.name}</p>
@@ -882,13 +882,13 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                             color='#fff'
                           />
                           <div className={style.text}>
-                          {item?.review.slice(0,showfullreviewindex == index?1000:200)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer',position:'absolute', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
+                          {item?.review?.slice(0,showfullreviewindex == index?1000:200)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer',position:'absolute', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
                              showfullreviewindex == index? setShowfullreviewindex():setShowfullreviewindex(index)}}><RiMoreFill/></span>:null}
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                             <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
                             <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
-                            <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
+                            <div className={style.text}> {item?.createdAt?.slice(0, 10)}</div>
                           </div>
                           {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                           <AiFillLike />
@@ -1001,7 +1001,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                             color='#fff'
                           /></div>
                           <div className={style.text}>
-                            {item?.review.slice(0,showfullreviewindex == index?1000:200)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer',position:'absolute', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
+                            {item?.review?.slice(0,showfullreviewindex == index?1000:200)} {item?.review.length >300 ? <span title="Show more" style={{cursor:'pointer',position:'absolute', alignItems:'center',marginTop:'.6rem'}}  onClick={(event)=>{ event.stopPropagation();
                              showfullreviewindex == index? setShowfullreviewindex():setShowfullreviewindex(index)}}><RiMoreFill/></span>:null}
                           </div>
 
