@@ -53,7 +53,7 @@ console.log(showimage);
             src={item.endsWith('.mp4')?img: item}
             alt={"img"}
             style={{ height: '60px', width: '60px', borderRadius: '10px' }}
-            className={index === currentImageIndex ? 'active-thumbnail' : 'thumbnail'}
+            className={index === currentImageIndex || item==showindex  ? 'active-thumbnail' :  'thumbnail'}
             onClick={() => handleThumbnailClick(index)}
           />
         ))}

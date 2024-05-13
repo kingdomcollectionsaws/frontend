@@ -59,7 +59,8 @@ useEffect(()=>{
 getCart();
 },[])
 const updateitem = async(productVariation)=>{
-const updatedata =   { id: data._id, style:productVariation.style,
+const updatedata =   { id: data._id,
+  style:productVariation.style,
   price:productVariation.price,
   discountedPrice:productVariation.discountedPrice,
   quantity:data.quantity,image:productVariation.images[0]};

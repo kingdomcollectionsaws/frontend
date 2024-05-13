@@ -40,10 +40,10 @@ const initialState = {
 });
 
 export const updateItemInCart = createAsyncThunk('updateItemInCart', async (data, thunkAPI) => {
-    const {id,quantity,style} = data
+    const {id,quantity,style,variationId} = data
     const token = localStorage.getItem('jwt');
     try {
-        const response = await axios.put(`${API_BASE_URL}/api/cart_items/${id}` ,{quantity:quantity,style:style},{
+        const response = await axios.put(`${API_BASE_URL}/api/cart_items/${id}` ,{quantity:quantity,style:style,variationId:variationId},{
             headers: {
                 authorization: token
             }

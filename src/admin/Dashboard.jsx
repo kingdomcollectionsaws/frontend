@@ -50,6 +50,42 @@ export default function Dashboard() {
         variations:[]
     });
 
+    const handelfileuploadvideo = async (event) => {
+        const files = event.target.files;
+      
+        if (!files) {
+            console.error('No file selected');
+            return;
+        }
+      
+        // Get the first file
+        const file = files[0];
+      
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'pnegpfre');
+      
+        try {
+            const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/dujcstewk/video/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+      
+            if (!uploadResponse.ok) {
+                throw new Error('Failed to upload file');
+            }
+      
+            const responseData = await uploadResponse.json();
+            if(responseData ){
+        productData.imageUrl.push(responseData.secure_url)        
+            }
+      
+        } catch (error) {
+            console.error('Error uploading file:', error.message);
+        }
+      
+       
+      };
     const handleInputChange = (e) => {
         
         const { name, value } = e.target;
@@ -70,11 +106,7 @@ export default function Dashboard() {
         }
         if (name == "title") {
             productData.title = value
-        }
-        if (name == "video") {
-            productData.imageUrl.push(value)
-        }
-         
+        } 
         if (name == "productvariaton") {
             productData.brand = value
         }
@@ -163,23 +195,20 @@ export default function Dashboard() {
     const handelfileupload = async (event) => {
         const files = event.target.files;
         const formDataArray = [];
-
-
         for (let i = 0; i < files.length; i++) {
             const formData = new FormData();
             formData.append('file', files[i]);
             formData.append('upload_preset', 'pnegpfre');
             formDataArray.push(formData);
+           // console.log(files[i].type);
         }
-
-
-        const uploadResponses = await Promise.all(formDataArray.map(formData =>
+        const uploadResponses = await Promise.all(formDataArray.map((formData) =>(
             fetch(`https://api.cloudinary.com/v1_1/dujcstewk/image/upload`, {
                 method: 'POST',
                 body: formData,
-            })
-                .then(response => response.json())
-        ));
+            }) .then(response => response.json())
+            
+        )));
 
         const imageUrls = uploadResponses.map(response => response.secure_url).filter(url => url);
         productData.imageUrl = imageUrls
@@ -471,7 +500,7 @@ export default function Dashboard() {
                                     <img src={i.variations[0].images[0]} alt='img' style={{ width: '5rem', height: '5rem' }} />
                                     <div className='flex align-center justify-center flex-row ' style={{gap:'110px'}} >
                                         <div style={{width:'11rem'}}>
-                                        <p>{i.title} <span>style : {i.variations[0].style}</span> </p>
+                                        <p>{i.title} & <span>style : {i.variations[0].style}</span> </p>
                                         <div style={{display:'flex',width:'14rem'}}>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => updateProduct(i._id, i.title, i.description, i.quantity, i.category,   i.slug, i.variations)} >EDIT <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
                                         <Button sx={{ color: "RGB(145 85 253)" }} onClick={() => deleteProduct(i._id)}>delete <span style={{color:'black',paddingLeft:'1rem'}}> |</span></Button>
@@ -598,13 +627,7 @@ export default function Dashboard() {
                            
                             <Grid item xs={12} sm={12} >
                               
-                            <TextField
-                                    required
-                                    name='video'
-                                    label='Video Link'
-                                    onChange={handleInputChange}
-                                    style={{ marginBottom: '1rem' }}
-                                />
+                           <input type="file" name='video' placeholder='Video' onChange={handelfileuploadvideo} />
                             </Grid>
                             {editmenu?<Grid item xs={12} sm={6} >
                                 <Button
@@ -628,9 +651,9 @@ export default function Dashboard() {
                         </Grid>
                     </form>
                     <div style={{display:'flex' ,alignItems:'center',flexDirection:'column',margin:'1rem'}}>
-{productData?.variations.map((i)=>(
-        <div style={{display:'flex' ,alignItems:'center',justifyContent:'center',gap:'20px',margin:'1rem',borderBottom:'2px solid black',}} >
-            <img src={i.images[0]} alt="img"  style={{width:'3rem',height:'3rem'}}/>
+{productData?.variations.map((i,index)=>(
+        <div style={{display:'flex' ,alignItems:'center',justifyContent:'center',gap:'20px',margin:'1rem',borderBottom:'2px solid black',}} key={index} >
+            {i.images.map((i)=>(<img src={i} alt="img"  style={{width:'3rem',height:'3rem'}} key={i}/>))}
             <p>{i.style}</p>
             <p>{i.discountedPrice}</p>
             <p className='line-through'>{i.price}</p>

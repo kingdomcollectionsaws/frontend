@@ -5,7 +5,9 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ReactStars from "react-rating-stars-component";
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../Loader'
+import { useSelector } from 'react-redux';
 export default function Order() {
+  const { user} = useSelector(store => store.user);
 const [orderitem,setOrderitem] = useState()
  useEffect(()=>{
 orders()
@@ -40,7 +42,7 @@ console.error('There was a problem with the fetch request:', error);
  const [rating, setRating] = useState(1);
 
  const [reviewData, setReviewData] = useState({
- name: '',
+ name: user?.firstName,
   review: '',
   image: '',
   ratings:rating,
@@ -86,9 +88,6 @@ const handelfileupload = async (event) => {
 };
  const handleInputChange = (e)=>{
   const { name, value } = e.target;
-if (name == "name") {
-  reviewData.name = value
-}
 if (name == "review") {
   reviewData.review = value
 }
@@ -135,26 +134,7 @@ console.log(res);
    <div style={{margin:'3rem',backgroundColor:'#E8E8E8',width:'30vw',position:'absolute',zIndex:999}}>
                     <form>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    required
-                                    name='name'
-                                    label='Name'
-                                  onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    required
-                                    name='review'
-                                    label='Review'
-                                   onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Grid>
-                           
-                            <Grid item xs={12} sm={12} style={{margin:'4px',marginTop:'3rem',cursor:'pointer'}}>
+                        <Grid item xs={12} sm={12} style={{margin:'4px',marginTop:'3rem',cursor:'pointer'}}>
                                 <input
                                     style={{backgroundColor:'black',color:'#fff'}}
                                     required
@@ -167,10 +147,21 @@ console.log(res);
 
                             </Grid>     
                             <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    name='review'
+                                    label='Review'
+                                   onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                           
+                          
+                            <Grid item xs={12} sm={12}>
                             <div>  <ReactStars
                                             count={5}
-                                            size={24}
-                                            activeColor="black"
+                                            size={40}
+                                            activeColor="#ffa534"
                                             value={rating}
                                             color='#fff'
                                             onChange={handleRatingChange}

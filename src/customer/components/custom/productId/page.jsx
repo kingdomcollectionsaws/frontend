@@ -35,12 +35,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createUser, getUserDetail } from "../../../state/Auth/registerSlice";
-import c1 from "../../../../../public/c1.png"
-import c2 from "/public/c2.png"
-import c3 from "/public/c3.png"
-import c4 from "/public/c4.png"
-import c5 from "/public/c5.png"
-import c6 from "/public/c6.png"
 import { RiMoreFill } from "react-icons/ri";
 export default function ProductDetailPage({ params }) {
  
@@ -60,37 +54,8 @@ export default function ProductDetailPage({ params }) {
     window.open('https://www.etsy.com/uk/shop/KingdomCollectionArt?ref=shop-header-name&listing_id=1710058058&from_page=listing', '_blank', 'noopener, noreferrer');
 
   }
-  const [categories, setCategories] = useState([{
-    slug: "gladiator-costume",
-    name: "Gladiator Costume",
-    image: c1
-  },
-  {
-    slug: "mf-doom-mask",
-    name: "Mf doom mask",
-    image: c2
-  },
-  {
-    slug: "nazgul-costume",
-    name: "Nazgul costume",
-    image: c3
-  },
-  {
-    slug: "roman-costume",
-    name: "Roman costume",
-    image: c4
-  },
-  {
-    slug: "spartan-costume",
-    name: "Spartan costume",
-    image: c5
-  },
-  {
-    slug: "templar-costume",
-    name: "Templar costume",
-    image: c6
-  }
-  ])
+  const {categories} = useSelector(store => store.categories)
+  const [Categories, setCategories] = useState(categories)
   const [productDetails, setProductDetails] = useState();
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -189,7 +154,6 @@ export default function ProductDetailPage({ params }) {
           const uniqueIdentifierdate = Date.now();
           const guestemail = `guest${uniqueIdentifier}${uniqueIdentifierdate}@gmail.com`;
           const guestpassword = Math.random().toString(36).slice(-8);
-          const role = 'GUEST'
           const userData = {
             firstName: `guest${uniqueIdentifier}`,
             lastName: `guest${uniqueIdentifierdate}`,
@@ -387,8 +351,9 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
   };
 
   useEffect(() => {
+  
 
-  }, [ open]);
+  }, [open]);
   useEffect(() => {
     dispatch(getCart())
     dispatch(getAllProducts());
@@ -406,9 +371,11 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
   }, [productVariation]);
   useEffect(()=>{
 
-  },[showindex])
+  },[onclose])
   return (
-    !loading ? <>
+    !loading ? 
+    <div >
+  
       {
         isMobile ?
           <>
@@ -633,8 +600,8 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                             <div className={style.text} style={{ fontSize: '.7rem' }}> {item.createdAt.slice(0, 10)}</div>
                           </div>
 
-                          <Transition.Root show={open} as={Fragment}>
-                            <Dialog as="div" className="fixed inset-0 overflow-y-auto align-center h-[90vh] z-[1000]" initialFocus={cancelButtonRef} onClose={setOpen}>
+                          <Transition.Root show={open} as={Fragment} >
+                            <Dialog as="div" className="fixed inset-0 overflow-y-auto align-center h-[90vh] z-[1000]" initialFocus={cancelButtonRef} onClose={setOpen} >
 
                               <div className="flex items-center justify-center min-h-screen  text-center " style={{ height: '90vh', marginTop: '5rem' }}>
                                 <Transition.Child
@@ -685,7 +652,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer', }} onClick={() => { setOpen(false); }}>
                                             <div>
-                                              <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                              <img src={showModelReview?.product?.variations[0].images[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
                                               <p >{showModelReview?.product?.title}</p>
@@ -779,7 +746,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                                           <p style={{ paddingTop: '5rem' }}>Purchased item</p>
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${showModelReview?.product?.slug}/${showModelReview?.product?._id}`) }}>
                                             <div>
-                                              <img src={showModelReview?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                              <img src={showModelReview?.product?.variations[0].images[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
                                               <p >{showModelReview?.product?.title}</p>
@@ -822,7 +789,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                 <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', margin: '1rem' }}>
 
                   {
-                    categories.slice(0, 5)?.map((i) => (
+                    Categories.slice(0, 5)?.map((i) => (
                       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem' }} key={i.id}>
                         <img src={i.image} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
                         <p style={{ fontWeight: '500' }}>{i.name}</p>
@@ -941,7 +908,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                           review?.slice(count, countend).map((item) => (
                             <Transition.Root show={open} as={Fragment} className="bg-green">
 
-                              <Dialog as="div" className="fixed inset-0   overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen} >
+                              <Dialog as="div" className="fixed inset-0   overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}  >
                                 <div className="flex items-center justify-center min-h-screen px-4 text-center">
                                   <Transition.Child
                                     as={Fragment}
@@ -985,18 +952,15 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                               <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
-                                              <p>{review[showindex].createdAt.slice(0, 10)}</p>
+                                              <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
 
                                             </div>
 
 
                                             <p style={{ paddingTop: '10rem' }}>Purchased item</p>
-
-
-
                                             <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${allproductreviews[showindex]?.product.slug}/${allproductreviews[showindex]?.product._id}`); }}>
                                               <div>
-                                                <img src={review[showindex]?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                                <img src={review[showindex]?.product?.variations[0].images[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                               </div>
                                               <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
                                                 <p >{review[showindex]?.product?.title}</p>
@@ -1114,7 +1078,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
                                           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${allproductreviews[showindex]?.product.slug}/${allproductreviews[showindex]?.product._id}`); }}>
                                             <div>
-                                              <img src={allproductreviews[showindex]?.product?.imageUrl[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
+                                              <img src={allproductreviews[showindex]?.product?.variations[0].images[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', width: 'full' }} >
                                               <p >{allproductreviews[showindex]?.product?.title}</p>
@@ -1249,7 +1213,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                         </div> */}
 
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize:'.95rem',letterSpacing:'1px'}}>
                         {productDetails?.description.split('|').map((i, index) => (
                           <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
                         ))}
@@ -1328,7 +1292,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
             <h1 style={{ fontWeight: '500', margin: '2rem', color: '#222222', fontFamily: '"Guardian-EgypTT", "Charter", "Charter Bitstream", "Cambria", "Noto Serif Light", "Droid Serif", "Georgia", "serif"', fontSize: '1.5rem' }}>Explore Related Categories</h1>
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', margin: '1rem' }}>
               {
-                categories.slice(0, 5)?.map((i) => (
+                Categories.slice(0, 5)?.map((i) => (
                   <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem', cursor: 'pointer' }} key={i.id} onClick={() => navigate(`/products/${i.slug}`)}>
                     <img src={i.image} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
                     <p style={{ fontWeight: '500' }}>{i.name}</p>
@@ -1362,6 +1326,6 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
           </div>
       }
-    </> : <Loader />
+    </div> : <Loader />
   );
 }

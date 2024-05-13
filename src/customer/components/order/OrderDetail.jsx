@@ -8,6 +8,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Grid, Button,TextField } from '@mui/material'
 import ReactStars from "react-rating-stars-component";
 export default function OderDetail() {
+  const { user} = useSelector(store => store.user);
   const {order_id,payment_id} = useParams();
  // console.log(order_id,payment_id);
   const dispatch = useDispatch();
@@ -39,11 +40,9 @@ export default function OderDetail() {
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,});
-
     const [rating, setRating] = useState(1);
-
     const [reviewData, setReviewData] = useState({
-    name: '',
+    name: user.firstName,
      review: '',
      image: '',
      ratings:rating,
@@ -89,9 +88,6 @@ export default function OderDetail() {
    };
     const handleInputChange = (e)=>{
      const { name, value } = e.target;
-   if (name == "name") {
-     reviewData.name = value
-   }
    if (name == "review") {
      reviewData.review = value
    }
@@ -137,26 +133,7 @@ export default function OderDetail() {
    <div style={{margin:'3rem',backgroundColor:'#E8E8E8',position:'absolute',zIndex:999}} className='sm:w-[90vw] lg:w-[30vw]'>
                     <form>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    required
-                                    name='name'
-                                    label='Name'
-                                  onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    required
-                                    name='review'
-                                    label='Review'
-                                   onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Grid>
-                           
-                            <Grid item xs={12} sm={12} style={{margin:'4px',marginTop:'3rem',cursor:'pointer'}}>
+                        <Grid item xs={12} sm={12} style={{margin:'4px',marginTop:'3rem',cursor:'pointer'}}>
                                 <input
                                     style={{backgroundColor:'black',color:'#fff'}}
                                     required
@@ -167,12 +144,23 @@ export default function OderDetail() {
                                     onChange={handelfileupload}
                                 />
 
-                            </Grid>     
+                            </Grid> 
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    name='review'
+                                    label='Review'
+                                   onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                           
+                               
                             <Grid item xs={12} sm={12}>
                             <div>  <ReactStars
                                             count={5}
-                                            size={24}
-                                            activeColor="black"
+                                            size={40}
+                                            activeColor="#ffa534"
                                             value={rating}
                                             color='#fff'
                                             onChange={handleRatingChange}
@@ -218,8 +206,8 @@ export default function OderDetail() {
 <img className='object-cover border rounded-lg' src={i.image} alt="img" />
 </div>
 <div className='mx-5'>
-<p className='font-bold mb-2'>{i.product.title}</p>
-  <p className='font-semibold mb-2'>${i.discountedPrice}</p>
+<p className='font-bold mb-2'>{i.product?.title}</p>
+  <p className='font-semibold mb-2'>${i?.discountedPrice}</p>
   <p className='font-bold'>Shiped</p>
 </div>
   </div>

@@ -51,7 +51,7 @@ setAllproduct(newarr)
   const cartnotify = (msg) => toast(<div style={{display:'flex',alignItems:'center',flexDirection:'column'}}><h1 style={{color:'tomato'}}>Limit stocks avaiable!</h1>
   <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row',gap:'20px',flexWrap:'wrap'}}>
     {cart?.cartItems.map((i)=>(
-   <img src={i.product?.imageUrl[0]} alt="img"  style={{width:'3rem',height:'3rem'}}/>
+   <img src={i?.image} alt="img"  style={{width:'3rem',height:'3rem',margin:'.5rem'}}/>
     ))}
   </div>
  <button style={{display:'flex',alignItems:'center',justifyContent:'center',padding:'4px',borderRadius:'12px',backgroundColor:'black',color:'#fff'}} onClick={()=>navigate('/cart')}>
@@ -71,7 +71,6 @@ setAllproduct(newarr)
     dispatch(getCategories())
     dispatch(getAllProducts());
     dispatch(getCart())
-
     const handleResize = () => {
       setIsMobile(window.innerWidth < 800);
     };
@@ -202,7 +201,7 @@ setAllproduct(newarr)
           
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px' }}>
               {
-                products?.slice(0, 7).map((i) => (
+                products?.slice(2, 7).map((i) => (
                   <div className={style.gitfProduct} style={{ padding: '0', border: '.1px solid gray', borderRadius: '.5rem', border: 'none' ,}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} >
                   <img src={i?.variations[0].images[0]}  alt='img' className='lg:w-[15rem] lg:h-[15rem]'  style={{borderRadius: '.5rem',}}/>
 

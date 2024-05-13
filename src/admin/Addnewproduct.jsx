@@ -19,6 +19,7 @@ export default function Addnewproduct() {
     const [editmenu, setEditmenu] = useState(false);
     const [showCategory, setShowCategory] = useState()
     const { products, loading, product } = useSelector(store => store.allproducts);
+    const { categories } = useSelector(store => store.categories);
     const { user } = useSelector(store => store.user);
     const productCategory = ["gladiator-costume", "mf-doom-mask", "nazgul-costume", "roman-costume", "spartan-costume", "templar-costume"]
     const [productData, setProductData] = useState({
@@ -103,7 +104,7 @@ export default function Addnewproduct() {
 
 
         const uploadResponses = await Promise.all(formDataArray.map(formData =>
-            fetch(`https://api.cloudinary.com/v1_1/dujcstewk/image/upload`, {
+            fetch(`https://api.cloudinary.com/v1_1/dujcstewk/video/upload`, {
                 method: 'POST',
                 body: formData,
             })
@@ -293,10 +294,10 @@ export default function Addnewproduct() {
                                             label="Age"
                                             value={"category"}
                                         >
-                                            {productCategory?.map((item, index) => (
+                                            {categories?.map((item, index) => (
 
-                                                <MenuItem value={item} key={index}>
-                                                    {item}
+                                                <MenuItem value={item.slug} key={index}>
+                                                    {item.slug}
                                                 </MenuItem>
 
                                             ))
