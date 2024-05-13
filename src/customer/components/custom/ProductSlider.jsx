@@ -11,7 +11,7 @@ const ProductSlider = ({ imagesdata,showindex }) => {
     useEffect(()=>{
       setShowimage(true)
 console.log(showimage);
-    },[showindex])
+    },[showindex],imagesdata)
   
   // const images = imagesdata.map(src => src);
   if (!imagesdata || imagesdata.length === 0) {

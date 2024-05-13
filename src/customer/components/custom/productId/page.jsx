@@ -37,7 +37,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { createUser, getUserDetail } from "../../../state/Auth/registerSlice";
 import { RiMoreFill } from "react-icons/ri";
 export default function ProductDetailPage({ params }) {
- 
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(findProductById(id));
+  },[])
   const [count, setCount] = useState(0)
   const [countend, setCountend] = useState(5)
   const [showfullreview, setShowfullreview] = useState(false)
@@ -58,11 +62,11 @@ export default function ProductDetailPage({ params }) {
   const [Categories, setCategories] = useState(categories)
   const [productDetails, setProductDetails] = useState();
   const navigate = useNavigate()
-  const dispatch = useDispatch();
+ 
   const { user } = useSelector(store => store.user);
   const { product, loading, products } = useSelector(store => store.allproducts);
   const { cart } = useSelector(store => store.cart);
-  const { id } = useParams();
+ 
   const [open, setOpen] = useState(false)
   const [currentPage,setCurrentPage] = useState(0)
   const cancelButtonRef = useRef(null)
@@ -366,9 +370,13 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
   };
   const [showModelReview, setShowModelReview] = useState();
      const [showindex, setShowindex] = useState()
+useEffect(()=>{
+  setShowindex(productVariation?.images[0]);
+},[])
   useEffect(() => {
     setShowindex(productVariation?.images[0]);
   }, [productVariation]);
+
   useEffect(()=>{
 
   },[onclose])
@@ -597,7 +605,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                             <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
                             <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem', fontSize: '.9rem' }} className={style.text}>{item.name}</div>
-                            <div className={style.text} style={{ fontSize: '.7rem' }}> {item.createdAt.slice(0, 10)}</div>
+                            <div className={style.text} style={{ fontSize: '.7rem' }}> {item?.createdAt?.slice(0, 10)}</div>
                           </div>
 
                           <Transition.Root show={open} as={Fragment} >
@@ -695,7 +703,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                             <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
                             <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem', fontSize: '.9rem' }} className={style.text}>{item.name}</div>
-                            <div className={style.text} style={{ fontSize: '.7rem' }}> {item.createdAt.slice(0, 10)}</div>
+                            <div className={style.text} style={{ fontSize: '.7rem' }}> {item?.createdAt?.slice(0, 10)}</div>
                           </div>
 
                           <Transition.Root show={open} as={Fragment}>
@@ -939,7 +947,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                                               {/* <div>
                                     <img src={ricon} alt={"img"} style={{ width: '3rem', height: '2rem' }} />
                                   </div> */}
-                                              <div >{review[showindex]?.review.slice(0,100)}...</div>
+                                              <div >{review[showindex]?.review?.slice(0,100)}...</div>
                                             </div>
                                             <div>  <ReactStars
                                               count={5}
@@ -952,7 +960,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                               <p style={{ fontWeight: 'bold', }}>{review[showindex]?.name}</p>
-                                              <p>{review[showindex]?.createdAt.slice(0, 10)}</p>
+                                              <p>{review[showindex]?.createdAt?.slice(0, 10)}</p>
 
                                             </div>
 
@@ -1008,7 +1016,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
                           <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
                             <div><img src={ricon} width={30} height={30} style={{ borderRadius: '50%' }} alt="Description" /></div>
                             <div style={{ borderBottom: '1px solid #222222', cursor: 'pointer', marginBottom: '.5rem', display: 'flex', marginLeft: '-1rem' }} className={style.text}>{item.name}</div>
-                            <div className={style.text}> {item.createdAt.slice(0, 10)}</div>
+                            <div className={style.text}> {item?.createdAt?.slice(0, 10)}</div>
                           </div>
 
 
@@ -1068,7 +1076,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
 
                                           <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <p style={{ fontWeight: 'bold', }}>{allproductreviews[showindex]?.name}</p>
-                                            <p>{allproductreviews[showindex]?.createdAt.slice(0, 10)}</p>
+                                            <p>{allproductreviews[showindex]?.createdAt?.slice(0, 10)}</p>
 
                                           </div>
 
@@ -1292,7 +1300,7 @@ for (let index = 0; index < productDetails?.variations.length; index++) {
             <h1 style={{ fontWeight: '500', margin: '2rem', color: '#222222', fontFamily: '"Guardian-EgypTT", "Charter", "Charter Bitstream", "Cambria", "Noto Serif Light", "Droid Serif", "Georgia", "serif"', fontSize: '1.5rem' }}>Explore Related Categories</h1>
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', margin: '1rem' }}>
               {
-                Categories.slice(0, 5)?.map((i) => (
+                Categories?.slice(0, 5)?.map((i) => (
                   <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '10rem', cursor: 'pointer' }} key={i.id} onClick={() => navigate(`/products/${i.slug}`)}>
                     <img src={i.image} alt="img" style={{ width: '5rem', height: '5rem', borderRadius: '50%' }} />
                     <p style={{ fontWeight: '500' }}>{i.name}</p>
