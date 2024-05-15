@@ -9,8 +9,10 @@ const ProductSlider = ({ imagesdata,showindex }) => {
   const [showimage,setShowimage] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
     useEffect(()=>{
-      setShowimage(true)
+      setShowimage(true);
+      setCurrentImageIndex(imagesdata?.indexOf(showindex));
 console.log(showimage);
+
     },[showindex],imagesdata)
   
   // const images = imagesdata.map(src => src);

@@ -31,10 +31,11 @@ export default function HeaderCategory() {
         <Menu.Items className="fixed right-99 z-100 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             {
-                categories?.map((i)=>(
-                    <Menu.Item>
+                categories?.map((i,index)=>(
+                    <Menu.Item key={index}>
                     {({ active }) => (
                       <a
+                      
                         href={`/products/${i.slug}`}
                         className={classNames(
                           active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',

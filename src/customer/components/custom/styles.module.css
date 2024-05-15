@@ -162,10 +162,6 @@
 
 .cart:hover {
     background-color: #CCEBFF;
-
-    .cartValue {
-        background-color: blue;
-    }
 }
 
 .cart {
@@ -663,7 +659,7 @@
 }
 .categoryProduct:hover{
   border-bottom: 2px solid black;
-  img{
+   img{
     scale: 1.1;
   }
 }

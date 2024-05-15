@@ -39,347 +39,307 @@ import { RiMoreFill } from "react-icons/ri";
 export default function ProductDetailPage({ params }) {
   const { id } = useParams();
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(findProductById(id));
-  },[])
-  const [count, setCount] = useState(0)
-  const [countend, setCountend] = useState(5)
-  const [showfullreview, setShowfullreview] = useState(false)
-  const [showfullreviewindex, setShowfullreviewindex] = useState()
-  const [open1, setOpen1] = useState(true)
-  const [allproductreviews, setAllproductreviews] = useState()
-  const [open2, setOpen2] = useState(true)
-  const [open3, setOpen3] = useState(true)
+  const navigate = useNavigate();
+
+  const [count, setCount] = useState(0);
+  const [countend, setCountend] = useState(5);
+  const [showfullreview, setShowfullreview] = useState(false);
+  const [showfullreviewindex, setShowfullreviewindex] = useState();
+  const [open1, setOpen1] = useState(true);
+  const [allproductreviews, setAllproductreviews] = useState([]);
+  const [open2, setOpen2] = useState(true);
+  const [open, setOpen] = useState(true);
+  const [open3, setOpen3] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [data, setData] = useState()
-  const [review, setReview] = useState();
-  const [openselect, setOpenselect] = useState(false)
-  const estylink = () => {
-    window.open('https://www.etsy.com/uk/shop/KingdomCollectionArt?ref=shop-header-name&listing_id=1710058058&from_page=listing', '_blank', 'noopener, noreferrer');
-
-  }
-  const {categories} = useSelector(store => store.categories)
-  const [Categories, setCategories] = useState(categories)
-  const [productDetails, setProductDetails] = useState();
-  const navigate = useNavigate()
- 
-  const { user } = useSelector(store => store.user);
-  const { product, loading, products } = useSelector(store => store.allproducts);
-  const { cart } = useSelector(store => store.cart);
- 
-  const [open, setOpen] = useState(false)
-  const [currentPage,setCurrentPage] = useState(0)
-  const cancelButtonRef = useRef(null)
-  const paginationHandel = (page) => {
-    //console.log(page);
-    if (page == 1) {
-      setCount(0);
-      setCountend(5);
-      setCurrentPage(1);
-    } else {
-      setCount(prev => (page*5-5));
-      setCountend(prev => (page*5));
-      setCurrentPage(page);
-    }
-  }
-  const allreviews = () => {
-    setCount(6)
-  }
-  const notify = (msg) => toast(msg, {
-    position: "top-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-  });
+  const [data, setData] = useState();
+  const [review, setReview] = useState([]);
+  const [openselect, setOpenselect] = useState(false);
+  const [Categories, setCategories] = useState([]);
+  const [productDetails, setProductDetails] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const cancelButtonRef = useRef(null);
+  const [selectedValue, setSelectedValue] = useState('');
+  const [showall, setShowall] = useState(false);
+  const [orderDate, setOrderDate] = useState('');
+  const [allImagesUrls, setAllImagesUrls] = useState([]);
+  const [showImage, setShowImage] = useState(null);
+  const [productVariation, setProductVariation] = useState(null);
   const inputRef = useRef(null);
-  const [productVariation,setProductVariation] = useState()
-  const carts = async (id) => {
-    const token = localStorage.getItem('jwt');
-    const data = { productId: id,variation:productVariation}
-    if (selectedValue) {
-     
-      if (token) {
+  const [showModelReview, setShowModelReview] = useState(false);
+  const [showindex, setShowindex] = useState(null);
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
-        dispatch(addItemInCart(data));
-        notify("Item added to cart")
-      }
-      else {
-
-
-        if (!user) {
-          const uniqueIdentifier = Math.floor(Math.random() * 100000);
-          const uniqueIdentifierdate = Date.now();
-          const guestemail = `guest${uniqueIdentifier}${uniqueIdentifierdate}@gmail.com`;
-          const guestpassword = Math.random().toString(36).slice(-8);
-          const role = 'GUEST'
-          const userData = {
-            firstName: `guest${uniqueIdentifier}`,
-            lastName: `guest${uniqueIdentifierdate}`,
-            email: guestemail,
-            password: guestpassword,
-            role: 'GUEST',
-          }
-          await dispatch(createUser(userData));
-          await dispatch(addItemInCart(data));
-          notify("Item added to cart");
-        } else {
-          dispatch(addItemInCart(data));
-          navigate('/cart')
-        }
-      }
-    }
-    else {
-      inputRef.current.style.borderWidth = '2px'
-      inputRef.current.style.borderColor = 'red';
-      setOpenselect(true)
-      inputRef.current.focus();
-
-    }
-  }
-  const buynow = async (id) => {
-    const token = localStorage.getItem('jwt');
-    const data = { productId: id,variation:productVariation}
-    if (selectedValue) {
-      
-
-      
-      if (token) {
-
-
-        dispatch(addItemInCart(data));
-        notify("Item added to cart");
-        navigate('/cart')
-      }
-      else {
-
-        if (!user) {
-          const uniqueIdentifier = Math.floor(Math.random() * 100000);
-          const uniqueIdentifierdate = Date.now();
-          const guestemail = `guest${uniqueIdentifier}${uniqueIdentifierdate}@gmail.com`;
-          const guestpassword = Math.random().toString(36).slice(-8);
-          const userData = {
-            firstName: `guest${uniqueIdentifier}`,
-            lastName: `guest${uniqueIdentifierdate}`,
-            email: guestemail,
-            password: guestpassword,
-            role: 'GUEST',
-          }
-          await dispatch(createUser(userData));
-          await dispatch(addItemInCart(data));
-          notify("Item added to cart");
-          navigate('/cart')
-        } else {
-          navigate('/cart')
-        }
-      }
-    } else {
-
-      inputRef.current.style.borderWidth = '2px'
-      inputRef.current.style.borderColor = 'red';
-      setOpenselect(true)
-      inputRef.current.focus();
-
-    }
-  }
+  const { categories } = useSelector((store) => store.categories);
+  const { user } = useSelector((store) => store.user);
+  const { product, loading, products } = useSelector((store) => store.allproducts);
+  const { cart } = useSelector((store) => store.cart);
 
   useEffect(() => {
-    // setCategories(CategoryList)
-    getUserDetail()
-    Getreviews(id)
+    dispatch(findProductById(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (product) {
+      setProductDetails(product);
+      setProductVariation(product.variations[0]);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    setCategories(categories);
+  }, [categories]);
+
+  useEffect(() => {
+    getUserDetail();
+    Getreviews(id);
     dispatch(findProductById(id));
     setProductDetails(null);
-    //console.log(products);
     fetch(`${API_BASE_URL}/api/reviews/allreviews`, {
-      method: 'GET'
+      method: 'GET',
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         return response.json();
       })
-      .then(Review => {
+      .then((Review) => {
         setAllproductreviews(Review);
-        console.log(allproductreviews);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('There was a problem with the fetch request:', error);
       });
-    setOpen(false)
-  }, [dispatch, id])
- 
+    setOpen(false);
+  }, [dispatch, id]);
+
   useEffect(() => {
-    // Update product details when 'product' from Redux store changes
-    if (product) {
-      setProductDetails(product);
-      setProductVariation(productDetails?.variations[0])
-    }
-  }, [product, user])
-  useEffect(() => {
-    Getreviews(id)
-    dates()
+    Getreviews(id);
+    dates();
     const handleResize = () => {
       setIsMobile(window.innerWidth < 800);
     };
 
-    // Call handleResize on initial render
     handleResize();
-
-    // Add event listener to listen for window resize
     window.addEventListener('resize', handleResize);
 
-    // Cleanup the event listener
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-
   }, [data]);
-  const handleDiv = () => {
-    setOpen1(!open1)
-  }
-  const handleDiv2 = () => {
-    setOpen2(!open2)
-  }
-  const handleDiv3 = () => {
-    setOpen3(!open3)
-  }
 
-  const [selectedValue, setSelectedValue] = useState('');
-  const [showall, setShowall] = useState(false);
-  const [orderDate, setOrderDate] = useState();
-  const dates = () => {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const today = new Date();
-    const startDate = today.getDate();
-    const futureDate = new Date(today);
-    futureDate.setDate(futureDate.getDate() + 3);
-    const formattedDateRange = `${futureDate.getDate()}-${months[futureDate.getMonth()]}`;
-    setOrderDate(formattedDateRange)
-
-  }
-  const [allImagesUrls, setAllImagesUrls] = useState([]);
-
-  // State for the currently displayed image
-  const [showImage, setShowImage] = useState(null);
-
-  // Effect to update image URLs when productDetails or product change
   useEffect(() => {
-    // Ensure productDetails and product are available
     if (productDetails && product) {
-      // Extract image URLs from variations and set them to state
-      const imageUrls = productDetails.variations.flatMap(variation => variation.images);
+      const imageUrls = productDetails.variations.flatMap((variation) => variation.images);
       setAllImagesUrls(imageUrls);
-
-      // Set the first image as the initially displayed one
       if (imageUrls.length > 0) {
         setShowImage(imageUrls[0]);
       }
     }
   }, [productDetails, product]);
 
+  useEffect(() => {
+    if (productVariation) {
+      setShowindex(productVariation.images[0]);
+    }
+  }, [productVariation]);
+
+  useEffect(() => {
+    dispatch(getCart());
+    dispatch(getAllProducts());
+  }, [dispatch]);
+
+  const estylink = () => {
+    window.open('https://www.etsy.com/uk/shop/KingdomCollectionArt?ref=shop-header-name&listing_id=1710058058&from_page=listing', '_blank', 'noopener, noreferrer');
+  };
+
+  const paginationHandel = (page) => {
+    if (page === 1) {
+      setCount(0);
+      setCountend(5);
+      setCurrentPage(1);
+    } else {
+      setCount((prev) => page * 5 - 5);
+      setCountend((prev) => page * 5);
+      setCurrentPage(page);
+    }
+  };
+
+  const allreviews = () => {
+    setCount(6);
+  };
+
+  const notify = (msg) =>
+    toast(msg, {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+    });
+
+  const carts = async (id) => {
+    const token = localStorage.getItem('jwt');
+    const data = { productId: id, variation: productVariation };
+    if (selectedValue) {
+      if (token) {
+        dispatch(addItemInCart(data));
+        notify('Item added to cart');
+      } else {
+        if (!user) {
+          const uniqueIdentifier = Math.floor(Math.random() * 100000);
+          const uniqueIdentifierdate = Date.now();
+          const guestemail = `guest${uniqueIdentifier}${uniqueIdentifierdate}@gmail.com`;
+          const guestpassword = Math.random().toString(36).slice(-8);
+          const role = 'GUEST';
+          const userData = {
+            firstName: `guest${uniqueIdentifier}`,
+            lastName: `guest${uniqueIdentifierdate}`,
+            email: guestemail,
+            password: guestpassword,
+            role: 'GUEST',
+          };
+          await dispatch(createUser(userData));
+          await dispatch(addItemInCart(data));
+          notify('Item added to cart');
+        } else {
+          dispatch(addItemInCart(data));
+          navigate('/cart');
+        }
+      }
+    } else {
+      inputRef.current.style.borderWidth = '2px';
+      inputRef.current.style.borderColor = 'red';
+      setOpenselect(true);
+      inputRef.current.focus();
+    }
+  };
+
+  const buynow = async (id) => {
+    const token = localStorage.getItem('jwt');
+    const data = { productId: id, variation: productVariation };
+    if (selectedValue) {
+      if (token) {
+        dispatch(addItemInCart(data));
+        notify('Item added to cart');
+        navigate('/cart');
+      } else {
+        if (!user) {
+          const uniqueIdentifier = Math.floor(Math.random() * 100000);
+          const uniqueIdentifierdate = Date.now();
+          const guestemail = `guest${uniqueIdentifier}${uniqueIdentifierdate}@gmail.com`;
+          const guestpassword = Math.random().toString(36).slice(-8);
+          const role = 'GUEST';
+          const userData = {
+            firstName: `guest${uniqueIdentifier}`,
+            lastName: `guest${uniqueIdentifierdate}`,
+            email: guestemail,
+            password: guestpassword,
+            role: 'GUEST',
+          };
+          await dispatch(createUser(userData));
+          await dispatch(addItemInCart(data));
+          notify('Item added to cart');
+          navigate('/cart');
+        } else {
+          navigate('/cart');
+        }
+      }
+    } else {
+      inputRef.current.style.borderWidth = '2px';
+      inputRef.current.style.borderColor = 'red';
+      setOpenselect(true);
+      inputRef.current.focus();
+    }
+  };
+
+  const handleDiv = () => {
+    setOpen1(!open1);
+  };
+
+  const handleDiv2 = () => {
+    setOpen2(!open2);
+  };
+
+  const handleDiv3 = () => {
+    setOpen3(!open3);
+  };
+
   const handleChange = (event) => {
     if (event.target.value) {
-      inputRef.current.style.borderWidth = ''
+      inputRef.current.style.borderWidth = '';
       inputRef.current.style.borderColor = '';
-      setOpenselect(false)
-
+      setOpenselect(false);
     }
     setSelectedValue(event.target.value);
     localStorage.setItem('value', event.target.value);
-    
-for (let index = 0; index < productDetails?.variations.length; index++) {
-  if(productDetails.variations[index].style == event.target.value ){
-    setProductVariation(productDetails?.variations[index]);
-    
-   break;
-  }
- 
-}
-  };
-  
-  const MhandleChange = (event) => {
-        if (event.target.value) {
-          inputRef.current.style.borderWidth = ''
-          inputRef.current.style.borderColor = '';
-          setOpenselect(false)
-    
-        }
-        setSelectedValue(event.target.value);
-        localStorage.setItem('value', event.target.value);
-        
+
     for (let index = 0; index < productDetails?.variations.length; index++) {
-      if(productDetails.variations[index].style == event.target.value.style ){
+      if (productDetails.variations[index].style === event.target.value) {
         setProductVariation(productDetails?.variations[index]);
-        
-       break;
+        break;
       }
-     
     }
-      };
+  };
+
+  const MhandleChange = (event) => {
+    if (event.target.value) {
+      inputRef.current.style.borderWidth = '';
+      inputRef.current.style.borderColor = '';
+      setOpenselect(false);
+    }
+    setSelectedValue(event.target.value);
+    localStorage.setItem('value', event.target.value);
+
+    for (let index = 0; index < productDetails?.variations.length; index++) {
+      if (productDetails.variations[index].style === event.target.value.style) {
+        setProductVariation(productDetails?.variations[index]);
+        break;
+      }
+    }
+  };
+
   const Getreviews = (id) => {
     const requestOptions = {
       method: 'GET',
     };
     fetch(`${API_BASE_URL}/api/reviews/product/${id}`, requestOptions)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         return response.json();
       })
-      .then(reviews => {
-        //   console.log('reviews:', reviews);
-        setReview(reviews)
+      .then((reviews) => {
+        setReview(reviews);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('There was a problem with the fetch request:', error);
       });
-  }
-  
-  const handleNext = (length) => {
-    if (showindex == length - 1) {
-      setShowindex(0)
-    }
-    setShowindex(prevIndex => (prevIndex + 1));
+  };
 
-    setOpen(true)
+  const handleNext = (length) => {
+    setShowindex((prevIndex) => (prevIndex === length - 1 ? 0 : prevIndex + 1));
+    setOpen(true);
   };
 
   const handlePrev = () => {
-    if (showindex == 0) {
-      setShowindex(1)
-    }
-    setShowindex(prevIndex => (prevIndex - 1));
-    setOpen(true)
+    setShowindex((prevIndex) => (prevIndex === 0 ? 1 : prevIndex - 1));
+    setOpen(true);
   };
-
-  useEffect(() => {
-  
-
-  }, [open]);
-  useEffect(() => {
-    dispatch(getCart())
-    dispatch(getAllProducts());
-
-  }, []);
-  const [showFullDescription, setShowFullDescription] = useState(false);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
-  const [showModelReview, setShowModelReview] = useState();
-     const [showindex, setShowindex] = useState()
-useEffect(()=>{
-  setShowindex(productVariation?.images[0]);
-},[])
-  useEffect(() => {
-    setShowindex(productVariation?.images[0]);
-  }, [productVariation]);
 
-  useEffect(()=>{
+  const dates = () => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const today = new Date();
+    const futureDate = new Date(today);
+    futureDate.setDate(futureDate.getDate() + 3);
+    const formattedDateRange = `${futureDate.getDate()}-${months[futureDate.getMonth()]}`;
+    setOrderDate(formattedDateRange);
+  };
 
-  },[onclose])
   return (
     !loading ? 
     <div >

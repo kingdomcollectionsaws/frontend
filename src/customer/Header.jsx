@@ -107,7 +107,7 @@ export default function Header() {
             throw new Error(`Failed to fetch IP information. Status: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
-        console.log(data);
+        
         setUserlocation(data.country)
     } catch (error) {
         console.log('Error fetching IP information:', error.message);

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , Suspense, lazy} from 'react'
 import {Route, Routes} from "react-router-dom"
 import Homepage from '../customer/pages/homepage/Homepage'
-import Cart from '../customer/components/cart/Cart'
+const Cart = lazy(() => import('../customer/components/cart/Cart'));
 import Order from '../customer/components/order/Order'
 import Checkout from '../customer/components/checkout/Checkout'
 import OderDetail from '../customer/components/order/OrderDetail'
@@ -21,6 +21,8 @@ import PaymentCancel from '../customer/PaymentCancel'
 import AllBlogs from '../customer/AllBlogs'
 import Allproducts from '../customer/Allproducts'
 import Forgotpassword from '../profile/Forgotpassword'
+import Loader from '../customer/Loader';
+
 
 export default function AllRoutes() {
   const [isMobile, setIsMobile] = useState(false);
@@ -48,7 +50,7 @@ export default function AllRoutes() {
 <Route path='/' element={<Homepage/>}/>
 <Route path='/login' element={<Homepage/>}/>
 <Route path='/register' element={<Homepage/>}/>
-<Route path='/cart' element={<Cart/>}/>
+<Route path='/cart' element={<Suspense fallback={<div><Loader/></div>}><Cart/> </Suspense>}/>
 <Route path='/profile' element={<ProfilePage/>}/>
 <Route path='/profile/update' element={<UpadteProfile/>}/>
 <Route path='/checkout' element={<Checkout/>}/>
