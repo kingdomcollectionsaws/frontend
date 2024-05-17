@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
-import { API_BASE_URL } from '../config/apiConfig'
-
 export default function Forgotpassword() {
-  const [email ,setEmail] = useState()
+  const [email,setEmail] = useState()
   const sendemail = async()=>{
     const emaildata ={
-email:"email"
+email:email
     }
     try {
-      const res =  await fetch(`http://localhost:5454/auth/forgotpassword`,
-      {method:'POST',
-      body:JSON.stringify(emaildata)});
-      const data = await res.json()
+      const response = await fetch("http://localhost:5454/auth/forgotpassword", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(emaildata)
+        });
+      const data = await response.json()
       alert(data.msg)
     } catch (error) {
       alert('Invalid email')

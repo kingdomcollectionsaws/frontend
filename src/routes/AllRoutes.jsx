@@ -22,6 +22,7 @@ import AllBlogs from '../customer/AllBlogs'
 import Allproducts from '../customer/Allproducts'
 import Forgotpassword from '../profile/Forgotpassword'
 import Loader from '../customer/Loader';
+import Resetpassword from '../profile/Resetpassword';
 
 
 export default function AllRoutes() {
@@ -68,6 +69,7 @@ export default function AllRoutes() {
 <Route path='/ShippingPolicy' element={<ShippingPolicy/>}/>
 <Route path='/Contact' element={<ContactUs/>}/>
 <Route path='/forgotpassword' element={<Forgotpassword/>}/>
+<Route path='/reset-password/?' element={<Resetpassword/>}/>
 <Route path='/blog/:slug' element={<BlogDetails/>}/>
 <Route path='/blog/all' element={<AllBlogs/>}/>
 <Route path='/paynment/paymentcanceled' element={<PaymentCancel/>}/>

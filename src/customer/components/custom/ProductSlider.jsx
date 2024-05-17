@@ -11,11 +11,8 @@ const ProductSlider = ({ imagesdata,showindex }) => {
     useEffect(()=>{
       setShowimage(true);
       setCurrentImageIndex(imagesdata?.indexOf(showindex));
-console.log(showimage);
-
     },[showindex],imagesdata)
   
-  // const images = imagesdata.map(src => src);
   if (!imagesdata || imagesdata.length === 0) {
     return <div>No images available</div>;
   }
@@ -33,7 +30,10 @@ console.log(showimage);
     setCurrentImageIndex((prevIndex) => (prevIndex === imagesdata?.length - 1 ? 0 : prevIndex + 1));
     setShowimage(false)
   };
-
+  const imageDetails = {
+    url: 'https://example.com/image.jpg',
+    description: 'A description of the image',
+  };
   return (
     <div className="image-slider-container">
       <div className="image-slider">
@@ -42,7 +42,7 @@ console.log(showimage);
           <img src={img} alt="kk" />
          <source src={`${imagesdata[currentImageIndex]}#t=1`} type="video/mp4"   />
          Your browser does not support the video tag.
-       </video>:<img src={showimage && showindex?showindex:imagesdata[currentImageIndex]} alt={"img"} width={1000} height={1000} /> }
+       </video>:<img src={showimage && showindex?showindex:imagesdata[currentImageIndex]} alt={'img'} width={1000} height={1000} /> }
         <div className="prev" onClick={handlePrev}><MdOutlineArrowBackIos /></div>
         <div className="next" onClick={handleNext}><MdOutlineArrowForwardIos /></div>
       </div>

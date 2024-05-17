@@ -104,7 +104,7 @@ export default function Addnewproduct() {
 
 
         const uploadResponses = await Promise.all(formDataArray.map(formData =>
-            fetch(`https://api.cloudinary.com/v1_1/dujcstewk/video/upload`, {
+            fetch(`https://api.cloudinary.com/v1_1/dujcstewk/images/upload`, {
                 method: 'POST',
                 body: formData,
             })

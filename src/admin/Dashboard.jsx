@@ -66,7 +66,7 @@ export default function Dashboard() {
         formData.append('upload_preset', 'pnegpfre');
       
         try {
-            const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/dujcstewk/video/upload`, {
+            const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/dujcstewk/image/upload`, {
                 method: 'POST',
                 body: formData,
             });

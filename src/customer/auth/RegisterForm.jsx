@@ -30,7 +30,7 @@ export default function RegisterForm() {
       }
       console.log(userData);
     await  dispatch(updateUser(userData));
-     navigate('/checkout?step=2')
+    
 //window.location.reload()
 
     } else {

@@ -73,10 +73,10 @@ export default function ProductDetailPage({ params }) {
   const { user } = useSelector((store) => store.user);
   const { product, loading, products } = useSelector((store) => store.allproducts);
   const { cart } = useSelector((store) => store.cart);
-
   useEffect(() => {
     dispatch(findProductById(id));
   }, [dispatch, id]);
+
 
   useEffect(() => {
     if (product) {
@@ -137,9 +137,10 @@ export default function ProductDetailPage({ params }) {
     }
   }, [productDetails, product]);
 
+  const [mainImageIndex,setMainImageIndex] = useState()
   useEffect(() => {
     if (productVariation) {
-      setShowindex(productVariation.images[0]);
+      setMainImageIndex(productVariation.images[0]);
     }
   }, [productVariation]);
 
@@ -350,7 +351,7 @@ export default function ProductDetailPage({ params }) {
             <ToastContainer />
             <div className={style.main} style={{ boxSizing: 'border-box', padding: '0', margin: '0', height: '100vh' }}>
               <div className={style.carousel} style={{ width: '100%', height: '20rem' }}>
-                <ProductSlider imagesdata={allImagesUrls} showindex = {showindex}/>
+                <ProductSlider imagesdata={allImagesUrls} showindex = {mainImageIndex}/>
                 <div className={style.info} style={{width: '100%', marginLeft: '2px'}}>
                   <div className={style.limited}> Only 1 left and in 2 carts</div>
                   
@@ -802,7 +803,7 @@ export default function ProductDetailPage({ params }) {
             <ToastContainer />
             <div className={style.main}>
               <div className={style.carousel}>
-                <ProductSlider imagesdata={allImagesUrls}  showindex = {showindex}/>
+                <ProductSlider imagesdata={allImagesUrls}  showindex = {mainImageIndex}/>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: '2rem' }}>
                   <p style={{ fontSize: '1.6rem' }} className={style.text}> {allproductreviews?.length} reviews</p>
                   <div className={style.stars} style={{ paddingLeft: '1rem' }}>
@@ -926,7 +927,7 @@ export default function ProductDetailPage({ params }) {
 
 
                                             <p style={{ paddingTop: '10rem' }}>Purchased item</p>
-                                            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }} onClick={() => { navigate(`/product/${allproductreviews[showindex]?.product.slug}/${allproductreviews[showindex]?.product._id}`); }}>
+                                            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center', width: '20rem', cursor: 'pointer' }}  >
                                               <div>
                                                 <img src={review[showindex]?.product?.variations[0].images[0]} alt={"img"} style={{ width: '6rem', height: '3rem' }} />
                                               </div>

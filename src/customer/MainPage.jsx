@@ -184,10 +184,10 @@ export default function MainPage() {
               {
                 products?.slice(2, 7).map((i, index) => (
                   <div className={style.gitfProduct} style={{ padding: '0', borderRadius: '.5rem', border: 'none', }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} key={index}  >
-                    <img src={i?.variations[0].images[0]} alt='img' className='lg:w-[15rem] lg:h-[15rem]' style={{ borderRadius: '.5rem', }} />
+                    <img src={i?.variations[0]?.images[0]} alt='img' className='lg:w-[15rem] lg:h-[15rem]' style={{ borderRadius: '.5rem', }} />
 
                     <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", cursor: 'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 12)}...</h1>
-                    <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems: 'center', color: '#16A34A', }}> ${i?.variations[0].discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{ fontSize: '15px', fontWeight: '300', paddingTop: '1px' }}>${i?.variations[0].price}</p></span> </h1>
+                    <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems: 'center', color: '#16A34A', }}> ${i?.variations[0]?.discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{ fontSize: '15px', fontWeight: '300', paddingTop: '1px' }}>${i?.variations[0]?.price}</p></span> </h1>
 
 
                   </div>
