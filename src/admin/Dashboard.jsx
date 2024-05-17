@@ -191,6 +191,41 @@ export default function Dashboard() {
       
         getusers()
     }, []);
+    const uploadVideo = async(event)=>{
+        const files = event.target.files;
+
+        if (!files) {
+            console.error('No file selected');
+            return;
+        }
+      
+        // Get the first file
+        const file = files[0];
+      
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'pnegpfre');
+      
+        try {
+            const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/dujcstewk/video/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+      
+            if (!uploadResponse.ok) {
+                throw new Error('Failed to upload file');
+            }
+      
+            const responseData = await uploadResponse.json();
+      console.log(responseData.
+        secure_url
+        );
+        productData.imageUrl.splice(1, 0, responseData.
+            secure_url);
+       
+        } catch (error) {
+            console.error('Error uploading file:', error.message);
+    }}
 
     const handelfileupload = async (event) => {
         const files = event.target.files;
@@ -624,11 +659,7 @@ export default function Dashboard() {
                                 </div>
                                 
                             </Grid>
-                           
-                            <Grid item xs={12} sm={12} >
-                              
-                           <input type="file" name='video' placeholder='Video' onChange={handelfileuploadvideo} />
-                            </Grid>
+        
                             {editmenu?<Grid item xs={12} sm={6} >
                                 <Button
                                     className=' w-full px-0 py-3'
@@ -682,7 +713,18 @@ export default function Dashboard() {
                                 />
 
                             </Grid>
+                            <p>Upload a video</p>
+                            <Grid item xs={6} sm={6} >
+                            <input
+                                    style={{ backgroundColor: 'black', color: '#fff', margin: '1rem' }}
+                                    required
+                                    label='Video'
+                                    type='file'
+                                    fullWidth
+                                    onChange={uploadVideo}
+/>
 
+                            </Grid>
                             <Grid item xs={6} sm={6}  >
 
                                 <TextField
@@ -747,7 +789,17 @@ export default function Dashboard() {
                                 />
 
                             </Grid>
-
+                            <p>Upload a video</p>
+                            <Grid item xs={6} sm={6} >
+                            <input
+                                    style={{ backgroundColor: 'black', color: '#fff', margin: '1rem' }}
+                                    required
+                                    label='Video'
+                                    type='file'
+                                    fullWidth
+                                    onChange={uploadVideo}
+/>
+                            </Grid>
                             <Grid item xs={6} sm={6}  >
 
                                 <TextField

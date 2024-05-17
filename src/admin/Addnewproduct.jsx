@@ -90,26 +90,58 @@ export default function Addnewproduct() {
 
     }, [productData]);
 
+    const uploadVideo = async(event)=>{
+        const files = event.target.files;
+
+        if (!files) {
+            console.error('No file selected');
+            return;
+        }
+      
+        // Get the first file
+        const file = files[0];
+      
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'pnegpfre');
+      
+        try {
+            const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/dujcstewk/video/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+      
+            if (!uploadResponse.ok) {
+                throw new Error('Failed to upload file');
+            }
+      
+            const responseData = await uploadResponse.json();
+      console.log(responseData.
+        secure_url
+        );
+        productData.imageUrl.splice(1, 0, responseData.
+            secure_url);
+       
+        } catch (error) {
+            console.error('Error uploading file:', error.message);
+    }}
     const handelfileupload = async (event) => {
         const files = event.target.files;
         const formDataArray = [];
-
-
         for (let i = 0; i < files.length; i++) {
             const formData = new FormData();
             formData.append('file', files[i]);
             formData.append('upload_preset', 'pnegpfre');
             formDataArray.push(formData);
+            // console.log(files[i].type);
         }
-
-
-        const uploadResponses = await Promise.all(formDataArray.map(formData =>
-            fetch(`https://api.cloudinary.com/v1_1/dujcstewk/images/upload`, {
+        const uploadResponses = await Promise.all(formDataArray.map((formData) => (
+            fetch(`https://api.cloudinary.com/v1_1/dujcstewk/image/upload`, {
                 method: 'POST',
                 body: formData,
-            })
-                .then(response => response.json())
-        ));
+            }).then(response => response.json())
+
+        )));
 
         const imageUrls = uploadResponses.map(response => response.secure_url).filter(url => url);
         productData.imageUrl = imageUrls
@@ -308,21 +340,12 @@ export default function Addnewproduct() {
 
                                 </Grid>
 
-                                <Grid item xs={12} sm={12} >
-
-                                    <TextField
-                                        required
-                                        name='video'
-                                        label='Video Link'
-                                        onChange={handleInputChange}
-                                        style={{ marginBottom: '1rem' }}
-                                    />
-                                </Grid>
 
 
 
 
-                                 <Grid item xs={12} sm={6} >
+
+                                <Grid item xs={12} sm={6} >
                                     <Button
                                         className=' w-full px-0 py-3'
                                         variant='contained'
@@ -334,10 +357,10 @@ export default function Addnewproduct() {
                                 </Grid>
                             </Grid>
                         </form>
-                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column',margin:'1rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', margin: '1rem' }}>
                             {
                                 productData?.variations.map((i) => (
-                                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row',gap:'2rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', gap: '2rem' }}>
                                         <p>{i.price}</p>
                                         <p>{i.discountedPrice}</p>
                                         <p>{i.style}</p>
@@ -363,6 +386,18 @@ export default function Addnewproduct() {
                                     onChange={handelfileupload}
 
                                 />
+
+                            </Grid>
+                            <p>Upload a video</p>
+                            <Grid item xs={6} sm={6} >
+                            <input
+                                    style={{ backgroundColor: 'black', color: '#fff', margin: '1rem' }}
+                                    required
+                                    label='Video'
+                                    type='file'
+                                    fullWidth
+                                    onChange={uploadVideo}
+/>
 
                             </Grid>
 

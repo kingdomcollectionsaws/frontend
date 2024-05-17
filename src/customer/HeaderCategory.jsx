@@ -2,11 +2,13 @@ import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { FiMenu } from "react-icons/fi";
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function HeaderCategory() {
+  const navigate = useNavigate()
   const { categories, loading } = useSelector(store => store.categories);
   return (
     <Menu as="div" className="relative inline-block text-left z-[1000]" >
@@ -30,6 +32,7 @@ export default function HeaderCategory() {
       >
         <Menu.Items className="fixed right-99 z-100 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
+            <a className=' mx-5 text-gray-700 cursor-pointer hover:bg-gray-200' href='/products/all'>All Products</a>
             {
                 categories?.map((i,index)=>(
                     <Menu.Item key={index}>
