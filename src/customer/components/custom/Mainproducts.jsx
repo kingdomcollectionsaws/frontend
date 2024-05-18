@@ -2,16 +2,13 @@ import React,{useEffect} from 'react'
 import { Fragment, useState } from 'react'
 import { Dialog,  Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
-import {  useNavigate, useParams} from "react-router-dom";
+import { ChevronDownIcon, FunnelIcon} from '@heroicons/react/20/solid'
+import {  useNavigate,} from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProducts } from '../../state/product/productSlice'
 import { getCategories } from '../../state/category/categorySlice'
 import style from '../custom/styles.module.css'
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
-export default function Mainproducts() {
+  export default function Mainproducts() {
     
     const { products,loading } = useSelector(store => store.allproducts);
     const { categories} = useSelector(store => store.categories);
