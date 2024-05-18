@@ -42,6 +42,9 @@ export default function Header() {
     if (location.pathname === "/checkout") {
       setHandleOpeneAuth(false);
     }
+    if (location.pathname === "/forgotpassword") {
+      setHandleOpeneAuth(false);
+    }
     if (location.pathname === "/Guest") {
       setHandleOpeneAuth(true)
     }
@@ -131,7 +134,7 @@ export default function Header() {
      }
           </div>
         <div className={style.navber}>
-        <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+        <div className="logo" onClick={() => {location.pathname == '/' ? navigate('/products/all'):navigate('/')}} style={{ cursor: 'pointer' }}>
           <img src={logo} width={180} height={70} alt="Description" />
         </div>
         <div style={{margin:'0 1rem 0 1rem'}}>
@@ -185,7 +188,7 @@ export default function Header() {
       <div className={style.navber} style={{flexDirection:'column',gap:'4px',}}>
      
         <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-        <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+        <div className="logo" onClick={() => { location.pathname == '/' ?navigate('/products/all'): navigate('/')}} style={{ cursor: 'pointer' }}>
           <img src={logo} width={130} height={70} alt="Description" />
         </div>
         

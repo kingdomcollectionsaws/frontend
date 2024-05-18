@@ -115,7 +115,10 @@ export default function MainPage() {
       console.error('There was a problem with the fetch request:', error);
     }
   }
-  const [showoffer, setShowoffer] = useState(true)
+  const [showoffer, setShowoffer] = useState({
+    show:false,
+    id:''
+  })
   useEffect(() => {
     getblogs()
 
@@ -124,7 +127,7 @@ export default function MainPage() {
       setShowoffer(false)
     }, [5000])
   }, [])
-
+const [showVideo,setShowVideo] = useState(false)
   return (
     !loading ?
       <>
@@ -163,10 +166,13 @@ export default function MainPage() {
               {
                 allproduct?.map((i, index) => (
                   index < 4 ?
-                    <div className={style.gitfProduct} style={{ padding: '0', borderRadius: '.5rem', border: 'none', }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} key={index} >
-                      <img src={i?.variations[0].images[0]} alt='img' className='lg:w-[15rem] lg:h-[15rem]' style={{ borderRadius: '.5rem', }} />
+                    <div className={style.gitfProduct} style={{ padding: '0', borderRadius: '.5rem', border: 'none',cursor:'pointer' }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} key={index}  onMouseEnter={()=>{setShowVideo({show:true,id:i._id+index})}} onMouseLeave={()=>setShowVideo({show:false,id:''})} >
+                       {showVideo.show == true && showVideo.id == i._id+index ? <video autoPlay  style={{height:'15rem',width:'15rem'}} loop  muted >
+         <source src={i?.variations[0]?.images[1]} type="video/mp4"   />
+         Your browser does not support the video tag.
+       </video> :<img src={i?.variations[0]?.images[0]} alt='img' className='lg:w-[15rem] lg:h-[15rem]' style={{ borderRadius: '.5rem', }} />}
 
-                      <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", cursor: 'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 12)}...</h1>
+                      <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", cursor: 'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 14)}..</h1>
                       <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems: 'center', color: '#16A34A', }}> ${i?.variations[0].discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{ fontSize: '15px', fontWeight: '300', paddingTop: '1px' }}>${i?.variations[0].price}</p></span> </h1>
 
 
@@ -182,14 +188,14 @@ export default function MainPage() {
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px' }}>
               {
-                products?.slice(2, 7).map((i, index) => (
-                  <div className={style.gitfProduct} style={{ padding: '0', borderRadius: '.5rem', border: 'none', }} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} key={index}  >
-                    <img src={i?.variations[0]?.images[0]} alt='img' className='lg:w-[15rem] lg:h-[15rem]' style={{ borderRadius: '.5rem', }} />
-
-                    <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", cursor: 'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 12)}...</h1>
-                    <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems: 'center', color: '#16A34A', }}> ${i?.variations[0]?.discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{ fontSize: '15px', fontWeight: '300', paddingTop: '1px' }}>${i?.variations[0]?.price}</p></span> </h1>
-
-
+                products?.slice(products.length -4, products.length-1).map((i, index) => (
+                  <div className={style.gitfProduct} style={{ padding: '0', borderRadius: '.5rem', border: 'none', cursor:'pointer'}} onClick={() => navigate(`/product/${i.slug}/${i._id}`)} key={index} onMouseEnter={()=>{setShowVideo({show:true,id:i._id+index})}} onMouseLeave={()=>setShowVideo({show:false,id:i._id})}  >
+                    {showVideo.show == true && showVideo.id == i._id+index  ? <video autoPlay  style={{height:'15rem',width:'15rem'}} loop  muted >
+         <source src={i?.variations[0]?.images[1]} type="video/mp4"   />
+         Your browser does not support the video tag.
+       </video> :<img src={i?.variations[0]?.images[0]} alt='img' className='lg:w-[15rem] lg:h-[15rem]' style={{ borderRadius: '.5rem', }} />}
+                    <h1 className={style.text} style={{ fontWeight: '700', width: '90%', fontSize: '1rem', display: 'flex', alignSelf: "flex-start", cursor: 'pointer' }} onClick={() => navigate(`/product/${i._id}`)}>{i.title.substring(0, 14)}..</h1>
+                    <h1 className={style.text} style={{ fontWeight: '800', width: '90%', fontSize: '1rem', display: 'flex', alignItems: 'center', color: '#16A34A',}}> ${i?.variations[0]?.discountedPrice}<span><p className=' tracking-tight text-gray-600  line-through px-2 ' style={{ fontSize: '15px', fontWeight: '300', paddingTop: '1px' }}>${i?.variations[0]?.price}</p></span> </h1>
                   </div>
                 ))}
             </div>

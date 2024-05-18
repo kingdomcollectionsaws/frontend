@@ -69,7 +69,7 @@ export default function Footer() {
                       <div className={style.icons} onClick={()=>openlink('https://www.instagram.com/kingdomcollectionofficial/')}><FiFacebook/></div>
                       <div className={style.icons} onClick={()=>openlink('https://www.instagram.com/kingdomcollectionofficial/')}><FiInstagram /></div>
                       <div className={style.icons} onClick={()=>openlink('https://twitter.com/KingdomCollect2')}><RiTwitterXFill /></div>
-                      <div className={style.icons} onClick={()=>openlink('https://youtube.com/@kingdomcollectionofficial/')}><FiYoutube/></div>
+                      <div className={style.icons} onClick={()=>openlink('https://youtube.com/@kingdomcollectionofficial/?sub_confirmation=1')}><FiYoutube/></div>
                       <div onClick={ () =>openlink('https://www.etsy.com/uk/shop/KingdomCollectionArt?ref=shop-header-name&listing_id=1710058058&from_page=listing', '_blank', 'noopener, noreferrer')}><img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/></div>
                     </div>
       </div>
@@ -158,7 +158,7 @@ export default function Footer() {
                     <div className={style.icons} onClick={()=>openlink('https://www.instagram.com/kingdomcollectionofficial/')}><FiFacebook/></div>
                       <div className={style.icons} onClick={()=>openlink('https://www.instagram.com/kingdomcollectionofficial/')}><FiInstagram /></div>
                       <div className={style.icons} onClick={()=>openlink('https://twitter.com/KingdomCollect2')}><RiTwitterXFill /></div>
-                      <div className={style.icons} onClick={()=>openlink('https://youtube.com/@kingdomcollectionofficial/')}><FiYoutube/></div>
+                      <div className={style.icons} onClick={()=>openlink('https://youtube.com/@kingdomcollectionofficial/?sub_confirmation=1')}><FiYoutube/></div>
                       <div onClick={ () =>openlink('https://www.etsy.com/uk/shop/KingdomCollectionArt?ref=shop-header-name&listing_id=1710058058&from_page=listing', '_blank', 'noopener, noreferrer')}><img src={esty} alt='esty' style={{width:'2.5rem',height:'2.5rem',borderRadius:'.6rem',cursor:'pointer'}}/></div>
                     </div>
                     <footer className={style.footerEnd}>

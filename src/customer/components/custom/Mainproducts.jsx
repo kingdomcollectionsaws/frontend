@@ -8,11 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllProducts } from '../../state/product/productSlice'
 import { getCategories } from '../../state/category/categorySlice'
 import style from '../custom/styles.module.css'
-const sortOptions = [
-    { name: 'Price: Low to High', href: '#', current: false },
-    { name: 'Price: High to Low', href: '#', current: false },
-  ]
-
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
@@ -88,9 +83,9 @@ return (
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
                     <h3 className="sr-only">Categories</h3>
-                    <ul role="list" className="px-2 py-3 font-medium text-gray-900">
+                    <ul role="list" className="px-2 py-10 font-medium text-gray-900 ">
                       {categories?.map((item) => (
-                        <li key={item.name} className='cursor-pointer' onClick={()=>setSelectedCategory(i.slug)} >
+                        <li key={item.name} className='cursor-pointer my-10'  onClick={()=>{setAllproducts(products.filter((i)=> i.category == item.slug));setMobileFiltersOpen(false)}} >
                           
                             {item.name}
                           
@@ -132,22 +127,34 @@ return (
                
                   <Menu.Items className="absolute right-0 z-100 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                      {sortOptions.map((option) => (
-                        <Menu.Item key={option.name}>
-                          {({ active }) => (
-                            <a
-                              href={option.href}
-                              className={classNames(
-                                option.current ? 'font-medium text-gray-900' : 'text-gray-500',
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm'
-                              )}
+                      
+                        <Menu.Item >
+                         
+                            <p
+                             
+                              className={
+                                'font-medium text-gray-900 cursor-pointer text-gray-500 p-2 hover:bg-gray-200' 
+                                
+                              }
                             >
-                              {option.name}
-                            </a>
-                          )}
+                             Price: High to Low
+                            </p>
+                        
                         </Menu.Item>
-                      ))}
+                        <Menu.Item >
+                         
+                         <p
+                          
+                          className={
+                            'font-medium text-gray-900 cursor-pointer text-gray-500 p-2 hover:bg-gray-200' 
+                            
+                          }
+                         >
+                          Price: High to Low
+                         </p>
+                     
+                     </Menu.Item>
+               
                     </div>
                   </Menu.Items>
                 </Transition>
@@ -176,7 +183,7 @@ return (
                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                
                   {categories?.map((item) => (
-                    <li key={item.name} className='cursor-pointer' onClick={()=>{setAllproducts(products.filter((i)=> i.category == item.slug));setSelectedCategory(i.slug)}} >
+                    <li key={item.name} className='cursor-pointer'   onClick={()=>{setAllproducts(products.filter((i)=> i.category == item.slug));setSelectedCategory(i.slug)}} >
                       {item.name}
                     </li>
                   ))}
@@ -186,8 +193,8 @@ return (
 
               {/* Product grid */}
               <div className="lg:col-span-3 w-full " >
-                <div className='flex flex-wrap justify-center bg-white py-5'  >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px', }}>
+                <div className='flex flex-wrap justify-center  '  >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '4px', }}>
               {
                 allproducts?.map((i, index) => (
                   

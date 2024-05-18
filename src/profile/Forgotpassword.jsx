@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { API_BASE_URL } from '../config/apiConfig';
 export default function Forgotpassword() {
   const [email,setEmail] = useState()
   const sendemail = async()=>{
@@ -6,7 +7,7 @@ export default function Forgotpassword() {
 email:email
     }
     try {
-      const response = await fetch("http://localhost:5454/auth/forgotpassword", {
+      const response = await fetch(`${API_BASE_URL}/auth/forgotpassword`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

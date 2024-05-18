@@ -206,7 +206,7 @@ console.log(res);
    }
       <h1>Total Amount: ${item?.totalPrice}</h1>
       <h1>Order Date: {item?.orderDate.slice(5,7)}/{item?.orderDate.slice(8,10)}/{item?.orderDate.slice(0,4)}</h1>
-      {item.trackingId?<h1 > <a href={item.trackingUrl?`${item.trackingUrl}=${item.trackingId}`:"https://www.fedex.com/en-in/tracking.html"} target="_blank" rel="noopener noreferrer"  style={{color:'blue'}}>Click here </a>to track your order</h1>:''}
+      {item.trackingId?<h1 > <a href={item.trackingUrl?`${item.trackingUrl}=${item.trackingId}`:`https://www.fedex.com/fedextrack/?trknbr=${item.trackingId}`} target="_blank" rel="noopener noreferrer"  style={{color:'blue'}}>Click here </a>to track your order</h1>:''}
     </div>
       {item.orderItems.map((i)=><div >
      <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
