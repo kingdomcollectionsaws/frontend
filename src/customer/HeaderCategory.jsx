@@ -32,7 +32,7 @@ export default function HeaderCategory() {
       >
         <Menu.Items className="fixed right-99 z-100 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            <a className=' mx-5 text-gray-700 cursor-pointer hover:bg-gray-200' href='/products/all'>All Products</a>
+            <a className=' mx-5 text-gray-700 cursor-pointer hover:bg-gray-200' href='/all/products'>All Products</a>
             {
                 categories?.map((i,index)=>(
                     <Menu.Item key={index}>
