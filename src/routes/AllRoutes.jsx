@@ -23,8 +23,6 @@ import Allproducts from '../customer/Allproducts'
 import Forgotpassword from '../profile/Forgotpassword'
 import Loader from '../customer/Loader';
 import Resetpassword from '../profile/Resetpassword';
-import Mainproducts from '../customer/components/custom/MainProducts';
-
 
 export default function AllRoutes() {
   const [isMobile, setIsMobile] = useState(false);
@@ -57,7 +55,7 @@ export default function AllRoutes() {
 <Route path='/profile/update' element={<UpadteProfile/>}/>
 <Route path='/checkout' element={<Checkout/>}/>
 <Route path='/product/:name/:id' element={<ProductDetailPage/>}/>
-<Route path='/all/products' element={<Mainproducts/>}/>
+
 <Route path='/product/:id' element={<ProductDetailPage/>}/>
 <Route path='/searchproducts/:search' element={<SearchProducts/>}/>
 <Route path='/products/:category' element={<CategoryProduct/>}/>
