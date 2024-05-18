@@ -5,9 +5,9 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon} from '@heroicons/react/20/solid'
 import {  useNavigate,} from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProducts } from '../../state/product/productSlice'
-import { getCategories } from '../../state/category/categorySlice'
-import style from '../custom/styles.module.css'
+import { getAllProducts } from './state/product/productSlice'
+import { getCategories } from './state/category/categorySlice'
+import style from './components/custom/styles.module.css'
   export default function Mainproducts() {
     
     const { products,loading } = useSelector(store => store.allproducts);
