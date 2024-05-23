@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import { useParams } from 'react-router-dom'
+import { API_BASE_URL } from '../config/apiConfig';
 
 export default function Resetpassword() {
   const urlParams = window.location.href;
@@ -9,18 +10,22 @@ export default function Resetpassword() {
    if(password?.trim() !== '' && password==cpassword){
     const passdata ={
       password:password,
+      token:urlParams.split('?')[1].slice(34,900),
+      id:urlParams.split('?')[1].slice(3,27)
 
           }
           try {
-            const response = await fetch(`http://localhost:5454/auth/reset-password/${urlParams.split('?')[1].slice(3,27)}/${urlParams.split('?')[1].slice(34,900)}`, {
-                  method: "POST",
+            
+            const response = await fetch(`${API_BASE_URL}/auth/reset-password/${urlParams.split('?')[1].slice(3,27)}/?${urlParams.split('?')[1].slice(34,900)}`, {
+                  method: "PUT",
                   headers: {
                       "Content-Type": "application/json"
                   },
-                  body: JSON.stringify(emaildata)
+                  body: JSON.stringify(passdata)
               });
             const data = await response.json()
-            alert(data.msg)
+            alert(data.msg);
+            console.log(response);
           } catch (error) {
             alert('Something is wrong or link expired')
           }
