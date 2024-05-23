@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserDetail, loginUser } from '../state/Auth/registerSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getCart } from '../state/cart/cartSlice';
 export default function GuestForm() {
   const { user, jwt } = useSelector(store => store.user);
   const { cart } = useSelector(store => store.cart);
@@ -24,38 +25,50 @@ export default function GuestForm() {
       email: data.get("email"),
       password: data.get("password"),
     };
-
     if (user && user.role === 'GUEST') {
-      let itemIds = cart.cartItems.map(cartItem => cartItem.product._id);
+      let itemIds = cart.cartItems.map((cartItem) =>( {id:cartItem.product._id,variation:cartItem.product.variations.filter((i)=> i.style ==cartItem.style )[0]}));
       localStorage.setItem('items', JSON.stringify(itemIds));
-      await dispatch(loginUser(userData));
-      if (user.role === 'GUEST') {
-        setTimeout(() => {
+    dispatch(loginUser(userData)).then(()=>{
+      if(user.role == 'GUEST'){
+        notify("invalid email or password");
+      }
+    
+      event.target.reset();
+      window.location.reload()
+    } ).catch((err)=>{
       
+      setTimeout(() => {
+        notify("invalid email or password");
+        event.target.reset();
+      }, 2000);
+    })}else{
+      dispatch(loginUser(userData)).then(()=>{
+    
+        if(user.role == 'GUEST'){
+          notify("invalid email or password");
+        }
+        event.target.reset();
+        window.location.reload()
+        
+      } ).catch((err)=>{
+        
+        setTimeout(() => {
           notify("invalid email or password");
           event.target.reset();
         }, 2000);
-        dispatch(getUserDetail());
-      }else{
-navigate('/checkout?step=2')
-      }
-    } else {
-      dispatch(loginUser(userData));
-      if (!jwt) {
-        setTimeout(() => {
-          notify("invalid email or passwords");
-          event.target.reset();
-        }, 2000);
-      }
+      })
     }
 
     // Reset form fields
+   
   
   };
 
   useEffect(() => {
     dispatch(getUserDetail());
-  }, []);
+    dispatch(getCart())
+    
+  }, [user?.role]);
   const navigate = useNavigate()
   return (
     <>

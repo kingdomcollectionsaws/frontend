@@ -506,12 +506,13 @@
       
     }
   .cateHeading{
+    display: flex;
     gap: 1;
-      width: 150%;
+      padding-left: 4rem;
       font-size: 1px;
       font-weight: 100;
       justify-content: flex-start;
-      
+      align-items: center;
 
       
 

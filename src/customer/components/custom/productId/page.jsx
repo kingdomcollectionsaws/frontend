@@ -199,9 +199,10 @@ export default function ProductDetailPage({ params }) {
             password: guestpassword,
             role: 'GUEST',
           };
+          notify('Item added to cart');
           await dispatch(createUser(userData));
           await dispatch(addItemInCart(data));
-          notify('Item added to cart');
+          
         } else {
           dispatch(addItemInCart(data));
           navigate('/cart');
@@ -237,9 +238,10 @@ export default function ProductDetailPage({ params }) {
             password: guestpassword,
             role: 'GUEST',
           };
+          notify('Item added to cart');
           await dispatch(createUser(userData));
           await dispatch(addItemInCart(data));
-          notify('Item added to cart');
+          
           navigate('/cart');
         } else {
           navigate('/cart');
@@ -456,13 +458,13 @@ export default function ProductDetailPage({ params }) {
                             </div> */}
 
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', }}>
                               {productDetails?.description.split('|').map((i, index) => (
                                 <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
                               ))}
                               {productDetails?.description.split('|').length > 3 && (
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                  <button onClick={toggleDescription} className={style.toggleBtn} style={{ width: '70%', display: 'flex', justifyContent: 'center', fontSize: '.9rem', fontWeight: 'bold' }}>
+                                  <button onClick={toggleDescription} className={style.toggleBtn} style={{ width: '70%', display: 'flex', justifyContent: 'center', fontSize: '.9rem', fontWeight: 'bold', }}>
                                     {showFullDescription ? 'Less' : 'Learn more about this item'}
                                   </button>
                                 </div>
@@ -476,11 +478,11 @@ export default function ProductDetailPage({ params }) {
                     <h2 className={style.toggleBtn} onClick={handleDiv2} style={{ fontWeight: '500' }}>Delivery and return policies <span style={{ marginLeft: '7rem' }}>{open2 ? <IoIosArrowUp /> : <IoIosArrowDown />}</span></h2>
                     {
                       !open2 ? <div style={{ fontFamily: '"Graphik Webfont", "-apple-system", "Helvetica Neue", "Droid Sans", "Arial", "sans-serif"', }}>
-                        <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px', padding: '1rem' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px', padding: '1rem',paddingBottom:'0' }}>
                           <MdDateRange />
                           <p>Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                         </div>
-                        <div style={{ display: 'flex', marginTop: '1rem', flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px', padding: '1rem' }}>
+                        <div style={{ display: 'flex',  flexDirection: 'row', fontSize: '1.2rem', color: '#222222', alignItems: 'center', gap: '10px', padding: '1rem', paddingBottom:'0' }}>
                           <BsBox2 />
                           <p> <span style={{ fontSize: '.9rem', borderBottom: '1px dashed gay', cursor: 'pointer' }}> </span>Returns & exchanges accepted Within 30 days</p>
                         </div>
@@ -1094,7 +1096,8 @@ export default function ProductDetailPage({ params }) {
 
                 <div className={style.check}>
                   <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
-                  <p className={style.checkP} >Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
+                  <p className={style.checkP} >
+                    Order today  to get by <span style={{ borderBottom: '1px dashed black' }}>{orderDate}</span></p>
                 </div>
                 <div className={style.check} style={{ marginTop: '1px' }}>
                   <IoCheckmark style={{ color: '#5379DE', fontSize: '20px' }} />
@@ -1180,9 +1183,8 @@ export default function ProductDetailPage({ params }) {
                           <p>Width:  {productDetails?.width}</p>
                           <p>Height: {productDetails?.height}</p>
                         </div> */}
-
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize:'.95rem',letterSpacing:'1px'}}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', fontSize:'.95rem',letterSpacing:'1px'}}>
                         {productDetails?.description.split('|').map((i, index) => (
                           <p key={index}>{showFullDescription || index < 3 ? i : null}</p>
                         ))}

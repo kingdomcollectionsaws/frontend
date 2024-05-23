@@ -21,7 +21,6 @@ import style from './components/custom/styles.module.css'
    useEffect(()=>{
    dispatch(getAllProducts())
    dispatch(getCategories());
-  
    if(selectedCategory == 'All'){
     setAllproducts(products)
    }else{

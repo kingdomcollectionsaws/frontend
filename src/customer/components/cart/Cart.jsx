@@ -13,30 +13,46 @@ import gpay from '../../../../public/googlepay.png'
 import diners from '../../../../public/diners.jpg'
 import AuthModel from '../../auth/AuthModel';
 import { ToastContainer, toast } from 'react-toastify';
+import { getUserDetail } from '../../state/Auth/registerSlice';
 export default function Cart() {
   const {cart,loading} = useSelector(store => store.cart);
   const {user} = useSelector(store => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [localcart,setLocalcart] =useState();
+  const jwt = localStorage.getItem('jwt');
   const getpastitems = async()=>{
     const items = localStorage.getItem('items');
-   if (items) {
+   if (items && user?.role !== 'GUEST') {
      const localcart = JSON.parse(items);
      for (let index = 0; index < localcart.length; index++) {
-       let data = { productId: localcart[index] };
-      await dispatch(addItemInCart(data));
+       const data = { productId: localcart[index].id, variation: localcart[index].variation, };
+       console.log(data);
+       dispatch(addItemInCart(data));
      }
      localStorage.removeItem('items');
      dispatch(getCart());
      navigate('/cart')
    }
   }
+  useEffect(()=>{
+    
+    const items = localStorage.getItem('items');
+    if (items && user?.role !== 'GUEST') {
+      const localcart = JSON.parse(items);
+      for (let index = 0; index < localcart.length; index++) {
+        const data = { productId: localcart[index].id, variation: localcart[index].variation, };
+        console.log(data);
+        dispatch(addItemInCart(data));
+      }
+    //  localStorage.removeItem('items');
+      dispatch(getCart());
+      navigate('/cart')
+    }
+   
+  },[user?.role,jwt])
   useEffect(() => {
-    dispatch(getCart());
-    getpastitems();
-    console.log(cart);
-  }, [user?.role]);
+    dispatch(getCart()); }, [user?.role]);
   const [handleOpenAuth,setHandleOpeneAuth]= useState(false);
   
   const handleClose = ()=>{
@@ -69,7 +85,6 @@ export default function Cart() {
        </div>
        <Grid className='sticky top-5 space-y-1 mt-1 '>
         <div className='border '>
-          
           <h1 className=' flex  align-center font-bold p-4'>How you'll pay</h1>
           <div style={{display:'flex',alignItems:'center',flexWrap:'wrap',gap:'10px',paddingLeft:'1rem'}}>
       <img src={visa} alt="card" style={{width:'3rem',height:'2rem'}} />

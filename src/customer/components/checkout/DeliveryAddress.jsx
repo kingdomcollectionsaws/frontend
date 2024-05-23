@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField } from '@mui/material'
+import { Box, Button, Grid, TextField,MenuItem, Select, } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Addresscard from '../addresscard/Addresscard'
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,23 @@ export default function DeliveryAddress() {
   const [loading, SetLoading] = useState(false);
   const [checked, SetChecked] = useState(false);
   const [gift, setGift] = useState('');
+  const [allcountry,setAllcountry] = useState();
+  useEffect(()=>{
+    try {
+       fetch('https://api.first.org/data/v1/countries').then((data)=>{
+ return data.json()
+       }).then((res)=>{
+       
+       
+        const countriesArray = Object.values(res.data);
+
+        setAllcountry(countriesArray);;
+              }).catch((err)=>{console.log(err);})
+     
+    } catch (error) {
+      console.log(error);
+    }
+  },[])
 
   const { user } = useSelector(store => store.user);
   const { order } = useSelector(store => store.order);
@@ -172,15 +189,26 @@ export default function DeliveryAddress() {
 
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <TextField
-                    required
-                    id='country'
-                    name='country'
-                    label='Country'
-                    fullWidth
-                    autoComplete='given-country'
-                  />
+               Country: <Select
+                       required
+                      placeholder='Country'
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                     name='country'
+                 
+                      style={{ width: '95%', marginBottom: '1rem' }}
 
+                    >
+                      {allcountry?.map((item, index) => (
+
+                        <MenuItem value={item.country} key={index}    name='country'>
+                          {item.country}
+                        </MenuItem>
+
+                      ))
+                      }
+
+                    </Select>
                 </Grid>
                 <Grid item xs={12} >
                   <TextField
@@ -225,6 +253,7 @@ export default function DeliveryAddress() {
                   />
 
                 </Grid>
+              
 
                 <Grid item xs={12} lg={6}>
                   <TextField
@@ -313,6 +342,7 @@ export default function DeliveryAddress() {
 
                   />
                 </Grid>
+              
                 <Grid item xs={12} lg={6}>
                   <TextField
                     required

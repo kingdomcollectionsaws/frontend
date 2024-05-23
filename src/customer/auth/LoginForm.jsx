@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserDetail, loginUser } from '../state/Auth/registerSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addItemInCart } from '../state/cart/cartSlice';
-
+import { addItemInCart, getCart } from '../state/cart/cartSlice';
 export default function LoginForm() {
   const { user, jwt } = useSelector(store => store.user);
   const { cart } = useSelector(store => store.cart);
@@ -28,34 +27,46 @@ export default function LoginForm() {
       email: data.get("email"),
       password: data.get("password"),
     };
-
     if (user && user.role === 'GUEST') {
-      let itemIds = cart.cartItems.map(cartItem => cartItem.product._id);
+      let itemIds = cart.cartItems.map((cartItem) =>( {id:cartItem.product._id,variation:cartItem.product.variations.filter((i)=> i.style ==cartItem.style )[0]}));
       localStorage.setItem('items', JSON.stringify(itemIds));
-      await dispatch(loginUser(userData));
-      if (user.role === 'GUEST') {
+    dispatch(loginUser(userData)).then(()=>{
+    
+      if(user.role == 'GUEST'){
+        notify("invalid email or password");
+      }
+      dispatch(getUserDetail());
+      event.target.reset();
+    } ).catch((err)=>{
+      
+      setTimeout(() => {
+        notify("invalid email or password");
+        event.target.reset();
+      }, 2000);
+    })}else{
+      dispatch(loginUser(userData)).then(()=>{
+    
+        if(user.role == 'GUEST'){
+          notify("invalid email or password");
+        }
+        dispatch(getUserDetail());;
+      } ).catch((err)=>{
+        
         setTimeout(() => {
           notify("invalid email or password");
           event.target.reset();
         }, 2000);
-        dispatch(getUserDetail());
-      }
-    } else {
-      dispatch(loginUser(userData));
-      if (!jwt) {
-        setTimeout(() => {
-          notify("invalid email or password");
-          event.target.reset();
-        }, 2000);
-      }
+      })
     }
 
     // Reset form fields
+   
   
   };
 
   useEffect(() => {
     dispatch(getUserDetail());
+    
   }, []);
 
   return (
