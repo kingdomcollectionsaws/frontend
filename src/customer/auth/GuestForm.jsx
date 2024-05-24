@@ -32,7 +32,6 @@ export default function GuestForm() {
       if(user.role == 'GUEST'){
         notify("invalid email or password");
       }
-    
       event.target.reset();
       window.location.reload()
     } ).catch((err)=>{
